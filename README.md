@@ -1,6 +1,7 @@
 ```mermaid
 classDiagram
     MENotes <|-- MENoteRanges
+    MENoteRanges o-- MEChords
     MEChords <|-- MEProgression
     class MENotes {
         +int midi
