@@ -14,13 +14,19 @@ classDiagram
     }
 
     class MENoteRanges {
-        +array~MENotes~ range
+        +MENotes[] range
         +new()
     }
 
+    class MEIntervalData {
+        -dictionary intervals
+        +getIntervalDict()
+        +getInterval()
+    }
+
     class MESymbols {
-        +str Symbol
-        +MENotes root
+        +str symbol
+        +str root
         +new()
     }
 
@@ -28,13 +34,15 @@ classDiagram
         +MENotes root
         +MENotes bass
         +MENotes top
+        +bool retardation
+        +bool anticipation
         +MERules ruleProfile
-        +array~MENotes~ chord
+        +MENotes[] chord
         +new()
     }
 
     class MEProgression {
-        +arr~MEChords~ progression
+        +MEChords[] progression
         +new()
     }
 ```
