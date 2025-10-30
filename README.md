@@ -9,7 +9,7 @@ classDiagram
     }
 
     class MENoteRange {
-        +array symbol
+        +str symbol
         +MENote root
         +array~MENote~ range
     }
