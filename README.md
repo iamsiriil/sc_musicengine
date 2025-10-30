@@ -1,5 +1,5 @@
 ```mermaid
-classDiagram
+classDiagram;
     class {
         +int midi
         +int octave
