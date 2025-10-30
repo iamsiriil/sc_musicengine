@@ -1,6 +1,6 @@
 ```mermaid
-classDiagram;
-    class {
+classDiagram
+    class MENotes {
         +int midi
         +int octave
         +str name
