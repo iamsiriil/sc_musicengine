@@ -12,5 +12,6 @@ classDiagram
         +str symbol
         +MENote root
         +array~MENote~ range
+        +new(~MESymbol~)
     }
 ```
