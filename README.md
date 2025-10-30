@@ -6,12 +6,17 @@ classDiagram
         +str name
         +str accident
         +str degree
+        +new()
     }
 
     class MENoteRange {
-        +str symbol
-        +MENote root
         +array~MENote~ range
-        +new(~MESymbol~)
+        +new()
+    }
+
+    class MESymbol {
+        +str Symbol
+        +MENote root
+        +new()
     }
 ```
