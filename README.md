@@ -30,9 +30,11 @@ classDiagram
         +MENotes top
         +MERules ruleProfile
         +array~MENotes~ chord
+        +new()
     }
 
     class MEProgression {
         +arr~MEChords~ progression
+        +new()
     }
 ```
