@@ -1,22 +1,38 @@
 ```mermaid
 classDiagram
-    class MENote {
+    MENotes <|-- MENoteRanges
+    MEChords <|-- MEProgression
+    class MENotes {
         +int midi
         +int octave
         +str name
         +str accident
         +str degree
+        +int chordId
+        +int voiceId
         +new()
     }
 
-    class MENoteRange {
-        +array~MENote~ range
+    class MENoteRanges {
+        +array~MENotes~ range
         +new()
     }
 
-    class MESymbol {
+    class MESymbols {
         +str Symbol
-        +MENote root
+        +MENotes root
         +new()
+    }
+
+    class MEChords {
+        +MENotes root
+        +MENotes bass
+        +MENotes top
+        +MERules ruleProfile
+        +array~MENotes~ chord
+    }
+
+    class MEProgression {
+        +arr~MEChords~ progression
     }
 ```
