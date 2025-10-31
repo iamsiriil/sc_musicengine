@@ -1,3 +1,13 @@
+# Music Engine
+
+A dynamic chord library for SuperCollider
+
+## Something
+
+* Interval clashes are not allowed (m2/M2, P4/A11, etc.)
+* Note clashes are not allowed (m3/A9, A4/d5, etc.)
+* Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
+
 ```mermaid
 classDiagram
     MENotes <|-- MENoteRanges
@@ -46,4 +56,9 @@ classDiagram
         +MEChords[] progression
         +new()
     }
+
+    classdef musicengine stroke:#42f5bf
+    classdef harmonizer stroke:#42b3f5
+    class MEChords MESymbols MEIntervalData MENoteRanges MENotes musicengine
+    class MEProgression harmonizer
 ```
