@@ -59,10 +59,10 @@ classDiagram
 
     classDef musicengine stroke:#42f5bf,fill:#e6fff8
     classDef harmonizer stroke:#42b3f5,fill:#e6f1ff
-    class MENotes musicengine
-    class MENoteRanges musicengine
-    class MEIntervalData musicengine
-    class MESymbols musicengine
-    class MEChords musicengine
-    class MEProgression harmonizer
+    MENotes musicengine
+    MENoteRanges musicengine
+    MEIntervalData musicengine
+    MESymbols musicengine
+    MEChords musicengine
+    MEProgression harmonizer
 ```
