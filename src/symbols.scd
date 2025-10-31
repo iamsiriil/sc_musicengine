@@ -1,11 +1,6 @@
 /*****************************************************************************************
-* MUSIC ENGINE / Symbols                                                               *
+* MUSIC ENGINE / Symbols                                                                 *
 *****************************************************************************************/
-/*
--> No degree colisions (m2/M2, M2/m9, etc.)
--> No note collisions (m3/A9, etc.)
--> No root collisions (d2, d9, A7, etc.)
-*/
 (
 ~test1 = "C#M3P5m7M9P11M13";
 ~test2 = "Eb"

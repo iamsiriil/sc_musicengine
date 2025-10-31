@@ -4,7 +4,7 @@ A dynamic chord library for Harmonizer 02, implemented in SuperCollider
 
 ## Rules
 
-* Root/octave/unisons are not allowed when specifying chord degrees.
+* Unison and octave of the root are not allowed when specifying chord degrees.
 * Chord note number may range from two to seven.
 * Degree clashes are not allowed (m2/M2, P4/A11, etc.).
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
@@ -47,6 +47,15 @@ Chords may be described by:
 "D#P5M9"          // Quintal triad, over D#
 "Ed3d5d7"         // German sixth in root position, over E
 ```
+
+## Validity Tests
+
+* Contains root at the start (A-G, #/b)
+* Contains only the numbers 2-7, 9-14
+* Contains only the letters d, m, P, M, A
+* No consecutive numbers without type descriptor
+* No consecutive letters without numbers
+* Numbers are prefixed by valid descriptor, given the degree they represent
 
 ## Class Diagram
 
