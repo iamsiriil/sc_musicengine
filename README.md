@@ -23,7 +23,7 @@ classDiagram
         +int voiceId
         +new()
     }
-    style MENotes stroke:#42f5bf,fill:#e6fff8
+    %%style MENotes stroke:#42f5bf,fill:#e6fff8
 
     class MENoteRanges {
         +MENotes[] range
@@ -57,4 +57,5 @@ classDiagram
         +MEChords[] progression
         +new()
     }
+    style MENotes MEProgression stroke:#42f5bf,fill:#e6fff8
 ```
