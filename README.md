@@ -23,6 +23,7 @@ classDiagram
         +int voiceId
         +new()
     }
+    style MENotes stroke:#42f5bf,fill:#e6fff8
 
     class MENoteRanges {
         +MENotes[] range
@@ -56,13 +57,4 @@ classDiagram
         +MEChords[] progression
         +new()
     }
-
-    classDef musicengine stroke:#42f5bf,fill:#e6fff8
-    classDef harmonizer stroke:#42b3f5,fill:#e6f1ff
-    MENotes musicengine
-    MENoteRanges musicengine
-    MEIntervalData musicengine
-    MESymbols musicengine
-    MEChords musicengine
-    MEProgression harmonizer
 ```
