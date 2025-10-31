@@ -9,7 +9,7 @@ A dynamic chord library for Harmonizer 02, implemented in SuperCollider
 * Degree clashes are not allowed (m2/M2, P4/A11, etc.).
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
-* Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a third flat/sharp (B# or C, F# or Gb, F or E#, etc.).
+* Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a third flat/sharp (B# or C, F# or Gb, F or E#, etc.). MusicEngine should be able to handle enharmonics accordingly and name all notes correctly.
 
 ## Interval Types
 
@@ -34,17 +34,17 @@ Chords may be described by:
 ### Common Chord Examples
 
 ```supercollider
-"Dbm3P5"           // Minor triad over Db
-"FM3P5m7"          // Dominant seventh chord over F
+"Dbm3P5"           // Minor triad, over Db
+"FM3P5m7"          // Dominant seventh chord, over F
 "BbM3P5M7M9P11M13" // Major seventh chord with added ninth, eleventh and thirteenth, over Bb
-"GM2P5m7"          // Sus2, dominant seventh chord over G
+"GM2P5m7"          // Sus2 dominant seventh chord, over G
 ```
 
 ### Less Common Chord Examples
 
 ```supercollider
-"EbP4m7"          // Quartal triad over Eb
-"D#P5M9"          // Quintal triad over D#
+"EbP4m7"          // Quartal triad, over Eb
+"D#P5M9"          // Quintal triad, over D#
 "Ed3d5d7"         // German sixth in root position, over E
 ```
 
