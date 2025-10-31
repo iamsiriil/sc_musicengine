@@ -57,5 +57,6 @@ classDiagram
         +MEChords[] progression
         +new()
     }
-    style MENotes,MEProgression stroke:#42f5bf,fill:#e6fff8
+    style MENotes stroke:#42f5bf,fill:#e6fff8
+    style MEProgression stroke:#42f5bf,fill:#e6fff8
 ```
