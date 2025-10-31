@@ -13,7 +13,7 @@ classDiagram
     MENotes <|-- MENoteRanges
     MENoteRanges o-- MEChords
     MEChords <|-- MEProgression
-    class MENotes {
+    class MENotes:::musicengine {
         +int midi
         +int octave
         +str name
@@ -25,24 +25,24 @@ classDiagram
     }
     %%style MENotes stroke:#42f5bf,fill:#e6fff8
 
-    class MENoteRanges {
+    class MENoteRanges:::musicengine {
         +MENotes[] range
         +new()
     }
 
-    class MEIntervalData {
+    class MEIntervalData:::musicengine {
         -dictionary intervals
         +getIntervalDict()
         +getInterval()
     }
 
-    class MESymbols {
+    class MESymbols:::musicengine {
         +str symbol
         +str root
         +new()
     }
 
-    class MEChords {
+    class MEChords:::harmonizer {
         +MENotes root
         +MENotes bass
         +MENotes top
@@ -53,10 +53,10 @@ classDiagram
         +new()
     }
 
-    class MEProgression {
+    class MEProgression:::harmonizer {
         +MEChords[] progression
         +new()
     }
-    style MENotes fill:#daf542,stroke:#000
-    style MEProgression fill:#f5d442,stroke:#000
+    classDef musicengine fill:#daf542,stroke:#000, color:#000
+    classDef harmonizer fill:#f5d442,stroke:#000, color:#000
 ```
