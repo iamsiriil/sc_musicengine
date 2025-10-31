@@ -4,11 +4,12 @@ A dynamic chord library for Harmonizer 02, implemented in SuperCollider
 
 ## Rules
 
-* Root/octave can't be of any type other than Perfect.
+* Root/octave/unisons are not allowed when specifying chord degrees.
 * Chord note number may range from two to seven.
 * Degree clashes are not allowed (m2/M2, P4/A11, etc.).
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
+* Roots with double sharps or flats are not allowed.
 
 ## Interval Types
 
@@ -22,6 +23,29 @@ Depending on the degree, an interval may be diminished, minor, perfect, major or
 | 7th/14th | d, m, M |
 | 3rd/10th; 6th/13th | d, m, M, A |
 | 4th/11th; 5th/12th | d, P, A |
+
+## Verbose Syntax
+
+Chords may be described by:
+* Referencing the root note (A-G), with or without accident (#/b)
+* using a leter to describe degree type (d, m, P, M, A) and
+* using an integer to represent degree (2-7, 9-14)
+
+### Common Chord Examples
+
+```supercollider
+"Dbm3P5"           // Minor triad over Db
+"FM3P5m7"          // Dominant seventh chord over F
+"BbM3P5M7M9P11M13" // Major seventh chord with added ninth, eleventh and thirteenth, over Bb
+"GM2P5m7"          // Sus2, dominant seventh chord over G
+```
+
+### Less Common Chord Examples
+
+```supercollider
+"EbP4m7"          // Quartal triad over Eb
+"D#P5M9"          // Quintal triad over D#
+```
 
 ## Class Diagram
 
