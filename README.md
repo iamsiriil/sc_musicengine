@@ -99,6 +99,6 @@ classDiagram
         +MEChords[] progression
         +new()
     }
-    classDef musicengine fill:#daf542,stroke:#000, color:#000
-    classDef harmonizer fill:#f5d442,stroke:#000, color:#000
+    classDef musicengine fill:#42eff5,stroke:#000, color:#000
+    classDef harmonizer fill:#42c2f5,stroke:#000, color:#000
 ```
