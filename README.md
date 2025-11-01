@@ -8,6 +8,8 @@ A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 2. From there project its implementation with classes
 3. Build classes
 
+---
+
 ## Rules
 
 * Unison and octave of the root are not allowed when specifying chord degrees.
