@@ -69,20 +69,24 @@ Chords may be described by:
 
 ```mermaid
 classDiagram
-    MENotes <|-- MENoteRanges
+    MENotes <|-- MEIntervals
+    MEIntervals <|-- MENoteRanges
     MENoteRanges o-- MEChords
     MEChords <|-- MEProgression
     class MENotes:::musicengine {
-        +int midi
-        +int octave
-        +str name
-        +str accident
-        +str degree
-        +int chordId
-        +int voiceId
+        -Integer[] notes
+        -Symbol[] names
+        +Integer midi
+        +Integer octave
+        +String name
+        +String accident
+        +String degree
         +new()
     }
-    %%style MENotes stroke:#42f5bf,fill:#e6fff8
+
+    class MEIntervals:::musicengine {
+        -Dictionary intervalOffsets
+    }
 
     class MENoteRanges:::musicengine {
         +MENotes[] range
