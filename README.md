@@ -1,6 +1,12 @@
 # Music Engine
 
-A dynamic chord library for Harmonizer 02, implemented in SuperCollider
+A dynamic music library for Harmonizer 02, implemented in SuperCollider.
+
+### Course of Action
+
+1. Implement MusicEngine with regular functions and workout the logic
+2. From there project its implementation with classes
+3. Build classes
 
 ## Rules
 
