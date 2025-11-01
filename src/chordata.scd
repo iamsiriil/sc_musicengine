@@ -92,6 +92,6 @@
 )
 
 (
-~test = ["M2", "P5", "m7"];
+~test = ["d3", "d5", "M7"];
 ~getChordData.(~test);
 )
