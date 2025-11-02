@@ -3,8 +3,8 @@
 *****************************************************************************************/
 (
 ~parseSymbol = { |symbol|
-	var regexGet  = "\.(?:[2-7]|1[0-4])";
-	var regexTest = "^(?:[dmPMA](?:[2-7]|1[0-4]))+$";
+	var regexGet  = "\.(?:[2-7]|9|1[0-4])";
+	var regexTest = "^(?:[dmPMA](?:[2-7]|9|1[0-4]))+$";
 	var iArray;
 
 	if (regexTest.matchRegexp(symbol).not) {

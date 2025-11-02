@@ -3,7 +3,7 @@
 *****************************************************************************************/
 (
 // Create a symbol
-~symbol = "GbM2P5m7P11";
+~symbol = "GbM3P5m7M9A11M13";
 
 // Parse symbol to get root and interval arrays
 ~parsedInput = ~parseInput.(~symbol);
