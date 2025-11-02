@@ -19,4 +19,8 @@
 ~names   = ~resolveNoteNames.(~root, ~offsets[1], ~midi).postln;
 
 ~names ++ [~offsets[2]]
+
+// Wrap first octave and extend midi range
+
+// Get octave numbers
 )
