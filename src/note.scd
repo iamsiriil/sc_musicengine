@@ -24,11 +24,10 @@
 	var testNote = "^([A-G](#*|b*))$";
 	var name, accidental, midi, i;
 
-	note = note.asString;
-
-	if (testNote.matchRegexp(note)) {
-
-		name       = note[0].asString;
+	if (testNote.matchRegexp(note).not) {
+		Error("Note % is note valid.\n".format(note)).throw;
+	} {
+		name       = note[0].asString; // Prevents character being stored as Char
 		accidental = note[1..].size;
 
 		if ((accidental).abs > 12) {
@@ -47,9 +46,6 @@
 		case
 		{ midi > 11 } { midi = midi - 12 }
 		{ midi < 0 }  { midi = midi + 12 }
-
-	} {
-		Error("Note % is note valid.\n".format(note)).throw;
 	};
 
 	[name, accidental, midi];
