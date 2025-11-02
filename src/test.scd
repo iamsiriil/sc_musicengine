@@ -3,10 +3,11 @@
 *****************************************************************************************/
 (
 // Create a symbol
-~symbol = "GbM3P5m7M9A11M13";
+~symbol1 = "GbM3P5m7M9A11m13";
+~symbol2 = "Abbm2M2m3M3P4A4P5m6M6m7M7";
 
 // Parse symbol to get root and interval arrays
-~parsedInput = ~parseInput.(~symbol);
+~parsedInput = ~parseInput.(~symbol2);
 
 ~root    = ~parsedInput[0];
 ~degrees = ~parsedInput[1];
