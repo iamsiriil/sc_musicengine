@@ -11,22 +11,38 @@
 */
 
 (
-~test = "C#M1P5m7";
-//~result = ~test.findRegexp("^[A-G][#|b]*");
-~parseSymbol = { |symbol|
-	var testRoot = "^([A-G](#*|b*))";
-	var note, accidental, result;
+~test = "C#M2P5m7P11";
 
-	if (testRoot.matchRegexp(symbol)) {
+~parseSymbol = { |symbol|
+	var regexGet  = "\.(?:[2-7]|1[0-4])";
+	var regexTest = "^(?:[dmPMA](?:[2-7]|1[0-4]))+$";
+	var iArray;
+
+	if (regexTest.matchRegexp(symbol).not) {
+		Error("Symbol % is not valid.\n".format(symbol)).throw;
+	} {
+		iArray = symbol.findRegexp(regexGet).collect { |n| n[1] };
+	};
+
+	iArray;
+};
+
+~parseInput = { |symbol|
+	var regexTest = "^([A-G](#*|b*))";
+	var note, accidental, result, iArray;
+
+	if (regexTest.matchRegexp(symbol).postln) {
 
 		note   = symbol.findRegexp("^[A-G][#|b]*")[0][1];
 		result = ~parseNote.(note);
+
 		symbol = symbol.replace(note, "");
+		iArray = ~parseSymbol.(symbol)
 	};
 
-	result ++ [symbol];
+	[result, iArray];
 };
-~parseSymbol.(~test);
+~parseInput.(~test);
 )
 
 (
@@ -42,8 +58,8 @@
 ~tD = "^(?:[dmPMA](?:[2-7]|1[0-4]))+$";
 )
 (
-~test2 = "m3P5A7P9";
-~test2.findRegexp(~tP);
+~test2 = "m3P5A7P9A11M13";
+~test2.findRegexp("\.(?:[2-7]|1[0-4])");
 //~tT.matchRegexp(~test2)
 )
 
