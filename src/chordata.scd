@@ -129,9 +129,9 @@
 
 	dif = (midi[i] - ref);
 
-	if (dif.abs >= 3){
+	/*if (dif.abs >= 3){
 		Error("Tripple flats/sharps are NOT allowed.\n".format(note)).throw;
-	};
+	};*/
 
 	case
 	{ dif.isPositive } { dif.do {note = note ++ "#"} }
