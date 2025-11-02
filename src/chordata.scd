@@ -5,9 +5,9 @@
 (
 ~getOffsets = { |interval|
 	var offsets = Array.new(2);
-	var degree  = interval[1..].asInteger.postln;
+	var degree  = interval[1..].asInteger;
 
-	"~getIntervalOffset".postln;
+	"~getOffsets".postln;
 
 	if (degree > 7) {
 		degree = (degree - 7).asSymbol;
@@ -30,7 +30,7 @@
 	};
 
 	// Get note name offset
-	offsets.add(~noteNameOffset[degree.postln]);
+	offsets.add(~noteNameOffset[degree]);
 
 	offsets;
 };
@@ -39,6 +39,8 @@
 
 ~sortData = { |notes, data, i|
 	var temp = Array.new(data.size);
+
+	"~sortData".postln;
 
 	notes.do { |n|
 
@@ -56,8 +58,9 @@
 /****************************************************************************************/
 
 ~splitChordData = { |data|
-	var notes   = data.collect { |n| n[1] }.postln;
+	var notes   = data.collect { |n| n[1] };
 	var degrees, names;
+
 	"~splitChordData".postln;
 
 	notes.sort;
@@ -83,7 +86,7 @@
 		temp = Array.new(3);
 
 		temp.add(i);
-		temp = temp ++ ~getOffsets.(i).postln;
+		temp = temp ++ ~getOffsets.(i);
 		result.add(temp);
 	};
 
@@ -92,6 +95,6 @@
 )
 
 (
-~test = ["d3", "d5", "M7"];
+~test = ["m2"];
 ~getChordData.(~test);
 )
