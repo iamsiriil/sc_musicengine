@@ -1,4 +1,4 @@
-> ![WARNING]
+> [!WARNING]
 > This project is under development and is not yet functional. A such, this README file is currently serving the purpose of a note-pad. Stating goals, guidelines and ideas to be implemented.
 
 # Music Engine
