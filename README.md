@@ -9,8 +9,11 @@ A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 
 ## Rules
 
-* Unison and octave of the root are not allowed when specifying chord degrees.
-* Chord note number may range from two to seven.
+> [!NOTE]
+> Allow extended tonaily ?? (Roots and notes with more than two accidentals, degrees with more than one 'd' or 'A')
+
+* Unison and octave are not allowed when specifying chord degrees.
+* Chord note number may range from two to ~~seven~~ twelve.
 * ~~Degree clashes are not allowed (m2/M2, P4/A11, etc.).~~
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
