@@ -92,9 +92,66 @@
 
 	~splitChordData.(result);
 };
-)
 
-(
-~test = ["M2", "P5", "m7"];
-~getChordData.(~test);
+/****************************************************************************************/
+
+~transposeMidi = { |root, midiOffset|
+
+	midiOffset + root[2];
+};
+
+/****************************************************************************************/
+
+~resolveAccidentals = { |note, root, midi, i|
+	var noteIndex = ~noteNames[0].indexOf(note.asSymbol);
+	var ref, dif;
+
+	"~resolveAccidents: Function Call".postln;
+
+	// Cb and B# require special treatment
+	case
+	{ (root[0] == "B") && (root[1] == "#") && (note == "B")} {
+		ref = -1;
+	}
+	{ (note == "C") && ((midi[i] == 11) || (midi[i] == 10)) } {
+		ref = 12;
+	}
+	{ (note == "B") && ((midi[i] == 12) || (midi[i] == 13)) } {
+		ref = 11;
+	}
+	{
+		if ((midi[i] >= 12)) {
+			ref = (~noteNames[1][noteIndex] + 12);
+		} {
+			ref = ~noteNames[1][noteIndex];
+		};
+	};
+
+	dif = (midi[i] - ref);
+
+	if (dif.abs >= 3){
+		Error("Tripple flats/sharps are NOT allowed.\n".format(note)).throw;
+	};
+
+	case
+	{ dif.isPositive } { dif.do {note = note ++ "#"} }
+	{ dif.isNegative } { dif.abs.do {note = note ++ "b"} };
+
+	note;
+};
+
+/****************************************************************************************/
+
+~resolveNoteNames = { |root, nameOffset, midi|
+	var rootIndex = ~noteNames[0].indexOf(root[0].asSymbol);
+	var noteNames = ~noteNames[0].wrapAt(rootIndex + nameOffset);
+
+	noteNames.do { |n, i| noteNames[i] = n.asString };
+
+	noteNames.do { |n, i|
+		noteNames[i] = ~resolveAccidentals.(n, root, midi, i);
+	};
+
+	[midi, noteNames];
+};
 )

@@ -67,6 +67,4 @@
 
 	[name, accidental, midi];
 };
-
-~noteData = ~parseNote.("B");
 )
