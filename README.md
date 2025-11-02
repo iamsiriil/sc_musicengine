@@ -1,3 +1,6 @@
+> ![WARNING]
+> This project is under development and is not yet functional. A such, this README file is currently serving the purpose of a note-pad. Stating goals, guidelines and ideas to be implemented.
+
 # Music Engine
 
 A dynamic music library for Harmonizer 02, implemented in SuperCollider.
@@ -55,7 +58,7 @@ Chords may be described by:
 * Contains only the letters d, m, P, M, A
 * No consecutive numbers without type descriptor
 * No consecutive letters without numbers
-* Numbers are prefixed by valid descriptor, given the degree they represent
+* Numbers are prefixed with a valid descriptor, given the degree they represent
 
 ## Class Diagram
 
