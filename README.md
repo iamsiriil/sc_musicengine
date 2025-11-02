@@ -13,11 +13,9 @@ A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
 * Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a third flat/sharp (B# or C, F# or Gb, F or E#, etc.). MusicEngine should be able to handle enharmonics accordingly and name all notes correctly.
 
-## Interval Types
+## Allowed Intervals
 
 Depending on the degree, an interval may be diminished, minor, perfect, major or augmented. Represented, respectively, with: d, m, P, M, A.
-
-## Allowed Intervals
 
 | **Degree** | **Type** |
 |----------|-----------------------|
