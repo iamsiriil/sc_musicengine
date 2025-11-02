@@ -2,19 +2,13 @@
 
 A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 
-### Course of Action
-
-1. Implement MusicEngine with regular functions and workout the logic
-2. From there project its implementation with classes
-3. Build classes
-
 ---
 
 ## Rules
 
 * Unison and octave of the root are not allowed when specifying chord degrees.
 * Chord note number may range from two to seven.
-* Degree clashes are not allowed (m2/M2, P4/A11, etc.).
+* ~~Degree clashes are not allowed (m2/M2, P4/A11, etc.).~~
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
 * Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a third flat/sharp (B# or C, F# or Gb, F or E#, etc.). MusicEngine should be able to handle enharmonics accordingly and name all notes correctly.
