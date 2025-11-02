@@ -20,35 +20,53 @@
 
 /****************************************************************************************/
 
-~parseNote = { |note, root = false|
+~getMidiNote = #{ |name, accidental|
+	var midi, i;
+
+	i    = ~noteNames[0].indexOf(name.asSymbol);
+	midi = ~noteNames[1][i];
+
+	midi = midi + accidental;
+
+	case
+	{ midi > 11 } { midi = midi - 12 }
+	{ midi < 0 }  { midi = midi + 12 };
+
+	midi;
+};
+
+/****************************************************************************************/
+
+~getAccidental = #{ |note|
+	var accidental = note[1..].size;
+
+	if ((accidental).abs > 12) {
+		Error("Accidental number cannot exceed 12.\n").throw;
+	} {
+		if (note.includes($b)) {
+			accidental = accidental * -1;
+		};
+	};
+
+	accidental;
+};
+
+/****************************************************************************************/
+
+~parseNote = #{ |note|
 	var testNote = "^([A-G](#*|b*))$";
-	var name, accidental, midi, i;
+	var name, accidental, midi;
 
 	if (testNote.matchRegexp(note).not) {
 		Error("Note % is note valid.\n".format(note)).throw;
 	} {
 		name       = note[0].asString; // Prevents character being stored as Char
-		accidental = note[1..].size;
-
-		if ((accidental).abs > 12) {
-			Error("Accidental number cannot exceed 12.\n").throw;
-		};
-
-		if (note.includes($b)) {
-			accidental = accidental * -1;
-		};
-
-		i    = ~noteNames[0].indexOf(name.asSymbol);
-		midi = ~noteNames[1][i];
-
-		midi = midi + accidental;
-
-		case
-		{ midi > 11 } { midi = midi - 12 }
-		{ midi < 0 }  { midi = midi + 12 }
+		accidental = ~getAccidental.(note);
+		midi       = ~getMidiNote.(name, accidental);
 	};
 
 	[name, accidental, midi];
 };
-~noteData = ~parseNote.("B#");
+
+~noteData = ~parseNote.("B");
 )
