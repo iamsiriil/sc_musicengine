@@ -3,7 +3,7 @@
 *****************************************************************************************/
 // interval already tested for validity before ~getOffsets is called
 (
-~getOffsets = { |interval|
+~getOffsets = #{ |interval|
 	var offsets = Array.new(2);
 	var degree  = interval[1..].asInteger;
 
@@ -37,7 +37,7 @@
 
 /****************************************************************************************/
 
-~sortData = { |notes, data, i|
+~sortData = #{ |notes, data, i|
 	var temp = Array.new(data.size);
 
 	"~sortData".postln;
@@ -56,8 +56,10 @@
 };
 
 /****************************************************************************************/
+// Midi notes get split here, degrees and names get split during sorting
+// Maybe split everything here, for consistency
 
-~splitChordData = { |data|
+~splitChordData = #{ |data|
 	var notes   = data.collect { |n| n[1] };
 	var degrees, names;
 
@@ -73,8 +75,9 @@
 };
 
 /****************************************************************************************/
+// Returns midi and note names offsets, and degrees with added "Rt"
 
-~getChordData = { |arr|
+~getChordData = #{ |arr|
 	var result  = Array.new(arr.size + 1);
 	var temp;
 
@@ -95,24 +98,26 @@
 
 /****************************************************************************************/
 
-~transposeMidi = { |root, midiOffset|
+~transposeMidi = #{ |root, midiOffset|
+
+	"~transposeMidi".postln;
 
 	midiOffset + root[2];
 };
 
 /****************************************************************************************/
+// There is a bug with Cbb+ and B#
+// We have the note string and the midi value and we want to get the accidental
 
-~resolveAccidentals = { |note, root, midi, i|
+~resolveAccidentals = #{ |note, root, midi, i|
 	var noteIndex = ~noteNames[0].indexOf(note.asSymbol);
 	var ref, dif;
 
-	"~resolveAccidents: Function Call".postln;
+	"~resolveAccidentals".postln;
 
 	// Cb and B# require special treatment
+	"root: % | note: % | midi[i]: %".format(root, note, midi[i]).postln;
 	case
-	{ (root[0] == "B") && (root[1] == "#") && (note == "B")} {
-		ref = -1;
-	}
 	{ (note == "C") && ((midi[i] == 11) || (midi[i] == 10)) } {
 		ref = 12;
 	}
@@ -127,11 +132,17 @@
 		};
 	};
 
-	dif = (midi[i] - ref);
+	if (i == 0) {
+		dif = root[1];
+	} {
+		dif = (midi[i] - ref);
+	};
 
-	/*if (dif.abs >= 3){
-		Error("Tripple flats/sharps are NOT allowed.\n".format(note)).throw;
-	};*/
+	"dif: %".format(dif).postln;
+
+	if (dif.abs > 3){
+		Error("Quadruple flats/sharps are NOT allowed.\n".format(note)).throw;
+	};
 
 	case
 	{ dif.isPositive } { dif.do {note = note ++ "#"} }
@@ -142,9 +153,11 @@
 
 /****************************************************************************************/
 
-~resolveNoteNames = { |root, nameOffset, midi|
+~resolveNoteNames = #{ |root, nameOffset, midi|
 	var rootIndex = ~noteNames[0].indexOf(root[0].asSymbol);
 	var noteNames = ~noteNames[0].wrapAt(rootIndex + nameOffset);
+
+	"~resolveNoteNames".postln;
 
 	noteNames.do { |n, i| noteNames[i] = n.asString };
 
