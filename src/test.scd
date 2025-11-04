@@ -18,11 +18,12 @@
 ~s10 = "Cbm9M9m10M10P11d12P12m13M13m14M14";
 ~s11 = "B#m9M9m10M10P11d12P12m13M13m14M14";
 ~s12 = "DM2P5";
+~s13 = "GbP5";
 
 /****************************************************************************************/
 // Parse symbol to get root and interval arrays
 
-~parsedInput = ~parseInput.(~s12);
+~parsedInput = ~parseInput.(~s13);
 
 ~root        = ~parsedInput[0];
 ~degrees     = ~parsedInput[1];
@@ -50,6 +51,7 @@
 
 /****************************************************************************************/
 // Check note data arrays
+
 "\nnotes:   ".post;
 ~dict[\notes].postln;
 
@@ -66,9 +68,7 @@
 ~dict.keysValuesDo { |k, v| "%: %".format(k, v.size).postln };
 )
 
-(
-)
-
+/****************************************************************************************/
 (
 // Check is data is correctly align
 n = ~dict[\notes].choose;
