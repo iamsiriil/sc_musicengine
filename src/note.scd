@@ -28,7 +28,7 @@
 	i    = ~noteNames[0].indexOf(name.asSymbol);
 	midi = ~noteNames[1][i];
 
-	midi = (midi + accidental).postln;
+	midi = (midi + accidental);
 
 	case // --> Leave this operation till after all note names have been resolved?
 	{ midi > 11 } { midi = midi - 12 }
@@ -72,6 +72,23 @@
 		midi       = ~getMidiNote.(name, accidental);
 	};
 
-	[name, accidental, midi].postln;
+	[name, accidental, midi];
+};
+
+/****************************************************************************************/
+
+~getOctave = { |midi, name|
+	var octave = -2;
+	var temp = midi;
+
+	while { temp >= 0 } {
+		temp = temp - 12;
+		octave = octave + 1;
+	};
+
+	case
+	{ name.contains("Cb") } { octave = octave + 1 }
+	{ name.contains("B#") } { octave = octave - 1 }
+	{ octave }
 };
 )

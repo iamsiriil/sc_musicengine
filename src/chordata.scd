@@ -116,7 +116,7 @@
 	"~resolveAccidentals".postln;
 
 	// Cb and B# require special treatment
-	"root: % | note: % | midi[i]: %".format(root, note, midi[i]).postln;
+	//"root: % | note: % | midi[i]: %".format(root, note, midi[i]).postln;
 	case
 	{ (note == "C") && ((midi[i] == 11) || (midi[i] == 10)) } {
 		ref = 12;
@@ -138,10 +138,10 @@
 		dif = (midi[i] - ref);
 	};
 
-	"dif: %".format(dif).postln;
+	//"dif: %".format(dif).postln;
 
-	if (dif.abs > 3){
-		Error("Quadruple flats/sharps are NOT allowed.\n".format(note)).throw;
+	if (dif.abs > 2){
+		Error("Triple flats/sharps are NOT allowed.\n".format(note)).throw;
 	};
 
 	case
@@ -166,5 +166,47 @@
 	};
 
 	[midi, noteNames];
+};
+
+/****************************************************************************************/
+
+~extendMidiRange = { |range|
+	var arr = Array.new(range.size * 11);
+
+	"~extendMidiRange: Function Call".postln;
+
+
+	range.do { |n|
+
+		while { n <= 127 } {
+
+			arr.add(n);
+			n = n + 12;
+		};
+	};
+	arr.sort;
+};
+
+/****************************************************************************************/
+
+~wrapAndExtend = { |dict, notes, names, degrees|
+
+	"~wrapFirstOctave: Function Call".postln;
+
+	notes.do { |n, i|
+
+		if (n >= 12) {
+			notes[i]  = n - 12;
+			names     = names.rotate(1);
+			degrees   = degrees.rotate(1);
+		}
+	};
+	notes.sort;
+
+	dict[\notes]   = ~extendMidiRange.(notes);
+	dict[\names]   = names.wrapExtend(dict[\notes].size);
+	dict[\degrees] = degrees.wrapExtend(dict[\notes].size);
+
+	nil;
 };
 )
