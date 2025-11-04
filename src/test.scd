@@ -23,7 +23,7 @@
 /****************************************************************************************/
 // Parse symbol to get root and interval arrays
 
-~parsedInput = ~parseInput.(~s13);
+~parsedInput = ~parseInput.(~s3);
 
 ~root        = ~parsedInput[0];
 ~degrees     = ~parsedInput[1];

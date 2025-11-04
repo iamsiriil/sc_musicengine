@@ -117,24 +117,25 @@
 
 	// Cb and B# require special treatment
 	//"root: % | note: % | midi[i]: %".format(root, note, midi[i]).postln;
-	case
-	{ (note == "C") && ((midi[i] == 11) || (midi[i] == 10)) } {
-		ref = 12;
-	}
-	{ (note == "B") && ((midi[i] == 12) || (midi[i] == 13)) } {
-		ref = 11;
-	}
-	{
-		if ((midi[i] >= 12)) {
-			ref = (~noteNames[1][noteIndex] + 12);
-		} {
-			ref = ~noteNames[1][noteIndex];
-		};
-	};
 
 	if (i == 0) {
 		dif = root[1];
 	} {
+		case
+		{ (note == "C") && ((midi[i] == 11) || (midi[i] == 10)) } {
+			ref = 12;
+		}
+		{ (note == "B") && ((midi[i] == 12) || (midi[i] == 13)) } {
+			ref = 11;
+		}
+		{
+			if ((midi[i] >= 12)) {
+				ref = (~noteNames[1][noteIndex] + 12);
+			} {
+				ref = ~noteNames[1][noteIndex];
+			};
+		};
+
 		dif = (midi[i] - ref);
 	};
 
