@@ -7,18 +7,17 @@ MENoteData {
 		names = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 	}
 
-	getOctave { |midi, note|
-		var temp   = midi;
-		var octave = -2;
+	getOctave { |midi, note = nil|
+		var octave = -1;
 
-		while { temp >= 0 } {
-			temp   = temp - 12;
-			octave = octave + 1;
+		octave = octave + (midi/12).floor;
+
+		if (note.notNil) {
+
+			case
+			{ note.contains("Cb") } { octave = octave + 1 }
+			{ note.contains("B#") } { octave = octave - 1 }
 		};
-
-		case
-		{ note == "Cb" } { ^octave + 1 }
-		{ note == "B#" } { ^octave - 1 }
-		{ ^octave }
+		^octave;
 	}
 }
