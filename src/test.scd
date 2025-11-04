@@ -53,5 +53,3 @@
 "octaves: ".post;
 ~arr.postln;
 )
-
-~getOctave.(60)
