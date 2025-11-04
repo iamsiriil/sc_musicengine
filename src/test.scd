@@ -21,9 +21,11 @@
 ~s13 = "GbP5";
 
 /****************************************************************************************/
-// Parse symbol to get root and interval arrays
 
-~parsedInput = ~parseInput.(~s3);
+~testSymbol = ~s3;
+
+// Parse symbol to get root and interval arrays
+~parsedInput = ~parseInput.(~testSymbol);
 
 ~root        = ~parsedInput[0];
 ~degrees     = ~parsedInput[1];
@@ -35,7 +37,7 @@
 ~midi        = ~transposeMidi.(~root, ~offsets[0]);
 ~names       = ~resolveNoteNames.(~root, ~offsets[1], ~midi);
 
-// Wrap first octave and extend midi range
+// Wrap first octave and extend midi ranges
 ~dict = Dictionary.new;
 ~wrapAndExtend.(~dict, ~names[0], ~names[1], ~offsets[2]);
 
@@ -43,7 +45,6 @@
 ~arr = Array.new(~dict[\notes].size);
 
 ~dict[\notes].do { |n, i|
-
 	~arr.add(~getOctave.(n, ~dict[\names][i]));
 };
 
@@ -65,17 +66,36 @@
 ~dict[\octaves].postln;
 
 // Check if all arrays have the same length
-~dict.keysValuesDo { |k, v| "%: %".format(k, v.size).postln };
+"".postln;
+
+~dict.keysValuesDo { |k, v|
+	"%: ".format(k).padRight(9).post;
+	"%".format(v.size).postln };
 )
 
 /****************************************************************************************/
+// Check if data is correctly aligned
 (
-// Check is data is correctly align
-n = ~dict[\notes].choose;
-i = ~dict[\notes].indexOf(n);
-~dict[\notes][i].postln;
-~dict[\names][i].postln;
-~dict[\degrees][i].postln;
-~dict[\octaves][i].postln;
+~checkDataMapping = { |dict, symbol|
+	var n = dict[\notes].choose;
+	var i = dict[\notes].indexOf(n);
+
+	"Symbol: ".padRight(9).post;
+	"%\n".format(symbol).postln;
+
+	"Note: ".padRight(9).post;
+	"%".format(dict[\notes][i]).postln;
+
+	"Name: ".padRight(9).post;
+	"%".format(dict[\names][i]).postln;
+
+	"Degree: ".padRight(9).post;
+	"%".format(dict[\degrees][i]).postln;
+
+	"Octaves: ".padRight(9).post;
+	"%".format(dict[\octaves][i]).postln;
+};
+
+~checkDataMapping.(~dict, ~testSymbol);
 )
 
