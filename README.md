@@ -9,9 +9,6 @@ A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 
 ## Rules
 
-> [!NOTE]
-> Allow extended tonaily ?? <br>(Roots and notes with more than two accidentals, degrees with more than one 'd' or 'A')
-
 * Unison and octave are not allowed when specifying chord degrees.
 * Chord note number may range from two to ~~seven~~ twelve.
 * ~~Degree clashes are not allowed (m2/M2, P4/A11, etc.).~~
@@ -33,8 +30,8 @@ Depending on the degree, an interval may be diminished, minor, perfect, major or
 ## Verbose Syntax
 
 Chords may be described by:
-* Referencing the root note (A-G), with or without accident (#/b)
-* using a leter to describe degree type (d, m, P, M, A) and
+* Referencing the root note (A-G), with or without accidentals (#/b)
+* using a letter to describe degree type (d, m, P, M, A) and
 * using an integer to represent degree (2-7, 9-14)
 
 ### Common Chord Examples
