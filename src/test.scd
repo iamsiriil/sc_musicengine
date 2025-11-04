@@ -41,8 +41,8 @@
 ~dict[\names].postln;
 "degrees: ".post;
 ~dict[\degrees].postln;
-// Get octave numbers
 
+// Get octave numbers
 ~arr = Array.new(~dict[\notes].size);
 
 ~dict[\notes].do { |n, i|
