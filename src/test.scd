@@ -17,9 +17,12 @@
 ~s9 = "Cbm9d10d11d12d13d14";
 ~s10 = "Cbm9M9m10M10P11d12P12m13M13m14M14";
 ~s11 = "B#m9M9m10M10P11d12P12m13M13m14M14";
+~s12 = "DM2P5";
 
+/****************************************************************************************/
 // Parse symbol to get root and interval arrays
-~parsedInput = ~parseInput.(~s10);
+
+~parsedInput = ~parseInput.(~s12);
 
 ~root        = ~parsedInput[0];
 ~degrees     = ~parsedInput[1];
@@ -35,13 +38,6 @@
 ~dict = Dictionary.new;
 ~wrapAndExtend.(~dict, ~names[0], ~names[1], ~offsets[2]);
 
-"\nnotes:   ".post;
-~dict[\notes].postln;
-"names:   ".post;
-~dict[\names].postln;
-"degrees: ".post;
-~dict[\degrees].postln;
-
 // Get octave numbers
 ~arr = Array.new(~dict[\notes].size);
 
@@ -50,6 +46,36 @@
 	~arr.add(~getOctave.(n, ~dict[\names][i]));
 };
 
+~dict[\octaves] = ~arr;
+
+/****************************************************************************************/
+// Check note data arrays
+"\nnotes:   ".post;
+~dict[\notes].postln;
+
+"names:   ".post;
+~dict[\names].postln;
+
+"degrees: ".post;
+~dict[\degrees].postln;
+
 "octaves: ".post;
-~arr.postln;
+~dict[\octaves].postln;
+
+// Check if all arrays have the same length
+~dict.keysValuesDo { |k, v| "%: %".format(k, v.size).postln };
 )
+
+(
+)
+
+(
+// Check is data is correctly align
+n = ~dict[\notes].choose;
+i = ~dict[\notes].indexOf(n);
+~dict[\notes][i].postln;
+~dict[\names][i].postln;
+~dict[\degrees][i].postln;
+~dict[\octaves][i].postln;
+)
+
