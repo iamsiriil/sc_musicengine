@@ -1,3 +1,13 @@
+// TEST ROOT
+
+// Test root for valid notes
+(
+var regex = "^[A-G]";
+var symbol = "G1m3P5m7A11";
+regex.matchRegexp(symbol).postln;
+symbol.findRegexp(regex).postln;
+)
+
 // Test root for more than one accidentals
 (
 var regex = "#+#|b+b";
@@ -5,6 +15,9 @@ var symbol = "G1m3P5m7A11";
 regex.matchRegexp(symbol).postln;
 symbol.findRegexp(regex).postln;
 )
+
+/****************************************************************************************/
+// TEST DEGREES
 
 // Test for single 1
 (
@@ -54,6 +67,9 @@ regex.matchRegexp(symbol).postln;
 symbol.findRegexp(regex).postln;
 )
 
+/****************************************************************************************/
+// TEST MODIFIERS AND DEGREE NUMBERS
+
 // Test for modifier without degree
 (
 var regex = "[dmPMA](?!\\d{1,2})";
@@ -68,4 +84,16 @@ var regex = "(?<![dmPMA])\\d{1,2}";
 var symbol = "G#3P57";
 regex.matchRegexp(symbol).postln;
 symbol.findRegexp(regex).postln;
+)
+
+/****************************************************************************************/
+// TEST SIZE
+
+// Check for more than 11 degrees
+(
+var regex = "[dmMPA]\\d{1,2}";
+var symbol = "G#m2M2m3M3P4A4P5m6M6m7M7M9";
+if (symbol.findRegexp(regex).size > 11) {
+	"No more than 11 degrees in addition to the root".postln;
+};
 )
