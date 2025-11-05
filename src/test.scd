@@ -22,7 +22,7 @@
 
 /****************************************************************************************/
 
-~testSymbol = ~s3;
+~testSymbol = ~s5;
 
 // Parse symbol to get root and interval arrays
 ~parsedInput = ~parseInput.(~testSymbol);
