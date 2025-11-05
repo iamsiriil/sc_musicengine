@@ -30,7 +30,7 @@
 
 	midi = (midi + accidental);
 
-	case // --> Leave this operation till after all note names have been resolved?
+	case
 	{ midi > 11 } { midi = midi - 12 }
 	{ midi < 0 }  { midi = midi + 12 };
 

@@ -56,8 +56,6 @@
 };
 
 /****************************************************************************************/
-// Midi notes get split here, degrees and names get split during sorting
-// Maybe split everything here, for consistency
 
 ~splitChordData = #{ |data|
 	var notes   = data.collect { |n| n[1] };
@@ -106,8 +104,7 @@
 };
 
 /****************************************************************************************/
-// There is a bug with Cbb+ and B#
-// We have the note string and the midi value and we want to get the accidental
+// We have the note string and the midi value, and we want to get the accidental
 
 ~resolveAccidentals = #{ |note, root, midi, i|
 	var noteIndex = ~noteNames[0].indexOf(note.asSymbol);

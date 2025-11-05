@@ -6,15 +6,15 @@
 
 (
 // Create a symbol
-~s1 = "B#M3A5M7A9A11A13";
+~s1 = "CP4m7";
 ~s2 = "Abm2M2m3M3P4A4P5m6M6m7M7";
 ~s3 = "EbM2P5m7";
 ~s4 = "DP4P5m7";
 ~s5 = "F#M3d5m7A9";
-~s6 = "E#A3A5M7";
+~s6 = "E#A3A5M7";            // Prompts error: notes with more than two accidentals are not allowed | F works fine
 ~s7 = "C#A3A5M7";
-~s8 = "B#A9A10A11A12A13M14";
-~s9 = "Cbm9d10d11d12d13d14";
+~s8 = "B#A9A10A11A12A13M14"; // Prompts error: notes with more than two accidentals are not allowed | C works fine
+~s9 = "Cbm9d10d11d12d13d14"; // Prompts error: notes with more than two accidentals are not allowed | B works fine
 ~s10 = "Cbm9M9m10M10P11d12P12m13M13m14M14";
 ~s11 = "B#m9M9m10M10P11d12P12m13M13m14M14";
 ~s12 = "DM2P5";
@@ -22,7 +22,7 @@
 
 /****************************************************************************************/
 
-~testSymbol = ~s5;
+~testSymbol = ~s1;
 
 // Parse symbol to get root and interval arrays
 ~parsedInput = ~parseInput.(~testSymbol);
