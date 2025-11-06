@@ -120,3 +120,40 @@ if (symbol.findRegexp(regex).size > 11) {
 };
 symbol.findRegexp(regex).size;
 )
+
+/****************************************************************************************/
+// DIFFERENT APPROACH
+(
+var r1 = "[mMA][29]";
+var r2 = "[dmMA][36]|[dmMA]1[03]";
+var r3 = "[dPA][45]|[dPA]1[12]";
+var r4 = "[dmM]7|[dmM]14";
+
+var regex = "%|%|%|%".format(r1, r2, r3, r4); // Fails with true
+
+var symbol = "mM3d5A7";
+
+// Separate all modifier/interval pairs
+var symbolArray = symbol.findRegexp(".[0-9]|.1[0-5]").collect { |i| i[1] }.postln;
+
+var error = Array.new(symbol.size);
+var test = symbol;
+
+// Replace every modifier/interval pair with empty string
+// What remains are invalid numbers and letters
+symbolArray.do { |s|
+	test = test.replace(s, " ");
+};
+"test: %".format(test).postln;
+
+// Test each interval agains regex test and add to error
+// all that no not match
+symbolArray.do { |s, i|
+
+	if (s.findRegexp(regex).isEmpty) {
+		error.add(s);
+	}
+};
+~verb = if (error.size > 1) { ["Are", "", "intervals."] } { ["Is", "a ", "interval."] }; // Why not?!
+"%: % not %valid %".format(error.join(", "), ~verb[0], ~verb[1], ~verb[2]).postln;
+)
