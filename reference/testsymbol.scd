@@ -149,8 +149,8 @@ var symbolArray = symbol.findRegexp(".[0-9]|.1[0-5]").collect { |i| i[1] }.postl
 symbolArray.do { |s|
 	test = test.replace(s, ".");
 };
-test.do { |c| c.postln};
-"test: %".format(test.split).postln;
+
+"test: %".format(test.split($.)).postln; // Split not doing what I want!
 
 // 3.3 Check symbolArray size. Max 11, min 0 (Root without symbol is allowed -> Maj triad)
 
