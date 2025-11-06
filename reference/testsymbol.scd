@@ -38,6 +38,22 @@ regex.matchRegexp(symbol).postln;
 symbol.findRegexp(regex).postln;
 )
 
+// Test degrees 16 and above
+(
+var regex = "1[6-9]|[2-9][0-9]|[0-9]{3,4}"; // Fails with true
+var symbol = "G#m3P8m3";
+regex.matchRegexp(symbol).postln;
+symbol.findRegexp(regex).postln;
+)
+
+// Test for characters other than d, m, P, M and A
+(
+var regex = "[a-ce-ln-oq-zA-CE-LN-OQ-Z]+"; // Fails with true
+var symbol = "m3P8x3";
+regex.matchRegexp(symbol).postln;
+symbol.findRegexp(regex).postln;
+)
+
 // Test for d2 or d9
 (
 var regex = "d[29]"; // Fails with true
@@ -83,10 +99,13 @@ symbol.findRegexp(regex).postln;
 
 // Test for degree without modifier
 (
-var regex = "(?<![dmPMA])\\d{1,2}"; // Fails with true
-var symbol = "G#3P57";
-regex.matchRegexp(symbol).postln;
-symbol.findRegexp(regex).postln;
+var regex  = "[dmPMA](?:[2-7]|9|1[0-4])"; // <-- Issue here
+var symbol = "3P10";
+var array  = symbol.findRegexp(regex).collect { |i| i[1] }.postln;
+array.do { |r|
+	symbol = symbol.replace(r, "");
+};
+symbol;
 )
 
 /****************************************************************************************/
@@ -95,8 +114,9 @@ symbol.findRegexp(regex).postln;
 // Check for more than 11 degrees
 (
 var regex = "[dmMPA]\\d{1,2}";
-var symbol = "G#m2M2m3M3P4A4P5m6M6m7M7M9";
+var symbol = "M3P4A4P5m6M6m7M7M9";
 if (symbol.findRegexp(regex).size > 11) {
 	"No more than 11 degrees in addition to the root".postln;
 };
+symbol.findRegexp(regex).size;
 )
