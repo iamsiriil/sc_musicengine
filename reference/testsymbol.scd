@@ -124,14 +124,14 @@ symbol.findRegexp(regex).size;
 /****************************************************************************************/
 // DIFFERENT APPROACH
 (
-var r1 = "[mMA][29]";
-var r2 = "[dmMA][36]|[dmMA]1[03]";
-var r3 = "[dPA][45]|[dPA]1[12]";
+var r1 = "[mMA][29]|";
+var r2 = "[dmMA][36]|[dmMA]1[03]|";
+var r3 = "[dPA][45]|[dPA]1[12]|";
 var r4 = "[dmM]7|[dmM]14";
 
-var regex  = "%|%|%|%".format(r1, r2, r3, r4); // Fails with true
+var regex  = "%%%%".format(r1, r2, r3, r4); // Fails with true
 
-var symbol = "CmM3d5A7";
+var symbol = "m2M345dp5lA723M2m2M4P9h7h6t7h5";
 
 var error  = Array.new(symbol.size);
 var test   = symbol;
@@ -142,17 +142,17 @@ var test   = symbol;
 
 // 3. Test symbol
 // 3.1 Separate all modifier/interval pairs
-var symbolArray = symbol.findRegexp(".[0-9]|.1[0-5]").collect { |i| i[1] }.postln;
+var symbolArray = symbol.findRegexp("[a-zA-Z][0-9]|[a-zA-Z]1[0-5]").collect { |i| i[1] }.postln;
 
 // 3.2 Replace every modifier/interval pair with empty string
 // What remains are invalid numbers and letters
 symbolArray.do { |s|
-	test = test.replace(s, ".");
+	test = test.replace(s, " ");
 };
-
-"test: %".format(test.split($.)).postln; // Split not doing what I want!
+test = test.split($ ).select { |i| i != ""}.postln;
 
 // 3.3 Check symbolArray size. Max 11, min 0 (Root without symbol is allowed -> Maj triad)
+if (symbolArray.size > 11) { "Symbol array cannot have more than 11 intervals.".postln };
 
 // 3.4 Test each interval agains regex test and add to error array all intervals
 // that do not match. When testing, try matching what we expect to have, and not
@@ -160,9 +160,14 @@ symbolArray.do { |s|
 symbolArray.do { |s, i|
 
 	if (s.findRegexp(regex).isEmpty) {
+
 		error.add(s);
-	}
+	};
+
 };
+symbolArray = symbolArray.select { |i| error.includes(i).not };
+"symbolArray: %".format(symbolArray).postln;
+
 // Prompt a nice little warning message and throw an error
 ~verb = if (error.size > 1) { ["Are", "", "intervals."] } { ["Is", "a ", "interval."] }; // Why not?!
 "%: % not %valid %".format(error.join(", "), ~verb[0], ~verb[1], ~verb[2]).postln;
