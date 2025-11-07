@@ -27,25 +27,9 @@ MENotes : METools {
 
 	init { |newN, newM, newF|
 
-		if (newN.notNil) {
-			if (super.noteIsValid(newN)) {
-				note = newN
-			}
-		};
-
-		if (newM.notNil) {
-			if (super.midiIsValid(newM)) {
-				midi = newM;
-			}
-		};
-
-		if (midi.notNil) {
-			octave = super.getOctave(midi, note);
-			freq   = midi.midicps;
-		};
-
-		accidental = note[1..];
-		^this;
+		note = newN;
+		midi = newM;
+		freq = newF;
 	}
 
 }
