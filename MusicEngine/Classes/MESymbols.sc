@@ -13,6 +13,7 @@ MESymbols : MESymbolData {
 	init { |newSymbol|
 		var normSymbol;
 		var aliasData;
+		var noteData;
 
 		"init".postln;
 
@@ -28,11 +29,16 @@ MESymbols : MESymbolData {
 			symbol     = aliasData[0];
 			midiOffset = aliasData[1];
 			nameOffset = aliasData[2];
-			degrees    = super.getDegreeArray(symbol); // No test needed
+			degrees    = ["Rt"] ++ super.getDegreeArray(symbol); // No test needed
 
 		} {
 
-			degrees = super.getDegrees(symbol);
+			degrees  = super.getDegrees(symbol);
+			noteData = super.getOffsets(degrees);
+
+			midiOffset = noteData[0];
+			nameOffset = noteData[1];
+			degrees    = noteData[2];
 
 		};
 

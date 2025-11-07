@@ -127,12 +127,12 @@ symbol.findRegexp(regex).size;
 var r0 = "^[A-G][#|b]*";
 var r1 = "[mMA][29]|";
 var r2 = "[dmMA][36]|[dmMA]1[03]|";
-var r3 = "[dPA][45]|[dPA]1[12]|";
+var r3 = "[dPA][45]|[dPA](11|12)|";
 var r4 = "[dmM]7|[dmM]14";
 
 var regex  = "%%%%".format(r1, r2, r3, r4); // Empty array indicates invalid degree
 
-var symbol = "XXXm2M345dp5lA723M2m2M4P9h7h16t7h5";
+var symbol = "m2P5P11";
 
 var error  = Array.new(symbol.size);
 var test   = symbol;
@@ -153,7 +153,7 @@ if (root.notNil) { // If statement ncluded here for the purpose of drafting
 
 // 3. Test symbol
 // 3.1 Separate all modifier/interval pairs
-symbolArray = symbol.findRegexp("[a-zA-Z][0-9]|[a-zA-Z]1[0-5]").collect { |i| i[1] }.postln;
+symbolArray = symbol.findRegexp("[a-zA-Z]\\d{1,2}").collect { |i| i[1] }.postln;
 
 // 3.2 Replace every modifier/interval pair with space
 // What remains are invalid numbers and letters
@@ -172,11 +172,11 @@ symbolArray.do { |s, i|
 
 	if (s.findRegexp(regex).isEmpty) {
 
-		error.add(s);
+		error.add(s).postln;
 	};
 
 };
-symbolArray = symbolArray.select { |i| error.includes(i).not };
+symbolArray = symbolArray.select { |i| error.includes(i).not }; // Returns all valid degrees
 "symbolArray: %".format(symbolArray).postln;
 
 // Prompt a nice little warning message and throw an error

@@ -5,7 +5,7 @@ MENoteRanges {
 		^super.new.init(symbol);
 	}
 
-	*init { |newSymbol|
+	init { |newSymbol|
 
 		// Create instance of MESymbols (tests symbol and extracts root and degrees) -> MESymbols
 

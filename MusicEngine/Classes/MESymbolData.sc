@@ -39,6 +39,18 @@ MESymbolData : METools {
 
 	/****************************************************************************************/
 
+	getOffsets { |degrees|
+		var arr;
+
+		"MESymbolData : getOffsets".postln;
+
+		arr = super.getOffsets(degrees);
+
+		^super.sortNoteData(arr);
+	}
+
+	/****************************************************************************************/
+
 	checkAliases { |symbol|
 		var normSymbol;
 		var midiOffset, nameOffset;
@@ -62,7 +74,7 @@ MESymbolData : METools {
 	/****************************************************************************************/
 
 	getDegreeArray { |symbol|
-		var regex = "[a-zA-Z][0-9]|[a-zA-Z]1[0-5]";
+		var regex = "[a-zA-Z]\\d{1,2}"; // Issue with Regex not matching numbers 10 and up.
 		var degreeArray;
 
 		"getDegreeArray".postln;
@@ -73,6 +85,7 @@ MESymbolData : METools {
 	}
 
 	/****************************************************************************************/
+	// Split and test symbol
 
 	getDegrees { |symbol|
 		var error = Array.new(12);
@@ -118,6 +131,7 @@ MESymbolData : METools {
 	}
 
 	/****************************************************************************************/
+	// Split and test root
 
 	getRoot { |symbol|
 		var regex = "^[A-G][#|b]*";
