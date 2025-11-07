@@ -129,9 +129,9 @@ var r2 = "[dmMA][36]|[dmMA]1[03]|";
 var r3 = "[dPA][45]|[dPA]1[12]|";
 var r4 = "[dmM]7|[dmM]14";
 
-var regex  = "%%%%".format(r1, r2, r3, r4); // Fails with true
+var regex  = "%%%%".format(r1, r2, r3, r4); // Empty array indicates invalid degree
 
-var symbol = "m2M345dp5lA723M2m2M4P9h7h6t7h5";
+var symbol = "m2M345dp5lA723M2m2M4P9h7h16t7h5";
 
 var error  = Array.new(symbol.size);
 var test   = symbol;
