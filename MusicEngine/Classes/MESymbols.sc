@@ -25,7 +25,12 @@ MESymbols : MESymbolTools {
 		//{ (normSymbol = super.checkRegister(symbol)).notNil } {}
 		{ (aliasData = super.checkAliases(symbol)).notNil } {
 
-			alias      = symbol;
+			if (symbol == "") {
+				alias = nil;
+			} {
+				alias = symbol;
+			};
+
 			symbol     = aliasData[0];
 			midiOffset = aliasData[1];
 			nameOffset = aliasData[2];
