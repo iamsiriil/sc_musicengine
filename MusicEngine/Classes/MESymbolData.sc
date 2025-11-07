@@ -1,21 +1,32 @@
-MESymbolData {
+MESymbolData : METools {
 	classvar aliases;
-	classvar testInt;
-	classvar testDeg;
+	classvar testRegex;
+
+	/****************************************************************************************/
 
 	*initClass {
+		var rx1 = "[mMA][29]|";
+		var rx2 = "[dmMA][36]|[dmMA]1[03]|";
+		var rx3 = "[dPA][45]|[dPA]1[12]|";
+		var rx4 = "[dmM]7|[dmM]14";
+
+		testRegex  = "%%%%".format(rx1, rx2, rx3, rx4);
+
 		aliases = Dictionary[
 			// Power chords
-			'P5'   -> Set['5'],
+			'P5'   -> [Set['5'], [0, 7], [0, 4]],
 
 			// Triads,
-			'M3P5' -> Set['M', 'Maj', '', 'Neapolitan', 'Na']
-
+			'd3d5' -> [Set['Italian', 'Ita', 'It'],             [0, 2, 6], [0, 2, 4]],
+			'm3d5' -> [Set['Dim', 'Dim5', 'º5', 'o5'],          [0, 3, 6], [0, 2, 4]],
+			'm3P5' -> [Set['m', 'min'],                         [0, 3, 7], [0, 2, 4]],
+			'M3P5' -> [Set['', 'M', 'Maj', 'Neapolitan', 'Na'], [0, 4, 7], [0, 2, 4]],
+			'M3A5' -> [Set['Aug5', 'Aug', '+5'],                [0, 4, 7], [0, 2, 4]],
 
 			// Seventh chords
 
 			// Nineth chords
-
+			'M3P5m7M9' -> [Set['9'], [], []]
 			// Eleventh chords
 
 			// Thirteenth chords
@@ -24,61 +35,106 @@ MESymbolData {
 
 			// Augmented sixth chords
 		];
-
-		testInt = [
-			["^[^A-G]",              "% is not a valid root note."],
-			["#+#|b+b",              "Root can only have one accidental."],
-			["[dmPMA](?!\\d{1,2})",  "Modifiers without degree are not allowed."],
-			["(?<![dmPMA])\\d{1,2}", "Degrees without modifier are not allowed."]
-		];
-
-		testDeg = [
-			["[dmPMA]1(?!\\d)",      "% cannot be used as degree."],
-			["[dmPMA]8|[dmPMA]15",   "% is not a valid degree. Octaves are not allowed."],
-			["d[29]",                "% is not a valid degree. Only m, M and A allowed with 2nd and 9th degrees."],
-			["A7|A14",               "% is not a valid degree. Only d, m and M allowed with 7th and 14th degrees"],
-			["P[23679]|P1[034]",     "% is not a valid degree. Only 4ths, 5ths, 11ths and 12ths may be perfect."],
-			["[mM][45]|[mM]1[12]",   "% is not a valid degree. 4ths, 5ths, 11ths and 12ths cannot be major or minor."],
-		]
 	}
 
-	testIntegrity { |symbol|
-		var info;
+	/****************************************************************************************/
 
-		testInt.do { |t, i|
+	checkAliases { |symbol|
+		var normSymbol;
+		var midiOffset, nameOffset;
 
-			case
-			{ i == 0 && t[0].matchRegexp(symbol) } {
+		"checkAliases".postln;
 
-				info = symbol[0];
-				Error(t[1].format(info)).throw;
-			}
-			{ t[0].matchRegexp(symbol) }{
+		aliases.keysValuesDo { |k, v|
 
-				Error(t[1]).throw;
+			if (v[0].includes(symbol.asSymbol)) {
+				normSymbol = k.asString;
+				midiOffset = v[1];
+				nameOffset = v[2];
+
+				^[normSymbol, midiOffset, nameOffset];
+			};
+		};
+
+		^nil;
+	}
+
+	/****************************************************************************************/
+
+	getDegreeArray { |symbol|
+		var regex = "[a-zA-Z][0-9]|[a-zA-Z]1[0-5]";
+		var degreeArray;
+
+		"getDegreeArray".postln;
+
+		degreeArray = symbol.findRegexp(regex).collect { |i| i[1] };
+
+		^degreeArray;
+	}
+
+	/****************************************************************************************/
+
+	getDegrees { |symbol|
+		var error = Array.new(12);
+		var degreeArray, verb;
+
+		"getDegrees".postln;
+
+		degreeArray = this.getDegreeArray(symbol);
+
+		// Test size
+		if (degreeArray.size > 11) {
+			Error("Symbol array cannot have more than 11 degrees.").throw;
+		};
+
+		// Remove degrees from string and check leftover characters
+		degreeArray.do { |s|
+			symbol = symbol.replace(s, " ");
+		};
+
+		error = symbol.split($ ).select { |i| i != ""};
+
+		degreeArray.do { |s|
+
+			if (s.findRegexp(testRegex).isEmpty) {
+
+				error.add(s);
 			}
 		};
-		^true;
+
+		if (error.notEmpty) {
+
+			verb = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
+
+			Error("%: % not %valid %.".format(
+				error.join(", "),
+				verb[0],
+				verb[1],
+				verb[2])
+			).throw;
+		};
+
+		^degreeArray;
 	}
 
-	testDegrees { |symbol|
-		var info;
+	/****************************************************************************************/
 
-		testDeg.do { |t|
+	getRoot { |symbol|
+		var regex = "^[A-G][#|b]*";
+		var root;
 
-			if (t[0].matchRegexp(symbol)) {
+		"getRoot".postln;
 
-				info = symbol.findRegexp(t[0])[0][1];
-				Error(t[1].format(info)).throw;
+		if (regex.matchRegexp(symbol).not) {
+			Error("No valid root detected").throw;
+		} {
+			root  = symbol.findRegexp(regex)[0][1];
+
+			if ("[A-G][#b]{2}".matchRegexp(root)) {
+				Error("%: Root can only have 0 to 1 accidentals.".format(root)).throw;
 			}
 		};
-		^true;
-	}
 
-	symbolIsValid { |symbol|
-
-		if (this.testIntegrity(symbol) && this.testDegrees(symbol)) {
-			^true;
-		}
+		^root;
 	}
 }
