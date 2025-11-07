@@ -132,7 +132,7 @@ var r4 = "[dmM]7|[dmM]14";
 
 var regex  = "%%%%".format(r1, r2, r3, r4); // Empty array indicates invalid degree
 
-var symbol = "m2P5P11";
+var symbol = "m2P5P1145";
 
 var error  = Array.new(symbol.size);
 var test   = symbol;
