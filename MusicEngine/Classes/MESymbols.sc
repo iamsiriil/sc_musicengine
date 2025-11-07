@@ -1,10 +1,10 @@
-MESymbols : MESymbolData {
-	var <>root;
-	var <>degrees;
-	var <>symbol;
-	var <>alias;
-	var <>midiOffset;
-	var <>nameOffset;
+MESymbols : MESymbolTools {
+	var <root;
+	var <degrees;
+	var <symbol;
+	var <alias;
+	var <midiOffset;
+	var <nameOffset;
 
 	*new { |symbol|
 		^super.new.init(symbol);

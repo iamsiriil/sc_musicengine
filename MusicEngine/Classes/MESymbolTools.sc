@@ -1,4 +1,4 @@
-MESymbolData : METools {
+MESymbolTools : METools {
 	classvar aliases;
 	classvar testRegex;
 
@@ -74,7 +74,7 @@ MESymbolData : METools {
 	/****************************************************************************************/
 
 	getDegreeArray { |symbol|
-		var regex = "[a-zA-Z]\\d{1,2}"; // Issue with Regex not matching numbers 10 and up.
+		var regex = "[a-zA-Z]\\d{1,2}";
 		var degreeArray;
 
 		"getDegreeArray".postln;
