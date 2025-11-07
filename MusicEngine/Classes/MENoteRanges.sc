@@ -9,9 +9,6 @@ MENoteRanges {
 
 		// Create instance of MESymbols (tests symbol and extracts root and degrees) -> MESymbols
 		symbol = MESymbols.new(newSymbol);
-		// Get name offsets from MENoteData
-
-		// Get note offsets from MEIntervals
 
 		// Transpose midi
 
