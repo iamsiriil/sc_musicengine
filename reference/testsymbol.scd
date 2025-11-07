@@ -155,7 +155,7 @@ if (root.notNil) { // If statement ncluded here for the purpose of drafting
 // 3.1 Separate all modifier/interval pairs
 symbolArray = symbol.findRegexp("[a-zA-Z][0-9]|[a-zA-Z]1[0-5]").collect { |i| i[1] }.postln;
 
-// 3.2 Replace every modifier/interval pair with empty string
+// 3.2 Replace every modifier/interval pair with space
 // What remains are invalid numbers and letters
 symbolArray.do { |s|
 	test = test.replace(s, " ");
