@@ -124,6 +124,7 @@ symbol.findRegexp(regex).size;
 /****************************************************************************************/
 // DIFFERENT APPROACH
 (
+var r0 = "^[A-G][#|b]*";
 var r1 = "[mMA][29]|";
 var r2 = "[dmMA][36]|[dmMA]1[03]|";
 var r3 = "[dPA][45]|[dPA]1[12]|";
@@ -131,18 +132,28 @@ var r4 = "[dmM]7|[dmM]14";
 
 var regex  = "%%%%".format(r1, r2, r3, r4); // Empty array indicates invalid degree
 
-var symbol = "m2M345dp5lA723M2m2M4P9h7h16t7h5";
+var symbol = "XXXm2M345dp5lA723M2m2M4P9h7h16t7h5";
 
 var error  = Array.new(symbol.size);
 var test   = symbol;
-
+var symbolArray, root;
 
 // 1. Get root and remove it from symbol
+if (r0.matchRegexp(symbol)) {
+	root   = symbol.findRegexp(r0)[0][1].postln;
+	symbol = symbol.replace(root, "").postln;
+} {
+	"No root detected".postln; // Throw error
+};
+
 // 2. Test root
+if (root.notNil) { // If statement ncluded here for the purpose of drafting
+	"[A-G][#b]{2}".matchRegexp(root).postln; // True is root has more than one accidental
+};
 
 // 3. Test symbol
 // 3.1 Separate all modifier/interval pairs
-var symbolArray = symbol.findRegexp("[a-zA-Z][0-9]|[a-zA-Z]1[0-5]").collect { |i| i[1] }.postln;
+symbolArray = symbol.findRegexp("[a-zA-Z][0-9]|[a-zA-Z]1[0-5]").collect { |i| i[1] }.postln;
 
 // 3.2 Replace every modifier/interval pair with empty string
 // What remains are invalid numbers and letters
@@ -170,5 +181,5 @@ symbolArray = symbolArray.select { |i| error.includes(i).not };
 
 // Prompt a nice little warning message and throw an error
 ~verb = if (error.size > 1) { ["Are", "", "intervals."] } { ["Is", "a ", "interval."] }; // Why not?!
-"%: % not %valid %".format(error.join(", "), ~verb[0], ~verb[1], ~verb[2]).postln;
+"%: % not %valid %".format(error.join(", "), ~verb[0], ~verb[1], ~verb[2]).postln; // Throw error
 )
