@@ -14,19 +14,19 @@ MESymbolTools : METools {
 
 		aliases = Dictionary[
 			// Power chords
-			'P5'   -> [Set['5'], [0, 7], [0, 4]],
+			"P5"   -> [Set["5"], [0, 7], [0, 4]],
 
 			// Triads,
-			'd3d5' -> [Set['Italian', 'Ita', 'It'],             [0, 2, 6], [0, 2, 4]],
-			'm3d5' -> [Set['Dim', 'Dim5', 'º5', 'o5'],          [0, 3, 6], [0, 2, 4]],
-			'm3P5' -> [Set['m', 'min'],                         [0, 3, 7], [0, 2, 4]],
-			'M3P5' -> [Set['', 'M', 'Maj', 'Neapolitan', 'Na'], [0, 4, 7], [0, 2, 4]],
-			'M3A5' -> [Set['Aug5', 'Aug', '+5'],                [0, 4, 7], [0, 2, 4]],
+			"d3d5" -> [Set["Italian", "Ita", "It"],             [0, 2, 6], [0, 2, 4]],
+			"m3d5" -> [Set["Dim", "Dim5", "º5", "o5"],          [0, 3, 6], [0, 2, 4]],
+			"m3P5" -> [Set["m", "min"],                         [0, 3, 7], [0, 2, 4]],
+			"M3P5" -> [Set["", "M", "Maj", "Neapolitan", "Na"], [0, 4, 7], [0, 2, 4]],
+			"M3A5" -> [Set["Aug5", "Aug", "+5"],                [0, 4, 7], [0, 2, 4]],
 
 			// Seventh chords
 
 			// Nineth chords
-			'M3P5m7M9' -> [Set['9'], [], []]
+			"M3P5m7M9" -> [Set["9"], [0, 2, 4, 7, 10], [0, 1, 2, 4, 6]] // Degrees need to be sorted, or provide array in correct order.
 			// Eleventh chords
 
 			// Thirteenth chords
@@ -46,7 +46,7 @@ MESymbolTools : METools {
 
 		arr = super.getOffsets(degrees);
 
-		^super.sortNoteData(arr);
+		^super.sortAndSplit(arr);
 	}
 
 	/****************************************************************************************/
@@ -59,8 +59,8 @@ MESymbolTools : METools {
 
 		aliases.keysValuesDo { |k, v|
 
-			if (v[0].includes(symbol.asSymbol)) {
-				normSymbol = k.asString;
+			if (v[0].includes(symbol)) {
+				normSymbol = k;
 				midiOffset = v[1];
 				nameOffset = v[2];
 
@@ -93,9 +93,10 @@ MESymbolTools : METools {
 
 		"getDegrees".postln;
 
+		// Collect all modifier/degree pairs
 		degreeArray = this.getDegreeArray(symbol);
 
-		// Test size
+		// Check number of pairs
 		if (degreeArray.size > 11) {
 			Error("Symbol array cannot have more than 11 degrees.").throw;
 		};
@@ -105,8 +106,10 @@ MESymbolTools : METools {
 			symbol = symbol.replace(s, " ");
 		};
 
+		// Add leftovers to error
 		error = symbol.split($ ).select { |i| i != ""};
 
+		// Iterate array, look for invalid symbols and append them to error
 		degreeArray.do { |s|
 
 			if (s.findRegexp(testRegex).isEmpty) {
@@ -115,6 +118,7 @@ MESymbolTools : METools {
 			}
 		};
 
+		// If error is not empty throw error
 		if (error.notEmpty) {
 
 			verb = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
@@ -139,16 +143,18 @@ MESymbolTools : METools {
 
 		"getRoot".postln;
 
+		// Checks for a valid root at the beginning of the symbol
 		if (regex.matchRegexp(symbol).not) {
 			Error("No valid root detected").throw;
 		} {
 			root  = symbol.findRegexp(regex)[0][1];
 
+			// Checks for more than one accidental
 			if ("[A-G][#b]{2}".matchRegexp(root)) {
 				Error("%: Root can only have 0 to 1 accidentals.".format(root)).throw;
 			}
 		};
 
-		^root;
+		^super.getMidiFromName(root);
 	}
 }

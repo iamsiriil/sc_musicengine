@@ -1,5 +1,5 @@
 MESymbols : MESymbolTools {
-	var <root;
+	var <root; // Should be a note object
 	var <degrees;
 	var <symbol;
 	var <alias;
@@ -18,8 +18,7 @@ MESymbols : MESymbolTools {
 		"init".postln;
 
 		root   = super.getRoot(newSymbol);
-		symbol = newSymbol.replace(root, "");
-		// Test if root has more than one accidentals
+		symbol = newSymbol[root[0].size..];
 
 		case
 		//{ (normSymbol = super.checkRegister(symbol)).notNil } {}

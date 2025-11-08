@@ -9,29 +9,29 @@ METools {
 		names    = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
 		intervals = Dictionary[
-			\Un -> [Set['P1', 'P8', 'd2', 'd9', 'A7', 'A14'], 0],
-			\m2 -> [Set['A1', 'A8',  'm9'], 1],
-			\M2 -> [Set['d3', 'd10', 'M9'], 2],
-			\m3 -> [Set['A2', 'A9',  'm10'], 3],
-			\M3 -> [Set['d4', 'd11', 'M10'], 4],
-			\P4 -> [Set['A3', 'A10', 'P11'], 5],
-			\A4 -> [Set['d5', 'd12', 'A11'], 6],
-			\P5 -> [Set['d6', 'd13', 'P12'], 7],
-			\m6 -> [Set['A5', 'A12', 'm13'], 8],
-			\M6 -> [Set['d7', 'd14', 'M13'], 9],
-			\m7 -> [Set['A6', 'A13', 'm14'], 10],
-			\M7 -> [Set['d1', 'd8', 'd15', 'M14'], 11],
+			"Un" -> [Set["P1", "P8", "d2", "d9", "A7", "A14"], 0], // Not needed
+			"m2" -> [Set["A1", "A8",  "m9"], 1],
+			"M2" -> [Set["d3", "d10", "M9"], 2],
+			"m3" -> [Set["A2", "A9",  "m10"], 3],
+			"M3" -> [Set["d4", "d11", "M10"], 4],
+			"P4" -> [Set["A3", "A10", "P11"], 5],
+			"A4" -> [Set["d5", "d12", "A11"], 6],
+			"P5" -> [Set["d6", "d13", "P12"], 7],
+			"m6" -> [Set["A5", "A12", "m13"], 8],
+			"M6" -> [Set["d7", "d14", "M13"], 9],
+			"m7" -> [Set["A6", "A13", "m14"], 10],
+			"M7" -> [Set["d1", "d8", "d15", "M14"], 11],
 		];
 
 		nameOffsets = Dictionary[
-			\1 -> 0,
-			\2 -> 1,
-			\3 -> 2,
-			\4 -> 3,
-			\5 -> 4,
-			\6 -> 5,
-			\7 -> 6,
-			\8 -> 0
+			1 -> 0, // Not needed
+			2 -> 1,
+			3 -> 2,
+			4 -> 3,
+			5 -> 4,
+			6 -> 5,
+			7 -> 6,
+			8 -> 0  // Not needed
 		];
 
 
@@ -39,7 +39,17 @@ METools {
 
 	/****************************************************************************************/
 
-	sortNoteData { |arr|
+	names {
+		^names;
+	}
+
+	notes {
+		^notes;
+	}
+
+	/****************************************************************************************/
+
+	sortAndSplit { |arr|
 		var notes   = arr.collect { |n| n[1] };
 		var names   = Array.new(arr.size);
 		var degrees = Array.new(arr.size);
@@ -64,19 +74,32 @@ METools {
 
 	/****************************************************************************************/
 
+	getAccidentalOffset { |accidental|
+
+		"getAccidentalOffset".postln;
+
+		if (accidental.includes($b)) {
+			^accidental.size * -1;
+		};
+
+		^accidental.size.postln;
+	}
+
+	/****************************************************************************************/
+
 	getMidiOffsets { |degree|
 		var  midiOffset;
 
 		"getMidiOffset".postln;
 
-		if (intervals[degree.asSymbol].notNil) {
+		if (intervals[degree].notNil) {
 
-			midiOffset = intervals[degree.asSymbol][1];
+			midiOffset = intervals[degree][1];
 		} {
 
 			intervals.do { |i|
 
-				if (i[0].includes(degree.asSymbol)) {
+				if (i[0].includes(degree)) {
 
 					midiOffset = i[1];
 				};
@@ -94,9 +117,9 @@ METools {
 		"getNameOffsets".postln;
 
 		if (d > 7) {
-			d = (d - 7).asSymbol;
+			d = (d - 7);
 		} {
-			d = d.asSymbol;
+			d = d;
 		};
 
 		^nameOffsets[d];
@@ -140,5 +163,25 @@ METools {
 			{ note.contains("B#") } { octave = octave - 1 }
 		};
 		^octave;
+	}
+
+	/****************************************************************************************/
+
+	getMidiFromName { |name|
+		var accidentalOffset = 0;
+		var base, midi, index;
+
+		"getMidiFromName".postln;
+
+		base = name[0].asSymbol.postln;
+
+		if (name.size > 1) {
+			accidentalOffset = this.getAccidentalOffset(name[1..]);
+		};
+
+		index = names.indexOf(base).postln;
+		midi  = notes[index] + accidentalOffset;
+
+		^[name, midi];
 	}
 }
