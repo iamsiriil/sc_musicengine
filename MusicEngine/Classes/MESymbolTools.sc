@@ -21,7 +21,7 @@ MESymbolTools : METools {
 			"m3d5" -> [Set["Dim", "Dim5", "º5", "o5"],          [0, 3, 6], [0, 2, 4]],
 			"m3P5" -> [Set["m", "min"],                         [0, 3, 7], [0, 2, 4]],
 			"M3P5" -> [Set["", "M", "Maj", "Neapolitan", "Na"], [0, 4, 7], [0, 2, 4]],
-			"M3A5" -> [Set["Aug5", "Aug", "+5"],                [0, 4, 7], [0, 2, 4]],
+			"M3A5" -> [Set["Aug5", "Aug", "+5"],                [0, 4, 8], [0, 2, 4]],
 
 			// Seventh chords
 
