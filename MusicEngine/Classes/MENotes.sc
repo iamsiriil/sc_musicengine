@@ -28,14 +28,15 @@ MENotes : METools {
 
 	init { |newM, newN, newD, newO|
 
-		midi = newM;
-		note = newN;
-		freq = midi.midicps;
+		midi       = newM;
+		note       = newN;
+		freq       = midi.midicps;
 
-		degree = newD;
-		octave = newO;
+		octave     = newO;
+		degree     = newD;
+		accidental = note[1..];
 
-		name = note ++ octave;
+		name       = note ++ octave;
 
 		^this;
 	}
