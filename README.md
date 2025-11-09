@@ -64,57 +64,78 @@ Chords may be described by:
 
 ```mermaid
 classDiagram
-    MENotes <|-- MEIntervals
-    MEIntervals <|-- MENoteRanges
-    MENoteRanges o-- MEChords
-    MEChords <|-- MEProgression
-    class MENotes:::musicengine {
+    METools <|-- MENotes
+    METools <|-- MERangeTools
+    METools <|-- MESymbolTools
+    MERangeTools <|-- MENoteRanges
+    MESymbolTools <|-- MESymbols
+
+    class METools:::musicEngine {
         -Integer[] notes
         -Symbol[] names
+        -Dictionary intervals
+        -Dictionary nameOffsets
+        -names()
+        -notes()
+        -sortAndSplit()
+        -getAccidentalOffset()
+        -getMidiOffsets()
+        -getNameOffsets()
+        -getOffsets()
+        -getOctave()
+        -getMidiFromName()
+    }
+
+    class MENotes:::musicengine {
         +Integer midi
+        +Integer freq
         +Integer octave
+        +String note
         +String name
-        +String accident
         +String degree
         +new()
     }
-
-    class MEIntervals:::musicengine {
-        -Dictionary intervalOffsets
+    class MERangeTools:::musicengine {
+        -transposeMidiOffset()
+        -getNoteNames()
+        -resolveAccidental()
+        -wrapFirstOctave()
+        -extendMidiRange()
+        -wrapAndExtend()
+        -getMENotes()
+        -getRange()
     }
 
     class MENoteRanges:::musicengine {
-        +MENotes[] range
+        +MESymbol symbol
+        +MENotes[] notes
         +new()
+        +midi()
+        +freq()
+        +names()
+        +degrees()
     }
 
-    class MEIntervalData:::musicengine {
-        -dictionary intervals
-        +getIntervalDict()
-        +getInterval()
+    class MESymbolTools:::musicEngine {
+        -Dictionary aliases
+        -String testRegex
+        -getOffsets()
+        -checkAliases()
+        -getDegreeArray()
+        -getDegrees()
+        -getRoot()
     }
 
     class MESymbols:::musicengine {
-        +str symbol
-        +str root
+        +Array root
+        +String[] degrees
+        +String symbol
+        +String alias
+        +Integer[] midiOffset
+        +Integer[] nameOffset 
         +new()
     }
 
-    class MEChords:::harmonizer {
-        +MENotes root
-        +MENotes bass
-        +MENotes top
-        +bool retardation
-        +bool anticipation
-        +MERules ruleProfile
-        +MENotes[] chord
-        +new()
-    }
-
-    class MEProgression:::harmonizer {
-        +MEChords[] progression
-        +new()
-    }
     classDef musicengine fill:#42eff5,stroke:#000, color:#000
     classDef harmonizer fill:#42c2f5,stroke:#000, color:#000
 ```
