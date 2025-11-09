@@ -34,7 +34,12 @@ MENotes : METools {
 
 		octave     = newO;
 		degree     = newD;
-		accidental = note[1..];
+
+		if (note.size > 1) {
+			accidental = note[1..];
+		} {
+			accidental = nil;
+		};
 
 		name       = note ++ octave;
 
