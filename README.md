@@ -70,7 +70,7 @@ classDiagram
     MERangeTools <|-- MENoteRanges
     MESymbolTools <|-- MESymbols
 
-    class METools:::musicEngine {
+    class METools:::musicengine {
         -Integer[] notes
         -Symbol[] names
         -Dictionary intervals
@@ -116,7 +116,7 @@ classDiagram
         +degrees()
     }
 
-    class MESymbolTools:::musicEngine {
+    class MESymbolTools:::musicengine {
         -Dictionary aliases
         -String testRegex
         -getOffsets()
