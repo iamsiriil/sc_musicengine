@@ -13,8 +13,6 @@ MENotes : METools {
 	var <>articulation;
 	var <>dynamic;
 
-
-
 	*new { |midi = nil, note = nil, degree = nil, octave = nil|
 		^super.new.init(midi, note, degree, octave);
 	}
