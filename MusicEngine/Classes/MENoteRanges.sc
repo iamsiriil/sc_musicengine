@@ -29,6 +29,4 @@ MENoteRanges : MERangeTools {
 	degrees {
 		^notes.collect { |n| n.degree };
 	}
-
-	wrapRangeData {}
 }
