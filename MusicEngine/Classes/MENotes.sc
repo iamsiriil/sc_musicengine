@@ -6,20 +6,13 @@ MENotes : METools {
 	var <midi;
 	var <freq;
 	var <name;
-
-	// Data to be resolved internaly
 	var <accidental;
 	var <octave;
-
-	// Data that does not need validity checks
-	var <duration;
-	var <articulation;
-	var <dynamic;
-
-	// Data that require context (Note as parte of range, chord or voice)
 	var <degree;
-	//var <>chordId
-	//var <>voiceId
+	var <>duration;
+	var <>articulation;
+	var <>dynamic;
+
 
 
 	*new { |midi = nil, note = nil, degree = nil, octave = nil|
