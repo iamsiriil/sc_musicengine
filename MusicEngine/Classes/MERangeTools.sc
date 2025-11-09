@@ -36,8 +36,7 @@ MERangeTools : METools {
 		var ref   = super.notes[index];
 		var dif;
 
-		case
-		{ ((name == "C") && (midi > 3)) || (midi > 12) } {
+		if (((name == "C") && (midi > 3)) || (midi > 12)) {
 			ref = ref + 12
 		};
 
