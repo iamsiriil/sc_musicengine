@@ -26,7 +26,7 @@ MESymbolTools : METools {
 			// Seventh chords
 
 			// Nineth chords
-			"M3P5m7M9" -> [Set["9"], [0, 2, 4, 7, 10], [0, 1, 2, 4, 6]] // Degrees need to be sorted, or provide array in correct order.
+			"M9M3P5m7" -> [Set["9"], [0, 2, 4, 7, 10], [0, 1, 2, 4, 6]] // Degrees need to be sorted, or provide array in correct order.
 			// Eleventh chords
 
 			// Thirteenth chords
