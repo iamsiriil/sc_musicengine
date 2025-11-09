@@ -28,20 +28,18 @@ MENotes : METools {
 
 	init { |newM, newN, newD, newO|
 
-		midi       = newM;
-		note       = newN;
-		freq       = midi.midicps;
-
-		octave     = newO;
-		degree     = newD;
+		midi   = newM;
+		note   = newN;
+		freq   = midi.midicps;
+		octave = newO;
+		degree = newD;
+		name   = note ++ octave;
 
 		if (note.size > 1) {
 			accidental = note[1..];
 		} {
 			accidental = nil;
 		};
-
-		name       = note ++ octave;
 
 		^this;
 	}
