@@ -1,8 +1,7 @@
 // NOTE Class
 
 MENotes : METools {
-	// Data that require validity check
-	var <note;       // String with name (May include octave? "Bb4")
+	var <note;
 	var <midi;
 	var <freq;
 	var <name;
@@ -34,6 +33,5 @@ MENotes : METools {
 
 		^this;
 	}
-
 }
 
