@@ -79,7 +79,7 @@ MESymbolTools : METools {
 
 		"getDegreeArray".postln;
 
-		degreeArray = symbol.findRegexp(regex).collect { |i| i[1] };
+		degreeArray = symbol.findRegexp(testRegex).collect { |i| i[1] };
 
 		^degreeArray;
 	}

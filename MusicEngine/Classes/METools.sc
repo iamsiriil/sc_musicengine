@@ -162,7 +162,7 @@ METools {
 			{ note.contains("Cb") } { octave = octave + 1 }
 			{ note.contains("B#") } { octave = octave - 1 }
 		};
-		^octave;
+		^octave.asInteger;
 	}
 
 	/****************************************************************************************/
@@ -173,13 +173,13 @@ METools {
 
 		"getMidiFromName".postln;
 
-		base = name[0].asSymbol.postln;
+		base = name[0].asSymbol;
 
 		if (name.size > 1) {
 			accidentalOffset = this.getAccidentalOffset(name[1..]);
 		};
 
-		index = names.indexOf(base).postln;
+		index = names.indexOf(base);
 		midi  = notes[index] + accidentalOffset;
 
 		^[name, midi];

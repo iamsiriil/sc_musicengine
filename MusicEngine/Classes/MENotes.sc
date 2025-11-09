@@ -5,6 +5,7 @@ MENotes : METools {
 	var <note;       // String with name (May include octave? "Bb4")
 	var <midi;
 	var <freq;
+	var <name;
 
 	// Data to be resolved internaly
 	var <accidental;
@@ -21,26 +22,20 @@ MENotes : METools {
 	//var <>voiceId
 
 
-	*new { |note = nil, midi = nil, freq = nil|
-		^super.new.init(note, midi)
+	*new { |midi = nil, note = nil, degree = nil, octave = nil|
+		^super.new.init(midi, note, degree, octave);
 	}
 
-	init { |newN, newM, newF|
+	init { |newM, newN, newD, newO|
 
-		note = newN;
 		midi = newM;
+		note = newN;
+		freq = midi.midicps;
 
-		if (note.size > 1) {
-			accidental = MEAccidentals.new(note[1..]);
-		};
+		degree = newD;
+		octave = newO;
 
-		if (newM.isNil) {
-			midi = super.getMidiFromNote(newN, accidental);
-		};
-
-		octave = super.getOctave(note);
-
-		freq = newF;
+		name = note ++ octave;
 
 		^this;
 	}
