@@ -33,5 +33,9 @@ MENotes : METools {
 
 		^this;
 	}
+
+	copy {
+		^this.deepCopy;
+	}
 }
 

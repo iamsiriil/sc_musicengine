@@ -39,14 +39,39 @@ MESymbolTools : METools {
 
 	/****************************************************************************************/
 
+	sortAndSplit { |arr|
+		var notes   = arr.collect { |n| n[1] };
+		var names   = Array.new(arr.size);
+		var degrees = Array.new(arr.size);
+
+		"sortNoteData".postln;
+
+		notes.sort;
+
+		notes.do { |n, i|
+
+			arr.do { |a|
+
+				if (a[1] == n) {
+					degrees.add(a[0]);
+					names.add(a[2]);
+				}
+			}
+		};
+
+		^[notes, names, degrees];
+	}
+
+	/****************************************************************************************/
+
 	getOffsets { |degrees|
 		var arr;
 
 		"MESymbolData : getOffsets".postln;
 
-		arr = super.getOffsets(degrees);
+		arr = MEOffsets.getOffsets(degrees);
 
-		^super.sortAndSplit(arr);
+		^this.sortAndSplit(arr);
 	}
 
 	/****************************************************************************************/

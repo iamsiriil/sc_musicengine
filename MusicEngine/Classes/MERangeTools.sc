@@ -1,57 +1,6 @@
 MERangeTools : METools {
 
-	*initClass {
-
-		^this
-	}
-
-	/****************************************************************************************/
-
-	transposeMidiOffset { |midiOffset, midiRoot|
-
-		"transposeMidiOffset".postln;
-
-		^midiOffset + midiRoot;
-	}
-
-	/****************************************************************************************/
-
-	getNoteNames { |nameOffset, root|
-		var index = super.names.indexOf(root[0].asSymbol);
-		var namesArr;
-
-		"getNoteNames".postln;
-
-		namesArr = super.names.wrapAt(index + nameOffset);
-
-		namesArr.do { |n, i| namesArr[i] = n.asString };
-
-		^namesArr;
-	}
-
-	/****************************************************************************************/
-
-	resolveAccidental { |midi, name|
-		var index = super.names.indexOf(name.asSymbol);
-		var ref   = super.notes[index];
-		var dif;
-
-		if (((name == "C") && (midi > 3)) || (midi > 12)) {
-			ref = ref + 12
-		};
-
-		dif = midi - ref;
-
-		"name: % | midi: % | ref: % | dif: %".format(name, midi, ref, dif).postln;
-
-		if (dif.isNegative) {
-			dif.abs.do { name = name ++ "b" };
-		} {
-			dif.do { name = name ++ "#" };
-		};
-
-		^name;
-	}
+	*initClass {}
 
 	/****************************************************************************************/
 
@@ -136,18 +85,18 @@ MERangeTools : METools {
 
 		"getRange".postln;
 
-		midiTemp = this.transposeMidiOffset(
+		midiTemp = MEOffsets.transposeMidiOffset(
 			symbol.midiOffset,
 			symbol.root[1]
 		);
 
-		nameTemp = this.getNoteNames(
+		nameTemp = super.getNoteNames(
 			symbol.nameOffset,
 			symbol.root[0]
 		);
 
 		nameTemp.do { |n, i|
-			nameTemp[i] = this.resolveAccidental(midiTemp[i], n);
+			nameTemp[i] = super.resolveAccidental(midiTemp[i], n);
 		};
 
 		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(
