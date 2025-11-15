@@ -27,7 +27,7 @@ MEAccidentals : METools {
 	*getOffsetFromName { |noteName|
 		var accidental = noteName[1..];
 
-		"getAccidentalOffsetFromName".postln;
+		"getOffsetFromName".postln;
 
 		if (accidental.includes($b)) {
 			^accidental.size * -1;
@@ -42,7 +42,7 @@ MEAccidentals : METools {
 	*getOffsetFromMidi { |midi, noteLetter|
 		var ref = super.noteFromLetter(noteLetter);
 
-		"getAccidentalOffsetFromMidi".postln;
+		"getOffsetFromMidi".postln;
 
 		if (
 			((noteLetter == "C") && (midi > 3))   ||
@@ -62,8 +62,7 @@ MEAccidentals : METools {
 
 		case
 		{ offset < 0 } { offset.abs.do { symbol = symbol ++ "b"} }
-		{ offset > 0 } { offset.do { symbol = symbol ++ "#" } }
-		{ symbol = nil };
+		{ offset > 0 } { offset.do { symbol = symbol ++ "#" } };
 
 		^symbol;
 	}

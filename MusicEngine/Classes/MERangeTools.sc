@@ -9,11 +9,14 @@ MERangeTools : METools {
 		"wrapFirstOctave".postln;
 
 		if (midi[0] < 0) {
+
 			midi = midi + 12;
 		};
 
 		midi.do { |m, i|
+
 			if (m > 11) {
+
 				midi[i] = m - 12;
 				names   = names.rotate(1);
 				degrees = degrees.rotate(1);
@@ -70,7 +73,7 @@ MERangeTools : METools {
 
 		midi.do { |m, i|
 
-			octave = super.getOctave(m, names[i]);
+			octave = MEOctaves.getOctave(m, names[i]);
 			temp   = MENotes.new(m, names[i], degrees[i], octave);
 			arr.add(temp);
 		};
@@ -85,18 +88,20 @@ MERangeTools : METools {
 
 		"getRange".postln;
 
-		midiTemp = MEOffsets.transposeMidiOffset(
+		midiTemp = MEMidiNotes.transposeMidiOffset(
 			symbol.midiOffset,
 			symbol.root[1]
 		);
 
-		nameTemp = super.getNoteNames(
+		"root.class: %".format(symbol.root.class).postln;
+
+		nameTemp = MENoteNames.getNoteNames(
 			symbol.nameOffset,
-			symbol.root[0]
+			symbol.root[0][0]
 		);
 
 		nameTemp.do { |n, i|
-			nameTemp[i] = super.resolveAccidental(midiTemp[i], n);
+			nameTemp[i] = MENoteNames.resolveAccidental(midiTemp[i], n);
 		};
 
 		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(

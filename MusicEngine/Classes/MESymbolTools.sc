@@ -65,11 +65,21 @@ MESymbolTools : METools {
 	/****************************************************************************************/
 
 	getOffsets { |degrees|
-		var arr;
+		var arr = Array.new(degrees.size + 1);
 
-		"MESymbolData : getOffsets".postln;
+		"getOffsets".postln;
 
-		arr = MEOffsets.getOffsets(degrees);
+		arr.add(["Rt", 0, 0]);
+
+		degrees.do { |d|
+			var temp = Array.new(3);
+
+			temp.add(d);
+			temp.add(MEMidiNotes.getMidiOffset(d));
+			temp.add(MENoteNames.getOffsetFromInterval(d));
+
+			arr.add(temp);
+		};
 
 		^this.sortAndSplit(arr);
 	}

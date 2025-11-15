@@ -5,15 +5,16 @@ MENoteNames : METools {
 	/****************************************************************************************/
 
 	*getOffsetFromInterval { |interval|
+		var offset;
 
-		"getNameOffsets".postln;
+		"getOffsetFromInterval".postln;
 
-		interval = interval[1..].asInteger;
+		offset = interval[1..].asInteger;
 
-		if (interval > 7) {
-			^(interval - 7) - 1;
+		if (offset > 7) {
+			^(offset - 7) - 1;
 		} {
-			^interval - 1;
+			^offset - 1;
 		};
 	}
 
@@ -21,6 +22,8 @@ MENoteNames : METools {
 
 	*getOffsetArray { |intervalArray|
 		var offsetArray = Array.new(intervalArray.size + 1);
+
+		"getOffsetArray".postln;
 
 		offsetArray.add(0);
 
@@ -34,14 +37,26 @@ MENoteNames : METools {
 	/****************************************************************************************/
 
 	*getNoteNames { |intervalArray, rootLetter|
-		var index = super.indexOfLetter(rootLetter);
-		var offsetArray, namesArray;
+		var index = super.indexOfLetter(rootLetter).postln;
+		var namesArray;
 
-		offsetArray = MENoteNames.getOffsetArray(intervalArray);
-		namesArray  = super.names.wrapAt(index + offsetArray);
+		"getNoteNames".postln;
+
+		namesArray  = super.names.wrapAt(index + intervalArray);
 
 		namesArray.do { |n, i| namesArray[i] = n.asString };
 
 		^namesArray;
+	}
+
+	/****************************************************************************************/
+
+	*resolveAccidental { |midi, noteLetter|
+		var offset, symbol;
+
+		offset = MEAccidentals.getOffsetFromMidi(midi, noteLetter);
+		symbol = MEAccidentals.getSymbolFromOffset(offset);
+
+		^noteLetter ++ symbol;
 	}
 }

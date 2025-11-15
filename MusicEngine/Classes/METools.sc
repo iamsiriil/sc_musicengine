@@ -1,11 +1,27 @@
 METools {
 	classvar notes;
 	classvar names;
+	classvar intervals;
 
 	*initClass {
 
 		notes = [0, 2, 4, 5, 7, 9, 11];
+
 		names = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
+		intervals = Dictionary[
+			"m2" -> [Set["m9"], 1],
+			"M2" -> [Set["d3", "d10", "M9"], 2],
+			"m3" -> [Set["A2", "A9",  "m10"], 3],
+			"M3" -> [Set["d4", "d11", "M10"], 4],
+			"P4" -> [Set["A3", "A10", "P11"], 5],
+			"A4" -> [Set["d5", "d12", "A11"], 6],
+			"P5" -> [Set["d6", "d13", "P12"], 7],
+			"m6" -> [Set["A5", "A12", "m13"], 8],
+			"M6" -> [Set["d7", "d14", "M13"], 9],
+			"m7" -> [Set["A6", "A13", "m14"], 10],
+			"M7" -> [Set["M14"], 11],
+		];
 	}
 
 	/****************************************************************************************/
@@ -16,6 +32,10 @@ METools {
 
 	*notes {
 		^notes;
+	}
+
+	*intervals {
+		^intervals;
 	}
 
 	*indexOfLetter { |letter|
@@ -41,7 +61,7 @@ METools {
 
 	/****************************************************************************************/
 
-	getOctave { |midi, note = nil|
+	/*getOctave { |midi, note = nil|
 		var octave = -1;
 
 		"getOctave".postln;
@@ -57,7 +77,7 @@ METools {
 		};
 
 		^octave.asInteger;
-	}
+	}*/
 
 	/****************************************************************************************/
 
@@ -81,7 +101,7 @@ METools {
 
 	/****************************************************************************************/
 
-	getNoteNames { |nameOffset, root|
+	/*getNoteNames { |nameOffset, root|
 		var index = names.indexOf(root[0].asSymbol);
 		var namesArr;
 
@@ -92,20 +112,18 @@ METools {
 		namesArr.do { |n, i| namesArr[i] = n.asString };
 
 		^namesArr;
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	resolveAccidental { |midi, name|
-		var index = names.indexOf(name.asSymbol);
-		var ref   = notes[index];
+	/*resolveAccidental { |midi, name|
 		var dif;
 
 		"resolveAccidentals".postln;
 
-		dif = MEOffsets.getAccidentalOffsetFromMidi(midi, name, ref);
+		dif = MEAccidentals.getOffsetFromMidi(midi, name);
 
-		"name: % | midi: % | ref: % | dif: %".format(name, midi, ref, dif).postln;
+		"name: % | midi: % | dif: %".format(name, midi, dif).postln;
 
 		if (dif.isNegative) {
 			dif.abs.do { name = name ++ "b" };
@@ -114,5 +132,5 @@ METools {
 		};
 
 		^name;
-	}
+	}*/
 }
