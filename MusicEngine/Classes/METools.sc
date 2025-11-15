@@ -3,20 +3,41 @@ METools {
 	classvar names;
 
 	*initClass {
+
 		notes = [0, 2, 4, 5, 7, 9, 11];
 		names = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
 	}
 
 	/****************************************************************************************/
 
-	names {
+	*names {
 		^names;
 	}
 
-	notes {
+	*notes {
 		^notes;
 	}
+
+	*indexOfLetter { |letter|
+		^names.indexOf(letter.asSymbol);
+	}
+
+	*indexOfNote { |note|
+		^notes.indexOf(note);
+	}
+
+	*noteFromLetter { |letter|
+		var index = METools.indexOfLetter(letter);
+
+		^notes[index];
+	}
+
+	*letterFromNote { |note|
+		var index = METools.indexOfNote(note);
+
+		^names[index]
+	}
+
 
 	/****************************************************************************************/
 
