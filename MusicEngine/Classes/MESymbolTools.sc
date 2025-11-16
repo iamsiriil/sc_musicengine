@@ -11,99 +11,6 @@ MESymbolTools : METools {
 		var rx4 = "[dmM]7|[dmM]14";
 
 		testRegex  = "%%%%".format(rx1, rx2, rx3, rx4);
-
-		aliases = Dictionary[
-			// Power chords
-			"P5"   -> [Set["5"], [0, 7], [0, 4]],
-
-			// Triads,
-			"d3d5" -> [Set["Italian", "Ita", "It"],             [0, 2, 6], [0, 2, 4]],
-			"m3d5" -> [Set["Dim", "Dim5", "º5", "o5"],          [0, 3, 6], [0, 2, 4]],
-			"m3P5" -> [Set["m", "min"],                         [0, 3, 7], [0, 2, 4]],
-			"M3P5" -> [Set["", "M", "Maj", "Neapolitan", "Na"], [0, 4, 7], [0, 2, 4]],
-			"M3A5" -> [Set["Aug5", "Aug", "+5"],                [0, 4, 8], [0, 2, 4]],
-
-			// Seventh chords
-
-			// Nineth chords
-			"M9M3P5m7" -> [Set["9"], [0, 2, 4, 7, 10], [0, 1, 2, 4, 6]] // Degrees need to be sorted, or provide array in correct order.
-			// Eleventh chords
-
-			// Thirteenth chords
-
-			// Suspended chords
-
-			// Augmented sixth chords
-		];
-	}
-
-	/****************************************************************************************/
-
-	sortAndSplit { |arr|
-		var notes   = arr.collect { |n| n[1] };
-		var names   = Array.new(arr.size);
-		var degrees = Array.new(arr.size);
-
-		"sortNoteData".postln;
-
-		notes.sort;
-
-		notes.do { |n, i|
-
-			arr.do { |a|
-
-				if (a[1] == n) {
-					degrees.add(a[0]);
-					names.add(a[2]);
-				}
-			}
-		};
-
-		^[notes, names, degrees];
-	}
-
-	/****************************************************************************************/
-
-	getOffsets { |degrees|
-		var arr = Array.new(degrees.size + 1);
-
-		"getOffsets".postln;
-
-		arr.add(["Rt", 0, 0]);
-
-		degrees.do { |d|
-			var temp = Array.new(3);
-
-			temp.add(d);
-			temp.add(MEMidiNotes.getMidiOffset(d));
-			temp.add(MENoteNames.getOffsetFromInterval(d));
-
-			arr.add(temp);
-		};
-
-		^this.sortAndSplit(arr);
-	}
-
-	/****************************************************************************************/
-
-	checkAliases { |symbol|
-		var normSymbol;
-		var midiOffset, nameOffset;
-
-		"checkAliases".postln;
-
-		aliases.keysValuesDo { |k, v|
-
-			if (v[0].includes(symbol)) {
-				normSymbol = k;
-				midiOffset = v[1];
-				nameOffset = v[2];
-
-				^[normSymbol, midiOffset, nameOffset];
-			};
-		};
-
-		^nil;
 	}
 
 	/****************************************************************************************/
@@ -190,6 +97,6 @@ MESymbolTools : METools {
 			}
 		};
 
-		^super.getMidiFromName(root);
+		^[root, MEMidiNotes.getOffsetFromName(root)];
 	}
 }

@@ -1,10 +1,8 @@
 MESymbols : MESymbolTools {
-	var <root; // Should be a note object
+	var <root; // Simple string
 	var <degrees;
-	var <symbol;
-	var <alias;
-	var <midiOffset;
-	var <nameOffset;
+	var symbol;
+	var alias;
 
 	*new { |symbol|
 		^super.new.init(symbol);
@@ -12,8 +10,6 @@ MESymbols : MESymbolTools {
 
 	init { |newSymbol|
 		var normSymbol;
-		var aliasData;
-		var noteData;
 
 		"init".postln;
 
@@ -22,30 +18,37 @@ MESymbols : MESymbolTools {
 
 		case
 		//{ (normSymbol = super.checkRegister(symbol)).notNil } {}
-		{ (aliasData = super.checkAliases(symbol)).notNil } {
+		{ (normSymbol = MEAliases.checkAliases(symbol)).notNil } {
 
 			if (symbol == "") {
 				alias = nil;
 			} {
 				alias = symbol;
 			};
+			symbol = normSymbol;
 
-			symbol     = aliasData[0];
-			midiOffset = aliasData[1];
-			nameOffset = aliasData[2];
-			degrees    = ["Rt"] ++ super.getDegreeArray(symbol); // No test needed
-
+			degrees = super.getDegrees(symbol);
 		} {
 
-			degrees  = super.getDegrees(symbol);
-			noteData = super.getOffsets(degrees);
-
-			midiOffset = noteData[0];
-			nameOffset = noteData[1];
-			degrees    = noteData[2];
-
+			degrees = super.getDegrees(symbol);
 		};
 
 		^this;
+	}
+
+	/****************************************************************************************/
+
+	symbol {
+		^root[0] ++ symbol;
+	}
+
+	/****************************************************************************************/
+
+	alias {
+
+		if (alias.notNil) {
+			^root[0] ++ alias;
+		};
+		^nil;
 	}
 }

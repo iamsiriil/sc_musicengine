@@ -4,10 +4,10 @@ MEMidiNotes : METools {
 
 	/****************************************************************************************/
 
-	*getMidiOffset { |degree|
+	*getOffsetFromInterval { |degree|
 		var  midiOffset;
 
-		"getMidiOffset".postln;
+		"MEMidiNotes.getOffsetFromInterval".postln;
 
 		if (intervals[degree].notNil) {
 
@@ -28,10 +28,10 @@ MEMidiNotes : METools {
 
 	/****************************************************************************************/
 
-	*getMidiFromName { |noteName|
+	*getOffsetFromName { |noteName|
 		var accidentalOffset = 0;
 
-		"getMidiFromName".postln;
+		"MEMidiNotes.getOffsetFromName".postln;
 
 		if (name.size > 1) {
 			accidentalOffset = MEAccidentals.getOffsetFromName(noteName[1..]);

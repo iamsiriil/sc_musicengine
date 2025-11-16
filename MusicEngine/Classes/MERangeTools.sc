@@ -1,12 +1,61 @@
 MERangeTools : METools {
+	classvar midioffsets;
+	classvar nameoffsets;
+	classvar intervals;
 
 	*initClass {}
 
 	/****************************************************************************************/
 
+	sortAndSplit { |arr|
+		midioffsets = arr.collect { |n| n[1] };
+		nameoffsets = Array.new(arr.size);
+		intervals   = Array.new(arr.size);
+
+		"MERangeTools: sortAndSplit".postln;
+
+		midioffsets.sort;
+
+		midioffsets.do { |n, i|
+
+			arr.do { |a|
+
+				if (a[1] == n) {
+					nameoffsets.add(a[2]);
+					intervals.add(a[0]);
+				}
+			}
+		};
+	}
+
+	/****************************************************************************************/
+
+	getOffsets { |intervals|
+		var arr = Array.new(intervals.size + 1);
+
+		"MERangeTools: getOffsets".postln;
+
+		arr.add(["Rt", 0, 0]);
+
+		intervals.do { |d|
+			var temp = Array.new(3);
+
+			temp.add(d);
+			temp.add(MEMidiNotes.getOffsetFromInterval(d));
+			temp.add(MENoteNames.getOffsetFromInterval(d));
+
+			arr.add(temp);
+		};
+
+		^this.sortAndSplit(arr);
+	}
+
+
+	/****************************************************************************************/
+
 	wrapFirstOctave { |midi, names, degrees|
 
-		"wrapFirstOctave".postln;
+		"MERangeTools: wrapFirstOctave".postln;
 
 		if (midi[0] < 0) {
 
@@ -33,7 +82,7 @@ MERangeTools : METools {
 	extendMidiRange { |midi|
 		var arr = Array.new(midi.size * 11);
 
-		"extendMidi".postln;
+		"MERangeTools: extendMidi".postln;
 
 		midi.do { |m|
 
@@ -52,7 +101,7 @@ MERangeTools : METools {
 	wrapAndExtend { |midi, names, degrees|
 		var tempM, tempN, tempD;
 
-		"wrapAndExtend".postln;
+		"MERangeTools: wrapAndExtend".postln;
 
 		#tempM, tempN, tempD = this.wrapFirstOctave(midi, names, degrees);
 
@@ -69,7 +118,7 @@ MERangeTools : METools {
 		var arr = Array.new(midi.size * 5);
 		var temp, octave;
 
-		"getMENotes".postln;
+		"MERangeTools: getMENotes".postln;
 
 		midi.do { |m, i|
 
@@ -86,17 +135,17 @@ MERangeTools : METools {
 	getRange { |symbol|
 		var midiTemp, nameTemp, degreeTemp;
 
-		"getRange".postln;
+		"MERangeTools: getRange".postln;
+
+		this.getOffsets(symbol.degrees);
 
 		midiTemp = MEMidiNotes.transposeMidiOffset(
-			symbol.midiOffset,
+			midioffsets,
 			symbol.root[1]
 		);
 
-		"root.class: %".format(symbol.root.class).postln;
-
 		nameTemp = MENoteNames.getNoteNames(
-			symbol.nameOffset,
+			nameoffsets,
 			symbol.root[0][0]
 		);
 
@@ -107,7 +156,7 @@ MERangeTools : METools {
 		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(
 			midiTemp,
 			nameTemp,
-			symbol.degrees
+			intervals
 		);
 
 		^this.getMENotes(midiTemp, nameTemp, degreeTemp);
