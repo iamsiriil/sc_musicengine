@@ -2,6 +2,7 @@ MERangeTools : METools {
 	classvar midioffsets;
 	classvar nameoffsets;
 	classvar intervals;
+	classvar rootMidi;
 
 	*initClass {}
 
@@ -137,16 +138,18 @@ MERangeTools : METools {
 
 		"MERangeTools: getRange".postln;
 
+		rootMidi   = MEMidiNotes.getOffsetFromName(symbol.root).postln;
+
 		this.getOffsets(symbol.degrees);
 
 		midiTemp = MEMidiNotes.transposeMidiOffset(
 			midioffsets,
-			symbol.root[1]
+			rootMidi
 		);
 
 		nameTemp = MENoteNames.getNoteNames(
 			nameoffsets,
-			symbol.root[0][0]
+			symbol.root[0]
 		);
 
 		nameTemp.do { |n, i|

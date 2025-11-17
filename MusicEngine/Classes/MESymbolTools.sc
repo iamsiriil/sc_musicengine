@@ -97,6 +97,6 @@ MESymbolTools : METools {
 			}
 		};
 
-		^[root, MEMidiNotes.getOffsetFromName(root)];
+		^root; //[root, MEMidiNotes.getOffsetFromName(root)];
 	}
 }

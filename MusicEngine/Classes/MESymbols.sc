@@ -1,5 +1,5 @@
 MESymbols : MESymbolTools {
-	var <root; // Simple string
+	var <root;
 	var <degrees;
 	var symbol;
 	var alias;
@@ -14,7 +14,7 @@ MESymbols : MESymbolTools {
 		"init".postln;
 
 		root   = super.getRoot(newSymbol);
-		symbol = newSymbol[root[0].size..];
+		symbol = newSymbol[root.size..];
 
 		case
 		//{ (normSymbol = super.checkRegister(symbol)).notNil } {}
@@ -39,7 +39,7 @@ MESymbols : MESymbolTools {
 	/****************************************************************************************/
 
 	symbol {
-		^root[0] ++ symbol;
+		^root ++ symbol;
 	}
 
 	/****************************************************************************************/
@@ -47,7 +47,7 @@ MESymbols : MESymbolTools {
 	alias {
 
 		if (alias.notNil) {
-			^root[0] ++ alias;
+			^root ++ alias;
 		};
 		^nil;
 	}
