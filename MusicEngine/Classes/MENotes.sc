@@ -1,41 +1,50 @@
 // NOTE Class
 
 MENotes : METools {
-	var <note;
+	var name;
 	var <midi;
 	var <freq;
-	var <name;
-	var <accidental;
 	var <octave;
 	var <degree;
 	var <>duration;
 	var <>articulation;
 	var <>dynamic;
 
-	*new { |midi = nil, note = nil, degree = nil, octave = nil|
-		^super.new.init(midi, note, degree, octave);
+	*new { |noteName = nil, noteLetter = nil, midi = nil, degree = nil, octave = nil|
+
+		^super.new.init(noteName, noteLetter, midi, degree, octave);
 	}
 
-	init { |newM, newN, newD, newO|
+	init { |newN, newL, newM, newD, newO|
 
-		midi   = newM;
-		note   = newN;
-		freq   = midi.midicps;
-		octave = newO;
-		degree = newD;
-		name   = note ++ octave;
-
-		if (note.size > 1) {
-			accidental = note[1..];
-		} {
-			accidental = nil;
+		case
+		{ newN.isNil && newL.notNil && newM.notNil } {
+			midi   = newM;
+			freq   = midi.midicps;
+			name   = MENoteNames(noteLetter: newL, midi: newM);
+			octave = MEOctaves.getOctave(midi, name.name);
+		}
+		{ newN.notNil && newL.isNil && newM.isNil } {
+			midi   = MEMidiNotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
+			freq   = midi.midicps;
+			name   = MENoteNames(noteName: newN);
+			octave = MEOctaves.getOctave(midi, name.name);
+		}
+		{
+			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
 		};
+
+		degree = newD;
 
 		^this;
 	}
 
 	copy {
 		^this.deepCopy;
+	}
+
+	name {
+		^name.name ++ octave;
 	}
 }
 
