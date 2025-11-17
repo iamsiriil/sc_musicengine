@@ -2,21 +2,24 @@ MEAccidentals : METools {
 	var <sign;
 	var <offset;
 
-	*new { |noteName|
+	*new { |noteName = nil, noteLetter = nil, midi = nil|
 
-		^super.new.init(noteName);
+		^super.new.init(noteName, noteLetter, midi);
 	}
 
-	init { |newN|
+	init { |newN, newL, newM|
 
-		if (newN.size == 1) {
-
-			sign = nil;
-			offset = 0;
-		} {
-
-			sign   = newN[1..];
+		case
+		{ newN.isNil && newL.notNil && newM.notNil } {
+			offset = MEAccidentals.getOffsetFromMidi(newM, newL);
+			sign   = MEAccidentals.getSignFromOffset(offset);
+		}
+		{ newN.notNil && newL.isNil && newM.isNil } {
 			offset = MEAccidentals.getOffsetFromName(newN);
+			sign   = MEAccidentals.getSignFromOffset(offset);
+		}
+		{
+			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
 		};
 
 		^this;
@@ -50,7 +53,7 @@ MEAccidentals : METools {
 
 	/****************************************************************************************/
 
-	*getSymbolFromOffset { |offset|
+	*getSignFromOffset { |offset|
 		var symbol = "";
 
 		case
@@ -58,5 +61,16 @@ MEAccidentals : METools {
 		{ offset > 0 } { offset.do { symbol = symbol ++ "#" } };
 
 		^symbol;
+	}
+
+	/****************************************************************************************/
+
+	*resolveAccidental { |midi, noteLetter|
+		var offset, symbol;
+
+		offset = MEAccidentals.getOffsetFromMidi(midi, noteLetter);
+		symbol = MEAccidentals.getSignFromOffset(offset);
+
+		^noteLetter ++ symbol;
 	}
 }
