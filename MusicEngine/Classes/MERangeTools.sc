@@ -1,6 +1,6 @@
 MERangeTools : METools {
-	classvar midioffsets;
-	classvar nameoffsets;
+	classvar midiOffsets;
+	classvar nameOffsets;
 	classvar intervals;
 	classvar rootMidi;
 
@@ -9,23 +9,23 @@ MERangeTools : METools {
 	/****************************************************************************************/
 
 	sortAndSplit { |arr|
-		midioffsets = arr.collect { |n| n[1] };
-		nameoffsets = Array.new(arr.size);
+		midiOffsets = arr.collect { |n| n[1] };
+		nameOffsets = Array.new(arr.size);
 		intervals   = Array.new(arr.size);
 
 		"MERangeTools: sortAndSplit".postln;
 
-		midioffsets.sort;
+		midiOffsets.sort;
 
-		midioffsets.do { |n, i|
+		midiOffsets.do { |n, i|
 
 			arr.do { |a|
 
 				if (a[1] == n) {
-					nameoffsets.add(a[2]);
+					nameOffsets.add(a[2]);
 					intervals.add(a[0]);
-				}
-			}
+				};
+			};
 		};
 	}
 
@@ -48,7 +48,7 @@ MERangeTools : METools {
 			arr.add(temp);
 		};
 
-		^this.sortAndSplit(arr);
+		this.sortAndSplit(arr);
 	}
 
 
@@ -117,14 +117,13 @@ MERangeTools : METools {
 
 	getMENotes { |midi, names, degrees|
 		var arr = Array.new(midi.size * 5);
-		var temp, octave;
+		var temp;
 
 		"MERangeTools: getMENotes".postln;
 
 		midi.do { |m, i|
 
-			octave = MEOctaves.getOctave(m, names[i]);
-			temp   = MENotes.new(m, names[i], degrees[i], octave);
+			temp = MENotes(noteLetter: names[i], midi: m, degree: degrees[i]);
 			arr.add(temp);
 		};
 
@@ -138,23 +137,13 @@ MERangeTools : METools {
 
 		"MERangeTools: getRange".postln;
 
-		rootMidi   = MEMidiNotes.getOffsetFromName(symbol.root).postln;
-
 		this.getOffsets(symbol.degrees);
 
-		midiTemp = MEMidiNotes.transposeMidiOffset(
-			midioffsets,
-			rootMidi
-		);
+		rootMidi = MEMidiNotes.getOffsetFromName(symbol.root);
 
-		nameTemp = MENoteNames.getNoteNames(
-			nameoffsets,
-			symbol.root[0]
-		);
+		midiTemp = MEMidiNotes.transposeMidiOffset(midiOffsets, rootMidi);
 
-		nameTemp.do { |n, i|
-			nameTemp[i] = MENoteNames.resolveAccidental(midiTemp[i], n);
-		};
+		nameTemp = MENoteNames.getNoteNames(nameOffsets, symbol.root[0]);
 
 		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(
 			midiTemp,
