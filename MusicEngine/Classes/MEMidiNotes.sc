@@ -33,8 +33,8 @@ MEMidiNotes : METools {
 
 		"MEMidiNotes.getOffsetFromName".postln;
 
-		if (name.size > 1) {
-			accidentalOffset = MEAccidentals.getOffsetFromName(noteName[1..]);
+		if (noteName.size > 1) {
+			accidentalOffset = MEAccidentals.getOffsetFromName(noteName).postln;
 		};
 
 		^super.noteFromLetter(noteName[0]) + accidentalOffset;
