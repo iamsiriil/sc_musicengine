@@ -37,20 +37,13 @@ MEAccidentals : METools {
 	}
 
 	/****************************************************************************************/
-	// Logic could be improved
 
 	*getOffsetFromMidi { |midi, noteLetter|
-		var ref = super.noteFromLetter(noteLetter);
+		var ref;
 
 		"getOffsetFromMidi".postln;
 
-		if (
-			((noteLetter == "C") && (midi > 3))   ||
-			((noteLetter == "D") && (midi == 11)) ||
-			 (midi > 12)
-		) {
-			ref = ref + 12;
-		};
+		ref = MEOctaves.closestOctave(midi, noteLetter);
 
 		^midi - ref;
 	}
