@@ -1,6 +1,29 @@
 MENoteNames : METools {
+	var nameLetter;
+	var accidental;
 
-	*initClass {}
+	*new { |noteName = nil, noteLetter = nil, midi = nil|
+
+		^super.new.init(noteName, noteLetter, midi);
+	}
+
+	init { |newN, newL, newM|
+
+		case
+		{ newN.isNil && newL.notNil && newM.notNil } {
+			nameLetter = newL;
+			accidental = MEAccidentals(noteLetter: newL, midi: newM);
+		}
+		{ newN.notNil && newL.isNil && newM.isNil } {
+			nameLetter = newN[0];
+			accidental = MEAccidentals(noteName: newN);
+		}
+		{
+			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
+		};
+
+		^this;
+	}
 
 	/****************************************************************************************/
 
@@ -51,12 +74,19 @@ MENoteNames : METools {
 
 	/****************************************************************************************/
 
-	*resolveAccidental { |midi, noteLetter|
-		var offset, symbol;
+	name {
+		^nameLetter ++ accidental.sign;
+	}
 
-		offset = MEAccidentals.getOffsetFromMidi(midi, noteLetter);
-		symbol = MEAccidentals.getSymbolFromOffset(offset);
+	letter {
+		^nameLetter;
+	}
 
-		^noteLetter ++ symbol;
+	sign {
+		^accidental.sign
+	}
+
+	accidentalOffset {
+		^accidental.offset;
 	}
 }
