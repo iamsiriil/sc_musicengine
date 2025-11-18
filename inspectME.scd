@@ -60,4 +60,3 @@ s.waitForBoot({
 
 // Inspect sound
 ~routine.(~range.notes(4, 8, "Rt")).play
-}
