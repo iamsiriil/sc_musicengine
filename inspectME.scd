@@ -6,7 +6,7 @@ s.waitForBoot({
 	"./inspecttools.scd".loadRelative;
 });
 )
-s.boot;
+
 (
 // TEST SYMBOLS
 
@@ -32,11 +32,12 @@ s.boot;
 
 // Aliases
 ~ex0 = "A9";
+~ex1 = "E"; // Root without symbol defaults to major triad
 
 // Augmented sixth chords and Neapolitan sixth
 
 // Weird random chords
-~wc0 = "Dd3A5d6";
+~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented, the 6th comes before the 5th in sorted order
 )
 
 (
@@ -54,5 +55,5 @@ s.boot;
 
 
 // Inspect sound
-~routine.(~range.notes(4, 6, "M2")).play
+~routine.(~range.notes(4, 8, "Rt")).play
 
