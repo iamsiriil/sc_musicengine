@@ -1,4 +1,5 @@
 MENoteNames : METools {
+	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 	var nameLetter;
 	var accidental;
 
@@ -60,7 +61,7 @@ MENoteNames : METools {
 	/****************************************************************************************/
 
 	*getNoteNames { |intervalArray, rootLetter|
-		var index = super.indexOfLetter(rootLetter).postln;
+		var index = super.indexOfLetter(rootLetter);
 		var namesArray;
 
 		"getNoteNames".postln;
@@ -94,5 +95,13 @@ MENoteNames : METools {
 
 	accidentalOffset {
 		^accidental.offset;
+	}
+
+	/****************************************************************************************/
+
+	solfege {
+		var index = METools.indexOfLetter(nameLetter);
+
+		^solfege[index] ++ accidental.sign;
 	}
 }
