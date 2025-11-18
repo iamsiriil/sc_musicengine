@@ -53,7 +53,7 @@ Chords may be described by:
 
 ## Chord Symbol Aliases
 
-There's a chord symbol detection system implemented on top of the verbose syntax system. MusicEngine, when parsing a chord symbol will first check an aliases dictionary to see if it finds a match, if not it will parse the degrees. A list of recognized symbols can be find in the projects [wiki](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols).
+There's a chord symbol detection system implemented on top of the verbose syntax system. MusicEngine, when parsing a chord symbol, will first check the aliases dictionary to see if it finds a match, if not it will parse the degrees. A list of recognized symbols can be find in the projects [wiki](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols).
 
 ## Validity Tests
 
