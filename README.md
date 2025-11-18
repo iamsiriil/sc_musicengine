@@ -14,7 +14,7 @@ A dynamic music library for Harmonizer 02, implemented in SuperCollider.
 * ~~Degree clashes are not allowed (m2/M2, P4/A11, etc.).~~
 * Note clashes are not allowed (m3/A9, A4/d5, etc.).
 * Diminished seconds and augmented sevenths are not allowed, since they clash with the root.
-* Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a third flat/sharp (B# or C, F# or Gb, F or E#, etc.). MusicEngine should be able to handle enharmonics accordingly and name all notes correctly.
+* Roots with double sharps or flats are not allowed, other than that, any chord formation can be written over any root, provided non of the chord notes reaches a forth flat/sharp (B# or C, F# or Gb, F or E#, etc.). MusicEngine should be able to handle enharmonics accordingly and name all notes correctly.
 
 ## Allowed Intervals
 
@@ -50,6 +50,10 @@ Chords may be described by:
 "D#P5M9"          // Quintal triad, over D#
 "Ed3d5d7"         // German sixth in root position, over E
 ```
+
+## Chord Symbol Aliases
+
+There's a chord symbol detection system implemented on top of the verbose syntax system. MusicEngine, when parsing a chord symbol will first check an aliases dictionary to see if it finds a match, if not it will parse the degrees. A list of recognized symbols can be find in the projects [wiki](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols).
 
 ## Validity Tests
 
