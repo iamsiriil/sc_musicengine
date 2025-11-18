@@ -24,17 +24,21 @@ s.waitForBoot({
 // Power chords
 ~pc0 = "F5";
 
-// Major triads
-
-// Seventh chords
-
 // Chords with extensions
+~ex0 = "DM3P5m7M9P11";
+~ex1 = "F#M3P5M7M9P11";
 
 // Aliases
-~ex0 = "A9";
-~ex1 = "E"; // Root without symbol defaults to major triad
+~al0 = "A13";
+~al1 = "E";       // Root without symbol defaults to major triad
+~al3 = "E#min6";
+~al4 = "Gb-9";
+~al5 = "C-^7";
 
 // Augmented sixth chords and Neapolitan sixth
+~as0 = "BFrench";
+~as1 = "F#ita";
+~as2 = "D#Gr";
 
 // Weird random chords
 ~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented, the 6th comes before the 5th in sorted order
@@ -42,7 +46,7 @@ s.waitForBoot({
 
 (
 // Select test symbol and create new noteRange
-~testSymbol = ~wc0;
+~testSymbol = ~al5;
 ~range = MENoteRanges(~testSymbol);
 )
 
@@ -56,4 +60,4 @@ s.waitForBoot({
 
 // Inspect sound
 ~routine.(~range.notes(4, 8, "Rt")).play
-
+}
