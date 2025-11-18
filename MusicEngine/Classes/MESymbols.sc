@@ -11,25 +11,22 @@ MESymbols : MESymbolTools {
 	init { |newSymbol|
 		var normSymbol;
 
-		"init".postln;
+		"MESymbols: init".postln;
 
 		root   = super.getRoot(newSymbol);
 		symbol = newSymbol[root.size..];
 
-		case
-		//{ (normSymbol = super.checkRegister(symbol)).notNil } {}
-		{ (normSymbol = MEAliases.checkAliases(symbol)).notNil } {
+		if ((normSymbol = MEAliases.checkAliases(symbol)).notNil) {
 
 			if (symbol == "") {
 				alias = nil;
 			} {
 				alias = symbol;
 			};
-			symbol = normSymbol;
 
+			symbol  = normSymbol;
 			degrees = super.getDegrees(symbol);
 		} {
-
 			degrees = super.getDegrees(symbol);
 		};
 

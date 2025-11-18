@@ -17,7 +17,7 @@ MEAliases {
 			"m3d5d7" -> Set["Dim7", "dim7", "o7", "07"],
 			"m3d5m7" -> Set["m7o5", "m705", "Mi7o5", "Mi705", "mi7o5", "mi705", "Min7o5", "Min705", "min7o5", "min705", "-7o5", "-705"],
 			"m3P5m7" -> Set["m7", "Mi7", "mi7", "Min7", "min7", "-7"],
-			"m3P5M7" -> Set["mM7", "MiMa7", "mima7", "MinMaj7", "minmaj7", "m^7", "Mi^7", "mi^7", "Min^7", "min^7", "-^7"],
+			"m3P5M7" -> Set["mM", "mM7", "MiMa7", "mima7", "MinMaj7", "minmaj7", "m^7", "Mi^7", "mi^7", "Min^7", "min^7", "-^7"],
 			"M3P5m7" -> Set["Dom", "dom", "Dom7", "dom7", "7"],
 			"M3P5M7" -> Set["M7", "Ma7", "ma7", "Maj7", "maj7", "^7"],
 
