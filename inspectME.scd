@@ -1,87 +1,13 @@
-// INSPECT MUSICENGINE DATA
+/*****************************************************************************************
+* MusicEngine - Inspect                                                                  *
+*****************************************************************************************/
 (
-~inspectRange = { |range|
-
-	"notes: ".padRight(8).post;
-	range.notes.postln;
-
-	"midi: ".padRight(8).post;
-	range.midi.postln;
-
-	"freq: ".padRight(8).post;
-	range.freq.postln;
-
-	"name: ".padRight(8).post;
-	range.names.postln;
-
-	"degree: ".padRight(8).post;
-	range.degrees.postln;
-
-	"notes.size: ".padRight(14).post;
-	range.notes.size.postln;
-
-	"midi.size: ".padRight(14).post;
-	range.midi.size.postln;
-
-	"freq.size: ".padRight(14).post;
-	range.freq.size.postln;
-
-	"names.size: ".padRight(14).post;
-	range.names.size.postln;
-
-	"degrees.size: ".padRight(14).post;
-	range.degrees.size.postln;
-};
-
-/****************************************************************************************/
-
-~inspectSymbol = { |range|
-
-	"symbol: ".padRight(12).post;
-	range.symbol.symbol.postln;
-
-	"alias: ".padRight(12).post;
-	range.symbol.alias.postln;
-
-	"root: ".padRight(12).post; // Name and accidental offset
-	range.symbol.root.postln;
-
-	"degrees: ".padRight(12).post;
-	range.symbol.degrees.postln;
-
-	"midiOffset: ".padRight(12).post;
-	range.symbol.midiOffset.postln;
-
-	"nameOffset: ".padRight(12).post;
-	range.symbol.nameOffset.postln;
-};
-
-/****************************************************************************************/
-
-~inspectNotes = { |range|
-	var size = range.notes.size - 1;
-	var i = (0..size).choose;
-
-	"midi: ".padRight(12).post;
-	range.notes[i].midi.postln;
-
-	"freq: ".padRight(12).post;
-	range.notes[i].freq.postln;
-
-	"name: ".padRight(12).post;
-	range.notes[i].name.postln;
-
-	"degree: ".padRight(12).post;
-	range.notes[i].degree.postln;
-
-	"octave: ".padRight(12).post;
-	range.notes[i].octave.postln;
-
-	"accidental: ".padRight(12).post;
-	range.notes[i].accidental.postln;
-};
-
-/****************************************************************************************/
+s.waitForBoot({
+	"./inspecttools.scd".loadRelative;
+});
+)
+s.boot;
+(
 // TEST SYMBOLS
 
 // PROBLEMATIC NOTES
@@ -115,16 +41,18 @@
 
 (
 // Select test symbol and create new noteRange
-~testSymbol = "C#9";
+~testSymbol = ~wc0;
 ~range = MENoteRanges(~testSymbol);
 )
 
 // Inspect range properties
 ~inspectRange.(~range);
 
-// Inspect MENoteRanges' symbol property properties
-~inspectSymbol.(~range);
-
 // Inspect random note properties
 // (different calls will prompt different notes)
 ~inspectNotes.(~range);
+
+
+// Inspect sound
+~routine.(~range.notes(4, 6, "M2")).play
+
