@@ -16,6 +16,21 @@
 
 	"degree: ".padRight(8).post;
 	range.degrees.postln;
+
+	"notes.size: ".padRight(14).post;
+	range.notes.size.postln;
+
+	"midi.size: ".padRight(14).post;
+	range.midi.size.postln;
+
+	"freq.size: ".padRight(14).post;
+	range.freq.size.postln;
+
+	"names.size: ".padRight(14).post;
+	range.names.size.postln;
+
+	"degrees.size: ".padRight(14).post;
+	range.degrees.size.postln;
 };
 
 /****************************************************************************************/
@@ -69,6 +84,7 @@
 /****************************************************************************************/
 // TEST SYMBOLS
 
+// PROBLEMATIC NOTES
 // Cb
 ~cb0 = "Cbd3d5d7"; // Cb root
 ~cb1 = "Abm3P5";   // Cb m3
@@ -78,21 +94,37 @@
 ~bs0 = "B#Maj";    // B# root
 ~bs1 = "G#M3d5";   // B# M3
 ~bs2 = "EAug";     // B# A5
+
+// Power chords
+~pc0 = "F5";
+
+// Major triads
+
+// Seventh chords
+
+// Chords with extensions
+
+// Aliases
+~ex0 = "A9";
+
+// Augmented sixth chords and Neapolitan sixth
+
+// Weird random chords
+~wc0 = "Dd3A5d6";
 )
 
 (
 // Select test symbol and create new noteRange
-~testSymbol = ~bs2;
+~testSymbol = "C#9";
 ~range = MENoteRanges(~testSymbol);
 )
 
 // Inspect range properties
 ~inspectRange.(~range);
 
-// Inspect symbol
+// Inspect MENoteRanges' symbol property properties
 ~inspectSymbol.(~range);
 
-// Inspect Notes
+// Inspect random note properties
+// (different calls will prompt different notes)
 ~inspectNotes.(~range);
-
-
