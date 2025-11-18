@@ -132,12 +132,26 @@ MERangeTools : METools {
 
 	/****************************************************************************************/
 
+	checkEnharmonics { |midiOffsets|
+		var arrSize = midiOffsets.size;
+		var setSize = midiOffsets.asSet.size;
+
+		"MERangeTools: checkEnharmonics".postln;
+
+		if (setSize < arrSize) {
+			Error("Enharmonics are not allowed.\n").throw;
+		};
+	}
+
+	/****************************************************************************************/
+
 	getRange { |symbol|
 		var midiTemp, nameTemp, degreeTemp;
 
 		"MERangeTools: getRange".postln;
 
 		this.getOffsets(symbol.degrees);
+		this.checkEnharmonics(midiOffsets);
 
 		rootMidi = MEMidiNotes.getOffsetFromName(symbol.root);
 
