@@ -26,7 +26,7 @@ We can inspect each note by calling on its properties:
 ```supercollider
 ~range.notes[19].degree     // m3
 ~range.notes[19].name       // Bb4
-~range.notes[19].sol        // Solb4 (solfege naming convention)
+~range.notes[19].sol        // Sib4 (solfege naming convention)
 ~range.notes[19].accidental // b
 ~range.notes[19].midi       // 70
 ~range.notes[19].freq       // 466.16376151809
