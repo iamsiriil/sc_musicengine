@@ -57,14 +57,14 @@ If we want to handle data directly, and not through a `MENotes` object, we can c
 ~range.freq;    // [36.708095989676, 41.203444614109, 46.249302838954, ...]
 ```
 
-Ranges may be filtered by determining first and last octave, as well as from which degree the sequence should start:
+Ranges may be filtered by specifying the first and last octaves, as well as from which degree the sequence should start:
 
 ```supercollider
 ~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "Rt"); // [67, 70, 74, 76, 78, 79, 82]
 ```
 This will start the sequence in _G4_, and end in the last note found in octave 5.
 
-We should be mindful to only pick degrees found in the chord, when setting this parameter. If we choose a _M2_, as an example:
+When setting this parameter, we should be mindful to only pick degrees present in the chord. If we choose a _M2_, as an example:
 
 ```supercollider
 ~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "M2");
@@ -82,7 +82,7 @@ CALL STACK:
 
 ## Chord Symbols
 
-The symbol may be build using a verbose syntax, where all intervals are discriminated following a root, of by appending a conventional symbol to a root.
+The symbol may be build using a verbose syntax, where all intervals are discriminated following a root, or by appending a conventional symbol to a root.
 
 > [!NOTE]
 > See the [Chord Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols) wiki page for reference on what conventional chord symbols are allowed.
