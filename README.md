@@ -47,6 +47,40 @@ The `MENotes` object has additional properties that can be set by the user:
 ~range.notes[19].dynamic      = 0.5;
 ```
 
+If we want to handle data directly, and not through a `MENotes` object, we can call on several `MENoteRanges` instance methods to get arrays for most of the properties found in `MENotes`:
+
+```supercollider
+~range.degrees; // [P5, M6, M7, Rt, ...]
+~range.names;   // [D1, E1, F#1, G1, ...]
+~range.sol;     // [Re1, Mi1, Fa#1, Sol1, ...]
+~range.midi;    // [26, 28, 30, 31, ...]
+~range.freq;    // [36.708095989676, 41.203444614109, 46.249302838954, ...]
+```
+
+Ranges may be filtered by determining first and last octave, as well as from which degree should the sequence start:
+
+```supercollider
+~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "Rt"); // [67, 70, 74, 76, 78, 79, 82]
+```
+This will start the sequence in _G4_, and end in the last note found in octave 5.
+
+We should be mindful to only pick degrees found in the chord, when setting this parameter. If I choose a _M2_:
+
+```supercollider
+~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "M2");
+```
+
+We will the the error:
+
+```terminal
+ERROR: Range does not include interval M2. Pick from Rt, m3, P5, M6, M7.
+
+CALL STACK:
+	Exception:reportError
+    (...)
+```
+
+## Chord Symbols
 
 The symbol may be build using a verbose syntax, where all intervals are discriminated following a root, of by appending a conventional symbol to a root.
 
@@ -89,6 +123,8 @@ Depending on the degree, an interval may be diminished, minor, perfect, major or
 "D#P5M9"          // Quintal triad, over D#
 "Ed3d5d7"         // German sixth in root position, over E
 ```
+
+---
 
 ## Rules
 
