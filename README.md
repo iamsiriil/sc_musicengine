@@ -85,18 +85,18 @@ CALL STACK:
 The symbol may be build using a verbose syntax, where all intervals are discriminated following a root, or by appending a conventional symbol to a root.
 
 > [!NOTE]
-> See the [Chord Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols) wiki page for reference on what conventional chord symbols are allowed.
+> See the [Chord Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols) wiki page for reference on which conventional chord symbols are allowed.
 
 As to the verbose syntax, the following rules apply:
 
-### Symbol structure
+#### Symbol structure
 
 Chords may be described by:
 * Referencing the root note (A-G), with or without accidentals (#/b)
 * using a letter to describe degree type (d, m, P, M, A) and
 * using an integer to represent degree (2-7, 9-14)
 
-### Allowed Intervals
+#### Allowed Intervals
 
 Depending on the degree, an interval may be diminished, minor, perfect, major or augmented. Represented, respectively, with: d, m, P, M, A.
 
@@ -107,7 +107,7 @@ Depending on the degree, an interval may be diminished, minor, perfect, major or
 | 3rd/10th; 6th/13th | d, m, M, A |
 | 4th/11th; 5th/12th | d, P, A |
 
-#### Common Chord Examples
+##### Common Chord Examples
 
 ```supercollider
 "Dbm3P5"           // Minor triad, over Db
@@ -116,7 +116,7 @@ Depending on the degree, an interval may be diminished, minor, perfect, major or
 "GM2P5m7"          // Sus2 dominant seventh chord, over G
 ```
 
-#### Less Common Chord Examples
+##### Less Common Chord Examples
 
 ```supercollider
 "EbP4m7"          // Quartal triad, over Eb
