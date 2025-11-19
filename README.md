@@ -33,7 +33,7 @@ We can inspect each note by calling on its properties:
 ~range.notes[19].octave     // 4
 ```
 
-We can return the name without the octave, with the methods `name` and `sol`, by setting `withOctave` to false:
+We can return the name without the octave, when using the methods `name` and `sol`, by setting `withOctave` to false:
 
 ```supercollider
 ~range.notes[19].name(withOctave: false) // Bb
@@ -57,20 +57,20 @@ If we want to handle data directly, and not through a `MENotes` object, we can c
 ~range.freq;    // [36.708095989676, 41.203444614109, 46.249302838954, ...]
 ```
 
-Ranges may be filtered by determining first and last octave, as well as from which degree should the sequence start:
+Ranges may be filtered by determining first and last octave, as well as from which degree the sequence should start:
 
 ```supercollider
 ~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "Rt"); // [67, 70, 74, 76, 78, 79, 82]
 ```
 This will start the sequence in _G4_, and end in the last note found in octave 5.
 
-We should be mindful to only pick degrees found in the chord, when setting this parameter. If I choose a _M2_:
+We should be mindful to only pick degrees found in the chord, when setting this parameter. If we choose a _M2_, as an example:
 
 ```supercollider
 ~range.midi(fromOctave: 4, toOctave: 5, fromDegree: "M2");
 ```
 
-We will the the error:
+We will get the error:
 
 ```terminal
 ERROR: Range does not include interval M2. Pick from Rt, m3, P5, M6, M7.
@@ -85,7 +85,7 @@ CALL STACK:
 The symbol may be build using a verbose syntax, where all intervals are discriminated following a root, of by appending a conventional symbol to a root.
 
 > [!NOTE]
-> See the [Chord Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols) wiki page for reference.
+> See the [Chord Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Chord-Symbols) wiki page for reference on what conventional chord symbols are allowed.
 
 As to the verbose syntax, the following rules apply:
 
