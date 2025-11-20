@@ -12,7 +12,9 @@ MENoteRanges : MERangeTools {
 		^super.new.init(symbol);
 	}
 
-	init { |newSymbol|
+	init { |newSymbol, newL|
+
+		MEDebug.log("MENoteRanges", "init");
 
 		symbol = MESymbols.new(newSymbol);
 		notes  = super.getRange(symbol);

@@ -16,6 +16,8 @@ MENoteNames : METools {
 
 	init { |newN, newL, newM|
 
+		MEDebug.log("MENoteNames", "init");
+
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			nameLetter = newL;
@@ -37,7 +39,7 @@ MENoteNames : METools {
 	*getOffsetFromInterval { |interval|
 		var offset;
 
-		"getOffsetFromInterval".postln;
+		MEDebug.log("MENoteNames", "*getOffsetFromInterval");
 
 		offset = interval[1..].asInteger;
 
@@ -53,7 +55,7 @@ MENoteNames : METools {
 	*getOffsetArray { |intervalArray|
 		var offsetArray = Array.new(intervalArray.size + 1);
 
-		"getOffsetArray".postln;
+		MEDebug.log("MENoteNames", "*getOffsetArray");
 
 		offsetArray.add(0);
 
@@ -70,7 +72,7 @@ MENoteNames : METools {
 		var index = super.indexOfLetter(rootLetter);
 		var namesArray;
 
-		"getNoteNames".postln;
+		MEDebug.log("MENoteNames", "*getNoteNames");
 
 		namesArray  = super.names.wrapAt(index + intervalArray);
 

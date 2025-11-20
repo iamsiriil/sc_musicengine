@@ -17,7 +17,7 @@ MESymbols : MESymbolTools {
 	init { |newSymbol|
 		var normSymbol;
 
-		"MESymbols: init".postln;
+		MEDebug.log("MESymbols", "init");
 
 		root   = super.getRoot(newSymbol);
 		symbol = newSymbol[root.size..];

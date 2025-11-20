@@ -13,7 +13,7 @@ MEMidiNotes : METools {
 	*getOffsetFromInterval { |degree|
 		var  midiOffset;
 
-		"MEMidiNotes.getOffsetFromInterval".postln;
+		MEDebug.log("MEMidiNotes", "*getOffsetFromInterval");
 
 		if (intervals[degree].notNil) {
 
@@ -37,7 +37,7 @@ MEMidiNotes : METools {
 	*getOffsetFromName { |noteName|
 		var accidentalOffset = 0;
 
-		"MEMidiNotes.getOffsetFromName".postln;
+		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
 		if (noteName.size > 1) {
 			accidentalOffset = MEAccidentals.getOffsetFromName(noteName).postln;
@@ -50,7 +50,7 @@ MEMidiNotes : METools {
 
 	*transposeMidiOffset { |midiOffset, midiRoot|
 
-		"transposeMidiOffset".postln;
+		MEDebug.log("MEMidiNotes", "*transposeMidiOffset");
 
 		^midiOffset + midiRoot;
 	}

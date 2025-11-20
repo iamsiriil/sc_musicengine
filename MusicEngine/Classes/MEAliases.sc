@@ -9,6 +9,7 @@ MEAliases {
 
 	*initClass {
 
+
 		aliases = Dictionary[
 			// Power chords
 			"P5"   -> Set["5"],
@@ -62,7 +63,7 @@ MEAliases {
 
 	*checkAliases { |symbol|
 
-		"MEAliases: checkAliases".postln;
+		MEDebug.log("MEAliases", "*checkAliases");
 
 		aliases.keysValuesDo { |k, v|
 

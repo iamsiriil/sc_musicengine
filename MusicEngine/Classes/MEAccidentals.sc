@@ -15,6 +15,8 @@ MEAccidentals : METools {
 
 	init { |newN, newL, newM|
 
+		MEDebug.log("MEAccidentals", "init");
+
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			offset = MEAccidentals.getOffsetFromMidi(newM, newL);
@@ -36,7 +38,7 @@ MEAccidentals : METools {
 	*getOffsetFromName { |noteName|
 		var accidental = noteName[1..];
 
-		"getOffsetFromName".postln;
+		MEDebug.log("MEAccidentals", "*getOffsetFromName");
 
 		if (accidental.includes($b)) {
 			^accidental.size * -1;
@@ -50,7 +52,7 @@ MEAccidentals : METools {
 	*getOffsetFromMidi { |midi, noteLetter|
 		var ref;
 
-		"getOffsetFromMidi".postln;
+		MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
 
 		ref = MEOctaves.closestOctave(midi, noteLetter);
 
@@ -61,6 +63,8 @@ MEAccidentals : METools {
 
 	*getSignFromOffset { |offset|
 		var symbol = "";
+
+		MEDebug.log("MEAccidentals", "*getSignFromOffset");
 
 		case
 		{ offset < 0 } { offset.abs.do { symbol = symbol ++ "b"} }
@@ -73,6 +77,8 @@ MEAccidentals : METools {
 
 	*resolveAccidental { |midi, noteLetter|
 		var offset, symbol;
+
+		MEDebug.log("MEAccidentals", "*resolveAccidental");
 
 		offset = MEAccidentals.getOffsetFromMidi(midi, noteLetter);
 		symbol = MEAccidentals.getSignFromOffset(offset);

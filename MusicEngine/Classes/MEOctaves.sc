@@ -13,6 +13,7 @@ MEOctaves : METools {
 	*closestOctave { |midi, noteLetter|
 		var ref = super.noteFromLetter(noteLetter);
 
+		MEDebug.log("MENoteNames", "*closestOctave");
 
 		if ((midi < -3) || (midi > 127)) {
 
@@ -41,6 +42,8 @@ MEOctaves : METools {
 	*octaveCross { |noteName|
 		var mOffset, aOffset;
 
+		MEDebug.log("MENoteNames", "*octaveCross");
+
 		mOffset = super.noteFromLetter(noteName[0]);
 		aOffset = MEAccidentals.getOffsetFromName(noteName);
 
@@ -52,6 +55,8 @@ MEOctaves : METools {
 	*getOctave { |midi, noteName = nil|
 		var octave = -1;
 		var cross;
+
+		MEDebug.log("MENoteNames", "*getOctave");
 
 		octave = (octave + (midi/12).floor).asInteger;
 

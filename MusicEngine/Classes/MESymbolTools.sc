@@ -25,7 +25,7 @@ MESymbolTools : METools {
 		var regex = "[a-zA-Z]\\d{1,2}";
 		var degreeArray;
 
-		"getDegreeArray".postln;
+		MEDebug.log("MESymbolTools", "*getDegreeArray");
 
 		degreeArray = symbol.findRegexp(testRegex).collect { |i| i[1] };
 
@@ -39,7 +39,7 @@ MESymbolTools : METools {
 		var error = Array.new(12);
 		var degreeArray, verb;
 
-		"getDegrees".postln;
+		MEDebug.log("MESymbolTools", "*getDegrees");
 
 		// Collect all modifier/degree pairs
 		degreeArray = this.getDegreeArray(symbol);
@@ -89,7 +89,7 @@ MESymbolTools : METools {
 		var regex = "^[A-G][#|b]*";
 		var root;
 
-		"getRoot".postln;
+		MEDebug.log("MESymbolTools", "*getRoot");
 
 		// Checks for a valid root at the beginning of the symbol
 		if (regex.matchRegexp(symbol).not) {
@@ -103,6 +103,6 @@ MESymbolTools : METools {
 			}
 		};
 
-		^root; //[root, MEMidiNotes.getOffsetFromName(root)];
+		^root;
 	}
 }

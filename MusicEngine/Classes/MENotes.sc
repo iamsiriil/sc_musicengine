@@ -21,6 +21,8 @@ MENotes : METools {
 
 	init { |newN, newL, newM, newD, newO|
 
+		MEDebug.log("MENotes", "init");
+
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			midi   = newM;

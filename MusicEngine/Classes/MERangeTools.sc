@@ -19,7 +19,7 @@ MERangeTools : METools {
 		nameOffsets = Array.new(arr.size);
 		intervals   = Array.new(arr.size);
 
-		"MERangeTools: sortAndSplit".postln;
+		MEDebug.log("MERangeTools", "*sortAndSplit");
 
 		midiOffsets.sort;
 
@@ -40,7 +40,7 @@ MERangeTools : METools {
 	getOffsets { |intervals|
 		var arr = Array.new(intervals.size + 1);
 
-		"MERangeTools: getOffsets".postln;
+		MEDebug.log("MERangeTools", "*getOffsets");
 
 		arr.add(["Rt", 0, 0]);
 
@@ -62,7 +62,7 @@ MERangeTools : METools {
 
 	wrapFirstOctave { |midi, names, degrees|
 
-		"MERangeTools: wrapFirstOctave".postln;
+		MEDebug.log("MERangeTools", "*wrapFirstOctave");
 
 		if (midi[0] < 0) {
 
@@ -89,7 +89,7 @@ MERangeTools : METools {
 	extendMidiRange { |midi|
 		var arr = Array.new(midi.size * 11);
 
-		"MERangeTools: extendMidi".postln;
+		MEDebug.log("MERangeTools", "*extendMidiRange");
 
 		midi.do { |m|
 
@@ -108,7 +108,7 @@ MERangeTools : METools {
 	wrapAndExtend { |midi, names, degrees|
 		var tempM, tempN, tempD;
 
-		"MERangeTools: wrapAndExtend".postln;
+		MEDebug.log("MERangeTools", "*wrapAndExtend");
 
 		#tempM, tempN, tempD = this.wrapFirstOctave(midi, names, degrees);
 
@@ -125,7 +125,7 @@ MERangeTools : METools {
 		var arr = Array.new(midi.size * 5);
 		var temp;
 
-		"MERangeTools: getMENotes".postln;
+		MEDebug.log("MERangeTools", "*getMENotes");
 
 		midi.do { |m, i|
 
@@ -142,7 +142,7 @@ MERangeTools : METools {
 		var arrSize = midiOffsets.size;
 		var setSize = midiOffsets.asSet.size;
 
-		"MERangeTools: checkEnharmonics".postln;
+		MEDebug.log("MERangeTools", "*checkEnharmonics");
 
 		if (setSize < arrSize) {
 			Error("Enharmonics are not allowed.\n").throw;
@@ -154,7 +154,7 @@ MERangeTools : METools {
 	getRange { |symbol|
 		var midiTemp, nameTemp, degreeTemp;
 
-		"MERangeTools: getRange".postln;
+		MEDebug.log("MERangeTools", "*getRange");
 
 		this.getOffsets(symbol.degrees);
 		this.checkEnharmonics(midiOffsets);
