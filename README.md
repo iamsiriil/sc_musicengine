@@ -1,5 +1,5 @@
 > [!WARNING]
-> Although functional, this project is still under development. This README file will be updated as the project mover forward.
+> Although functional, this project is still under development. This README file will be updated as the project moves forward.
 
 # Music Engine
 
