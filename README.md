@@ -1,5 +1,5 @@
 > [!WARNING]
-> This project is under development and, although functional, it may contain bugs. This README file is currently serving the purpose of a note-pad. Stating goals, guidelines and ideas to be implemented. Information on this page may change, as the project moves forward.
+> Although functional, this project is still under development. This README file will be updated as the project mover forward.
 
 # Music Engine
 
