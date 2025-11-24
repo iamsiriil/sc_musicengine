@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-METools {
+MECore {
 	classvar notes;
 	classvar names;
 	classvar intervals;
@@ -63,7 +63,7 @@ METools {
 	/****************************************************************************************/
 
 	*noteFromLetter { |letter|
-		var index = METools.indexOfLetter(letter);
+		var index = MECore.indexOfLetter(letter);
 
 		^notes[index];
 	}
@@ -71,7 +71,7 @@ METools {
 	/****************************************************************************************/
 
 	*letterFromNote { |note|
-		var index = METools.indexOfNote(note);
+		var index = MECore.indexOfNote(note);
 
 		^names[index]
 	}
