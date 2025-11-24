@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENoteRanges : MERangeTools {
+MENoteRange : MERanges {
 	var symbol;
 	var notes;
 
@@ -16,7 +16,7 @@ MENoteRanges : MERangeTools {
 
 		MEDebug.log("MENoteRanges", "init");
 
-		symbol = MESymbols.new(newSymbol);
+		symbol = MESymbol.new(newSymbol);
 		notes  = super.getRange(symbol);
 
 		^this;
