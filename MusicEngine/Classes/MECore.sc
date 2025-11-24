@@ -65,6 +65,13 @@ MECore {
 	*noteFromLetter { |letter|
 		var index = MECore.indexOfLetter(letter);
 
+		// To be abstracted in special error handling class
+		if ((letter.isKindOf(Symbol).not && letter.isKindOf(String).not) ||
+			names.includes(letter.asSymbol).not
+		) {
+			Error("% is not a valid letter. Only % allowed.".format(letter, names.join(", "))).throw;
+		};
+
 		^notes[index];
 	}
 
@@ -72,6 +79,11 @@ MECore {
 
 	*letterFromNote { |note|
 		var index = MECore.indexOfNote(note);
+
+		// To be abstracted in special error handling class
+		if (note.isInteger.not || notes.includes(note).not) {
+			Error("% is not a valid note. Only % allowed.".format(note, notes.join(", "))).throw;
+		};
 
 		^names[index]
 	}
