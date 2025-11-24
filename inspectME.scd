@@ -6,7 +6,7 @@ s.waitForBoot({
 	"./inspecttools.scd".loadRelative;
 });
 )
-
+s.quit
 (
 // TEST SYMBOLS
 
@@ -46,8 +46,8 @@ s.waitForBoot({
 
 (
 // Select test symbol and create new noteRange
-~testSymbol = ~al5;
-~range = MENoteRanges(~testSymbol);
+~testSymbol = "FmM";
+~range = MENoteRange(~testSymbol);
 )
 
 // Inspect range properties
@@ -60,3 +60,4 @@ s.waitForBoot({
 
 // Inspect sound
 ~routine.(~range.notes(4, 8, "Rt")).play
+
