@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENotes : METools {
+MENote : MECore {
 	var name;
 	var <midi;
 	var <freq;
@@ -27,13 +27,13 @@ MENotes : METools {
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			midi   = newM;
 			freq   = midi.midicps;
-			name   = MENoteNames(noteLetter: newL, midi: newM);
+			name   = MENoteName(noteLetter: newL, midi: newM);
 			octave = MEOctaves.getOctave(midi, name.name);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
-			midi   = MEMidiNotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
+			midi   = MEMIDINotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
 			freq   = midi.midicps;
-			name   = MENoteNames(noteName: newN);
+			name   = MENoteName(noteName: newN);
 			octave = MEOctaves.getOctave(midi, name.name);
 		}
 		{
