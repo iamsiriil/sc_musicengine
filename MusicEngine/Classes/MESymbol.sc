@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MESymbols : MESymbolTools {
+MESymbol : MESymbolValidator {
 	var <root;
 	var <degrees;
 	var symbol;
