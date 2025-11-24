@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MEMidiNotes : METools {
+MEMIDINotes : MECore {
 
 	*initClass {}
 
@@ -40,7 +40,7 @@ MEMidiNotes : METools {
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
 		if (noteName.size > 1) {
-			accidentalOffset = MEAccidentals.getOffsetFromName(noteName).postln;
+			accidentalOffset = MEAccidental.getOffsetFromName(noteName).postln;
 		};
 
 		^super.noteFromLetter(noteName[0]) + accidentalOffset;
