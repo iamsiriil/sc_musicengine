@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MEAccidentals : METools {
+MEAccidental : MECore {
 	var <sign;
 	var <offset;
 
@@ -19,12 +19,12 @@ MEAccidentals : METools {
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
-			offset = MEAccidentals.getOffsetFromMidi(newM, newL);
-			sign   = MEAccidentals.getSignFromOffset(offset);
+			offset = MEAccidental.getOffsetFromMidi(newM, newL);
+			sign   = MEAccidental.getSignFromOffset(offset);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
-			offset = MEAccidentals.getOffsetFromName(newN);
-			sign   = MEAccidentals.getSignFromOffset(offset);
+			offset = MEAccidental.getOffsetFromName(newN);
+			sign   = MEAccidental.getSignFromOffset(offset);
 		}
 		{
 			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
@@ -80,8 +80,8 @@ MEAccidentals : METools {
 
 		MEDebug.log("MEAccidentals", "*resolveAccidental");
 
-		offset = MEAccidentals.getOffsetFromMidi(midi, noteLetter);
-		symbol = MEAccidentals.getSignFromOffset(offset);
+		offset = MEAccidental.getOffsetFromMidi(midi, noteLetter);
+		symbol = MEAccidental.getSignFromOffset(offset);
 
 		^noteLetter ++ symbol;
 	}
