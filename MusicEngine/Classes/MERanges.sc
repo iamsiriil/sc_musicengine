@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MERangeTools : METools {
+MERanges : MECore {
 	classvar midiOffsets;
 	classvar nameOffsets;
 	classvar intervals;
@@ -48,8 +48,8 @@ MERangeTools : METools {
 			var temp = Array.new(3);
 
 			temp.add(d);
-			temp.add(MEMidiNotes.getOffsetFromInterval(d));
-			temp.add(MENoteNames.getOffsetFromInterval(d));
+			temp.add(MEMIDINotes.getOffsetFromInterval(d));
+			temp.add(MENoteName.getOffsetFromInterval(d));
 
 			arr.add(temp);
 		};
@@ -129,7 +129,7 @@ MERangeTools : METools {
 
 		midi.do { |m, i|
 
-			temp = MENotes(noteLetter: names[i], midi: m, degree: degrees[i]);
+			temp = MENote(noteLetter: names[i], midi: m, degree: degrees[i]);
 			arr.add(temp);
 		};
 
@@ -159,11 +159,11 @@ MERangeTools : METools {
 		this.getOffsets(symbol.degrees);
 		this.checkEnharmonics(midiOffsets);
 
-		rootMidi = MEMidiNotes.getOffsetFromName(symbol.root);
+		rootMidi = MEMIDINotes.getOffsetFromName(symbol.root);
 
-		midiTemp = MEMidiNotes.transposeMidiOffset(midiOffsets, rootMidi);
+		midiTemp = MEMIDINotes.transposeMidiOffset(midiOffsets, rootMidi);
 
-		nameTemp = MENoteNames.getNoteNames(nameOffsets, symbol.root[0]);
+		nameTemp = MENoteName.getNoteNames(nameOffsets, symbol.root[0]);
 
 		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(
 			midiTemp,
