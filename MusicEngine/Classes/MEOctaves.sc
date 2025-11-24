@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MEOctaves : METools {
+MEOctaves : MECore {
 
 	*initClass {}
 
@@ -45,7 +45,7 @@ MEOctaves : METools {
 		MEDebug.log("MENoteNames", "*octaveCross");
 
 		mOffset = super.noteFromLetter(noteName[0]);
-		aOffset = MEAccidentals.getOffsetFromName(noteName);
+		aOffset = MEAccidental.getOffsetFromName(noteName);
 
 		^mOffset + aOffset;
 	}
