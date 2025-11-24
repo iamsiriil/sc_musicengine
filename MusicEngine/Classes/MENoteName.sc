@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENoteNames : METools {
+MENoteName : MECore {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 	var nameLetter;
 	var accidental;
@@ -21,11 +21,11 @@ MENoteNames : METools {
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			nameLetter = newL;
-			accidental = MEAccidentals(noteLetter: newL, midi: newM);
+			accidental = MEAccidental(noteLetter: newL, midi: newM);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
 			nameLetter = newN[0];
-			accidental = MEAccidentals(noteName: newN);
+			accidental = MEAccidental(noteName: newN);
 		}
 		{
 			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
@@ -60,7 +60,7 @@ MENoteNames : METools {
 		offsetArray.add(0);
 
 		intervalArray.do { |i|
-			offsetArray.add(MENoteNames.getOffsetFromInterval(i));
+			offsetArray.add(MENoteName.getOffsetFromInterval(i));
 		};
 
 		^offsetArray;
@@ -108,7 +108,7 @@ MENoteNames : METools {
 	/****************************************************************************************/
 
 	solfege {
-		var index = METools.indexOfLetter(nameLetter);
+		var index = MECore.indexOfLetter(nameLetter);
 
 		^solfege[index] ++ accidental.sign;
 	}
