@@ -10,31 +10,31 @@ MEOctaves : MECore {
 
 	/****************************************************************************************/
 
-	*closestOctave { |midi, noteLetter|
-		var ref = super.noteFromLetter(noteLetter);
+	*closestOctave { |midi, letter|
+		var ref = super.noteFromLetter(letter); // Already checks is name letter is valid
 
 		MEDebug.log("MENoteNames", "*closestOctave");
 
-		if ((midi < -3) || (midi > 127)) {
+		// MIDI note is valid
+		if ((midi < -3) || (midi > 127) || midi.isInteger.not) {
 
 			Error("Midi value not valid.\n").throw;
-		} {
+		};
 
-			case
-			{ (midi >= 5) && (midi <= 127) } {
+		case
+		{ (midi >= 5) && (midi <= 127) } {
 
-				while { ((ref >= (midi - 5)) && (ref <= (midi + 5))).not } {
-
-					ref = ref + 12;
-				};
-			}
-			{ midi <= 5  && noteLetter == "B" } {
-
-				ref = ref - 12;
-			}
+			while {
+				((ref >= (midi - 5)) && (ref <= (midi + 5))).not &&
+				(ref <= 127)
+			} { ref = ref + 12 };
 		}
+		{ (midi < 5)  && (letter == "B") } {
 
-		^ref;
+			ref = ref - 12;
+		};
+
+		if (((ref - midi).abs >= 6) || (ref > 127)) { ^nil } { ^ref };
 	}
 
 	/****************************************************************************************/
