@@ -39,6 +39,7 @@ MEMIDINotes : MECore {
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
+
 		if (noteName.size > 1) {
 			accidentalOffset = MEAccidental.getOffsetFromName(noteName).postln;
 		};

@@ -5,8 +5,8 @@
 *********************************************************************************************/
 
 MERanges : MECore {
+	classvar letterOffsets;
 	classvar midiOffsets;
-	classvar nameOffsets;
 	classvar intervals;
 	classvar rootMidi;
 
@@ -15,9 +15,9 @@ MERanges : MECore {
 	/****************************************************************************************/
 
 	sortAndSplit { |arr|
-		midiOffsets = arr.collect { |n| n[1] };
-		nameOffsets = Array.new(arr.size);
-		intervals   = Array.new(arr.size);
+		midiOffsets   = arr.collect { |n| n[1] };
+		letterOffsets = Array.new(arr.size);
+		intervals     = Array.new(arr.size);
 
 		MEDebug.log("MERangeTools", "*sortAndSplit");
 
@@ -28,7 +28,7 @@ MERanges : MECore {
 			arr.do { |a|
 
 				if (a[1] == n) {
-					nameOffsets.add(a[2]);
+					letterOffsets.add(a[2]);
 					intervals.add(a[0]);
 				};
 			};
@@ -60,7 +60,7 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	wrapFirstOctave { |midi, names, degrees|
+	wrapFirstOctave { |midi, letters, degrees|
 
 		MEDebug.log("MERangeTools", "*wrapFirstOctave");
 
@@ -74,14 +74,14 @@ MERanges : MECore {
 			if (m > 11) {
 
 				midi[i] = m - 12;
-				names   = names.rotate(1);
+				letters = letters.rotate(1);
 				degrees = degrees.rotate(1);
 			};
 		};
 
 		midi.sort;
 
-		^[midi, names, degrees]
+		^[midi, letters, degrees]
 	}
 
 	/****************************************************************************************/
@@ -105,31 +105,33 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	wrapAndExtend { |midi, names, degrees|
-		var tempM, tempN, tempD;
+	wrapAndExtend { |midi, letters, degrees|
+		var tempM, tempL, tempD;
 
 		MEDebug.log("MERangeTools", "*wrapAndExtend");
 
-		#tempM, tempN, tempD = this.wrapFirstOctave(midi, names, degrees);
+		#tempM, tempL, tempD = this.wrapFirstOctave(midi, letters, degrees);
 
 		tempM = this.extendMidiRange(tempM);
-		tempN = tempN.wrapExtend(tempM.size);
+		tempL = tempL.wrapExtend(tempM.size);
 		tempD = tempD.wrapExtend(tempM.size);
 
-		^[tempM, tempN, tempD];
+		^[tempM, tempL, tempD];
 	}
 
 	/****************************************************************************************/
 
-	getMENotes { |midi, names, degrees|
+	getMENotes { |midi, letters, degrees|
 		var arr = Array.new(midi.size * 5);
 		var temp;
 
 		MEDebug.log("MERangeTools", "*getMENotes");
 
+		"letters: %".format(letters).postln;
+
 		midi.do { |m, i|
 
-			temp = MENote(noteLetter: names[i], midi: m, degree: degrees[i]);
+			temp = MENote(letter: letters[i], midi: m, degree: degrees[i]);
 			arr.add(temp);
 		};
 
@@ -138,6 +140,7 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
+	// To be abstrackted in an dedicated error class
 	checkEnharmonics { |midiOffsets|
 		var arrSize = midiOffsets.size;
 		var setSize = midiOffsets.asSet.size;
@@ -152,7 +155,7 @@ MERanges : MECore {
 	/****************************************************************************************/
 
 	getRange { |symbol|
-		var midiTemp, nameTemp, degreeTemp;
+		var midiTemp, letterTemp, degreeTemp;
 
 		MEDebug.log("MERangeTools", "*getRange");
 
@@ -163,14 +166,14 @@ MERanges : MECore {
 
 		midiTemp = MEMIDINotes.transposeMidiOffset(midiOffsets, rootMidi);
 
-		nameTemp = MENoteName.getNoteNames(nameOffsets, symbol.root[0]);
+		letterTemp = MENoteName.getNoteNames(letterOffsets, symbol.root[0]);
 
-		#midiTemp, nameTemp, degreeTemp = this.wrapAndExtend(
+		#midiTemp, letterTemp, degreeTemp = this.wrapAndExtend(
 			midiTemp,
-			nameTemp,
+			letterTemp,
 			intervals
 		);
 
-		^this.getMENotes(midiTemp, nameTemp, degreeTemp);
+		^this.getMENotes(midiTemp, letterTemp, degreeTemp);
 	}
 }
