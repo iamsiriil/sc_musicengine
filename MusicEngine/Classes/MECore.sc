@@ -6,14 +6,14 @@
 
 MECore {
 	classvar notes;
-	classvar names;
+	classvar letters;
 	classvar intervals;
 
 	*initClass {
 
 		notes = [0, 2, 4, 5, 7, 9, 11];
 
-		names = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+		letters = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
 		intervals = Dictionary[
 			"m2" -> [Set["m9"], 1],
@@ -32,8 +32,8 @@ MECore {
 
 	/****************************************************************************************/
 
-	*names {
-		^names;
+	*letters {
+		^letters;
 	}
 
 	/****************************************************************************************/
@@ -51,7 +51,7 @@ MECore {
 	/****************************************************************************************/
 
 	*indexOfLetter { |letter|
-		^names.indexOf(letter.asSymbol);
+		^letters.indexOf(letter.asSymbol);
 	}
 
 	/****************************************************************************************/
@@ -65,11 +65,15 @@ MECore {
 	*noteFromLetter { |letter|
 		var index = MECore.indexOfLetter(letter);
 
+		MEDebug.log("MECore", "*noteFromLetter");
+
+		"letter: % | class: %".format(letter, letter.class).postln;
+
 		// To be abstracted in special error handling class
-		if ((letter.isKindOf(Symbol).not && letter.isKindOf(String).not) ||
-			names.includes(letter.asSymbol).not
+		if ((letter.isKindOf(Symbol).not && letter.isKindOf(String).not && letter.isKindOf(Char).not) ||
+			letters.includes(letter.asSymbol).not
 		) {
-			Error("% is not a valid letter. Only % allowed.".format(letter, names.join(", "))).throw;
+			Error("% is not a valid letter. Only % allowed.".format(letter, letters.join(", "))).throw;
 		};
 
 		^notes[index];
@@ -80,11 +84,13 @@ MECore {
 	*letterFromNote { |note|
 		var index = MECore.indexOfNote(note);
 
+		MEDebug.log("MECore", "*letterFromNote");
+
 		// To be abstracted in special error handling class
 		if (note.isInteger.not || notes.includes(note).not) {
 			Error("% is not a valid note. Only % allowed.".format(note, notes.join(", "))).throw;
 		};
 
-		^names[index]
+		^letters[index]
 	}
 }
