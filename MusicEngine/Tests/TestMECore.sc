@@ -5,19 +5,19 @@
 *********************************************************************************************/
 
 TestMECore : UnitTest {
-	classvar names;
+	classvar letters;
 	classvar notes;
 
 	setUp {
-		names = MECore.names;
-		notes = MECore.notes;
+		letters = MECore.letters;
+		notes   = MECore.notes;
 	}
 
 	test_names_dataCorrectness {
 
 		this.assertEquals(
 			['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-			MECore.names,
+			MECore.letters,
 			"names should return an array with Symbols representing the seven note letters."
 		);
 	}
@@ -33,7 +33,7 @@ TestMECore : UnitTest {
 
 	test_indexOfLetter_indexCorrectness {
 
-		names.do { |n, i|
+		letters.do { |n, i|
 
 			this.assertEquals(
 				i,
@@ -45,7 +45,7 @@ TestMECore : UnitTest {
 
 	test_indexOfLetter_stringInput {
 
-		names.do { |n, i|
+		letters.do { |n, i|
 
 			this.assertEquals(
 				i,
@@ -96,8 +96,8 @@ TestMECore : UnitTest {
 	test_noteFromLetter_mappingCorrectness {
 		var index;
 
-		names.do { |l|
-			index = names.indexOf(l);
+		letters.do { |l|
+			index = letters.indexOf(l);
 
 			this.assertEquals(
 				notes[index],
@@ -110,8 +110,8 @@ TestMECore : UnitTest {
 	test_noteFromLetter_stringInput {
 		var index;
 
-		names.do { |l|
-			index = names.indexOf(l);
+		letters.do { |l|
+			index = letters.indexOf(l);
 
 			this.assertEquals(
 				notes[index],
@@ -129,7 +129,7 @@ TestMECore : UnitTest {
 			this.assertException(
 				{ MECore.noteFromLetter(f) },
 				Error,
-				"noteFromLetter should not accept anything other than %.".format(names.join(", "))
+				"noteFromLetter should not accept anything other than %.".format(letters.join(", "))
 			);
 		};
 	}
@@ -137,7 +137,7 @@ TestMECore : UnitTest {
 	test_noteFromLetter_roundTrip {
 		var note;
 
-		names.do { |n|
+		letters.do { |n|
 			note = MECore.noteFromLetter(n);
 
 			this.assertEquals(
@@ -155,7 +155,7 @@ TestMECore : UnitTest {
 			index = notes.indexOf(n);
 
 			this.assertEquals(
-				names[index],
+				letters[index],
 				MECore.letterFromNote(n),
 				"letterFromNote should map MIDI notes, from the first octave, to note letters."
 			);
