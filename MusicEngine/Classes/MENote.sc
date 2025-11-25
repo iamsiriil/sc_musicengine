@@ -14,9 +14,9 @@ MENote : MECore {
 	var <>articulation;
 	var <>dynamic;
 
-	*new { |noteName = nil, noteLetter = nil, midi = nil, degree = nil, octave = nil|
+	*new { |noteName = nil, letter = nil, midi = nil, degree = nil, octave = nil|
 
-		^super.new.init(noteName, noteLetter, midi, degree, octave);
+		^super.new.init(noteName, letter, midi, degree, octave);
 	}
 
 	init { |newN, newL, newM, newD, newO|
@@ -27,7 +27,7 @@ MENote : MECore {
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			midi   = newM;
 			freq   = midi.midicps;
-			name   = MENoteName(noteLetter: newL, midi: newM);
+			name   = MENoteName(letter: newL, midi: newM);
 			octave = MEOctaves.getOctave(midi, name.name);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {

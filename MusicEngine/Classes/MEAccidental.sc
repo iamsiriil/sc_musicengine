@@ -8,9 +8,9 @@ MEAccidental : MECore {
 	var <sign;
 	var <offset;
 
-	*new { |noteName = nil, noteLetter = nil, midi = nil|
+	*new { |noteName = nil, letter = nil, midi = nil|
 
-		^super.new.init(noteName, noteLetter, midi);
+		^super.new.init(noteName, letter, midi);
 	}
 
 	init { |newN, newL, newM|
@@ -49,12 +49,12 @@ MEAccidental : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsetFromMidi { |midi, noteLetter|
+	*getOffsetFromMidi { |midi, letter|
 		var ref;
 
 		MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
 
-		ref = MEOctaves.closestOctave(midi, noteLetter);
+		ref = MEOctaves.closestOctave(midi, letter);
 
 		^midi - ref;
 	}
@@ -75,14 +75,14 @@ MEAccidental : MECore {
 
 	/****************************************************************************************/
 
-	*resolveAccidental { |midi, noteLetter|
+	*resolveAccidental { |midi, letter|
 		var offset, symbol;
 
 		MEDebug.log("MEAccidentals", "*resolveAccidental");
 
-		offset = MEAccidental.getOffsetFromMidi(midi, noteLetter);
+		offset = MEAccidental.getOffsetFromMidi(midi, letter);
 		symbol = MEAccidental.getSignFromOffset(offset);
 
-		^noteLetter ++ symbol;
+		^letter ++ symbol;
 	}
 }

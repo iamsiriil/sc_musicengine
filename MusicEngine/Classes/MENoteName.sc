@@ -6,12 +6,12 @@
 
 MENoteName : MECore {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
-	var nameLetter;
+	var letter;
 	var accidental;
 
-	*new { |noteName = nil, noteLetter = nil, midi = nil|
+	*new { |noteName = nil, letter = nil, midi = nil|
 
-		^super.new.init(noteName, noteLetter, midi);
+		^super.new.init(noteName, letter, midi);
 	}
 
 	init { |newN, newL, newM|
@@ -20,11 +20,11 @@ MENoteName : MECore {
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
-			nameLetter = newL;
-			accidental = MEAccidental(noteLetter: newL, midi: newM);
+			letter     = newL;
+			accidental = MEAccidental(letter: newL, midi: newM);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
-			nameLetter = newN[0];
+			letter     = newN[0];
 			accidental = MEAccidental(noteName: newN);
 		}
 		{
@@ -70,27 +70,27 @@ MENoteName : MECore {
 
 	*getNoteNames { |intervalArray, rootLetter|
 		var index = super.indexOfLetter(rootLetter);
-		var namesArray;
+		var lettersArray;
 
 		MEDebug.log("MENoteNames", "*getNoteNames");
 
-		namesArray  = super.names.wrapAt(index + intervalArray);
+		lettersArray  = super.letters.wrapAt(index + intervalArray);
 
-		namesArray.do { |n, i| namesArray[i] = n.asString };
+		lettersArray.do { |n, i| lettersArray[i] = n.asString };
 
-		^namesArray;
+		^lettersArray;
 	}
 
 	/****************************************************************************************/
 
 	name {
-		^nameLetter ++ accidental.sign;
+		^letter ++ accidental.sign;
 	}
 
 	/****************************************************************************************/
 
 	letter {
-		^nameLetter;
+		^letter;
 	}
 
 	/****************************************************************************************/
@@ -108,7 +108,7 @@ MENoteName : MECore {
 	/****************************************************************************************/
 
 	solfege {
-		var index = MECore.indexOfLetter(nameLetter);
+		var index = MECore.indexOfLetter(letter);
 
 		^solfege[index] ++ accidental.sign;
 	}
