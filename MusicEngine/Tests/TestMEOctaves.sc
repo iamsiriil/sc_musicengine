@@ -1,6 +1,6 @@
 TestMEOctaves : UnitTest {
 
-	test_closestOctave_correctInputMiddleOctaves {
+	test_getClosestOctave_correctInputMiddleOctaves {
 		var fixtures = [
 			(expected: 12, midi: 7, letter: "C"),
 			(expected: 12, midi: 12, letter: "C"),
@@ -32,7 +32,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -40,7 +40,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_correctInputFirstOctave {
+	test_getClosestOctave_correctInputFirstOctave {
 		var fixtures = [
 			(expected: 5, midi: 0, letter: "F"),
 			(expected: 5, midi: 5, letter: "F"),
@@ -60,7 +60,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -68,7 +68,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_correctInputLowerEdge {
+	test_getClosestOctave_correctInputLowerEdge {
 		var fixtures = [
 			(expected: -1, midi: -1, letter: "B"),
 			(expected: -1, midi: 4, letter: "B"),
@@ -87,7 +87,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -95,7 +95,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_correctInputUpperEdge {
+	test_getClosestOctave_correctInputUpperEdge {
 		var fixtures = [
 			(expected: 122, midi: 117, letter: "D"),
 			(expected: 122, midi: 122, letter: "D"),
@@ -115,7 +115,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -123,7 +123,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_invalidMIDI {
+	test_getClosestOctave_invalidMIDI {
 		var fixtures = [
 			(midi: -2, letter: "C"),
 			(midi: -102, letter: "C"),
@@ -142,7 +142,7 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MEOctaves.closestOctave(f.midi, f.letter) },
+				{ MEOctaves.getClosestOctave(f.midi, f.letter) },
 				Error,
 				"Expected Error for Midi: %".format(f.midi)
 			);
@@ -151,7 +151,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_invalidLetter {
+	test_getClosestOctave_invalidLetter {
 		var fixtures = [
 			(midi: 0, letter: "Q"),
 			(midi: 0, letter: "X"),
@@ -164,7 +164,7 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MEOctaves.closestOctave(f.midi, f.letter) },
+				{ MEOctaves.getClosestOctave(f.midi, f.letter) },
 				Error,
 				"Expected Error for letter value: %".format(f.letter)
 			);
@@ -173,7 +173,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_tritoneExceptionLowerEdge {
+	test_getClosestOctave_tritoneExceptionLowerEdge {
 		var fixtures = [
 			(midi: 5, letter: "B"),
 			(midi: 6, letter: "C"),
@@ -193,7 +193,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				nil,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -201,7 +201,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_tritoneExceptionUpperEdge {
+	test_getClosestOctave_tritoneExceptionUpperEdge {
 		var fixtures = [
 			(midi: 113, letter: "B"),
 			(midi: 125, letter: "B"),
@@ -217,7 +217,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				nil,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -225,7 +225,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_tritoneExceptionMiddleOctaves {
+	test_getClosestOctave_tritoneExceptionMiddleOctaves {
 		var fixtures = [
 			(midi: 6, letter: "C"),
 			(midi: 18, letter: "C"),
@@ -249,7 +249,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				nil,
-				MEOctaves.closestOctave(f.midi, f.letter),
+				MEOctaves.getClosestOctave(f.midi, f.letter),
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -258,14 +258,14 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_rangeInvariant {
+	test_getClosestOctave_rangeInvariant {
 		var letters = MECore.letters;
 		var result;
 
 		(-1..127).do { |midi|
 
 			letters.do { |letter|
-				result = MEOctaves.closestOctave(midi, letter);
+				result = MEOctaves.getClosestOctave(midi, letter);
 
 				if (result.notNil) {
 
@@ -280,14 +280,14 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_neverCrossesTritone {
+	test_getClosestOctave_neverCrossesTritone {
 		var letters = MECore.letters;
 		var result;
 
 		(-1..127).do { |midi|
 
 			letters.do { |letter|
-				result = MEOctaves.closestOctave(midi, letter);
+				result = MEOctaves.getClosestOctave(midi, letter);
 
 				if (result.notNil) {
 
@@ -303,7 +303,7 @@ TestMEOctaves : UnitTest {
 	/****************************************************************************************/
 	// RANDOM TESTS
 
-	test_closestOctave_deterministic {
+	test_getClosestOctave_deterministic {
 		var letters = MECore.letters;
 		var midi, letter;
 		var result1, result2;
@@ -312,8 +312,8 @@ TestMEOctaves : UnitTest {
 			midi   = (0..127).choose;
 			letter = letters.choose;
 
-			result1 = MEOctaves.closestOctave(midi, letter);
-			result2 = MEOctaves.closestOctave(midi, letter);
+			result1 = MEOctaves.getClosestOctave(midi, letter);
+			result2 = MEOctaves.getClosestOctave(midi, letter);
 
 			this.assertEquals(
 				result1,
@@ -325,7 +325,7 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_closestOctave_randomCorrectness09 {
+	test_getClosestOctave_randomCorrectness09 {
 		var index, octave, offset;
 		var letter, note;
 		var expected, testNote;
@@ -343,7 +343,7 @@ TestMEOctaves : UnitTest {
 
 			this.assertEquals(
 				expected,
-				MEOctaves.closestOctave(testNote, letter),
+				MEOctaves.getClosestOctave(testNote, letter),
 				"Expected: %, for MIDI: % letter: %".format(expected, testNote, letter)
 			);
 		};
@@ -351,14 +351,14 @@ TestMEOctaves : UnitTest {
 
 	/****************************************************************************************/
 
-	test_cosestOctave_randomMIDIValidation {
+	test_getClosestOctave_randomMIDIValidation {
 		var fixtures = ((-100..-4) ++ (128..224));
 
 		100.do { |m|
 			var pick = fixtures.choose;
 
 			this.assertException(
-				{ MEOctaves.closestOctave(pick, "C") },
+				{ MEOctaves.getClosestOctave(pick, "C") },
 				Error,
 				"Expected Error for MIDI: %.".format(pick)
 			);
