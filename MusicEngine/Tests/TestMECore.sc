@@ -13,6 +13,8 @@ TestMECore : UnitTest {
 		notes   = MECore.notes;
 	}
 
+	/****************************************************************************************/
+
 	test_names_dataCorrectness {
 
 		this.assertEquals(
@@ -22,6 +24,8 @@ TestMECore : UnitTest {
 		);
 	}
 
+	/****************************************************************************************/
+
 	test_notes_dataCorrectness {
 
 		this.assertEquals(
@@ -30,6 +34,8 @@ TestMECore : UnitTest {
 			"notes should return an array containing MIDI notes for the C major scale in octave -1."
 		);
 	}
+
+	/****************************************************************************************/
 
 	test_indexOfLetter_indexCorrectness {
 
@@ -43,6 +49,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_indexOfLetter_stringInput {
 
 		letters.do { |n, i|
@@ -54,6 +62,8 @@ TestMECore : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_indexOfLetter_wrongInput {
 		var fixture = [1, 0.5, ["C"], "Z", 'a', "b"];
@@ -68,6 +78,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_indexOfNote_indexCorrectness {
 
 		notes.do { |n, i|
@@ -79,6 +91,8 @@ TestMECore : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_indexOfNote_wrongInput {
 		var fixtures = [1, 0.5, "A", [], -8, 13];
@@ -92,6 +106,8 @@ TestMECore : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_noteFromLetter_mappingCorrectness {
 		var index;
@@ -107,6 +123,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_noteFromLetter_stringInput {
 		var index;
 
@@ -121,6 +139,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_noteFromLetter_wrongInput {
 		var fixtures = ['a', "b", 'Z', ">", 1, 0.5, ["A"]];
 
@@ -133,6 +153,8 @@ TestMECore : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_noteFromLetter_roundTrip {
 		var note;
@@ -148,6 +170,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_letterFromNote_mappingCorrectness {
 		var index;
 
@@ -162,6 +186,8 @@ TestMECore : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_letterFromNote_wrongInput {
 		var fixtures = ["b", 'Z', 1, 0.5, 12, ["A"]];
 
@@ -174,6 +200,8 @@ TestMECore : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_letterFromNote_roundTrip {
 		var letter;
