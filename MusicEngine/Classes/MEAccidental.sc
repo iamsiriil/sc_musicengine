@@ -54,7 +54,7 @@ MEAccidental : MECore {
 
 		MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
 
-		ref = MEOctaves.closestOctave(midi, letter);
+		ref = MEOctaves.getClosestOctave(midi, letter);
 
 		^midi - ref;
 	}
