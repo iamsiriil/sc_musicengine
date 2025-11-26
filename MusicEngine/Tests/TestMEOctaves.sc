@@ -107,7 +107,8 @@ TestMEOctaves : UnitTest {
 			(expected: 125, midi: 125, letter: "F"),
 			(expected: 125, midi: 127, letter: "F"),
 			(expected: 127, midi: 122, letter: "G"),
-			(expected: 127, midi: 127, letter: "G")
+			(expected: 127, midi: 127, letter: "G"),
+			(expected: 129, midi: 127, letter: "A"),
 		];
 
 		fixtures.do { |f|
@@ -269,7 +270,7 @@ TestMEOctaves : UnitTest {
 				if (result.notNil) {
 
 					this.assert(
-						(result >= -1) && (result <= 127),
+						(result >= -1) && (result <= 129),
 						"Result: %, within MIDI range.".format(result)
 					);
 				};
