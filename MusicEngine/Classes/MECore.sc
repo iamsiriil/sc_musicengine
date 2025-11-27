@@ -67,8 +67,6 @@ MECore {
 
 		MEDebug.log("MECore", "*noteFromLetter");
 
-		"letter: % | class: %".format(letter, letter.class).postln;
-
 		// To be abstracted in special error handling class
 		if ((letter.isKindOf(Symbol).not && letter.isKindOf(String).not && letter.isKindOf(Char).not) ||
 			letters.includes(letter.asSymbol).not

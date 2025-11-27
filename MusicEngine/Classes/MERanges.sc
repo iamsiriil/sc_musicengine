@@ -127,8 +127,6 @@ MERanges : MECore {
 
 		MEDebug.log("MERangeTools", "*getMENotes");
 
-		"letters: %".format(letters).postln;
-
 		midi.do { |m, i|
 
 			temp = MENote(letter: letters[i], midi: m, degree: degrees[i]);
