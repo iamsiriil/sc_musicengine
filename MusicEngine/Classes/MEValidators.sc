@@ -39,6 +39,14 @@ MEValidators {
 		};
 	}
 
+	*midiOffsetIsValid { |midiOffset|
+		var offsets = Set[0, 2, 4, 5, 7, 9, 11];
+
+		if (midiOffset.isInteger.not || offsets.includes(midiOffset).not) {
+			Error("% is not a valid MIDI offset.".format(midiOffset)).throw;
+		}
+	}
+
 	*octaveIsValid { |octave, min = -1, max = 9|
 
 		if ((octave < min) || (octave > max) || (octave.isInteger.not)) {
