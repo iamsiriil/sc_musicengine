@@ -50,44 +50,42 @@ MECore {
 
 	/****************************************************************************************/
 
-	*indexOfLetter { |letter|
-		^letters.indexOf(letter.asSymbol);
+	*indexOfLetter { |noteLetter, validate = true|
+
+		if (validate) {
+			MEValidators.noteLetterIsValid(noteLetter);
+		};
+
+		^letters.indexOf(noteLetter.asSymbol);
 	}
 
 	/****************************************************************************************/
 
-	*indexOfNote { |note|
-		^notes.indexOf(note);
+	*indexOfNote { |midiNote, validate = true|
+
+		if (validate) {
+			MEValidators.midiOffsetIsValid(midiNote);
+		};
+
+		^notes.indexOf(midiNote);
 	}
 
 	/****************************************************************************************/
 
-	*noteFromLetter { |letter|
-		var index = MECore.indexOfLetter(letter);
+	*noteFromLetter { |noteLetter, validate = true| // noteLetter
+		var index = MECore.indexOfLetter(noteLetter, validate);
 
 		MEDebug.log("MECore", "*noteFromLetter");
-
-		// To be abstracted in special error handling class
-		if ((letter.isKindOf(Symbol).not && letter.isKindOf(String).not && letter.isKindOf(Char).not) ||
-			letters.includes(letter.asSymbol).not
-		) {
-			Error("% is not a valid letter. Only % allowed.".format(letter, letters.join(", "))).throw;
-		};
 
 		^notes[index];
 	}
 
 	/****************************************************************************************/
 
-	*letterFromNote { |note|
-		var index = MECore.indexOfNote(note);
+	*letterFromNote { |midiNote, validate = true|
+		var index = MECore.indexOfNote(midiNote, validate);
 
 		MEDebug.log("MECore", "*letterFromNote");
-
-		// To be abstracted in special error handling class
-		if (note.isInteger.not || notes.includes(note).not) {
-			Error("% is not a valid note. Only % allowed.".format(note, notes.join(", "))).throw;
-		};
 
 		^letters[index]
 	}
