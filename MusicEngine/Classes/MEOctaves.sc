@@ -11,11 +11,11 @@ MEOctaves : MECore {
 	/****************************************************************************************/
 
 	*getClosestOctave { |midi, letter|
-		var ref = super.noteFromLetter(letter); // Already checks is name letter is valid
+		var ref = super.noteFromLetter(letter); // Already checks if note letter is valid
 
 		MEDebug.log("MEOctaves", "*getClosestOctave");
 
-		// MIDI note is valid. Test to be abstracted in dedicated validators class
+		// Check if MIDI note is valid. Test to be abstracted in dedicated validators class
 		if ((midi < -1) || (midi > 127) || midi.isInteger.not) {
 
 			Error("Midi value not valid.\n").throw;
@@ -39,36 +39,63 @@ MEOctaves : MECore {
 
 	/****************************************************************************************/
 
-	*octaveCross { |noteName|
-		var mOffset, aOffset;
+	// Method to be included in validators class
+	*midiNamePairIsValid { |midiNote, noteName|
+		var sign  = MEAccidental.getOffsetFromName(noteName);
+		var cross = MEOctaves.checkOctaveCross(noteName);
+		var ref   = MECore.noteFromLetter(noteName[0]);
+		var oct   = (midiNote / 12).floor;
+		var note  = (midiNote - (12 * oct));
 
-		MEDebug.log("MEOctaves", "*octaveCross");
+		if (cross != 0) {
 
-		mOffset = super.noteFromLetter(noteName[0]);
-		aOffset = MEAccidental.getOffsetFromName(noteName);
+			case
+			{ cross == -1 } { ref = ref + 12 }
+			{ cross == 1 }  { ref = ref - 12 }
+		};
 
-		^mOffset + aOffset;
+		if ((ref + sign) != note) {
+			Error("% is not a valid representation of MIDI note %.".format(
+				noteName,
+				midiNote)
+			).throw;
+		};
+		^true;
 	}
 
 	/****************************************************************************************/
 
-	*getOctave { |midi, noteName = nil|
+	*checkOctaveCross { |noteName|
+		var midiOffset = super.noteFromLetter(noteName[0]);
+		var signOffset = MEAccidental.getOffsetFromName(noteName);
+		var cross      = midiOffset + signOffset;
+
+		MEDebug.log("MEOctaves", "*checkOctaveCross");
+
+		case
+		{ cross < 0 }  { ^-1 }
+		{ cross > 11 } { ^1 }
+		{ ^0 }
+	}
+
+	/****************************************************************************************/
+
+	*getOctave { |midiNote, noteName = nil|
 		var octave = -1;
 		var cross;
 
 		MEDebug.log("MEOctaves", "*getOctave");
 
-		octave = (octave + (midi/12).floor).asInteger;
+		if (MEOctaves.midiNamePairIsValid(midiNote, noteName)) {
 
-		if (noteName.notNil) {
+			octave = (octave + (midiNote/12).floor).asInteger;
 
-			cross = MEOctaves.octaveCross(noteName);
+			if (noteName.notNil) {
 
-			case
-			{ cross < 0 }  { ^octave + 1 }
-			{ cross > 11 } { ^octave - 1 }
+				cross = MEOctaves.checkOctaveCross(noteName);
+				^octave + (cross * -1);
+			};
+			^octave
 		};
-
-		^octave
 	}
 }
