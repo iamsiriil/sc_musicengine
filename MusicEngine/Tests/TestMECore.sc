@@ -70,9 +70,9 @@ TestMECore : UnitTest {
 
 		fixture.do { |f|
 
-			this.assertEquals(
-				nil,
-				MECore.indexOfLetter(f),
+			this.assertException(
+				{ MECore.indexOfLetter(f) },
+				Error,
 				"indexOfLetter should not accept anything other than letters A-G."
 			);
 		};
@@ -99,9 +99,9 @@ TestMECore : UnitTest {
 
 		fixtures.do { |f|
 
-			this.assertEquals(
-				nil,
-				MECore.indexOfNote(f),
+			this.assertException(
+				{ MECore.indexOfNote(f) },
+				Error,
 				"indexofNote should not accept anithing other than %.".format(notes.join(", "))
 			);
 		};
@@ -126,13 +126,11 @@ TestMECore : UnitTest {
 	/****************************************************************************************/
 
 	test_noteFromLetter_stringInput {
-		var index;
 
-		letters.do { |l|
-			index = letters.indexOf(l);
+		letters.do { |l, i|
 
 			this.assertEquals(
-				notes[index],
+				notes[i],
 				MECore.noteFromLetter(l.asString),
 				"noteFromLetter should also accept String."
 			);
@@ -173,13 +171,11 @@ TestMECore : UnitTest {
 	/****************************************************************************************/
 
 	test_letterFromNote_mappingCorrectness {
-		var index;
 
-		notes.do { |n|
-			index = notes.indexOf(n);
+		notes.do { |n, i|
 
 			this.assertEquals(
-				letters[index],
+				letters[i],
 				MECore.letterFromNote(n),
 				"letterFromNote should map MIDI notes, from the first octave, to note letters."
 			);
