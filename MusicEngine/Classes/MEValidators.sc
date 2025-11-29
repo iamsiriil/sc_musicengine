@@ -70,11 +70,11 @@ MEValidators {
 	/****************************************************************************************/
 
 	*letterOffsetIsValid { |letterOffset|
-		var offsets = Set[0, 1, 2, 3, 4, 5, 6];
+		var offsets = (0..6).asSet;
 
 		if (letterOffset.isInteger.not || offsets.includes(letterOffset).not) {
 			Error("% is not a valid letter offset.".format(letterOffset)).throw;
-		}
+		};
 	}
 
 	/****************************************************************************************/
@@ -83,6 +83,16 @@ MEValidators {
 
 		letterOffsetArr.do { |o|
 			this.letterOffsetIsValid(o);
+		};
+	}
+
+	/****************************************************************************************/
+
+	*signOffsetIsValid { |signOffset|
+		var offsets = (-5..5).asSet;
+
+		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
+			Error("% is not a valid sign offset.".format(signOffset)).throw;
 		};
 	}
 
