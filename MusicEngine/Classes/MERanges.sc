@@ -129,7 +129,12 @@ MERanges : MECore {
 
 		midi.do { |m, i|
 
-			temp = MENote(letter: letters[i], midi: m, degree: degrees[i]);
+			temp = MENote(
+				noteLetter: letters[i],
+				midiNote:   m,
+				degree:     degrees[i],
+				validate:   false
+			);
 			arr.add(temp);
 		};
 
