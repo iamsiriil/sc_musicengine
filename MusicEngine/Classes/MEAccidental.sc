@@ -10,7 +10,7 @@ MEAccidental : MECore {
 
 	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
 
-		^super.new.init(noteName, noteLetter, midiNote);
+		^super.new.init(noteName, noteLetter, midiNote, validate);
 	}
 
 	init { |newN, newL, newM, val|
