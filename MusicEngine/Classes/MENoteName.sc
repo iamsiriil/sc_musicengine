@@ -6,7 +6,7 @@
 
 MENoteName : MECore {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
-	var letter;
+	var letter; // noteLetter
 	var accidental;
 
 	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
@@ -37,79 +37,85 @@ MENoteName : MECore {
 	/****************************************************************************************/
 
 	*getOffsetFromInterval { |interval|
-		var nameOffset;
+		var letterOffset;
 
 		MEDebug.log("MENoteNames", "*getOffsetFromInterval");
 
-		nameOffset = interval[1..].asInteger;
+		// intervalIsValid
 
-		if (nameOffset > 7) {
-			^(nameOffset - 7) - 1;
+		letterOffset = interval[1..].asInteger;
+
+		if (letterOffset > 7) {
+			^(letterOffset - 7) - 1;
 		} {
-			^nameOffset - 1;
+			^letterOffset - 1;
 		};
 	}
 
 	/****************************************************************************************/
 
 	*getOffsetArray { |intervalArray|
-		var nameOffsetArr = Array.new(intervalArray.size + 1);
+		var letterOffsetArr = Array.new(intervalArray.size + 1);
 
 		MEDebug.log("MENoteNames", "*getOffsetArray");
 
-		nameOffsetArr.add(0);
+		letterOffsetArr.add(0);
 
 		intervalArray.do { |i|
-			nameOffsetArr.add(MENoteName.getOffsetFromInterval(i));
+			letterOffsetArr.add(MENoteName.getOffsetFromInterval(i));
 		};
 
-		^nameOffsetArr;
+		^letterOffsetArr;
 	}
 
 	/****************************************************************************************/
 
-	*getNoteNames { |nameOffsetArr, rootLetter|
-		var index = super.indexOfLetter(rootLetter);
-		var noteLettersArr;
+	*getNoteNames { |letterOffsetArr, rootLetter, validate = true| // getNoteLetters
+		var index, letterArr;
 
 		MEDebug.log("MENoteNames", "*getNoteNames");
 
-		noteLettersArr  = super.letters.wrapAt(index + nameOffsetArr);
+		if (validate) {
+			MEValidators.letterOffsetArrayIsValid(letterOffsetArr);
+		};
 
-		noteLettersArr.do { |n, i| noteLettersArr[i] = n.asString };
+		index     = super.indexOfLetter(rootLetter, validate: false);
+		letterArr = super.letters.wrapAt(index + letterOffsetArr);
 
-		^noteLettersArr;
+		letterArr.do { |n, i| letterArr[i] = n.asString };
+
+		^letterArr;
 	}
 
 	/****************************************************************************************/
 
 	name {
-		^letter ++ accidental.sign;
+		^letter ++ accidental.sign; // signOffset
 	}
 
 	/****************************************************************************************/
 
 	letter {
-		^letter;
+		^letter; // ^noteLetter
 	}
 
 	/****************************************************************************************/
 
 	sign {
-		^accidental.sign
+		^accidental.sign // signOffset
 	}
 
 	/****************************************************************************************/
 
 	accidentalOffset {
-		^accidental.offset;
+		^accidental.offset; // signOffset
 	}
 
 	/****************************************************************************************/
 
 	solfege {
-		var index = MECore.indexOfLetter(letter);
+		var index = MECore.indexOfLetter(letter); // noteLetter; validate: false
 
-		^solfege[index] ++ accidental.sign;
+		^solfege[index] ++ accidental.sign; // signOffset
 	}
 }
