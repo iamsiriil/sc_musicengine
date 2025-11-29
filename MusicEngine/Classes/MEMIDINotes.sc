@@ -10,49 +10,51 @@ MEMIDINotes : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |degree|
-		var  midiOffset;
+	*getOffsetFromInterval { |interval, validate = true|
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromInterval");
 
-		if (intervals[degree].notNil) {
-
-			midiOffset = super.intervals[degree][1];
-		} {
-
-			intervals.do { |i|
-
-				if (i[0].includes(degree)) {
-
-					midiOffset = i[1];
-				};
-			};
+		if (validate) {
+			MEValidators.intervalIsValid(interval);
 		};
 
-		^midiOffset;
+		super.intervals.keysValuesDo { |k, v|
+
+			if (v.includes(interval)) {
+				^k;
+			};
+		};
 	}
 
 	/****************************************************************************************/
 
-	*getOffsetFromName { |noteName|
-		var accidentalOffset = 0;
+	*getOffsetFromName { |noteName, validate = true|
+		var signOffset = 0;
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
-
-		if (noteName.size > 1) {
-			accidentalOffset = MEAccidental.getOffsetFromName(noteName).postln;
+		if (validate) {
+			MEValidators.noteNameIsValid(noteName);
 		};
 
-		^super.noteFromLetter(noteName[0]) + accidentalOffset;
+		if (noteName.size > 1) {
+			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
+		};
+
+		^super.noteFromLetter(noteName[0], validate: false) + signOffset;
 	}
 
 	/****************************************************************************************/
 
-	*transposeMidiOffset { |midiOffset, midiRoot|
+	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true, negative = true|
 
 		MEDebug.log("MEMidiNotes", "*transposeMidiOffset");
 
-		^midiOffset + midiRoot;
+		if (validate) {
+			MEValidators.midiOffsetArrayIsValid(midiOffsetArr, false, negative);
+			MEValidators.midiOffsetIsValid(midiRoot, false, negative);
+		};
+
+		^midiRoot + midiOffsetArr;
 	}
 }

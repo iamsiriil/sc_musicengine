@@ -5,8 +5,8 @@
 *********************************************************************************************/
 
 MEAccidental : MECore {
-	var <sign;
 	var <offset;
+	var <sign;
 
 	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
 
@@ -36,7 +36,7 @@ MEAccidental : MECore {
 	/****************************************************************************************/
 
 	*getOffsetFromName { |noteName, validate = true|
-		var sign = noteName[1..];
+		var signOffset = noteName[1..];
 
 		MEDebug.log("MEAccidentals", "*getOffsetFromName");
 
@@ -44,11 +44,10 @@ MEAccidental : MECore {
 			MEValidators.noteNameIsValid(noteName);
 		};
 
-		if (sign.includes($b)) {
-			^sign.size * -1;
+		if (signOffset.includes($b)) {
+			^signOffset.size * -1;
 		};
-
-		^sign.size;
+		^signOffset.size;
 	}
 
 	/****************************************************************************************/
@@ -63,17 +62,21 @@ MEAccidental : MECore {
 			MEValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false);
+		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false); // max 5
 
 		if (ref.notNil) { ^midiNote - ref } { ^nil };
 	}
 
 	/****************************************************************************************/
 
-	*getSignFromOffset { |signOffset|
+	*getSignFromOffset { |signOffset, validate = true|
 		var sign = "";
 
 		MEDebug.log("MEAccidentals", "*getSignFromOffset");
+
+		if (validate) {
+			MEValidators.signOffsetIsValid(signOffset);
+		};
 
 		case
 		{ signOffset < 0 } { signOffset.abs.do { sign = sign ++ "b"} }
@@ -95,7 +98,7 @@ MEAccidental : MECore {
 		};
 
 		signOffset = MEAccidental.getOffsetFromMidi(midiNote, noteLetter, validate: false);
-		sign       = MEAccidental.getSignFromOffset(signOffset);
+		sign       = MEAccidental.getSignFromOffset(signOffset, validate: false);
 
 		^noteLetter ++ sign;
 	}

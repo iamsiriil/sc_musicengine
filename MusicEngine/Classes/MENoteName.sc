@@ -6,7 +6,7 @@
 
 MENoteName : MECore {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
-	var letter; // noteLetter
+	var noteLetter;
 	var accidental;
 
 	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
@@ -20,11 +20,11 @@ MENoteName : MECore {
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
-			letter     = newL;
+			noteLetter = newL;
 			accidental = MEAccidental(noteLetter: newL, midiNote: newM, validate: val);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
-			letter     = newN[0];
+			noteLetter = newN[0];
 			accidental = MEAccidental(noteName: newN, validate: val);
 		}
 		{
@@ -36,12 +36,14 @@ MENoteName : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |interval|
+	*getOffsetFromInterval { |interval, validate = true|
 		var letterOffset;
 
 		MEDebug.log("MENoteNames", "*getOffsetFromInterval");
 
-		// intervalIsValid
+		if (validate) {
+			MEValidators.intervalIsValid(interval);
+		};
 
 		letterOffset = interval[1..].asInteger;
 
@@ -54,7 +56,7 @@ MENoteName : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsetArray { |intervalArray|
+	*getOffsetArray { |intervalArray, validate = true|
 		var letterOffsetArr = Array.new(intervalArray.size + 1);
 
 		MEDebug.log("MENoteNames", "*getOffsetArray");
@@ -62,7 +64,7 @@ MENoteName : MECore {
 		letterOffsetArr.add(0);
 
 		intervalArray.do { |i|
-			letterOffsetArr.add(MENoteName.getOffsetFromInterval(i));
+			letterOffsetArr.add(MENoteName.getOffsetFromInterval(i, validate));
 		};
 
 		^letterOffsetArr;
@@ -70,13 +72,14 @@ MENoteName : MECore {
 
 	/****************************************************************************************/
 
-	*getNoteNames { |letterOffsetArr, rootLetter, validate = true| // getNoteLetters
+	*getNoteLetters { |letterOffsetArr, rootLetter, validate = true|
 		var index, letterArr;
 
 		MEDebug.log("MENoteNames", "*getNoteNames");
 
 		if (validate) {
 			MEValidators.letterOffsetArrayIsValid(letterOffsetArr);
+			MEValidators.noteLetterIsValid(rootLetter);
 		};
 
 		index     = super.indexOfLetter(rootLetter, validate: false);
@@ -90,32 +93,32 @@ MENoteName : MECore {
 	/****************************************************************************************/
 
 	name {
-		^letter ++ accidental.sign; // signOffset
+		^noteLetter ++ accidental.sign;
 	}
 
 	/****************************************************************************************/
 
 	letter {
-		^letter; // ^noteLetter
+		^noteLetter;
 	}
 
 	/****************************************************************************************/
 
 	sign {
-		^accidental.sign // signOffset
+		^accidental.sign
 	}
 
 	/****************************************************************************************/
 
 	accidentalOffset {
-		^accidental.offset; // signOffset
+		^accidental.offset;
 	}
 
 	/****************************************************************************************/
 
 	solfege {
-		var index = MECore.indexOfLetter(letter); // noteLetter; validate: false
+		var index = MECore.indexOfLetter(noteLetter, validate: false);
 
-		^solfege[index] ++ accidental.sign; // signOffset
+		^solfege[index] ++ accidental.sign;
 	}
 }
