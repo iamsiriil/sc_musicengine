@@ -69,6 +69,25 @@ MEValidators {
 
 	/****************************************************************************************/
 
+	*letterOffsetIsValid { |letterOffset|
+		var offsets = Set[0, 1, 2, 3, 4, 5, 6];
+
+		if (letterOffset.isInteger.not || offsets.includes(letterOffset).not) {
+			Error("% is not a valid letter offset.".format(letterOffset)).throw;
+		}
+	}
+
+	/****************************************************************************************/
+
+	*letterOffsetArrayIsValid { |letterOffsetArr|
+
+		letterOffsetArr.do { |o|
+			this.letterOffsetIsValid(o);
+		};
+	}
+
+	/****************************************************************************************/
+
 	*octaveIsValid { |octave, min = -1, max = 9|
 
 		MEDebug.log("MEValidators", "*octaveIsValid");
@@ -81,9 +100,9 @@ MEValidators {
 	/****************************************************************************************/
 
 	*midiNamePairIsValid { |midiNote, noteName|
-		var sign  = MEAccidental.getOffsetFromName(noteName);
-		var cross = MEOctaves.checkOctaveCross(noteName);
-		var ref   = MECore.noteFromLetter(noteName[0]);
+		var sign  = MEAccidental.getOffsetFromName(noteName); // validate: false
+		var cross = MEOctaves.checkOctaveCross(noteName); // validate: false
+		var ref   = MECore.noteFromLetter(noteName[0]); // validate: false
 		var oct   = (midiNote / 12).floor;
 		var note  = (midiNote - (12 * oct));
 
