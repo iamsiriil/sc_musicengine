@@ -9,23 +9,23 @@ MENoteName : MECore {
 	var letter;
 	var accidental;
 
-	*new { |noteName = nil, letter = nil, midi = nil|
+	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
 
-		^super.new.init(noteName, letter, midi);
+		^super.new.init(noteName, noteLetter, midiNote, validate);
 	}
 
-	init { |newN, newL, newM|
+	init { |newN, newL, newM, val|
 
 		MEDebug.log("MENoteNames", "init");
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			letter     = newL;
-			accidental = MEAccidental(noteLetter: newL, midiNote: newM);
+			accidental = MEAccidental(noteLetter: newL, midiNote: newM, validate: val);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
 			letter     = newN[0];
-			accidental = MEAccidental(noteName: newN);
+			accidental = MEAccidental(noteName: newN, validate: val);
 		}
 		{
 			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
