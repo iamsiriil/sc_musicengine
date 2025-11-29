@@ -57,14 +57,36 @@ MEValidators {
 
 	/****************************************************************************************/
 
-	*midiOffsetIsValid { |midiOffset|
-		var offsets = Set[0, 2, 4, 5, 7, 9, 11];
+	*midiOffsetIsValid { |midiOffset, diatonic = true, negative = false|
+		var offsets, min;
+
+		if (diatonic) {
+			offsets = Set[0, 2, 4, 5, 7, 9, 11];
+		} {
+			min     = if (negative) { -1 } { 0 };
+			offsets = (min..11).asSet.postln;
+		};
 
 		MEDebug.log("MEValidators", "*midiOffsetIsValid");
 
 		if (midiOffset.isInteger.not || offsets.includes(midiOffset).not) {
 			Error("% is not a valid MIDI offset.".format(midiOffset)).throw;
-		}
+		};
+	}
+
+	/****************************************************************************************/
+
+	*midiOffsetArrayIsValid { |midiOffsetArr, diatonic = true, negative = false|
+		var arrSize = midiOffsetArr.size;
+		var setSize = midiOffsetArr.asSet.size;
+
+		if (arrSize > setSize) {
+			Error("% contains enharmonics.".format(midiOffsetArr.join(", "))).throw;
+		};
+
+		midiOffsetArr.do { |o|
+			this.midiOffsetIsValid(o, diatonic, negative);
+		};
 	}
 
 	/****************************************************************************************/
@@ -104,6 +126,20 @@ MEValidators {
 
 		if ((octave < min) || (octave > max) || (octave.isInteger.not)) {
 			Error("% is not a valid octave number.".format(octave)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	*intervalIsValid { |interval|
+		var result = false;
+
+		MECore.intervals.do { |v|
+			result = result || v.includes(interval);
+		};
+
+		if (result == false) {
+			Error("% is not a valid interval.".format(interval)).throw;
 		};
 	}
 
