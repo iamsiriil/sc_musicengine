@@ -14,12 +14,12 @@ MENote : MECore {
 	var <>articulation;
 	var <>dynamic;
 
-	*new { |noteName = nil, letter = nil, midi = nil, degree = nil, octave = nil|
+	*new { |noteName = nil, noteLetter = nil, midiNote = nil, degree = nil, validate = true|
 
-		^super.new.init(noteName, letter, midi, degree, octave);
+		^super.new.init(noteName, noteLetter, midiNote, degree, validate);
 	}
 
-	init { |newN, newL, newM, newD, newO|
+	init { |newN, newL, newM, newD, val|
 
 		MEDebug.log("MENotes", "init");
 
@@ -27,13 +27,13 @@ MENote : MECore {
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			midi   = newM;
 			freq   = midi.midicps;
-			name   = MENoteName(letter: newL, midi: newM);
+			name   = MENoteName(noteLetter: newL, midiNote: newM, validate: val);
 			octave = MEOctaves.getOctave(midi, name.name);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
 			midi   = MEMIDINotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
 			freq   = midi.midicps;
-			name   = MENoteName(noteName: newN);
+			name   = MENoteName(noteName: newN, validate: val);
 			octave = MEOctaves.getOctave(midi, name.name);
 		}
 		{
