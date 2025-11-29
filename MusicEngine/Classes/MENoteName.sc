@@ -21,7 +21,7 @@ MENoteName : MECore {
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
 			letter     = newL;
-			accidental = MEAccidental(letter: newL, midi: newM);
+			accidental = MEAccidental(noteLetter: newL, midiNote: newM);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
 			letter     = newN[0];
