@@ -20,7 +20,7 @@ MEOctaves : MECore {
 			MEValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = super.noteFromLetter(noteLetter); // validate: false
+		ref = super.noteFromLetter(noteLetter, validate: false);
 
 		case
 		{ (midiNote >= 5) && (midiNote <= 127) } {
@@ -49,8 +49,8 @@ MEOctaves : MECore {
 			MEValidators.noteNameIsValid(noteName);
 		};
 
-		midiOffset = super.noteFromLetter(noteName[0]); // validate: false
-		signOffset = MEAccidental.getOffsetFromName(noteName);
+		midiOffset = super.noteFromLetter(noteName[0], validate: false);
+		signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
 		cross      = midiOffset + signOffset;
 
 		case
@@ -71,15 +71,13 @@ MEOctaves : MECore {
 			if (noteName.notNil) {
 				MEValidators.midiNamePairIsValid(midiNote, noteName);
 			};
-
 			MEValidators.midiNoteIsValid(midiNote);
 		};
 
 		octave = (octave + (midiNote/12).floor).asInteger;
 
 		if (noteName.notNil) {
-
-			cross = MEOctaves.checkOctaveCross(noteName);
+			cross = MEOctaves.checkOctaveCross(noteName, validate: false);
 			^octave + (cross * -1);
 		};
 		^octave;
