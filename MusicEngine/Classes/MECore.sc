@@ -15,7 +15,7 @@ MECore {
 
 		letters = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
-		intervals = Dictionary[
+		/*intervals = Dictionary[
 			"m2" -> [Set["m9"], 1],
 			"M2" -> [Set["d3", "d10", "M9"], 2],
 			"m3" -> [Set["A2", "A9",  "m10"], 3],
@@ -27,6 +27,20 @@ MECore {
 			"M6" -> [Set["d7", "d14", "M13"], 9],
 			"m7" -> [Set["A6", "A13", "m14"], 10],
 			"M7" -> [Set["M14"], 11],
+		];*/
+
+		intervals = Dictionary[
+			1 -> Set["m2", "m9"],
+			2 -> Set["M2", "d3", "d10", "M9"],
+			3 -> Set["m3", "A2", "A9",  "m10"],
+			4 -> Set["M3", "d4", "d11", "M10"],
+			5 -> Set["P4", "A3", "A10", "P11"],
+			6 -> Set["A4", "d5", "d12", "A11"],
+			7 -> Set["P5", "d6", "d13", "P12"],
+			8 -> Set["m6", "A5", "A12", "m13"],
+			9 -> Set["M6", "d7", "d14", "M13"],
+			10 -> Set["m7", "A6", "A13", "m14"],
+			11 -> Set["M7", "M14"]
 		];
 	}
 
