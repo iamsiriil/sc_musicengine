@@ -8,23 +8,23 @@ MEAccidental : MECore {
 	var <sign;
 	var <offset;
 
-	*new { |noteName = nil, letter = nil, midi = nil|
+	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
 
-		^super.new.init(noteName, letter, midi);
+		^super.new.init(noteName, noteLetter, midiNote);
 	}
 
-	init { |newN, newL, newM|
+	init { |newN, newL, newM, val|
 
 		MEDebug.log("MEAccidentals", "init");
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
-			offset = MEAccidental.getOffsetFromMidi(newM, newL);
-			sign   = MEAccidental.getSignFromOffset(offset);
+			offset = MEAccidental.getOffsetFromMidi(newM, newL, val);
+			sign   = MEAccidental.getSignFromOffset(offset, val);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
-			offset = MEAccidental.getOffsetFromName(newN);
-			sign   = MEAccidental.getSignFromOffset(offset);
+			offset = MEAccidental.getOffsetFromName(newN, val);
+			sign   = MEAccidental.getSignFromOffset(offset, val);
 		}
 		{
 			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
@@ -35,54 +35,68 @@ MEAccidental : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsetFromName { |noteName|
-		var accidental = noteName[1..];
+	*getOffsetFromName { |noteName, validate = true|
+		var sign = noteName[1..];
 
 		MEDebug.log("MEAccidentals", "*getOffsetFromName");
 
-		if (accidental.includes($b)) {
-			^accidental.size * -1;
+		if (validate) {
+			MEValidators.noteNameIsValid(noteName);
 		};
 
-		^accidental.size;
+		if (sign.includes($b)) {
+			^sign.size * -1;
+		};
+
+		^sign.size;
 	}
 
 	/****************************************************************************************/
 
-	*getOffsetFromMidi { |midi, letter|
+	*getOffsetFromMidi { |midiNote, noteLetter, validate = true|
 		var ref;
 
 		MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
 
-		ref = MEOctaves.getClosestOctave(midi, letter);
+		if (validate) {
+			MEValidators.midiNoteIsValid(midiNote);
+			MEValidators.noteLetterIsValid(noteLetter);
+		};
 
-		^midi - ref;
+		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false);
+
+		if (ref.notNil) { ^midiNote - ref } { ^nil };
 	}
 
 	/****************************************************************************************/
 
-	*getSignFromOffset { |offset|
-		var symbol = "";
+	*getSignFromOffset { |signOffset|
+		var sign = "";
 
 		MEDebug.log("MEAccidentals", "*getSignFromOffset");
 
 		case
-		{ offset < 0 } { offset.abs.do { symbol = symbol ++ "b"} }
-		{ offset > 0 } { offset.do { symbol = symbol ++ "#" } };
+		{ signOffset < 0 } { signOffset.abs.do { sign = sign ++ "b"} }
+		{ signOffset > 0 } { signOffset.do { sign = sign ++ "#" } };
 
-		^symbol;
+		^sign;
 	}
 
 	/****************************************************************************************/
 
-	*resolveAccidental { |midi, letter|
-		var offset, symbol;
+	*resolveAccidental { |midiNote, noteLetter, validate = true|
+		var signOffset, sign;
 
 		MEDebug.log("MEAccidentals", "*resolveAccidental");
 
-		offset = MEAccidental.getOffsetFromMidi(midi, letter);
-		symbol = MEAccidental.getSignFromOffset(offset);
+		if (validate) {
+			MEValidators.midiNoteIsValid(midiNote);
+			MEValidators.noteLetterIsValid(noteLetter);
+		};
 
-		^letter ++ symbol;
+		signOffset = MEAccidental.getOffsetFromMidi(midiNote, noteLetter, validate: false);
+		sign       = MEAccidental.getSignFromOffset(signOffset);
+
+		^noteLetter ++ sign;
 	}
 }
