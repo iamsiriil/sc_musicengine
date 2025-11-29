@@ -28,13 +28,13 @@ MENote : MECore {
 			midi   = newM;
 			freq   = midi.midicps;
 			name   = MENoteName(noteLetter: newL, midiNote: newM, validate: val);
-			octave = MEOctaves.getOctave(midi, name.name);
+			octave = MEOctaves.getOctave(midi, name.name, val);
 		}
 		{ newN.notNil && newL.isNil && newM.isNil } {
 			midi   = MEMIDINotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
 			freq   = midi.midicps;
 			name   = MENoteName(noteName: newN, validate: val);
-			octave = MEOctaves.getOctave(midi, name.name);
+			octave = MEOctaves.getOctave(midi, name.name, val);
 		}
 		{
 			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
