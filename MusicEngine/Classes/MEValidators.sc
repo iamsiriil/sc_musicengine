@@ -9,6 +9,8 @@ MEValidators {
 	*initClass {}
 
 	/****************************************************************************************/
+	// NOTE LETTER VALIDATORS
+	/****************************************************************************************/
 
 	*noteLetterIsValid { |noteLetter|
 		var regex = "^[A-G]$";
@@ -20,6 +22,27 @@ MEValidators {
 		};
 	}
 
+	/****************************************************************************************/
+
+	*letterOffsetIsValid { |letterOffset|
+		var offsets = (0..6).asSet;
+
+		if (letterOffset.isInteger.not || offsets.includes(letterOffset).not) {
+			Error("% is not a valid letter offset.".format(letterOffset)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	*letterOffsetArrayIsValid { |letterOffsetArr|
+
+		letterOffsetArr.do { |o|
+			this.letterOffsetIsValid(o);
+		};
+	}
+
+	/****************************************************************************************/
+	// NOTE NAME VALIDATORS
 	/****************************************************************************************/
 
 	*noteNameIsValid { |noteName|
@@ -34,7 +57,7 @@ MEValidators {
 
 	/****************************************************************************************/
 
-	*rootNoteIsValid { |rootNote|
+	*rootNoteIsValid { |rootNote| // rootName
 		var regex = "^[A-G][#b]{0,1}$";
 
 		MEDebug.log("MEValidators", "*rootNoteIsValid");
@@ -44,6 +67,8 @@ MEValidators {
 		};
 	}
 
+	/****************************************************************************************/
+	// MIDI VALIDATORS
 	/****************************************************************************************/
 
 	*midiNoteIsValid { |midiNote, min = 0, max = 127|
@@ -90,59 +115,7 @@ MEValidators {
 	}
 
 	/****************************************************************************************/
-
-	*letterOffsetIsValid { |letterOffset|
-		var offsets = (0..6).asSet;
-
-		if (letterOffset.isInteger.not || offsets.includes(letterOffset).not) {
-			Error("% is not a valid letter offset.".format(letterOffset)).throw;
-		};
-	}
-
-	/****************************************************************************************/
-
-	*letterOffsetArrayIsValid { |letterOffsetArr|
-
-		letterOffsetArr.do { |o|
-			this.letterOffsetIsValid(o);
-		};
-	}
-
-	/****************************************************************************************/
-
-	*signOffsetIsValid { |signOffset|
-		var offsets = (-5..5).asSet;
-
-		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
-			Error("% is not a valid sign offset.".format(signOffset)).throw;
-		};
-	}
-
-	/****************************************************************************************/
-
-	*octaveIsValid { |octave, min = -1, max = 9|
-
-		MEDebug.log("MEValidators", "*octaveIsValid");
-
-		if ((octave < min) || (octave > max) || (octave.isInteger.not)) {
-			Error("% is not a valid octave number.".format(octave)).throw;
-		};
-	}
-
-	/****************************************************************************************/
-
-	*intervalIsValid { |interval|
-		var result = false;
-
-		MECore.intervals.do { |v|
-			result = result || v.includes(interval);
-		};
-
-		if (result == false) {
-			Error("% is not a valid interval.".format(interval)).throw;
-		};
-	}
-
+	// MIDI NOTE AND NOTE NAME PAIR VALIDATOR
 	/****************************************************************************************/
 
 	*midiNamePairIsValid { |midiNote, noteName|
@@ -165,6 +138,47 @@ MEValidators {
 				noteName,
 				midiNote)
 			).throw;
+		};
+	}
+
+	/****************************************************************************************/
+	// OCTAVE VALIDATOR
+	/****************************************************************************************/
+
+	*octaveIsValid { |octave, min = -1, max = 9|
+
+		MEDebug.log("MEValidators", "*octaveIsValid");
+
+		if ((octave < min) || (octave > max) || (octave.isInteger.not)) {
+			Error("% is not a valid octave number.".format(octave)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+	// ACCIDENTAL SIGN VALIDATOR
+	/****************************************************************************************/
+
+	*signOffsetIsValid { |signOffset|
+		var offsets = (-5..5).asSet;
+
+		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
+			Error("% is not a valid sign offset.".format(signOffset)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+	// INTERVAL VALIDATOR
+	/****************************************************************************************/
+
+	*intervalIsValid { |interval|
+		var result = false;
+
+		MECore.intervals.do { |v|
+			result = result || v.includes(interval);
+		};
+
+		if (result == false) {
+			Error("% is not a valid interval.".format(interval)).throw;
 		};
 	}
 }
