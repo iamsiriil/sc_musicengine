@@ -37,48 +37,48 @@ MENoteName : MECore {
 	/****************************************************************************************/
 
 	*getOffsetFromInterval { |interval|
-		var offset;
+		var nameOffset;
 
 		MEDebug.log("MENoteNames", "*getOffsetFromInterval");
 
-		offset = interval[1..].asInteger;
+		nameOffset = interval[1..].asInteger;
 
-		if (offset > 7) {
-			^(offset - 7) - 1;
+		if (nameOffset > 7) {
+			^(nameOffset - 7) - 1;
 		} {
-			^offset - 1;
+			^nameOffset - 1;
 		};
 	}
 
 	/****************************************************************************************/
 
 	*getOffsetArray { |intervalArray|
-		var offsetArray = Array.new(intervalArray.size + 1);
+		var nameOffsetArr = Array.new(intervalArray.size + 1);
 
 		MEDebug.log("MENoteNames", "*getOffsetArray");
 
-		offsetArray.add(0);
+		nameOffsetArr.add(0);
 
 		intervalArray.do { |i|
-			offsetArray.add(MENoteName.getOffsetFromInterval(i));
+			nameOffsetArr.add(MENoteName.getOffsetFromInterval(i));
 		};
 
-		^offsetArray;
+		^nameOffsetArr;
 	}
 
 	/****************************************************************************************/
 
-	*getNoteNames { |intervalArray, rootLetter|
+	*getNoteNames { |nameOffsetArr, rootLetter|
 		var index = super.indexOfLetter(rootLetter);
-		var lettersArray;
+		var noteLettersArr;
 
 		MEDebug.log("MENoteNames", "*getNoteNames");
 
-		lettersArray  = super.letters.wrapAt(index + intervalArray);
+		noteLettersArr  = super.letters.wrapAt(index + nameOffsetArr);
 
-		lettersArray.do { |n, i| lettersArray[i] = n.asString };
+		noteLettersArr.do { |n, i| noteLettersArr[i] = n.asString };
 
-		^lettersArray;
+		^noteLettersArr;
 	}
 
 	/****************************************************************************************/
