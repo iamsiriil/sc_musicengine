@@ -89,10 +89,11 @@ MEValidators {
 		var offsets, min;
 
 		if (diatonic) {
-			offsets = Set[0, 2, 4, 5, 7, 9, 11];
+			min = if (negative) { [-1] } { [] };
+			offsets = (min ++ [0, 2, 4, 5, 7, 9, 11]).asSet;
 		} {
-			min     = if (negative) { -1 } { 0 };
-			offsets = (min..11).asSet.postln;
+			min = if (negative) { -1 } { 0 };
+			offsets = (min..11).asSet;
 		};
 
 		MEDebug.log("MEValidators", "*midiOffsetIsValid");
