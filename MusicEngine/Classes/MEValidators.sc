@@ -46,7 +46,7 @@ MEValidators {
 	/****************************************************************************************/
 
 	*noteNameIsValid { |noteName|
-		var regex = "^[A-G][#b]{0,12}-{0,1}[0-9]{0,1}$";
+		var regex = "^[A-G][#b]{0,12}(-1|[0-9]{0,1})$";
 
 		MEDebug.log("MEValidators", "*noteNameIsValid");
 
