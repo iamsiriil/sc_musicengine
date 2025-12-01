@@ -1,6 +1,0 @@
-TestMEAccidentals : UnitTest {
-
-	setUp {
-
-	}
-}
