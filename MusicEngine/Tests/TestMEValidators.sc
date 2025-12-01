@@ -7,7 +7,7 @@
 TestMEValidators : UnitTest {
 
 	/****************************************************************************************/
-	// Unit Tests for noteLetterIsValid
+	// NOTE LETTERS: Unit Tests for noteLetterIsValid
 	/****************************************************************************************/
 
 	test_noteLetterIsValid_correctInputString {
@@ -93,7 +93,7 @@ TestMEValidators : UnitTest {
 	}
 
 	/****************************************************************************************/
-	// Unit Tests for letterOffsetIsValid
+	// NOTE LETTERS: Unit Tests for letterOffsetIsValid
 	/****************************************************************************************/
 
 	test_letterOffsetIsValid_correctInput {
@@ -133,7 +133,7 @@ TestMEValidators : UnitTest {
 	}
 
 	/****************************************************************************************/
-	// Unit Tests for letterOffsetArrayIsValid
+	// NOTE LETTERS: Unit Tests for letterOffsetArrayIsValid
 	/****************************************************************************************/
 
 	test_letterOffsetArrayIsValid_correctInput {
@@ -176,4 +176,325 @@ TestMEValidators : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
+	// NOTE NAMES: Unit Tests for noteNameIsValid
+	/****************************************************************************************/
+
+	test_noteNameIsValid_correctInputNoAccidentals {
+		var fixtures = [
+			(expected: MEValidators, noteName: "C"),
+			(expected: MEValidators, noteName: "D"),
+			(expected: MEValidators, noteName: "E"),
+			(expected: MEValidators, noteName: "F"),
+			(expected: MEValidators, noteName: "G"),
+			(expected: MEValidators, noteName: "A"),
+			(expected: MEValidators, noteName: "B"),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name %, as String.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_correctInputSharps {
+		var fixtures = [
+			(expected: MEValidators, noteName: "C#"),
+			(expected: MEValidators, noteName: "C#####"),
+			(expected: MEValidators, noteName: "D#"),
+			(expected: MEValidators, noteName: "D#####"),
+			(expected: MEValidators, noteName: "E#"),
+			(expected: MEValidators, noteName: "E#####"),
+			(expected: MEValidators, noteName: "F#"),
+			(expected: MEValidators, noteName: "F#####"),
+			(expected: MEValidators, noteName: "G#"),
+			(expected: MEValidators, noteName: "G#####"),
+			(expected: MEValidators, noteName: "A#"),
+			(expected: MEValidators, noteName: "A#####"),
+			(expected: MEValidators, noteName: "B#"),
+			(expected: MEValidators, noteName: "B#####")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name %, as String.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_correctInputFlats {
+		var fixtures = [
+			(expected: MEValidators, noteName: "Cb"),
+			(expected: MEValidators, noteName: "Cbbbbb"),
+			(expected: MEValidators, noteName: "Db"),
+			(expected: MEValidators, noteName: "Dbbbbb"),
+			(expected: MEValidators, noteName: "Eb"),
+			(expected: MEValidators, noteName: "Ebbbbb"),
+			(expected: MEValidators, noteName: "Fb"),
+			(expected: MEValidators, noteName: "Fbbbbb"),
+			(expected: MEValidators, noteName: "Gb"),
+			(expected: MEValidators, noteName: "Gbbbbb"),
+			(expected: MEValidators, noteName: "Ab"),
+			(expected: MEValidators, noteName: "Abbbbb"),
+			(expected: MEValidators, noteName: "Bb"),
+			(expected: MEValidators, noteName: "Bbbbbb")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name %, as String.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_correctInputSymbols {
+		var fixtures = [
+			(expected: MEValidators, noteName: 'C'),
+			(expected: MEValidators, noteName: 'Cbbbbb'),
+			(expected: MEValidators, noteName: 'D'),
+			(expected: MEValidators, noteName: 'D#####'),
+			(expected: MEValidators, noteName: 'E'),
+			(expected: MEValidators, noteName: 'Ebbbbb'),
+			(expected: MEValidators, noteName: 'F'),
+			(expected: MEValidators, noteName: 'F#####'),
+			(expected: MEValidators, noteName: 'G'),
+			(expected: MEValidators, noteName: 'Gbbbbb'),
+			(expected: MEValidators, noteName: 'A'),
+			(expected: MEValidators, noteName: 'A#####'),
+			(expected: MEValidators, noteName: 'B'),
+			(expected: MEValidators, noteName: 'Bbbbbb')
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name %, as Symbol.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_validOctaveString {
+		var fixtures = [
+			(expected: MEValidators, noteName: "C-1"),
+			(expected: MEValidators, noteName: "Cbbbbb0"),
+			(expected: MEValidators, noteName: "D2"),
+			(expected: MEValidators, noteName: "D#####"),
+			(expected: MEValidators, noteName: "E3"),
+			(expected: MEValidators, noteName: "Ebbbbb4"),
+			(expected: MEValidators, noteName: "F5"),
+			(expected: MEValidators, noteName: "F#####6"),
+			(expected: MEValidators, noteName: "G7"),
+			(expected: MEValidators, noteName: "Gbbbbb8"),
+			(expected: MEValidators, noteName: "A9")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name with octave %, as String.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_validOctaveSymbol {
+		var fixtures = [
+			(expected: MEValidators, noteName: 'C-1'),
+			(expected: MEValidators, noteName: 'Cbbbbb0'),
+			(expected: MEValidators, noteName: 'D2'),
+			(expected: MEValidators, noteName: 'D#####'),
+			(expected: MEValidators, noteName: 'E3'),
+			(expected: MEValidators, noteName: 'Ebbbbb4'),
+			(expected: MEValidators, noteName: 'F5'),
+			(expected: MEValidators, noteName: 'F#####6'),
+			(expected: MEValidators, noteName: 'G7'),
+			(expected: MEValidators, noteName: 'Gbbbbb8'),
+			(expected: MEValidators, noteName: 'A9')
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name with octave %, as Symbol.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_correctInputChar {
+		var fixtures = [
+			(expected: MEValidators, noteName: $C),
+			(expected: MEValidators, noteName: $D),
+			(expected: MEValidators, noteName: $E),
+			(expected: MEValidators, noteName: $F),
+			(expected: MEValidators, noteName: $G),
+			(expected: MEValidators, noteName: $A),
+			(expected: MEValidators, noteName: $B),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.noteNameIsValid(f.noteName),
+				"Testing valid note name %, as Char.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_wrongInputString {
+		var fixtures = [
+			"C######",
+			"D######",
+			"E######",
+			"F######",
+			"G######",
+			"A######",
+			"B######",
+			"Cbbbbbb",
+			"Dbbbbbb",
+			"Ebbbbbb",
+			"Fbbbbbb",
+			"Gbbbbbb",
+			"Abbbbbb",
+			"Bbbbbbb",
+			"c",
+			"d",
+			"e",
+			"f",
+			"g",
+			"a",
+			"b",
+			"X",
+			"x",
+			"+",
+			"1"
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.noteNameIsValid(f) },
+				Error,
+				"Testing invalid input %, as String. Should throw an Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_wrongInputSymbol {
+		var fixtures = [
+			'C######',
+			'D######',
+			'E######',
+			'F######',
+			'G######',
+			'A######',
+			'B######',
+			'Cbbbbbb',
+			'Dbbbbbb',
+			'Ebbbbbb',
+			'Fbbbbbb',
+			'Gbbbbbb',
+			'Abbbbbb',
+			'Bbbbbbb',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'a',
+			'b',
+			'X',
+			'x',
+			'+',
+			'1'
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.noteNameIsValid(f) },
+				Error,
+				"Testing invalid input %, as Symbol. Should throw an Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_invalidOctavesString {
+		var fixtures = [
+			"C-10",
+			"D-2",
+			"Eb-",
+			"F#10",
+			"G###4.0",
+			"Abbb-1.0",
+			"B####x"
+
+		];
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.noteNameIsValid(f) },
+				Error,
+				"Testing input with invalid octaves %, as String. Should throw an Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_noteNameIsValid_invalidOctavesSymbol {
+		var fixtures = [
+			'C-10',
+			'D-2',
+			'Eb-',
+			'F#10',
+			'G###4.0',
+			'Abbb-1.0',
+			'B####x'
+
+		];
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.noteNameIsValid(f) },
+				Error,
+				"Testing input with invalid octaves %, as Symbols. Should throw an Error.".format(f)
+			);
+		};
+	}
+
 }
