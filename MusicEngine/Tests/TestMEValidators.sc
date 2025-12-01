@@ -373,31 +373,9 @@ TestMEValidators : UnitTest {
 
 	test_noteNameIsValid_wrongInputString {
 		var fixtures = [
-			"C######",
-			"D######",
-			"E######",
-			"F######",
-			"G######",
-			"A######",
-			"B######",
-			"Cbbbbbb",
-			"Dbbbbbb",
-			"Ebbbbbb",
-			"Fbbbbbb",
-			"Gbbbbbb",
-			"Abbbbbb",
-			"Bbbbbbb",
-			"c",
-			"d",
-			"e",
-			"f",
-			"g",
-			"a",
-			"b",
-			"X",
-			"x",
-			"+",
-			"1"
+			"C######", "D######", "E######", "F######", "G######", "A######", "B######",
+			"Cbbbbbb", "Dbbbbbb", "Ebbbbbb", "Fbbbbbb", "Gbbbbbb", "Abbbbbb", "Bbbbbbb",
+			"c", "d", "e", "f", "g", "a", "b", "X", "x", "+", "1"
 		];
 
 		fixtures.do { |f|
@@ -414,31 +392,9 @@ TestMEValidators : UnitTest {
 
 	test_noteNameIsValid_wrongInputSymbol {
 		var fixtures = [
-			'C######',
-			'D######',
-			'E######',
-			'F######',
-			'G######',
-			'A######',
-			'B######',
-			'Cbbbbbb',
-			'Dbbbbbb',
-			'Ebbbbbb',
-			'Fbbbbbb',
-			'Gbbbbbb',
-			'Abbbbbb',
-			'Bbbbbbb',
-			'c',
-			'd',
-			'e',
-			'f',
-			'g',
-			'a',
-			'b',
-			'X',
-			'x',
-			'+',
-			'1'
+			'C######', 'D######', 'E######', 'F######', 'G######', 'A######', 'B######',
+			'Cbbbbbb', 'Dbbbbbb', 'Ebbbbbb', 'Fbbbbbb', 'Gbbbbbb', 'Abbbbbb', 'Bbbbbbb',
+			'c', 'd', 'e', 'f', 'g', 'a', 'b', 'X', 'x', '+', '1'
 		];
 
 		fixtures.do { |f|
@@ -454,16 +410,8 @@ TestMEValidators : UnitTest {
 	/****************************************************************************************/
 
 	test_noteNameIsValid_invalidOctavesString {
-		var fixtures = [
-			"C-10",
-			"D-2",
-			"Eb-",
-			"F#10",
-			"G###4.0",
-			"Abbb-1.0",
-			"B####x"
+		var fixtures = ["C-10", "D-2", "Eb-", "F#10", "G###4.0", "Abbb-1.0", "B####x"];
 
-		];
 		fixtures.do { |f|
 
 			this.assertException(
@@ -477,22 +425,194 @@ TestMEValidators : UnitTest {
 	/****************************************************************************************/
 
 	test_noteNameIsValid_invalidOctavesSymbol {
-		var fixtures = [
-			'C-10',
-			'D-2',
-			'Eb-',
-			'F#10',
-			'G###4.0',
-			'Abbb-1.0',
-			'B####x'
+		var fixtures = ['C-10', 'D-2', 'Eb-', 'F#10', 'G###4.0', 'Abbb-1.0', 'B####x'];
 
-		];
 		fixtures.do { |f|
 
 			this.assertException(
 				{ MEValidators.noteNameIsValid(f) },
 				Error,
 				"Testing input with invalid octaves %, as Symbols. Should throw an Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+	// NOTE NAMES: Unit Tests for rootNoteIsValid
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_correctInputString {
+		var fixtures = [
+			(expected: MEValidators, rootNote: "C"),
+			(expected: MEValidators, rootNote: "D"),
+			(expected: MEValidators, rootNote: "E"),
+			(expected: MEValidators, rootNote: "F"),
+			(expected: MEValidators, rootNote: "G"),
+			(expected: MEValidators, rootNote: "A"),
+			(expected: MEValidators, rootNote: "B"),
+			(expected: MEValidators, rootNote: "C#"),
+			(expected: MEValidators, rootNote: "D#"),
+			(expected: MEValidators, rootNote: "E#"),
+			(expected: MEValidators, rootNote: "F#"),
+			(expected: MEValidators, rootNote: "G#"),
+			(expected: MEValidators, rootNote: "A#"),
+			(expected: MEValidators, rootNote: "B#"),
+			(expected: MEValidators, rootNote: "Cb"),
+			(expected: MEValidators, rootNote: "Db"),
+			(expected: MEValidators, rootNote: "Eb"),
+			(expected: MEValidators, rootNote: "Fb"),
+			(expected: MEValidators, rootNote: "Gb"),
+			(expected: MEValidators, rootNote: "Ab"),
+			(expected: MEValidators, rootNote: "Bb")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.rootNoteIsValid(f.rootNote),
+				"Testing valid root note %, as String.".format(f.rootNote)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_correctInputSymbol {
+		var fixtures = [
+			(expected: MEValidators, rootNote: 'C'),
+			(expected: MEValidators, rootNote: 'D'),
+			(expected: MEValidators, rootNote: 'E'),
+			(expected: MEValidators, rootNote: 'F'),
+			(expected: MEValidators, rootNote: 'G'),
+			(expected: MEValidators, rootNote: 'A'),
+			(expected: MEValidators, rootNote: 'B'),
+			(expected: MEValidators, rootNote: 'C#'),
+			(expected: MEValidators, rootNote: 'D#'),
+			(expected: MEValidators, rootNote: 'E#'),
+			(expected: MEValidators, rootNote: 'F#'),
+			(expected: MEValidators, rootNote: 'G#'),
+			(expected: MEValidators, rootNote: 'A#'),
+			(expected: MEValidators, rootNote: 'B#'),
+			(expected: MEValidators, rootNote: 'Cb'),
+			(expected: MEValidators, rootNote: 'Db'),
+			(expected: MEValidators, rootNote: 'Eb'),
+			(expected: MEValidators, rootNote: 'Fb'),
+			(expected: MEValidators, rootNote: 'Gb'),
+			(expected: MEValidators, rootNote: 'Ab'),
+			(expected: MEValidators, rootNote: 'Bb')
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.rootNoteIsValid(f.rootNote),
+				"Testing valid root note %, as Symbol.".format(f.rootNote)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_correctInputChar {
+		var fixtures = [
+			(expected: MEValidators, rootNote: $C),
+			(expected: MEValidators, rootNote: $D),
+			(expected: MEValidators, rootNote: $E),
+			(expected: MEValidators, rootNote: $F),
+			(expected: MEValidators, rootNote: $G),
+			(expected: MEValidators, rootNote: $A),
+			(expected: MEValidators, rootNote: $B)
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.rootNoteIsValid(f.rootNote),
+				"Testing valid root note %, as Char.".format(f.rootNote)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_invalidAccidentalString {
+		var fixtures = [
+			"C##", "D###", "E####", "F#####", "G######", "A#######", "B########",
+			"Cbb", "Dbbb", "Ebbbb", "Fbbbbb", "Gbbbbbb", "Abbbbbbb", "Bbbbbbbbb"
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.rootNoteIsValid(f) },
+				Error,
+				"Testing invalid root note %, as String.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_invalidAccidentalSymbol {
+		var fixtures = [
+			'C##', 'D###', 'E####', 'F#####', 'G######', 'A#######', 'B########',
+			'Cbb', 'Dbbb', 'Ebbbb', 'Fbbbbb', 'Gbbbbbb', 'Abbbbbbb', 'Bbbbbbbbb'
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.rootNoteIsValid(f) },
+				Error,
+				"Testing invalid root note %, as Symbol.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_invalidNoteString {
+		var fixtures = ["a", "b", "c", "d", "e", "f", "g", "1", "X", "+", "0.0"];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.rootNoteIsValid(f) },
+				Error,
+				"Testing invalid root note %, as String.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_invalidNoteSymbol {
+		var fixtures = ['a', 'b', 'c', 'd', 'e', 'f', 'g', '1', 'X', '+', '0.0'];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.rootNoteIsValid(f) },
+				Error,
+				"Testing invalid root note %, as Symbol.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_rootNoteIsValid_invalidNoteChar {
+		var fixtures = [$a, $b, $c, $d, $e, $f, $g, $1, $X, $+, $0];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.rootNoteIsValid(f) },
+				Error,
+				"Testing invalid root note %, as Char.".format(f)
 			);
 		};
 	}
