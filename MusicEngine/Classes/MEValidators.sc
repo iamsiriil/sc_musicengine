@@ -46,23 +46,23 @@ MEValidators {
 	/****************************************************************************************/
 
 	*noteNameIsValid { |noteName|
-		var regex = "^[A-G][#b]{0,12}(-1|[0-9]{0,1})$";
+		var regex = "^[A-G][#b]{0,5}(-1|[0-9]{0,1})$";
 
 		MEDebug.log("MEValidators", "*noteNameIsValid");
 
-		if (regex.matchRegexp(noteName) == false) {
+		if (regex.matchRegexp(noteName.asString) == false) {
 			Error("% is not a valid note name.".format(noteName)).throw;
 		};
 	}
 
 	/****************************************************************************************/
 
-	*rootNoteIsValid { |rootNote| // rootName
+	*rootNoteIsValid { |rootNote|
 		var regex = "^[A-G][#b]{0,1}$";
 
 		MEDebug.log("MEValidators", "*rootNoteIsValid");
 
-		if (regex.matchRegexp(rootNote) == false) {
+		if (regex.matchRegexp(rootNote.asString) == false) {
 			Error("% is not a valid root note.".format(rootNote)).throw;
 		};
 	}
@@ -71,11 +71,14 @@ MEValidators {
 	// MIDI VALIDATORS
 	/****************************************************************************************/
 
-	*midiNoteIsValid { |midiNote, min = 0, max = 127|
+	*midiNoteIsValid { |midiNote, negative = false|
+		var min;
 
 		MEDebug.log("MEValidators", "*midiNoteIsValid");
 
-		if ((midiNote < min) || (midiNote > max) || midiNote.isInteger.not) {
+		if (negative) { min = -1 } { min = 0 };
+
+		if ((midiNote < min) || (midiNote > 127) || midiNote.isInteger.not) {
 			Error("% is not a valid MIDI note.".format(midiNote)).throw;
 		};
 	}
