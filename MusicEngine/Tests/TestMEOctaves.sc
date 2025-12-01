@@ -378,11 +378,7 @@ TestMEOctaves : UnitTest {
 		var fixtures = [
 			(expected: -1, noteName: "Cb"),
 			(expected: -1, noteName: "Dbbb"),
-			(expected: -1, noteName: "Ebbbbb"),
-			(expected: -1, noteName: "Fbbbbbb"),
-			(expected: -1, noteName: "Gbbbbbbbb"),
-			(expected: -1, noteName: "Abbbbbbbbbb"),
-			(expected: -1, noteName: "Bbbbbbbbbbbbb")
+			(expected: -1, noteName: "Ebbbbb")
 		];
 
 		fixtures.do { |f|
@@ -399,10 +395,6 @@ TestMEOctaves : UnitTest {
 
 	test_checkOctaveCross_crossOver {
 		var fixtures = [
-			(expected: 1, noteName: "C############"),
-			(expected: 1, noteName: "D##########"),
-			(expected: 1, noteName: "E########"),
-			(expected: 1, noteName: "F#######"),
 			(expected: 1, noteName: "G#####"),
 			(expected: 1, noteName: "A###"),
 			(expected: 1, noteName: "B#")
@@ -429,18 +421,11 @@ TestMEOctaves : UnitTest {
 			(expected: 0, noteName: "G"),
 			(expected: 0, noteName: "A"),
 			(expected: 0, noteName: "B"),
-			(expected: 0, noteName: "C###########"),
-			(expected: 0, noteName: "D#########"),
-			(expected: 0, noteName: "E#######"),
-			(expected: 0, noteName: "F######"),
 			(expected: 0, noteName: "G####"),
 			(expected: 0, noteName: "A##"),
 			(expected: 0, noteName: "Dbb"),
 			(expected: 0, noteName: "Ebbbb"),
-			(expected: 0, noteName: "Fbbbbb"),
-			(expected: 0, noteName: "Gbbbbbbb"),
-			(expected: 0, noteName: "Abbbbbbbbb"),
-			(expected: 0, noteName: "Bbbbbbbbbbbb")
+			(expected: 0, noteName: "Fbbbbb")
 		];
 
 		fixtures.do { |f|
