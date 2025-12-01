@@ -617,4 +617,66 @@ TestMEValidators : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+	// MIDI VALIDATORS: Unit Tests for midiNoteIsValid
+	/****************************************************************************************/
+
+	test_midiNoteIsValid_correctInputNonNegative {
+
+		(0..127).do { |f|
+
+			this.assertEquals(
+				MEValidators,
+				MEValidators.midiNoteIsValid(f, negative: false),
+				"Testing valid input MIDI note %.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_midiNoteIsValid_correctInputNegative {
+
+		(-1..127).do { |f|
+
+			this.assertEquals(
+				MEValidators,
+				MEValidators.midiNoteIsValid(f, negative: true),
+				"Testing valid input MIDI note %.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_midiNoteIsValid_wrongInputNonNegative {
+		var fixtures = [-10, -1, 1.0, 128, "1", '1', $1, [1]];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.midiNoteIsValid(f, negative: false) },
+				Error,
+				"Testing invalid midi note %.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_midiNoteIsValid_wrongInputNegative {
+		var fixtures = [-10, -2, 1.0, 128, "1", '1', $1, [1]];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.midiNoteIsValid(f, negative: true) },
+				Error,
+				"Testing invalid midi note %.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
 }
