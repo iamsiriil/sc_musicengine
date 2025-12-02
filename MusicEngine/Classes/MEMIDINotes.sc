@@ -29,7 +29,7 @@ MEMIDINotes : MECore {
 	/****************************************************************************************/
 
 	*getOffsetFromName { |noteName, validate = true|
-		var signOffset = 0;
+		var midiOffset, signOffset = 0;
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
@@ -41,7 +41,12 @@ MEMIDINotes : MECore {
 			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
 		};
 
-		^super.noteFromLetter(noteName[0], validate: false) + signOffset;
+		midiOffset = super.noteFromLetter(noteName[0], validate: false) + signOffset;
+
+		if (noteName.asString == "Cb") {
+			^midiOffset + 12;
+		};
+		^midiOffset;
 	}
 
 	/****************************************************************************************/
