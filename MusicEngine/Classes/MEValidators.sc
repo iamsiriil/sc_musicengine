@@ -71,32 +71,28 @@ MEValidators {
 	// MIDI VALIDATORS
 	/****************************************************************************************/
 
-	*midiNoteIsValid { |midiNote, negative = false|
+	*midiNoteIsValid { |midiNote|
 		var min;
 
 		MEDebug.log("MEValidators", "*midiNoteIsValid");
 
-		if (negative) { min = -1 } { min = 0 };
-
-		if ((midiNote < min) || (midiNote > 127) || midiNote.isInteger.not) {
+		if ((midiNote < 0) || (midiNote > 127) || midiNote.isInteger.not) {
 			Error("% is not a valid MIDI note.".format(midiNote)).throw;
 		};
 	}
 
 	/****************************************************************************************/
 
-	*midiOffsetIsValid { |midiOffset, diatonic = true, negative = false|
+	*midiOffsetIsValid { |midiOffset, diatonic = true|
 		var offsets, min;
 
-		if (diatonic) {
-			min = if (negative) { [-1] } { [] };
-			offsets = (min ++ [0, 2, 4, 5, 7, 9, 11]).asSet;
-		} {
-			min = if (negative) { -1 } { 0 };
-			offsets = (min..11).asSet;
-		};
-
 		MEDebug.log("MEValidators", "*midiOffsetIsValid");
+
+		if (diatonic) {
+			offsets = [0, 2, 4, 5, 7, 9, 11].asSet;
+		} {
+			offsets = (0..11).asSet;
+		};
 
 		if (midiOffset.isInteger.not || offsets.includes(midiOffset).not) {
 			Error("% is not a valid MIDI offset.".format(midiOffset)).throw;
@@ -105,16 +101,24 @@ MEValidators {
 
 	/****************************************************************************************/
 
-	*midiOffsetArrayIsValid { |midiOffsetArr, diatonic = true, negative = false|
-		var arrSize = midiOffsetArr.size;
-		var setSize = midiOffsetArr.asSet.size;
+	*midiOffsetArrayIsValid { |midiOffsetArr, diatonic = true|
+		var arrSize, setSize;
+
+		MEDebug.log("MEValidators", "*midiNamePairIsValid");
+
+		if (midiOffsetArr[0] != 0) {
+			Error("MIDI offset array must start with '0'.".format(midiOffsetArr.join(", ")));
+		};
+
+		arrSize = midiOffsetArr.size;
+		setSize = midiOffsetArr.asSet.size;
 
 		if (arrSize > setSize) {
 			Error("% contains enharmonics.".format(midiOffsetArr.join(", "))).throw;
 		};
 
 		midiOffsetArr.do { |o|
-			this.midiOffsetIsValid(o, diatonic, negative);
+			this.midiOffsetIsValid(o, diatonic);
 		};
 	}
 
