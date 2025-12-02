@@ -64,7 +64,7 @@ MECore {
 	*indexOfNote { |midiNote, validate = true|
 
 		if (validate) {
-			MEValidators.midiOffsetIsValid(midiNote);
+			MEValidators.midiOffsetIsValid(midiNote, diatonic: true);
 		};
 
 		^notes.indexOf(midiNote);
@@ -72,7 +72,7 @@ MECore {
 
 	/****************************************************************************************/
 
-	*noteFromLetter { |noteLetter, validate = true| // noteLetter
+	*noteFromLetter { |noteLetter, validate = true|
 		var index = MECore.indexOfLetter(noteLetter, validate);
 
 		MEDebug.log("MECore", "*noteFromLetter");
