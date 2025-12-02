@@ -51,13 +51,13 @@ MEMIDINotes : MECore {
 
 	/****************************************************************************************/
 
-	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true, negative = true|
+	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true|
 
 		MEDebug.log("MEMidiNotes", "*transposeMidiOffset");
 
 		if (validate) {
-			MEValidators.midiOffsetArrayIsValid(midiOffsetArr, false, negative);
-			MEValidators.midiOffsetIsValid(midiRoot, false, negative);
+			MEValidators.midiOffsetArrayIsValid(midiOffsetArr, diatonic: false);
+			MEValidators.midiOffsetIsValid(midiRoot, diatonic: false);
 		};
 
 		^midiRoot + midiOffsetArr;
