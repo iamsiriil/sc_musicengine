@@ -755,6 +755,8 @@ TestMEValidators : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_midiOffsetArrayIsValid_noEnharmonicsTwoNotesChromatic {
 		var fixtures = [
 			(expected: MEValidators, midiOffsetArr: [0, 1]),
@@ -780,6 +782,8 @@ TestMEValidators : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_midiOffsetArrayIsValid_noEnharmonicsFourNotesDiatonic {
 		var fixtures = [
 			(expected: MEValidators, midiOffsetArr: [0, 2, 4, 5]),
@@ -797,6 +801,8 @@ TestMEValidators : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
 
 	test_midiOffsetArrayIsValid_noEnharmonicsFourNotesChromatic {
 		var fixtures = [
@@ -816,6 +822,49 @@ TestMEValidators : UnitTest {
 				f.expected,
 				MEValidators.midiOffsetArrayIsValid(f.midiOffsetArr, diatonic: false),
 				"Testing valid MIDI offset array %. Two notes, diatonic".format(f.midiOffsetArr.join(", "))
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_midiOffsetArrayIsValid_wrongInputEnharmonics {
+		var fixtures = [
+			[0, 0, 0, 0],
+			[0, 1, 1, 2],
+			[0, 1, 2, 2]
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.midiOffsetArrayIsValid(f) },
+				Error,
+				"Testing invalid MIDI offset array %. Enharmonics present.".format(f.join(", "))
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_midiOffsetArrayIsValid_wrongInput {
+		var fixtures = [
+			[1, 2, 3, 4, 5, 6],
+			[-1, 0, 1, 2, 3, 4],
+			["0", 1, 2, 3, 4, 5],
+			[0, '1', 2, 3, 4, 5],
+			[0, 1, $2, 3, 4, 5],
+			[0, 1, 2, [3], 4, 5],
+			[0, 1, 2, 3, 4.0, 5],
+			[0, 7, 8, 10, 11, 12]
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.midiOffsetArrayIsValid(f) },
+				Error,
+				"Testing invalid MIDI offset array %. Invalid values.".format(f.join(", "))
 			);
 		};
 	}
