@@ -33,6 +33,7 @@ MERanges : MECore {
 				};
 			};
 		};
+
 	}
 
 	/****************************************************************************************/
@@ -57,16 +58,11 @@ MERanges : MECore {
 		this.sortAndSplit(arr);
 	}
 
-
 	/****************************************************************************************/
 
 	wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
 
 		MEDebug.log("MERanges", "*wrapFirstOctave");
-
-		if (midiNotesArr[0] < 0) {
-			midiNotesArr = midiNotesArr + 12;
-		};
 
 		midiNotesArr.do { |m, i|
 
