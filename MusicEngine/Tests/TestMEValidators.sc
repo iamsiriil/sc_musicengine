@@ -627,21 +627,7 @@ TestMEValidators : UnitTest {
 
 			this.assertEquals(
 				MEValidators,
-				MEValidators.midiNoteIsValid(f, negative: false),
-				"Testing valid input MIDI note %.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_midiNoteIsValid_correctInputNegative {
-
-		(-1..127).do { |f|
-
-			this.assertEquals(
-				MEValidators,
-				MEValidators.midiNoteIsValid(f, negative: true),
+				MEValidators.midiNoteIsValid(f),
 				"Testing valid input MIDI note %.".format(f)
 			);
 		};
@@ -655,22 +641,7 @@ TestMEValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MEValidators.midiNoteIsValid(f, negative: false) },
-				Error,
-				"Testing invalid midi note %.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_midiNoteIsValid_wrongInputNegative {
-			var fixtures = [-10, -2, 1.0, 128, "1", '1'];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MEValidators.midiNoteIsValid(f, negative: true) },
+				{ MEValidators.midiNoteIsValid(f) },
 				Error,
 				"Testing invalid midi note %.".format(f)
 			);
@@ -681,7 +652,7 @@ TestMEValidators : UnitTest {
 	// MIDI VALIDATORS: Unit Tests for midiOffsetIsValid
 	/****************************************************************************************/
 
-	test_midiOffsetIsValid_correctInputDiatonicNonNegative {
+	test_midiOffsetIsValid_correctInputDiatonic {
 		var fixtures = [
 			(expected: MEValidators, midiOffset: 0),
 			(expected: MEValidators, midiOffset: 2),
@@ -696,7 +667,7 @@ TestMEValidators : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: true, negative: false),
+				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: true),
 				"Testing valid MIDI offset %.".format(f.midiOffset)
 			);
 		};
@@ -704,31 +675,7 @@ TestMEValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_midiOffsetIsValid_correctInputDiatonicNegative {
-		var fixtures = [
-			(expected: MEValidators, midiOffset: -1),
-			(expected: MEValidators, midiOffset: 0),
-			(expected: MEValidators, midiOffset: 2),
-			(expected: MEValidators, midiOffset: 4),
-			(expected: MEValidators, midiOffset: 5),
-			(expected: MEValidators, midiOffset: 7),
-			(expected: MEValidators, midiOffset: 9),
-			(expected: MEValidators, midiOffset: 11)
-		];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: true, negative: true),
-				"Testing valid MIDI offset %.".format(f.midiOffset)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_midiOffsetIsValid_correctInputChromaticNonNegative {
+	test_midiOffsetIsValid_correctInputChromatic {
 		var fixtures = [
 			(expected: MEValidators, midiOffset: 0),
 			(expected: MEValidators, midiOffset: 1),
@@ -748,7 +695,7 @@ TestMEValidators : UnitTest {
 
 			this.assertEquals(
 				f.expected,
-				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: false, negative: false),
+				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: false),
 				"Testing valid MIDI offset %.".format(f.midiOffset)
 			);
 		};
@@ -756,42 +703,13 @@ TestMEValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_midiOffsetIsValid_correctInputChromaticNegative {
-		var fixtures = [
-			(expected: MEValidators, midiOffset: -1),
-			(expected: MEValidators, midiOffset: 0),
-			(expected: MEValidators, midiOffset: 1),
-			(expected: MEValidators, midiOffset: 2),
-			(expected: MEValidators, midiOffset: 3),
-			(expected: MEValidators, midiOffset: 4),
-			(expected: MEValidators, midiOffset: 5),
-			(expected: MEValidators, midiOffset: 6),
-			(expected: MEValidators, midiOffset: 7),
-			(expected: MEValidators, midiOffset: 8),
-			(expected: MEValidators, midiOffset: 9),
-			(expected: MEValidators, midiOffset: 10),
-			(expected: MEValidators, midiOffset: 11)
-		];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MEValidators.midiOffsetIsValid(f.midiOffset, diatonic: false, negative: true),
-				"Testing valid MIDI offset %.".format(f.midiOffset)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_midiOffsetIsValid_wrongInputDiatonicNonNegative {
+	test_midiOffsetIsValid_wrongInputDiatonic {
 		var fixtures = [-1, 1, 3, 6, 8, 10, 12, "1", '1', $1, [1]];
 
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MEValidators.midiOffsetIsValid(f, diatonic: true, negative: false) },
+				{ MEValidators.midiOffsetIsValid(f, diatonic: true) },
 				Error,
 				"Testing invalid MIDI offset % (diatonic: true; negative: false).".format(f)
 			);
@@ -800,28 +718,13 @@ TestMEValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_midiOffsetIsValid_wrongInputDiatonicNegative {
-		var fixtures = [-2, 1, 3, 6, 8, 10, 12, "1", '1', $1, [1]];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MEValidators.midiOffsetIsValid(f, diatonic: true, negative: true) },
-				Error,
-				"Testing invalid MIDI offset % (diatonic: true; negative: true).".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_midiOffsetIsValid_wrongInputChromaticNonNegative {
+	test_midiOffsetIsValid_wrongInputChromatic {
 		var fixtures = [-1, 12, 1.0, "1", '1', $1, [1]];
 
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MEValidators.midiOffsetIsValid(f, diatonic: false, negative: false) },
+				{ MEValidators.midiOffsetIsValid(f, diatonic: false) },
 				Error,
 				"Testing invalid MIDI offset % (diatonic: false; negative: false).".format(f)
 			);
@@ -829,18 +732,91 @@ TestMEValidators : UnitTest {
 	}
 
 	/****************************************************************************************/
+	// MIDI VALIDATORS: Unit Tests for midiOffsetArrayIsValid
+	/****************************************************************************************/
 
-	test_midiOffsetIsValid_wrongInputChromaticNegative {
-		var fixtures = [-2, 12, 1.0, "1", '1', $1, [1]];
+	test_midiOffsetArrayIsValid_noEnharmonicsTwoNotesDiatonic {
+		var fixtures = [
+			(expected: MEValidators, midiOffsetArr: [0, 2]),
+			(expected: MEValidators, midiOffsetArr: [0, 4]),
+			(expected: MEValidators, midiOffsetArr: [0, 5]),
+			(expected: MEValidators, midiOffsetArr: [0, 7]),
+			(expected: MEValidators, midiOffsetArr: [0, 9]),
+			(expected: MEValidators, midiOffsetArr: [0, 11])
+		];
 
 		fixtures.do { |f|
 
-			this.assertException(
-				{ MEValidators.midiOffsetIsValid(f, diatonic: false, negative: true) },
-				Error,
-				"Testing invalid MIDI offset % (diatonic: false; negative: false).".format(f)
+			this.assertEquals(
+				f.expected,
+				MEValidators.midiOffsetArrayIsValid(f.midiOffsetArr, diatonic: true),
+				"Testing valid MIDI offset array %. Two notes, diatonic".format(f.midiOffsetArr.join(", "))
 			);
 		};
 	}
 
+	test_midiOffsetArrayIsValid_noEnharmonicsTwoNotesChromatic {
+		var fixtures = [
+			(expected: MEValidators, midiOffsetArr: [0, 1]),
+			(expected: MEValidators, midiOffsetArr: [0, 2]),
+			(expected: MEValidators, midiOffsetArr: [0, 3]),
+			(expected: MEValidators, midiOffsetArr: [0, 4]),
+			(expected: MEValidators, midiOffsetArr: [0, 5]),
+			(expected: MEValidators, midiOffsetArr: [0, 6]),
+			(expected: MEValidators, midiOffsetArr: [0, 7]),
+			(expected: MEValidators, midiOffsetArr: [0, 8]),
+			(expected: MEValidators, midiOffsetArr: [0, 9]),
+			(expected: MEValidators, midiOffsetArr: [0, 10]),
+			(expected: MEValidators, midiOffsetArr: [0, 11])
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.midiOffsetArrayIsValid(f.midiOffsetArr, diatonic: false),
+				"Testing valid MIDI offset array %. Two notes, chromatic".format(f.midiOffsetArr.join(", "))
+			);
+		};
+	}
+
+	test_midiOffsetArrayIsValid_noEnharmonicsFourNotesDiatonic {
+		var fixtures = [
+			(expected: MEValidators, midiOffsetArr: [0, 2, 4, 5]),
+			(expected: MEValidators, midiOffsetArr: [0, 4, 5, 7]),
+			(expected: MEValidators, midiOffsetArr: [0, 5, 7, 9]),
+			(expected: MEValidators, midiOffsetArr: [0, 7, 9, 11])
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.midiOffsetArrayIsValid(f.midiOffsetArr, diatonic: true),
+				"Testing valid MIDI offset array %. Two notes, diatonic".format(f.midiOffsetArr.join(", "))
+			);
+		};
+	}
+
+	test_midiOffsetArrayIsValid_noEnharmonicsFourNotesChromatic {
+		var fixtures = [
+			(expected: MEValidators, midiOffsetArr: [0, 2, 3, 4]),
+			(expected: MEValidators, midiOffsetArr: [0, 3, 4, 5]),
+			(expected: MEValidators, midiOffsetArr: [0, 4, 5, 6]),
+			(expected: MEValidators, midiOffsetArr: [0, 5, 6, 7]),
+			(expected: MEValidators, midiOffsetArr: [0, 6, 7, 8]),
+			(expected: MEValidators, midiOffsetArr: [0, 7, 8, 9]),
+			(expected: MEValidators, midiOffsetArr: [0, 8, 9, 10]),
+			(expected: MEValidators, midiOffsetArr: [0, 9, 10, 11])
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEValidators.midiOffsetArrayIsValid(f.midiOffsetArr, diatonic: false),
+				"Testing valid MIDI offset array %. Two notes, diatonic".format(f.midiOffsetArr.join(", "))
+			);
+		};
+	}
 }
