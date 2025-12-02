@@ -16,7 +16,7 @@ MEOctaves : MECore {
 		MEDebug.log("MEOctaves", "*getClosestOctave");
 
 		if (validate) {
-			MEValidators.midiNoteIsValid(midiNote, negative: true);
+			MEValidators.midiNoteIsValid(midiNote);
 			MEValidators.noteLetterIsValid(noteLetter);
 		};
 
