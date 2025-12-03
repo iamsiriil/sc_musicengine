@@ -126,22 +126,31 @@ MEValidators {
 	// MIDI NOTE AND NOTE NAME PAIR VALIDATOR
 	/****************************************************************************************/
 
-	*midiNamePairIsValid { |midiNote, noteName|
-		var sign  = MEAccidental.getOffsetFromName(noteName); // validate: false
-		var cross = MEOctaves.checkOctaveCross(noteName); // validate: false
-		var ref   = MECore.noteFromLetter(noteName[0]); // validate: false
-		var oct   = (midiNote / 12).floor;
-		var note  = (midiNote - (12 * oct));
+	*midiNamePairIsValid { |midiNote, noteName, validate = true|
+		var signOffset, cross, reference;
+		var octave, noteFirstOct;
+
+		if (validate) {
+			this.midiNoteIsValid(midiNote);
+			this.noteNameIsValid(noteName);
+		};
 
 		MEDebug.log("MEValidators", "*midiNamePairIsValid");
 
+		signOffset  = MEAccidental.getOffsetFromName(noteName, validate: false);
+		reference   = MECore.noteFromLetter(noteName[0], validate: false);
+		cross       = MEOctaves.checkOctaveCross(noteName, validate: false);
+
+		octave        = (midiNote / 12).floor;
+		noteFirstOct  = (midiNote - (12 * octave));
+
 		if (cross != 0) {
 			case
-			{ cross == -1 } { ref = ref + 12 }
-			{ cross == 1 }  { ref = ref - 12 }
+			{ cross == -1 } { reference = reference + 12 }
+			{ cross == 1 }  { reference = reference - 12 }
 		};
 
-		if ((ref + sign) != note) {
+		if ((reference + signOffset) != noteFirstOct) {
 			Error("% is not a valid representation of MIDI note %.".format(
 				noteName,
 				midiNote)
