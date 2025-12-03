@@ -145,6 +145,8 @@ MERanges : MECore {
 
 		this.getOffsets(symbol.degrees);
 
+		MEValidators.midiOffsetArrayIsValid(midiOffsets, diatonic: true);
+
 		midiRoot = MEMIDINotes.getOffsetFromName(symbol.root, validate: false);
 		tempM    = MEMIDINotes.transposeMidiOffset(midiOffsets, midiRoot, validate: false);
 		tempL    = MENoteName.getNoteLetters(letterOffsets, symbol.root[0], validate: false);
