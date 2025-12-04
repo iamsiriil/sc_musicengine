@@ -53,7 +53,7 @@ MECore {
 	*indexOfLetter { |noteLetter, validate = true|
 
 		if (validate) {
-			MEValidators.noteLetterIsValid(noteLetter);
+			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
 		^letters.indexOf(noteLetter.asSymbol);
@@ -64,7 +64,7 @@ MECore {
 	*indexOfNote { |midiNote, validate = true|
 
 		if (validate) {
-			MEValidators.midiOffsetIsValid(midiNote, diatonic: true);
+			MEMIDIValidators.midiOffsetIsValid(midiNote, diatonic: true);
 		};
 
 		^notes.indexOf(midiNote);

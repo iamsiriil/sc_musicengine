@@ -15,7 +15,7 @@ MEMIDINotes : MECore {
 		MEDebug.log("MEMidiNotes", "*getOffsetFromInterval");
 
 		if (validate) {
-			MEValidators.intervalIsValid(interval);
+			MEIntervalValidators.intervalIsValid(interval);
 		};
 
 		super.intervals.keysValuesDo { |k, v|
@@ -34,7 +34,7 @@ MEMIDINotes : MECore {
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
 
 		if (validate) {
-			MEValidators.noteNameIsValid(noteName);
+			MENameValidators.noteNameIsValid(noteName);
 		};
 
 		if (noteName.size > 1) {
@@ -56,8 +56,8 @@ MEMIDINotes : MECore {
 		MEDebug.log("MEMidiNotes", "*transposeMidiOffset");
 
 		if (validate) {
-			MEValidators.midiOffsetArrayIsValid(midiOffsetArr, diatonic: false);
-			MEValidators.midiOffsetIsValid(midiRoot, diatonic: false);
+			MEMIDIValidators.midiOffsetArrayIsValid(midiOffsetArr, diatonic: false);
+			MEMIDIValidators.midiOffsetIsValid(midiRoot, diatonic: false);
 		};
 
 		^midiRoot + midiOffsetArr;

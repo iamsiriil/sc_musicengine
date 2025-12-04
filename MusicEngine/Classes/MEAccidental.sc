@@ -41,7 +41,7 @@ MEAccidental : MECore {
 		MEDebug.log("MEAccidentals", "*getOffsetFromName");
 
 		if (validate) {
-			MEValidators.noteNameIsValid(noteName);
+			MENameValidators.noteNameIsValid(noteName);
 		};
 
 		if (signOffset.includes($b)) {
@@ -58,8 +58,8 @@ MEAccidental : MECore {
 		MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
 
 		if (validate) {
-			MEValidators.midiNoteIsValid(midiNote);
-			MEValidators.noteLetterIsValid(noteLetter);
+			MEMIDIValidators.midiNoteIsValid(midiNote);
+			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
 		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false); // max 5
@@ -75,7 +75,7 @@ MEAccidental : MECore {
 		MEDebug.log("MEAccidentals", "*getSignFromOffset");
 
 		if (validate) {
-			MEValidators.signOffsetIsValid(signOffset);
+			MEAccidentalValidators.signOffsetIsValid(signOffset);
 		};
 
 		case
@@ -93,8 +93,8 @@ MEAccidental : MECore {
 		MEDebug.log("MEAccidentals", "*resolveAccidental");
 
 		if (validate) {
-			MEValidators.midiNoteIsValid(midiNote);
-			MEValidators.noteLetterIsValid(noteLetter);
+			MEMIDIValidators.midiNoteIsValid(midiNote);
+			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
 		signOffset = MEAccidental.getOffsetFromMidi(midiNote, noteLetter, validate: false);

@@ -16,8 +16,8 @@ MEOctaves : MECore {
 		MEDebug.log("MEOctaves", "*getClosestOctave");
 
 		if (validate) {
-			MEValidators.midiNoteIsValid(midiNote);
-			MEValidators.noteLetterIsValid(noteLetter);
+			MEMIDIValidators.midiNoteIsValid(midiNote);
+			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
 		ref = super.noteFromLetter(noteLetter, validate: false);
@@ -46,7 +46,7 @@ MEOctaves : MECore {
 		MEDebug.log("MEOctaves", "*checkOctaveCross");
 
 		if (validate) {
-			MEValidators.noteNameIsValid(noteName);
+			MENameValidators.noteNameIsValid(noteName);
 		};
 
 		midiOffset = super.noteFromLetter(noteName[0], validate: false);
@@ -69,9 +69,9 @@ MEOctaves : MECore {
 		if (validate) {
 
 			if (noteName.notNil) {
-				MEValidators.midiNamePairIsValid(midiNote, noteName);
+				MEMIDIValidators.midiNamePairIsValid(midiNote, noteName);
 			};
-			MEValidators.midiNoteIsValid(midiNote);
+			MEMIDIValidators.midiNoteIsValid(midiNote);
 		};
 
 		octave = (octave + (midiNote/12).floor).asInteger;
