@@ -1389,4 +1389,68 @@ TestMEValidators : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+	// OCTAVE VALIDATORS: Unit Tests for octaveIsValid
+	/****************************************************************************************/
+
+	test_octaveIsValid_correctInput {
+		var fixtures = (-1..9);
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				nil,
+				MEValidators.octaveIsValid(f, start: -1),
+				"Testing correct input %. Should return 'nil'.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_octaveIsValid_wrongInput {
+		var fixtures = [-2, 10, 1.0, "1", '1', $1];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.octaveIsValid(f, start: -1) },
+				Error,
+				"Testing wrong input %. Should throw error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+	// ÃCCIDENTAL SIGN VALIDATORS: Unit Tests for signOffsetIsValid
+	/****************************************************************************************/
+
+	test_signOffsetIsValid_correctInput {
+		var fixtures = (-5..5);
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				nil,
+				MEValidators.signOffsetIsValid(f),
+				"Testing correct input %. Should return 'nil'.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_signOffsetIsValid_wrongInput {
+		var fixtures = [-6, 6, 1.0, "1", '1', $1];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEValidators.signOffsetIsValid(f) },
+				Error,
+				"Testing wrong input %. Should throw error.".format(f)
+			);
+		};
+	}
+
 }
