@@ -162,13 +162,14 @@ MEValidators {
 	// OCTAVE VALIDATOR
 	/****************************************************************************************/
 
-	*octaveIsValid { |octave, min = -1, max = 9|
+	*octaveIsValid { |octave, start = -1|
 
 		MEDebug.log("MEValidators", "*octaveIsValid");
 
-		if ((octave < min) || (octave > max) || (octave.isInteger.not)) {
+		if ((octave < start) || (octave > (start + 10)) || (octave.isInteger.not)) {
 			Error("% is not a valid octave number.".format(octave)).throw;
 		};
+		^nil;
 	}
 
 	/****************************************************************************************/
@@ -181,6 +182,7 @@ MEValidators {
 		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
 			Error("% is not a valid sign offset.".format(signOffset)).throw;
 		};
+		^nil;
 	}
 
 	/****************************************************************************************/
