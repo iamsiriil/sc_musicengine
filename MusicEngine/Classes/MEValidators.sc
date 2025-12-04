@@ -193,11 +193,12 @@ MEValidators {
 		var result = false;
 
 		MECore.intervals.do { |v|
-			result = result || v.includes(interval);
+			result = result || v.includes(interval.asString);
 		};
 
 		if (result == false) {
 			Error("% is not a valid interval.".format(interval)).throw;
 		};
+		^nil;
 	}
 }
