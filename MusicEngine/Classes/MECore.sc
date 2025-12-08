@@ -75,7 +75,7 @@ MECore {
 	*noteFromLetter { |noteLetter, validate = true|
 		var index = MECore.indexOfLetter(noteLetter, validate);
 
-		MEDebug.log("MECore", "*noteFromLetter");
+		//MEDebug.log("MECore", "*noteFromLetter");
 
 		^notes[index];
 	}
@@ -85,7 +85,7 @@ MECore {
 	*letterFromNote { |midiNote, validate = true|
 		var index = MECore.indexOfNote(midiNote, validate);
 
-		MEDebug.log("MECore", "*letterFromNote");
+		//MEDebug.log("MECore", "*letterFromNote");
 
 		^letters[index]
 	}

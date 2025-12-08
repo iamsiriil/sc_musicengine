@@ -19,7 +19,6 @@ MERanges : MECore {
 		letterOffsets = Array.new(dataArray.size);
 		intervals     = Array.new(dataArray.size);
 
-		MEDebug.log("MERanges", "*sortAndSplit");
 
 		midiOffsets.sort;
 
@@ -34,6 +33,7 @@ MERanges : MECore {
 			};
 		};
 
+		MEDebug.log("MERanges", "*sortAndSplit", "\nin:  %\nout: midiOffsets: %\nout: letterOffsets: %\nout: intervals: %\n".format(dataArray, midiOffsets, letterOffsets, intervals));
 	}
 
 	/****************************************************************************************/
@@ -41,7 +41,6 @@ MERanges : MECore {
 	getOffsets { |intervals|
 		var arr = Array.new(intervals.size + 1);
 
-		MEDebug.log("MERanges", "*getOffsets");
 
 		arr.add(["Rt", 0, 0]);
 
@@ -55,14 +54,19 @@ MERanges : MECore {
 			arr.add(temp);
 		};
 
+		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervals, arr));
+
 		this.sortAndSplit(arr);
 	}
 
 	/****************************************************************************************/
 
 	wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
+		var tempM, tempL, tempI;
 
-		MEDebug.log("MERanges", "*wrapFirstOctave");
+		tempM = midiNotesArr.copy;
+		tempL = noteLettersArr.copy;
+		tempI = intervalsArr.copy;
 
 		midiNotesArr.do { |m, i|
 
@@ -74,6 +78,8 @@ MERanges : MECore {
 		};
 		midiNotesArr.sort;
 
+		MEDebug.log("MERanges", "*wrapFirstOctave", "\nin:  %, %, %\nout: %, %, %\n".format(tempM, tempL, tempI, midiNotesArr, noteLettersArr, intervalsArr));
+
 		^[midiNotesArr, noteLettersArr, intervalsArr]
 	}
 
@@ -82,7 +88,6 @@ MERanges : MECore {
 	extendMidiRange { |midiNotesArr|
 		var midiRange = Array.new(midiNotesArr.size * 11);
 
-		MEDebug.log("MERanges", "*extendMidiRange");
 
 		midiNotesArr.do { |m|
 
@@ -92,15 +97,17 @@ MERanges : MECore {
 				m = m + 12;
 			};
 		};
-		^midiRange.sort;
+		midiRange.sort;
+
+		MEDebug.log("MERanges", "*extendMidiRange", "\nin:  %\nout: %\n".format(midiNotesArr, midiRange));
+
+		^midiRange;
 	}
 
 	/****************************************************************************************/
 
 	wrapAndExtend { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
-
-		MEDebug.log("MERanges", "*wrapAndExtend");
 
 		#tempM, tempL, tempI = this.wrapFirstOctave(
 			midiNotesArr,
@@ -111,6 +118,8 @@ MERanges : MECore {
 		tempM = this.extendMidiRange(tempM);
 		tempL = tempL.wrapExtend(tempM.size);
 		tempI = tempI.wrapExtend(tempM.size);
+
+		MEDebug.log("MERanges", "*wrapAndExtend", "\nin:  %, %, %\nout: %\nout: %\nout: %\n".format(midiNotesArr, noteLettersArr, intervalsArr, tempM, tempL, tempI));
 
 		^[tempM, tempL, tempI];
 	}
@@ -141,7 +150,7 @@ MERanges : MECore {
 	getRange { |symbol|
 		var tempM, tempL, tempD;
 
-		MEDebug.log("MERanges", "*getRange");
+		MEDebug.log("MERanges", "*getRange", "\nin:  %\n".format(symbol));
 
 		this.getOffsets(symbol.degrees);
 

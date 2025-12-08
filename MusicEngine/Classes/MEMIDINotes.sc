@@ -12,7 +12,7 @@ MEMIDINotes : MECore {
 
 	*getOffsetFromInterval { |interval, validate = true|
 
-		MEDebug.log("MEMidiNotes", "*getOffsetFromInterval");
+		//MEDebug.log("MEMidiNotes", "*getOffsetFromInterval");
 
 		if (validate) {
 			MEIntervalValidators.intervalIsValid(interval);
@@ -31,8 +31,6 @@ MEMIDINotes : MECore {
 	*getOffsetFromName { |noteName, validate = true|
 		var midiOffset, signOffset = 0;
 
-		MEDebug.log("MEMidiNotes", "*getOffsetFromName");
-
 		if (validate) {
 			MENameValidators.noteNameIsValid(noteName);
 		};
@@ -46,20 +44,26 @@ MEMIDINotes : MECore {
 		if (noteName.asString == "Cb") {
 			^midiOffset + 12;
 		};
+
+		MEDebug.log("MEMidiNotes", "*getOffsetFromName", "\nin:  %\nout: %\n".format(noteName, midiOffset));
+
 		^midiOffset;
 	}
 
 	/****************************************************************************************/
 
 	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true|
-
-		MEDebug.log("MEMidiNotes", "*transposeMidiOffset");
+		var transpose;
 
 		if (validate) {
 			MEMIDIValidators.midiOffsetArrayIsValid(midiOffsetArr, diatonic: false);
 			MEMIDIValidators.midiOffsetIsValid(midiRoot, diatonic: false);
 		};
 
-		^midiRoot + midiOffsetArr;
+		transpose = midiRoot + midiOffsetArr;
+
+		MEDebug.log("MEMidiNotes", "*transposeMidiOffset" "\nin:  %, %\nout: %\n".format(midiRoot, midiOffsetArr, transpose));
+
+		^transpose;
 	}
 }

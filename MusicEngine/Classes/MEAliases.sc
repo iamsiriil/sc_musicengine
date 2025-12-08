@@ -62,16 +62,17 @@ MEAliases {
 	/****************************************************************************************/
 
 	*checkAliases { |symbol|
-
-		MEDebug.log("MEAliases", "*checkAliases");
+		var out = nil;
 
 		aliases.keysValuesDo { |k, v|
 
 			if (v.includes(symbol)) {
-				^k;
+				out = k;
 			};
 		};
 
-		^nil;
+		MEDebug.log("MEAliases", "*checkAliases", "\nin:  %;\nout: %\n".format(symbol, out));
+
+		^out;
 	}
 }
