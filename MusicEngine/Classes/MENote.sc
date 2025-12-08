@@ -21,7 +21,7 @@ MENote : MECore {
 
 	init { |newN, newL, newM, newD, val|
 
-		MEDebug.log("MENotes", "init");
+		//MEDebug.log("MENotes", "init");
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
@@ -43,6 +43,27 @@ MENote : MECore {
 		degree = newD;
 
 		^this;
+	}
+
+	/****************************************************************************************/
+
+	printOn { |stream|
+		stream << "MENote [ ";
+		stream << "MIDI: " << midi << ", ";
+		stream << "Degree: " << degree << ", ";
+		stream << "Name: " << name << " ]";
+	}
+
+	/****************************************************************************************/
+
+	nameObj {
+		^name;
+	}
+
+	/****************************************************************************************/
+
+	accidentalObj {
+		^name.accidental;
 	}
 
 	/****************************************************************************************/

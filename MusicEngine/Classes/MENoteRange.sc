@@ -14,12 +14,19 @@ MENoteRange : MERanges {
 
 	init { |newSymbol, newL|
 
-		MEDebug.log("MENoteRanges", "init");
+		MEDebug.log("MENoteRanges", "init", "\nin:  %\n".format(newSymbol));
 
 		symbol = MESymbol.new(newSymbol);
 		notes  = super.getRange(symbol);
 
 		^this;
+	}
+
+	/****************************************************************************************/
+
+	printOn { |stream|
+		stream << "MENoteRange [ ";
+		stream << "Symbol: " << symbol << " ]";
 	}
 
 	/****************************************************************************************/

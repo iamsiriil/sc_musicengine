@@ -7,7 +7,7 @@
 MENoteName : MECore {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 	var noteLetter;
-	var accidental;
+	var <accidental;
 
 	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
 
@@ -16,7 +16,7 @@ MENoteName : MECore {
 
 	init { |newN, newL, newM, val|
 
-		MEDebug.log("MENoteNames", "init");
+		//MEDebug.log("MENoteNames", "init");
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
@@ -36,10 +36,19 @@ MENoteName : MECore {
 
 	/****************************************************************************************/
 
+	printOn { |stream|
+		var s = if (accidental.sign == "") { nil } { accidental.sign };
+		stream << "MENoteName [ ";
+		stream << "Letter: " << noteLetter << ", ";
+		stream << "Accidental: "<< accidental << " ]";
+	}
+
+	/****************************************************************************************/
+
 	*getOffsetFromInterval { |interval, validate = true|
 		var letterOffset;
 
-		MEDebug.log("MENoteNames", "*getOffsetFromInterval");
+		//MEDebug.log("MENoteNames", "*getOffsetFromInterval");
 
 		if (validate) {
 			MEIntervalValidators.intervalIsValid(interval);
@@ -59,7 +68,7 @@ MENoteName : MECore {
 	*getOffsetArray { |intervalArray, validate = true|
 		var letterOffsetArr = Array.new(intervalArray.size + 1);
 
-		MEDebug.log("MENoteNames", "*getOffsetArray");
+		//MEDebug.log("MENoteNames", "*getOffsetArray");
 
 		// intervalArrayIsValid
 
@@ -77,7 +86,6 @@ MENoteName : MECore {
 	*getNoteLetters { |letterOffsetArr, rootLetter, validate = true|
 		var index, letterArr;
 
-		MEDebug.log("MENoteNames", "*getNoteNames");
 
 		if (validate) {
 			MELetterValidators.letterOffsetArrayIsValid(letterOffsetArr);
@@ -88,6 +96,8 @@ MENoteName : MECore {
 		letterArr = super.letters.wrapAt(index + letterOffsetArr);
 
 		letterArr.do { |n, i| letterArr[i] = n.asString };
+
+		MEDebug.log("MENoteNames", "*getNoteNames", "\nin:  %, %\nout: %\n".format(rootLetter, letterOffsetArr, letterArr));
 
 		^letterArr;
 	}

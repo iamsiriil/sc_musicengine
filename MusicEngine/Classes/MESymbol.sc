@@ -17,7 +17,7 @@ MESymbol : MESymbolValidator {
 	init { |newSymbol|
 		var normSymbol;
 
-		MEDebug.log("MESymbols", "init");
+		MEDebug.log("MESymbols", "init", "\nin:  %\n".format(newSymbol));
 
 		root   = super.getRoot(newSymbol);
 		symbol = newSymbol[root.size..];
@@ -37,6 +37,16 @@ MESymbol : MESymbolValidator {
 		};
 
 		^this;
+	}
+
+	/****************************************************************************************/
+
+	printOn { |stream|
+		stream << "MESymbol [ ";
+		stream << "Root: " << root << ", ";
+		stream << "Intervals: " << degrees << ", ";
+		stream << "Symbol: " << symbol << ", ";
+		stream << "Alias: " << alias << " ]";
 	}
 
 	/****************************************************************************************/
