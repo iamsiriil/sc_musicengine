@@ -9,13 +9,19 @@ MEDebug {
 		super.initClass;
 	}
 
-	*log { |class, method|
+	*log { |class, method, message = nil|
 
 		if (debug) {
 
 			"#%".format(count).padRight(5).post;
-			"| %".format(class).padRight(16).post;
-			"| %".format(method).padRight(10).postln;
+			"@%.".format(class).post;
+
+			if (message.notNil) {
+				"%".format(method).post;
+				"%".format(message).padRight(18).postln;
+			} {
+				"%".format(method).postln;
+			};
 
 			count = count + 1;
 		}
