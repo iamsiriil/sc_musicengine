@@ -1,3 +1,9 @@
+/*********************************************************************************************
+* MusicEngine - A dynamic chord library for SuperCollider   								 *
+* Copyright (C) 2025 Siriil									    							 *
+* Licensed under GPLv3. See LICENSE file for details.			    						 *
+*********************************************************************************************/
+
 TestMEAccidental : UnitTest {
 
 	test_getOffsetFromName_validInputNoSign {
@@ -487,6 +493,8 @@ TestMEAccidental : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_getSignFromOffset_validInputSharps {
 		var fixtures = [
 			(expected: "", signOffset: 0),
@@ -507,6 +515,8 @@ TestMEAccidental : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
 	test_getSignFromOffset_invalidInput {
 		var fixtures = [-6, 6, 1.0, "1", '1', $1, [1]];
 
@@ -516,6 +526,371 @@ TestMEAccidental : UnitTest {
 				{ MEAccidental.getSignFromOffset(f, validate: true) },
 				Error,
 				"Testing invalid sign offset: %. Should throw Error.".format(f)
+			);
+		};
+	}
+
+		/****************************************************************************************/
+
+	test_resolveAccidental_validInputFirstOctaveNoSign {
+		var fixtures = [
+			(expected: "C", midiNote: 0, noteLetter: "C"),
+			(expected: "D", midiNote: 2, noteLetter: "D"),
+			(expected: "E", midiNote: 4, noteLetter: "E"),
+			(expected: "F", midiNote: 5, noteLetter: "F"),
+			(expected: "G", midiNote: 7, noteLetter: "G"),
+			(expected: "A", midiNote: 9, noteLetter: "A"),
+			(expected: "B", midiNote: 11, noteLetter: "B")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputFirstOctaveOneFlat {
+		var fixtures = [
+			(expected: "Db", midiNote: 1, noteLetter: "D"),
+			(expected: "Eb", midiNote: 3, noteLetter: "E"),
+			(expected: "Fb", midiNote: 4, noteLetter: "F"),
+			(expected: "Gb", midiNote: 6, noteLetter: "G"),
+			(expected: "Ab", midiNote: 8, noteLetter: "A"),
+			(expected: "Bb", midiNote: 10, noteLetter: "B"),
+			(expected: "Cb", midiNote: 11, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputFirstOctaveOneSharp {
+		var fixtures = [
+			(expected: "B#", midiNote: 0, noteLetter: "B"),
+			(expected: "C#", midiNote: 1, noteLetter: "C"),
+			(expected: "D#", midiNote: 3, noteLetter: "D"),
+			(expected: "E#", midiNote: 5, noteLetter: "E"),
+			(expected: "F#", midiNote: 6, noteLetter: "F"),
+			(expected: "G#", midiNote: 8, noteLetter: "G"),
+			(expected: "A#", midiNote: 10, noteLetter: "A"),
+			(expected: "B#", midiNote: 12, noteLetter: "B")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expeted)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputFirstOctaveCMultipleSharps {
+		var fixtures = [
+			(expected: "C", midiNote: 0, noteLetter: "C"),
+			(expected: "C#", midiNote: 1, noteLetter: "C"),
+			(expected: "C##", midiNote: 2, noteLetter: "C"),
+			(expected: "C###", midiNote: 3, noteLetter: "C"),
+			(expected: "C####", midiNote: 4, noteLetter: "C"),
+			(expected: "C#####", midiNote: 5, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputFirstOctaveCMultipleFlats {
+		var fixtures = [
+			(expected: "C", midiNote: 12, noteLetter: "C"),
+			(expected: "Cb", midiNote: 11, noteLetter: "C"),
+			(expected: "Cbb", midiNote: 10, noteLetter: "C"),
+			(expected: "Cbbb", midiNote: 9, noteLetter: "C"),
+			(expected: "Cbbbb", midiNote: 8, noteLetter: "C"),
+			(expected: "Cbbbbb", midiNote: 7, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputLastOctaveNoSign {
+		var fixtures = [
+			(expected: "G", midiNote: 127, noteLetter: "G"),
+			(expected: "F", midiNote: 125, noteLetter: "F"),
+			(expected: "E", midiNote: 124, noteLetter: "E"),
+			(expected: "D", midiNote: 122, noteLetter: "D"),
+			(expected: "C", midiNote: 120, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputLastOctaveOneFlat {
+		var fixtures = [
+			(expected: "Gb", midiNote: 126, noteLetter: "G"),
+			(expected: "Fb", midiNote: 124, noteLetter: "F"),
+			(expected: "Eb", midiNote: 123, noteLetter: "E"),
+			(expected: "Db", midiNote: 121, noteLetter: "D"),
+			(expected: "Cb", midiNote: 119, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return -1.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputLastOctaveOneSharp {
+		var fixtures = [
+			(expected: "F#", midiNote: 126, noteLetter: "F"),
+			(expected: "E#", midiNote: 125, noteLetter: "E"),
+			(expected: "D#", midiNote: 123, noteLetter: "D"),
+			(expected: "C#", midiNote: 121, noteLetter: "C"),
+			(expected: "B#", midiNote: 120, noteLetter: "B")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputUpperEdgeMultipleFlats {
+		var fixtures = [
+			(expected: "Abb", midiNote: 127, noteLetter: "A"),
+			(expected: "Abbb", midiNote: 126, noteLetter: "A"),
+			(expected: "Abbbb", midiNote: 125, noteLetter: "A"),
+			(expected: "Abbbbb", midiNote: 124, noteLetter: "A")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputUpperEdgeMultipleSharps {
+		var fixtures = [
+			(expected: "D", midiNote: 122, noteLetter: "D"),
+			(expected: "D#", midiNote: 123, noteLetter: "D"),
+			(expected: "D##", midiNote: 124, noteLetter: "D"),
+			(expected: "D###", midiNote: 125, noteLetter: "D"),
+			(expected: "D####", midiNote: 126, noteLetter: "D"),
+			(expected: "D#####", midiNote: 127, noteLetter: "D")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputMiddleOctavesNoSign {
+		var fixtures = [
+			(expected: "C", midiNote: 12, noteLetter: "C"),
+			(expected: "D", midiNote: 26, noteLetter: "D"),
+			(expected: "E", midiNote: 40, noteLetter: "E"),
+			(expected: "F", midiNote: 53, noteLetter: "F"),
+			(expected: "G", midiNote: 67, noteLetter: "G"),
+			(expected: "A", midiNote: 81, noteLetter: "A"),
+			(expected: "B", midiNote: 95, noteLetter: "B"),
+			(expected: "C", midiNote: 108, noteLetter: "C"),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputMiddleOctavesOneFlat {
+		var fixtures = [
+			(expected: "Cb", midiNote: 11, noteLetter: "C"),
+			(expected: "Db", midiNote: 25, noteLetter: "D"),
+			(expected: "Eb", midiNote: 39, noteLetter: "E"),
+			(expected: "Fb", midiNote: 52, noteLetter: "F"),
+			(expected: "Gb", midiNote: 66, noteLetter: "G"),
+			(expected: "Ab", midiNote: 80, noteLetter: "A"),
+			(expected: "Bb", midiNote: 94, noteLetter: "B"),
+			(expected: "Cb", midiNote: 107, noteLetter: "C"),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputMiddleOctavesOneSharp {
+		var fixtures = [
+			(expected: "C#", midiNote: 13, noteLetter: "C"),
+			(expected: "D#", midiNote: 27, noteLetter: "D"),
+			(expected: "E#", midiNote: 41, noteLetter: "E"),
+			(expected: "F#", midiNote: 54, noteLetter: "F"),
+			(expected: "G#", midiNote: 68, noteLetter: "G"),
+			(expected: "A#", midiNote: 82, noteLetter: "A"),
+			(expected: "B#", midiNote: 96, noteLetter: "B"),
+			(expected: "C#", midiNote: 109, noteLetter: "C"),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputMiddleOctavesMultipleFlats {
+		var fixtures = [
+			(expected: "C", midiNote: 12, noteLetter: "C"),
+			(expected: "Cb", midiNote: 23, noteLetter: "C"),
+			(expected: "Cbb", midiNote: 34, noteLetter: "C"),
+			(expected: "Cbbb", midiNote: 45, noteLetter: "C"),
+			(expected: "Cbbbb", midiNote: 56, noteLetter: "C"),
+			(expected: "Cbbbbb", midiNote: 67, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_validInputMiddleOctavesMultipleSharps {
+		var fixtures = [
+			(expected: "C", midiNote: 48, noteLetter: "C"),
+			(expected: "C#", midiNote: 61, noteLetter: "C"),
+			(expected: "C##", midiNote: 74, noteLetter: "C"),
+			(expected: "C###", midiNote: 87, noteLetter: "C"),
+			(expected: "C####", midiNote: 100, noteLetter: "C"),
+			(expected: "C#####", midiNote: 113, noteLetter: "C")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_invalidMIDINote {
+		var fixtures = [-1, 128, 1.0, "1", '1'];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEAccidental.resolveAccidental(f, "C", validate: true) },
+				Error,
+				"Testing invalid MIDI note: %, with valid note letter: C. Should throw Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_resolveAccidental_invalidNoteLetter {
+		var fixtures = ["a", 'a', "X", "1", "+", $1, ["A"]];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEAccidental.resolveAccidental(60, f, validate: true) },
+				Error,
+				"Testing valid MIDI note: 60, with valid note letter: %. Should throw Error.".format(f)
 			);
 		};
 	}
