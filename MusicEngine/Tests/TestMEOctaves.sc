@@ -434,4 +434,170 @@ TestMEOctaves : UnitTest {
 	}
 
 	/****************************************************************************************/
+
+	test_checkOctaveCross_invalidNoteName {
+		var fixtures = ["X", "a", "Dxx", "1", "+"];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEOctaves.checkOctaveCross(f, validate: true) },
+				Error,
+				"Testing invalid note name: %. Should throw Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_validInputFirstOctave {
+		var fixtures = (0..11);
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				-1,
+				MEOctaves.getOctave(f, validate: true),
+				"Testing valid MIDI note: %. Should return -1.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_validInputLastOctave {
+		var fixtures = (120..127);
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				9,
+				MEOctaves.getOctave(f, validate: true),
+				"Testing valid MIDI note: %. Should return 9.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_validInputMiddleOctave {
+		var fixtures = (60..71);
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				4,
+				MEOctaves.getOctave(f, validate: true),
+				"Testing valid MIDI note: %. Should return 4.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_validInputCFlat {
+		var fixtures = [
+			(expected: 0, midiNote: 11, noteName: "Cb"),
+			(expected: 1, midiNote: 23, noteName: "Cb"),
+			(expected: 2, midiNote: 35, noteName: "Cb"),
+			(expected: 3, midiNote: 47, noteName: "Cb"),
+			(expected: 4, midiNote: 59, noteName: "Cb"),
+			(expected: 5, midiNote: 71, noteName: "Cb"),
+			(expected: 6, midiNote: 83, noteName: "Cb"),
+			(expected: 7, midiNote: 95, noteName: "Cb"),
+			(expected: 8, midiNote: 107, noteName: "Cb"),
+			(expected: 9, midiNote: 119, noteName: "Cb")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEOctaves.getOctave(f.midiNote, f.noteName, validate: true),
+				"Testing valid MIDI note: % note name: %. Should return %.".format(f.midiNote, f.noteName, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_validInputBSharp {
+		var fixtures = [
+			(expected: -1, midiNote: 12, noteName: "B#"),
+			(expected: 0, midiNote: 24, noteName: "B#"),
+			(expected: 1, midiNote: 36, noteName: "B#"),
+			(expected: 2, midiNote: 48, noteName: "B#"),
+			(expected: 3, midiNote: 60, noteName: "B#"),
+			(expected: 4, midiNote: 72, noteName: "B#"),
+			(expected: 5, midiNote: 84, noteName: "B#"),
+			(expected: 6, midiNote: 96, noteName: "B#"),
+			(expected: 7, midiNote: 108, noteName: "B#"),
+			(expected: 8, midiNote: 120, noteName: "B#")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEOctaves.getOctave(f.midiNote, f.noteName, validate: true),
+				"Testing valid MIDI note: % note name: %. Should return %.".format(f.midiNote, f.noteName, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_invalidMIDINote {
+		var fixtures = [-1, 128, 1.0, "1", '1'];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEOctaves.getOctave(f, validate: true) },
+				Error,
+				"Testing invalid MIDI note: %. Should throw Error.".format(f)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_invalidNoteName {
+		var fixtures = [
+			(midiNote: 60, noteName: "X#"),
+			(midiNote: 60, noteName: "a"),
+			(midiNote: 60, noteName: "+"),
+			(midiNote: 60, noteName: "1"),
+			(midiNote: 60, noteName: "C######")
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEOctaves.getOctave(f.midiNote, f.noteName, validate: true) },
+				Error,
+				"Testing invalid note name: %. Should throw Error.".format(f.noteName)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getOctave_invalidMIDINamePair {
+		var fixtures = [
+			(midiNote: 60, noteName: "D"),
+			(midiNote: 60, noteName: "Eb"),
+			(midiNote: 60, noteName: "B"),
+			(midiNote: 60, noteName: "A#")
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEOctaves.getOctave(f.midiNote, f.noteName, validate: true) },
+				Error,
+				"Testing invalid MIDI note: % note name: % pair. Should throw Error.".format(f.midiNote, f.noteName)
+			);
+		};
+	}
 }
