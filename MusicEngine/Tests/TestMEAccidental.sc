@@ -464,4 +464,59 @@ TestMEAccidental : UnitTest {
 			);
 		};
 	}
+
+	/****************************************************************************************/
+
+	test_getSignFromOffset_validInputFlats {
+		var fixtures = [
+			(expected: "", signOffset: 0),
+			(expected: "b", signOffset: -1),
+			(expected: "bb", signOffset: -2),
+			(expected: "bbb", signOffset: -3),
+			(expected: "bbbb", signOffset: -4),
+			(expected: "bbbbb", signOffset: -5),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.getSignFromOffset(f.signOffset, validate: true),
+				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
+			);
+		};
+	}
+
+	test_getSignFromOffset_validInputSharps {
+		var fixtures = [
+			(expected: "", signOffset: 0),
+			(expected: "#", signOffset: 1),
+			(expected: "##", signOffset: 2),
+			(expected: "###", signOffset: 3),
+			(expected: "####", signOffset: 4),
+			(expected: "#####", signOffset: 5),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEAccidental.getSignFromOffset(f.signOffset, validate: true),
+				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
+			);
+		};
+	}
+
+	test_getSignFromOffset_invalidInput {
+		var fixtures = [-6, 6, 1.0, "1", '1', $1, [1]];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEAccidental.getSignFromOffset(f, validate: true) },
+				Error,
+				"Testing invalid sign offset: %. Should throw Error.".format(f)
+			);
+		};
+	}
 }
