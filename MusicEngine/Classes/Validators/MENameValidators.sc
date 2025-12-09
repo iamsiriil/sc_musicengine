@@ -13,10 +13,14 @@ MENameValidators {
 	*noteNameIsValid { |noteName|
 		var regex = "^[A-G][#b]{0,5}(-1|[0-9]{0,1})$";
 
-		MEDebug.log("MEValidators", "*noteNameIsValid");
+		//MEDebug.log("MEValidators", "*noteNameIsValid");
 
-		if (regex.matchRegexp(noteName.asString) == false) {
-			Error("% is not a valid note name.".format(noteName)).throw;
+		if (noteName.isString.not) {
+			Error("Note name must be of type String.").throw;
+		} {
+			if (noteName.isString.not || regex.matchRegexp(noteName.asString) == false) {
+				Error("% is not a valid note name.".format(noteName)).throw;
+			};
 		};
 		^nil;
 	}
@@ -26,7 +30,7 @@ MENameValidators {
 	*rootNoteIsValid { |rootNote|
 		var regex = "^[A-G][#b]{0,1}$";
 
-		MEDebug.log("MEValidators", "*rootNoteIsValid");
+		//MEDebug.log("MEValidators", "*rootNoteIsValid");
 
 		if (regex.matchRegexp(rootNote.asString) == false) {
 			Error("% is not a valid root note.".format(rootNote)).throw;
