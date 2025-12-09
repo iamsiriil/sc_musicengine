@@ -46,13 +46,15 @@ MEAccidental : MECore {
 	/****************************************************************************************/
 
 	*getOffsetFromName { |noteName, validate = true|
-		var signOffset = noteName[1..];
+		var signOffset;
 
 		//MEDebug.log("MEAccidentals", "*getOffsetFromName");
 
 		if (validate) {
 			MENameValidators.noteNameIsValid(noteName);
 		};
+
+		signOffset = noteName[1..];
 
 		if (signOffset.includes($b)) {
 			^signOffset.size * -1;
