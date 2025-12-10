@@ -32,7 +32,7 @@ MEMIDINotes : MECore {
 		var midiOffset, signOffset = 0;
 
 		if (validate) {
-			MENameValidators.noteNameIsValid(noteName);
+			MENameValidators.noteNameIsValid(noteName, octave: false);
 		};
 
 		if (noteName.size > 1) {
@@ -41,13 +41,18 @@ MEMIDINotes : MECore {
 
 		midiOffset = super.noteFromLetter(noteName[0], validate: false) + signOffset;
 
-		if (noteName.asString == "Cb") {
+		/*if (noteName.asString == "Cb") {
 			^midiOffset + 12;
-		};
+		};*/
+
+		case
+		{ midiOffset < 0 }  { ^midiOffset + 12 }
+		{ midiOffset > 11 } { ^midiOffset - 12 }
+		{ ^midiOffset };
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName", "\nin:  %\nout: %\n".format(noteName, midiOffset));
 
-		^midiOffset;
+		//^midiOffset;
 	}
 
 	/****************************************************************************************/
