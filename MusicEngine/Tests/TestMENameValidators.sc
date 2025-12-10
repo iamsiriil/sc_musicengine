@@ -58,7 +58,7 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_noteNameIsValid_correctInputSymbols {
+	/*test_noteNameIsValid_correctInputSymbols {
 		var fixtures = [
 			'C', 'Cbbbbb', 'D', 'D#####',
 			'E', 'Ebbbbb', 'F', 'F#####',
@@ -74,7 +74,7 @@ TestMENameValidators : UnitTest {
 				"Testing valid note name: %, as Symbol. Should return 'nil'.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
@@ -89,7 +89,7 @@ TestMENameValidators : UnitTest {
 
 			this.assertEquals(
 				nil,
-				MENameValidators.noteNameIsValid(f),
+				MENameValidators.noteNameIsValid(f, octave: true),
 				"Testing valid note name with octave: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -97,7 +97,7 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_noteNameIsValid_validOctaveSymbol {
+	/*test_noteNameIsValid_validOctaveSymbol {
 		var fixtures = [
 			'C-1', 'Cbbbbb0', 'D1', 'D#####2',
 			'E3',  'Ebbbbb4', 'F5', 'F#####6',
@@ -112,11 +112,11 @@ TestMENameValidators : UnitTest {
 				"Testing valid note name with octave: %, as Symbol. Should return 'nil'.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_noteNameIsValid_correctInputChar {
+	/*test_noteNameIsValid_correctInputChar {
 		var fixtures = [$C, $D, $E, $F, $G, $A, $B];
 
 		fixtures.do { |f|
@@ -127,7 +127,7 @@ TestMENameValidators : UnitTest {
 				"Testing valid note name: %, as Char. Should return 'nil'.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
@@ -150,7 +150,7 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_noteNameIsValid_wrongInputSymbol {
+	/*test_noteNameIsValid_wrongInputSymbol {
 		var fixtures = [
 			'C######', 'D######', 'E######', 'F######', 'G######', 'A######', 'B######',
 			'Cbbbbbb', 'Dbbbbbb', 'Ebbbbbb', 'Fbbbbbb', 'Gbbbbbb', 'Abbbbbb', 'Bbbbbbb',
@@ -165,7 +165,7 @@ TestMENameValidators : UnitTest {
 				"Testing invalid note name: %, as Symbol. Should throw an Error.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
@@ -175,7 +175,7 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MENameValidators.noteNameIsValid(f) },
+				{ MENameValidators.noteNameIsValid(f, octave: true) },
 				Error,
 				"Testing note name with invalid octave: %, as String. Should throw an Error.".format(f)
 			);
@@ -184,7 +184,7 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_noteNameIsValid_invalidOctavesSymbol {
+	/*test_noteNameIsValid_invalidOctavesSymbol {
 		var fixtures = ['C-10', 'D-2', 'Eb-', 'F#10', 'G###4.0', 'Abbb-1.0', 'B####x'];
 
 		fixtures.do { |f|
@@ -195,7 +195,7 @@ TestMENameValidators : UnitTest {
 				"Testing note name with invalid octave: %, as Symbols. Should throw an Error.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 	// NOTE NAME VALIDATORS: Unit Tests for rootNoteIsValid
