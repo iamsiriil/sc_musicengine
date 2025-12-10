@@ -13,7 +13,7 @@ MELetterValidators {
 	*noteLetterIsValid { |noteLetter|
 		var regex = "^[A-G]$";
 
-		MEDebug.log("MEValidators", "*noteLetterIsValid");
+		//MEDebug.log("MEValidators", "*noteLetterIsValid");
 
 		if (regex.matchRegexp(noteLetter.asString) == false) {
 			Error("% is not a valid note letter.".format(noteLetter)).throw;
