@@ -10,15 +10,17 @@ MENameValidators {
 
 	/****************************************************************************************/
 
-	*noteNameIsValid { |noteName|
-		var regex = "^[A-G][#b]{0,5}(-1|[0-9]{0,1})$";
+	*noteNameIsValid { |noteName, octave = false|
+		var regex;
 
 		//MEDebug.log("MEValidators", "*noteNameIsValid");
+
+		regex = if (octave) { "^[A-G][#b]{0,5}(-1|[0-9]{0,1})$" } { "^[A-G][#b]{0,5}$" };
 
 		if (noteName.isString.not) {
 			Error("Note name must be of type String.").throw;
 		} {
-			if (noteName.isString.not || regex.matchRegexp(noteName.asString) == false) {
+			if (regex.matchRegexp(noteName.asString) == false) {
 				Error("% is not a valid note name.".format(noteName)).throw;
 			};
 		};
