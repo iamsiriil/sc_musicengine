@@ -13,7 +13,7 @@ MEMIDIValidators {
 	*midiNoteIsValid { |midiNote|
 		var min;
 
-		MEDebug.log("MEMIDIValidators", "*midiNoteIsValid");
+		//MEDebug.log("MEMIDIValidators", "*midiNoteIsValid");
 
 		if ((midiNote < 0) || (midiNote > 127) || midiNote.isInteger.not) {
 			Error("% is not a valid MIDI note.".format(midiNote)).throw;
@@ -26,7 +26,7 @@ MEMIDIValidators {
 	*midiOffsetIsValid { |midiOffset, diatonic = true|
 		var offsets, min;
 
-		MEDebug.log("MEMIDIValidators", "*midiOffsetIsValid");
+		//MEDebug.log("MEMIDIValidators", "*midiOffsetIsValid");
 
 		if (diatonic) {
 			offsets = [0, 2, 4, 5, 7, 9, 11].asSet;
@@ -45,7 +45,7 @@ MEMIDIValidators {
 	*midiOffsetArrayIsValid { |midiOffsetArr, diatonic = true|
 		var arrSize, setSize;
 
-		MEDebug.log("MEMIDIValidators", "*midiNamePairIsValid");
+		//MEDebug.log("MEMIDIValidators", "*midiNamePairIsValid");
 
 		if (midiOffsetArr[0] != 0) {
 			Error("MIDI offset array must start with '0'.".format(midiOffsetArr.join(", ")));
@@ -75,7 +75,7 @@ MEMIDIValidators {
 			MENameValidators.noteNameIsValid(noteName);
 		};
 
-		MEDebug.log("MEMIDIValidators", "*midiNamePairIsValid");
+		//MEDebug.log("MEMIDIValidators", "*midiNamePairIsValid");
 
 		signOffset  = MEAccidental.getOffsetFromName(noteName, validate: false);
 		reference   = MECore.noteFromLetter(noteName[0], validate: false);
