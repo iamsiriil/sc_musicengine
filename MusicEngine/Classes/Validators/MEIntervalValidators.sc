@@ -13,12 +13,16 @@ MEIntervalValidators {
 	*intervalIsValid { |interval|
 		var result = false;
 
-		MECore.intervals.do { |v|
-			result = result || v.includes(interval.asString);
-		};
+		if (interval.isString.not) {
+			Error("Interval must be of type String.").throw;
+		} {
+			MECore.intervals.do { |v|
+				result = result || v.includes(interval.asString);
+			};
 
-		if (result == false) {
-			Error("% is not a valid interval.".format(interval)).throw;
+			if (result == false) {
+				Error("% is not a valid interval.".format(interval)).throw;
+			};
 		};
 		^nil;
 	}
