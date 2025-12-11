@@ -266,7 +266,7 @@ TestMEOctaves : UnitTest {
 		(0..127).do { |midi|
 
 			letters.do { |letter|
-				result = MEOctaves.getClosestOctave(midi, letter, validate: true);
+				result = MEOctaves.getClosestOctave(midi, letter.asString, validate: true);
 
 				if (result.notNil) {
 
@@ -288,7 +288,7 @@ TestMEOctaves : UnitTest {
 		(0..127).do { |midi|
 
 			letters.do { |letter|
-				result = MEOctaves.getClosestOctave(midi, letter, validate: true);
+				result = MEOctaves.getClosestOctave(midi, letter.asString, validate: true);
 
 				if (result.notNil) {
 
@@ -311,7 +311,7 @@ TestMEOctaves : UnitTest {
 
 		100.do {
 			midi   = (0..127).choose;
-			letter = letters.choose;
+			letter = letters.choose.asString;
 
 			result1 = MEOctaves.getClosestOctave(midi, letter, validate: true);
 			result2 = MEOctaves.getClosestOctave(midi, letter, validate: true);
@@ -337,14 +337,14 @@ TestMEOctaves : UnitTest {
 			offset = (-5..5).choose;
 
 			letter = MECore.letters[index];
-			note   = MECore.noteFromLetter(letter);
+			note   = MECore.noteFromLetter(letter.asString);
 
 			expected = note + octave;
 			testNote = expected + offset;
 
 			this.assertEquals(
 				expected,
-				MEOctaves.getClosestOctave(testNote, letter, validate: true),
+				MEOctaves.getClosestOctave(testNote, letter.asString, validate: true),
 				"Expected: %, for MIDI: % letter: %".format(expected, testNote, letter)
 			);
 		};
