@@ -25,36 +25,6 @@ TestMELetterValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	/*test_noteLetterIsValid_validInputSymbol {
-		var fixtures = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				nil,
-				MELetterValidators.noteLetterIsValid(f),
-				"Testing valid letter: %, as Symbol. Should return 'nil'.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-
-	/*test_noteLetterIsValid_validInputChar {
-		var fixtures = [$C, $D, $E, $F, $G, $A, $B];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				nil,
-				MELetterValidators.noteLetterIsValid(f),
-				"Testing valid letter: %, as Char. Should return 'nil'.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-
 	test_noteLetterIsValid_invalidInput {
 		var fixtures = [1, 0.1, "-", "c", "X", ["C"], \d, $e];
 
