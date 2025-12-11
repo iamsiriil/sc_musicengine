@@ -46,13 +46,12 @@ MEMIDINotes : MECore {
 		};*/
 
 		case
-		{ midiOffset < 0 }  { ^midiOffset + 12 }
-		{ midiOffset > 11 } { ^midiOffset - 12 }
-		{ ^midiOffset };
+		{ midiOffset < 0 }  { midiOffset = midiOffset + 12 }
+		{ midiOffset > 11 } { midiOffset = midiOffset - 12 };
 
 		MEDebug.log("MEMidiNotes", "*getOffsetFromName", "\nin:  %\nout: %\n".format(noteName, midiOffset));
 
-		//^midiOffset;
+		^midiOffset;
 	}
 
 	/****************************************************************************************/
