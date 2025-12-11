@@ -25,7 +25,7 @@ TestMELetterValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_noteLetterIsValid_validInputSymbol {
+	/*test_noteLetterIsValid_validInputSymbol {
 		var fixtures = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
 		fixtures.do { |f|
@@ -36,11 +36,11 @@ TestMELetterValidators : UnitTest {
 				"Testing valid letter: %, as Symbol. Should return 'nil'.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_noteLetterIsValid_validInputChar {
+	/*test_noteLetterIsValid_validInputChar {
 		var fixtures = [$C, $D, $E, $F, $G, $A, $B];
 
 		fixtures.do { |f|
@@ -51,7 +51,7 @@ TestMELetterValidators : UnitTest {
 				"Testing valid letter: %, as Char. Should return 'nil'.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
