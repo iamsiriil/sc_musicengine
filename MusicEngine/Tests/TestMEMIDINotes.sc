@@ -268,4 +268,109 @@ TestMEMIDINotes : UnitTest {
 		};
 	}
 
+	/****************************************************************************************/
+
+	test_transposeMidiOffset_validInput {
+		var fixtures = [
+			(expected: [0, 4, 7, 10], midiOffsetArr: [0, 4, 7, 10], midiRoot: 0),
+			(expected: [1, 5, 8, 11], midiOffsetArr: [0, 4, 7, 10], midiRoot: 1),
+			(expected: [2, 6, 9, 12], midiOffsetArr: [0, 4, 7, 10], midiRoot: 2),
+			(expected: [3, 7, 10, 13], midiOffsetArr: [0, 4, 7, 10], midiRoot: 3),
+			(expected: [4, 8, 11, 14], midiOffsetArr: [0, 4, 7, 10], midiRoot: 4),
+			(expected: [5, 9, 12, 15], midiOffsetArr: [0, 4, 7, 10], midiRoot: 5),
+			(expected: [6, 10, 13, 16], midiOffsetArr: [0, 4, 7, 10], midiRoot: 6),
+			(expected: [7, 11, 14, 17], midiOffsetArr: [0, 4, 7, 10], midiRoot: 7),
+			(expected: [8, 12, 15, 18], midiOffsetArr: [0, 4, 7, 10], midiRoot: 8),
+			(expected: [9, 13, 16, 19], midiOffsetArr: [0, 4, 7, 10], midiRoot: 9),
+			(expected: [10, 14, 17, 20], midiOffsetArr: [0, 4, 7, 10], midiRoot: 10),
+			(expected: [11, 15, 18, 21], midiOffsetArr: [0, 4, 7, 10], midiRoot: 11)
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				f.expected,
+				MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true),
+				"Testing valid MIDI offset array: %, MIDI root: %. Should return %.".format(f.midiOffsetArr, f.midiRoot, f.expected)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_transposeMidiOffset_invalidArrayOutOfRange {
+		var fixtures = [
+			(midiOffsetArr: [-1, 4, 7, 10], midiRoot: 0),
+			(midiOffsetArr: [0, 4, 7, 12], midiRoot: 0)
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true) },
+				Error,
+				"Testing invalid MIDI offset array: %, midi root: %. Should throw Error.".format(f.midiOffsetArr, f.midiRoot)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_transposeMidiOffset_invalidOffsetArrayDataType {
+		var fixtures = [
+			(midiOffsetArr: [0.0, 4, 7, 11], midiRoot: 0),
+			(midiOffsetArr: ["0", 4, 7, 12], midiRoot: 0),
+			(midiOffsetArr: ['0', 4, 7, 12], midiRoot: 0),
+			(midiOffsetArr: [$0, 4, 7, 12], midiRoot: 0),
+			(midiOffsetArr: [[0], 4, 7, 12], midiRoot: 0)
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true) },
+				Error,
+				"Testing invalid MIDI offset array: %, midi root: %. Should throw Error.".format(f.midiOffsetArr, f.midiRoot)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_transposeMidiOffset_invalidMIDIRootOutOfRange {
+		var fixtures = [
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: -1),
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: 12)
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true) },
+				Error,
+				"Testing invalid MIDI offset array: %, midi root: %. Should throw Error.".format(f.midiOffsetArr, f.midiRoot)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_transposeMidiOffset_invalidMIDIRootDataType {
+		var fixtures = [
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: 1.0),
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: "1"),
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: '1'),
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: $1),
+			(midiOffsetArr: [0, 4, 7, 11], midiRoot: [1])
+		];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true) },
+				Error,
+				"Testing invalid MIDI offset array: %, midi root: %. Should throw Error.".format(f.midiOffsetArr, f.midiRoot)
+			);
+		};
+	}
 }
