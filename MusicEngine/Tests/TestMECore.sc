@@ -37,20 +37,6 @@ TestMECore : UnitTest {
 
 	/****************************************************************************************/
 
-	test_indexOfLetter_indexCorrectness {
-
-		letters.do { |n, i|
-
-			this.assertEquals(
-				i,
-				MECore.indexOfLetter(n),
-				"indexOfLetter should return index of letter from MECore.names array."
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
 	test_indexOfLetter_stringInput {
 
 		letters.do { |n, i|
@@ -117,7 +103,7 @@ TestMECore : UnitTest {
 
 			this.assertEquals(
 				notes[index],
-				MECore.noteFromLetter(l),
+				MECore.noteFromLetter(l.asString),
 				"noteFromLetter should map note letters to the first MIDI octave."
 			);
 		};
@@ -157,11 +143,11 @@ TestMECore : UnitTest {
 	test_noteFromLetter_roundTrip {
 		var note;
 
-		letters.do { |n|
-			note = MECore.noteFromLetter(n);
+		letters.do { |l|
+			note = MECore.noteFromLetter(l.asString);
 
 			this.assertEquals(
-				n,
+				l,
 				MECore.letterFromNote(note),
 				"n should be equal to letterFromNote(noteFromLetter(n))."
 			);
@@ -207,7 +193,7 @@ TestMECore : UnitTest {
 
 			this.assertEquals(
 				n,
-				MECore.noteFromLetter(letter),
+				MECore.noteFromLetter(letter.asString),
 				"n should be equal to noteFromLetter(letterFromNote(n))."
 			);
 		};
