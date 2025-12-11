@@ -2,7 +2,7 @@
 (
 MEDebug.debug = true;
 MEDebug.count = 0;
-~r = MENoteRange("F#m3P5M7M9");
+~r = MENoteRange("F#9");
 )
 
 // Inspect MENoteRange
