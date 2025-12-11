@@ -15,8 +15,12 @@ MELetterValidators {
 
 		//MEDebug.log("MEValidators", "*noteLetterIsValid");
 
-		if (regex.matchRegexp(noteLetter.asString) == false) {
-			Error("% is not a valid note letter.".format(noteLetter)).throw;
+		if (noteLetter.isString.not) {
+			Error("Note letter must be of type String.").throw;
+		} {
+			if (regex.matchRegexp(noteLetter.asString) == false) {
+				Error("% is not a valid note letter.".format(noteLetter)).throw;
+			};
 		};
 		^nil;
 	}
@@ -26,8 +30,12 @@ MELetterValidators {
 	*letterOffsetIsValid { |letterOffset|
 		var offsets = (0..6).asSet;
 
-		if (letterOffset.isInteger.not || offsets.includes(letterOffset).not) {
-			Error("% is not a valid letter offset.".format(letterOffset)).throw;
+		if (letterOffset.isInteger.not) {
+			Error("Letter offset must be of type Integer.").throw;
+		} {
+			if (offsets.includes(letterOffset).not) {
+				Error("% is not a valid letter offset.".format(letterOffset)).throw;
+			};
 		};
 		^nil;
 	}
