@@ -28,14 +28,18 @@ MEMIDIValidators {
 
 		//MEDebug.log("MEMIDIValidators", "*midiOffsetIsValid");
 
-		if (diatonic) {
-			offsets = [0, 2, 4, 5, 7, 9, 11].asSet;
+		if (midiOffset.isInteger.not) {
+			Error("MIDI offset must be of type Integer.").throw;
 		} {
-			offsets = (0..11).asSet;
-		};
+			if (diatonic) {
+				offsets = [0, 2, 4, 5, 7, 9, 11].asSet;
+			} {
+				offsets = (0..11).asSet;
+			};
 
-		if (midiOffset.isInteger.not || offsets.includes(midiOffset).not) {
-			Error("% is not a valid MIDI offset.".format(midiOffset)).throw;
+			if (offsets.includes(midiOffset).not) {
+				Error("% is not a valid MIDI offset.".format(midiOffset)).throw;
+			};
 		};
 		^nil;
 	}
