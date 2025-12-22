@@ -282,4 +282,16 @@ TestMERanges : UnitTest {
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
+
+	/****************************************************************************************/
+
+	test_extendMidiRange_validInputChromatic {
+		var f = (expected: (0..127), midiNotesArr: (0..11));
+
+		this.assertEquals(
+			f.expected,
+			MERanges.extendMidiRange(f.midiNotesArr),
+			"Testing valid MIDI notes array: %. Should return %.".format(f.midiNotesArr, f.expected)
+		);
+	}
 }
