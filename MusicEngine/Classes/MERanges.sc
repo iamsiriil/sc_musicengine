@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MERanges {
+MERanges : MECore {
 
 	*initClass {}
 
@@ -123,19 +123,26 @@ MERanges {
 	/****************************************************************************************/
 
 	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr|
-		var noteRange = Array.new(midiNotesArr.size * 5);
+		var noteRange = List.new;//Array.new(midiNotesArr.size * 10);
+		var tempM, tempL, tempI;
+
+		#tempM, tempL, tempI = MERanges.wrapAndExtend(
+			midiNotesArr,
+			noteLettersArr,
+			intervalsArr
+		).postln;
 
 		MEDebug.log("MERanges", "*getMENotes");
 
-		midiNotesArr.do { |m, i|
+		tempM.do { |m, i|
 
 			noteRange.add(
 				MENote(
-					noteLetter: noteLettersArr[i],
+					noteLetter: tempL[i],
 					midiNote:   m,
-					degree:     intervalsArr[i],
+					degree:     tempI[i],
 					validate:   false
-				);
+				).postln;
 			);
 		};
 		^noteRange;
@@ -156,7 +163,7 @@ MERanges {
 		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
 		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
 
-		#tempM, tempL, tempI = MERanges.wrapAndExtend(tempM, tempL, tempI);
+		//#tempM, tempL, tempI = MERanges.wrapAndExtend(tempM, tempL, tempI);
 
 		^MERanges.getMENotes(tempM, tempL, tempI);
 	}
