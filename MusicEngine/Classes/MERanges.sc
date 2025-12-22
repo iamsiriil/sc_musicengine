@@ -35,23 +35,22 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	*getOffsets { |intervals|
-		var arr = Array.new(intervals.size + 1);
-
+	*getOffsets { |intervalsArr|
+		var arr = Array.new(intervalsArr.size + 1);
 
 		arr.add(["Rt", 0, 0]);
 
-		intervals.do { |d|
+		intervalsArr.do { |i|
 			var temp = Array.new(3);
 
-			temp.add(d);
-			temp.add(MEMIDINotes.getOffsetFromInterval(d, validate: false));
-			temp.add(MENoteName.getOffsetFromInterval(d, validate: false));
+			temp.add(i);
+			temp.add(MEMIDINotes.getOffsetFromInterval(i, validate: false));
+			temp.add(MENoteName.getOffsetFromInterval(i, validate: false));
 
 			arr.add(temp);
 		};
 
-		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervals, arr));
+		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervalsArr, arr));
 
 		^MERanges.sortAndSplit(arr);
 	}
