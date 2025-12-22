@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MERanges : MECore {
+MERanges {
 
 	*initClass {}
 
@@ -156,11 +156,7 @@ MERanges : MECore {
 		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
 		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
 
-		#tempM, tempL, tempI = MERanges.wrapAndExtend(
-			tempM,
-			tempL,
-			tempI
-		);
+		#tempM, tempL, tempI = MERanges.wrapAndExtend(tempM, tempL, tempI);
 
 		^MERanges.getMENotes(tempM, tempL, tempI);
 	}
