@@ -17,7 +17,7 @@ MENoteRange : MERanges {
 		MEDebug.log("MENoteRanges", "init", "\nin:  %\n".format(newSymbol));
 
 		symbol = MESymbol.new(newSymbol);
-		notes  = super.getRange(symbol);
+		notes  = MERanges.getRange(symbol);
 
 		^this;
 	}

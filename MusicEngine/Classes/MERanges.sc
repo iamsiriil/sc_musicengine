@@ -5,40 +5,37 @@
 *********************************************************************************************/
 
 MERanges : MECore {
-	classvar letterOffsets;
-	classvar midiOffsets;
-	classvar intervals;
-	classvar midiRoot;
 
 	*initClass {}
 
 	/****************************************************************************************/
 
-	sortAndSplit { |dataArray|
-		midiOffsets   = dataArray.collect { |n| n[1] };
-		letterOffsets = Array.new(dataArray.size);
-		intervals     = Array.new(dataArray.size);
+	*sortAndSplit { |dataArray|
+		var tempM = dataArray.collect { |n| n[1] };
+		var tempL = Array.new(dataArray.size);
+		var tempI = Array.new(dataArray.size);
 
+		tempM.sort;
 
-		midiOffsets.sort;
-
-		midiOffsets.do { |n, i|
+		tempM.do { |n, i|
 
 			dataArray.do { |a|
 
 				if (a[1] == n) {
-					letterOffsets.add(a[2]);
-					intervals.add(a[0]);
+					tempL.add(a[2]);
+					tempI.add(a[0]);
 				};
 			};
 		};
 
-		MEDebug.log("MERanges", "*sortAndSplit", "\nin:  %\nout: midiOffsets: %\nout: letterOffsets: %\nout: intervals: %\n".format(dataArray, midiOffsets, letterOffsets, intervals));
+		MEDebug.log("MERanges", "*sortAndSplit", "\nin:  %\nout: midiOffsets: %\nout: letterOffsets: %\nout: intervals: %\n".format(dataArray, tempM, tempL, tempI));
+
+		^[tempM, tempL, tempI];
 	}
 
 	/****************************************************************************************/
 
-	getOffsets { |intervals|
+	*getOffsets { |intervals|
 		var arr = Array.new(intervals.size + 1);
 
 
@@ -56,12 +53,12 @@ MERanges : MECore {
 
 		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervals, arr));
 
-		this.sortAndSplit(arr);
+		^MERanges.sortAndSplit(arr);
 	}
 
 	/****************************************************************************************/
 
-	wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
+	*wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
 
 		tempM = midiNotesArr.copy;
@@ -85,7 +82,7 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	extendMidiRange { |midiNotesArr|
+	*extendMidiRange { |midiNotesArr|
 		var midiRange = Array.new(midiNotesArr.size * 11);
 
 
@@ -106,16 +103,16 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	wrapAndExtend { |midiNotesArr, noteLettersArr, intervalsArr|
+	*wrapAndExtend { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
 
-		#tempM, tempL, tempI = this.wrapFirstOctave(
+		#tempM, tempL, tempI = MERanges.wrapFirstOctave(
 			midiNotesArr,
 			noteLettersArr,
 			intervalsArr
 		);
 
-		tempM = this.extendMidiRange(tempM);
+		tempM = MERanges.extendMidiRange(tempM);
 		tempL = tempL.wrapExtend(tempM.size);
 		tempI = tempI.wrapExtend(tempM.size);
 
@@ -126,7 +123,7 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	getMENotes { |midiNotesArr, noteLettersArr, intervalsArr|
+	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr|
 		var noteRange = Array.new(midiNotesArr.size * 5);
 
 		MEDebug.log("MERanges", "*getMENotes");
@@ -147,25 +144,25 @@ MERanges : MECore {
 
 	/****************************************************************************************/
 
-	getRange { |symbol|
-		var tempM, tempL, tempD;
+	*getRange { |symbol|
+		var tempM, tempL, tempI, tempR;
 
 		MEDebug.log("MERanges", "*getRange", "\nin:  %\n".format(symbol));
 
-		this.getOffsets(symbol.degrees);
+		#tempM, tempL, tempI = MERanges.getOffsets(symbol.degrees);
 
-		MEMIDIValidators.midiOffsetArrayIsValid(midiOffsets, diatonic: false);
+		MEMIDIValidators.midiOffsetArrayIsValid(tempM, diatonic: false);
 
-		midiRoot = MEMIDINotes.getOffsetFromName(symbol.root, validate: false);
-		tempM    = MEMIDINotes.transposeMidiOffset(midiOffsets, midiRoot, validate: false);
-		tempL    = MENoteName.getNoteLetters(letterOffsets, symbol.root[0], validate: false);
+		tempR = MEMIDINotes.getOffsetFromName(symbol.root, validate: false);
+		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
+		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
 
-		#tempM, tempL, tempD = this.wrapAndExtend(
+		#tempM, tempL, tempI = MERanges.wrapAndExtend(
 			tempM,
 			tempL,
-			intervals
+			tempI
 		);
 
-		^this.getMENotes(tempM, tempL, tempD);
+		^MERanges.getMENotes(tempM, tempL, tempI);
 	}
 }
