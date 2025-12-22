@@ -135,7 +135,7 @@ MERanges : MECore {
 
 		tempM.do { |m, i|
 
-			noteRange.add(
+			range.add(
 				MENote(
 					noteLetter: tempL[i],
 					midiNote:   m,
@@ -144,7 +144,7 @@ MERanges : MECore {
 				).postln;
 			);
 		};
-		^noteRange;
+		^range;
 	}
 
 	/****************************************************************************************/
