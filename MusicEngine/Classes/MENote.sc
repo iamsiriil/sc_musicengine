@@ -51,6 +51,7 @@ MENote : MECore {
 		stream << "MENote [ ";
 		stream << "MIDI: " << midi << ", ";
 		stream << "Degree: " << degree << ", ";
+		stream << "Octave: " << octave << ", ";
 		stream << "Name: " << name << " ]";
 	}
 
