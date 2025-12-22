@@ -6,8 +6,8 @@
 
 TestMERanges : UnitTest {
 
-	test_sortAndSplit_validInputReverseChromaticUnder8th {
-		var fixtures = [(
+	test_sortAndSplit_validInputReverseChromaticUnderOct {
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
@@ -27,22 +27,19 @@ TestMERanges : UnitTest {
 				["m2", 1, 1],
 				["Rt", 0, 0]
 			]
-		)];
+		);
 
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MERanges.sortAndSplit(f.dataArray),
-				"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
-			);
-		};
+		this.assertEquals(
+			f.expected,
+			MERanges.sortAndSplit(f.dataArray),
+			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
+		);
 	}
 
 	/****************************************************************************************/
 
-	test_sortAndSplit_validInputReverseChromaticOver8th {
-		var fixtures = [(
+	test_sortAndSplit_validInputReverseChromaticOverOct {
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
@@ -62,22 +59,19 @@ TestMERanges : UnitTest {
 				["m9", 1, 1],
 				["Rt", 0, 0]
 			]
-		)];
+		);
 
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MERanges.sortAndSplit(f.dataArray),
-				"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
-			);
-		};
+		this.assertEquals(
+			f.expected,
+			MERanges.sortAndSplit(f.dataArray),
+			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
+		);
 	}
 
 	/****************************************************************************************/
 
 	test_sortAndSplit_validInputReverseChromaticMixedOcts {
-		var fixtures = [(
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
@@ -97,81 +91,195 @@ TestMERanges : UnitTest {
 				["m2", 1, 1],
 				["Rt", 0, 0]
 			]
-		)];
+		);
 
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MERanges.sortAndSplit(f.dataArray),
-				"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
-			);
-		};
+		this.assertEquals(
+			f.expected,
+			MERanges.sortAndSplit(f.dataArray),
+			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
+		);
 	}
 
 	/****************************************************************************************/
 
-	test_getOffsets_validInputReverseChromaticUnder8th {
-		var fixtures = [(
+	test_getOffsets_validInputReverseChromaticUnderOct {
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
 				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
 			intervalsArr: ["M7", "m7",	"M6", "m6",	"P5", "d5",	"P4", "M3",	"m3", "M2", "m2"]
-		)];
+		);
 
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MERanges.getOffsets(f.intervalsArr),
-				"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
-			);
-		};
+		this.assertEquals(
+			f.expected,
+			MERanges.getOffsets(f.intervalsArr),
+			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
+		);
 	}
 
 	/****************************************************************************************/
 
-	test_getOffsets_validInputReverseChromaticOver8th {
-		var fixtures = [(
+	test_getOffsets_validInputReverseChromaticOverOct {
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
 				["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 			],
 			intervalsArr: ["M14", "m14", "M13", "m13", "P12", "d12", "P11", "M10", "m10", "M9", "m9"]
-		)];
+		);
 
-		fixtures.do { |f|
-
-			this.assertEquals(
-				f.expected,
-				MERanges.getOffsets(f.intervalsArr),
-				"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
-			);
-		};
+		this.assertEquals(
+			f.expected,
+			MERanges.getOffsets(f.intervalsArr),
+			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
+		);
 	}
 
 	/****************************************************************************************/
 
 	test_getOffsets_validInputReverseChromaticMixedOcts {
-		var fixtures = [(
+		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
 				["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 			],
 			intervalsArr: ["M7", "m14", "M6", "m13", "P5", "d12", "P4", "M10", "m3", "M9", "m2"]
-		)];
+		);
 
-		fixtures.do { |f|
+		this.assertEquals(
+			f.expected,
+			MERanges.getOffsets(f.intervalsArr),
+			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
+		);
+	}
 
-			this.assertEquals(
-				f.expected,
-				MERanges.getOffsets(f.intervalsArr),
-				"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
-			);
-		};
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticNoWrapUnderOct {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+			],
+			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+			intervalsArr:   ["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
+	}
+
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticNoWrapOverOct {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+				["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+			],
+			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+			intervalsArr:   ["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
+	}
+
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticNoWrapMixedOcts {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+				["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+			],
+			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
+			intervalsArr:   ["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
+	}
+
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticWrapUnderOct {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
+				["P5", "m6", "M6", "m7", "M7", "Rt", "m2", "M2", "m3", "M3", "P4", "d5"]
+			],
+			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
+			intervalsArr:   ["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
+	}
+
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticWrapOverOct {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
+				["P12", "m13", "M13", "m14", "M14", "Rt", "m9", "M9", "m10", "M10", "P11", "d12"]
+			],
+			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
+			intervalsArr:   ["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
+	}
+
+	/****************************************************************************************/
+
+	test_wrapFirstOctave_validInputChromaticWrapMixedOcts {
+		var f = (
+			expected: [
+				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
+				["P5", "m13", "M6", "m14", "M7", "Rt", "m2", "M9", "m3", "M10", "P4", "d12"]
+			],
+			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
+			intervalsArr:   ["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		)
 	}
 }
