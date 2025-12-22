@@ -88,7 +88,7 @@ TestMECore : UnitTest {
 			this.assertException(
 				{ MECore.indexOfNote(f) },
 				Error,
-				"indexofNote should not accept anithing other than %.".format(notes.join(", "))
+				"indexOfNote should not accept anything other than %.".format(notes.join(", "))
 			);
 		};
 	}
