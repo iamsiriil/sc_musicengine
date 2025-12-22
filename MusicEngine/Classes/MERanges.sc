@@ -123,16 +123,15 @@ MERanges : MECore {
 	/****************************************************************************************/
 
 	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr|
-		var noteRange = List.new;//Array.new(midiNotesArr.size * 10);
-		var tempM, tempL, tempI;
+		var tempM, tempL, tempI, range = List.new();
+
+		MEDebug.log("MERanges", "*getMENotes");
 
 		#tempM, tempL, tempI = MERanges.wrapAndExtend(
 			midiNotesArr,
 			noteLettersArr,
 			intervalsArr
 		).postln;
-
-		MEDebug.log("MERanges", "*getMENotes");
 
 		tempM.do { |m, i|
 
@@ -162,8 +161,6 @@ MERanges : MECore {
 		tempR = MEMIDINotes.getOffsetFromName(symbol.root, validate: false);
 		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
 		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
-
-		//#tempM, tempL, tempI = MERanges.wrapAndExtend(tempM, tempL, tempI);
 
 		^MERanges.getMENotes(tempM, tempL, tempI);
 	}
