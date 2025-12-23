@@ -6,10 +6,10 @@ s.waitForBoot({
 	"./inspecttools.scd".loadRelative;
 });
 )
-s.quit
-(
-// TEST SYMBOLS
 
+/****************************************************************************************/
+// TEST SYMBOLS
+(
 // PROBLEMATIC NOTES
 // Cb
 ~cb0 = "Cbd3d5d7"; // Cb root
@@ -20,6 +20,14 @@ s.quit
 ~bs0 = "B#Maj";    // B# root
 ~bs1 = "G#M3d5";   // B# M3
 ~bs2 = "EAug";     // B# A5
+
+// All diminished over Cb and Fb
+~ad0 = "Cbd3d4d5d6d7";
+~ad1 = "Fbd3d4d5d6d7";
+
+// All augmented over B# and E#
+~aa0 = "B#A2A3A4A5A6";
+~aa1 = "E#A2A3A4A5A6";
 
 // Power chords
 ~pc0 = "F5";
@@ -44,9 +52,11 @@ s.quit
 ~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented, the 6th comes before the 5th in sorted order
 )
 
+/****************************************************************************************/
+
 (
 // Select test symbol and create new noteRange
-~testSymbol = "FmM";
+~testSymbol = ~aa0;
 ~range = MENoteRange(~testSymbol);
 )
 
@@ -57,7 +67,5 @@ s.quit
 // (different calls will prompt different notes)
 ~inspectNotes.(~range);
 
-
 // Inspect sound
 ~routine.(~range.notes(4, 8, "Rt")).play
-
