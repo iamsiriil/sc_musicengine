@@ -131,7 +131,7 @@ MERanges : MECore {
 			midiNotesArr,
 			noteLettersArr,
 			intervalsArr
-		).postln;
+		);
 
 		tempM.do { |m, i|
 
@@ -141,7 +141,7 @@ MERanges : MECore {
 					midiNote:   m,
 					degree:     tempI[i],
 					validate:   false
-				).postln;
+				);
 			);
 		};
 		^range;
