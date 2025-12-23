@@ -294,4 +294,40 @@ TestMERanges : UnitTest {
 			"Testing valid MIDI notes array: %. Should return %.".format(f.midiNotesArr, f.expected)
 		);
 	}
+
+	/****************************************************************************************/
+
+	test_extendMidiRange_validInputSingleInterval {
+		var f = (
+			expected: [0, 7, 12, 19, 24, 31, 36, 43, 48, 55, 60, 67, 72, 79, 84, 91, 96, 103, 108, 115, 120, 127],
+			midiNotesArr: [0, 7]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.extendMidiRange(f.midiNotesArr),
+			"Testing valid MIDI notes array: %. Should return %.".format(f.midiNotesArr, f.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_wrapAndExtend_validInputFMaj7th {
+		var f = (
+			expected: [
+				[0, 4, 5, 9, 12, 16, 17, 21, 24, 28, 29, 33, 36, 40, 41, 45, 48, 52, 53, 57, 60, 64, 65, 69, 72, 76, 77, 81, 84, 88, 89, 93, 96, 100, 101, 105, 108, 112, 113, 117, 120, 124, 125],
+				["C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F"],
+				["P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt"]
+			],
+			midiNotesArr:   [5, 9, 12, 16],
+			noteLettersArr: ["F", "A", "C", "E"],
+			intervalsArr:   ["Rt", "M3", "P5", "M7"]
+		);
+
+		this.assertEquals(
+			f.expected,
+			MERanges.wrapAndExtend(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
+		);
+	}
 }
