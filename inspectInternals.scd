@@ -4,7 +4,6 @@ MEDebug.debug = true;
 MEDebug.count = 0;
 ~r = MENoteRange("F#9");
 )
-
 // Inspect MENoteRange
 ~r.postln;
 
@@ -17,3 +16,6 @@ MEDebug.count = 0;
 
 // Inspect range of notes
 ~r.notes(4, 5).do { |n| n.postln };
+
+// Open unit tests GUI
+UnitTest.gui;
