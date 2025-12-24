@@ -6,10 +6,6 @@
 
 TestMEMIDIValidators : UnitTest {
 
-	/****************************************************************************************/
-	// MIDI VALIDATORS: Unit Tests for midiNoteIsValid
-	/****************************************************************************************/
-
 	test_midiNoteIsValid_validInput {
 
 		(0..127).do { |f|
@@ -37,8 +33,6 @@ TestMEMIDIValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-	// MIDI VALIDATORS: Unit Tests for midiOffsetIsValid
 	/****************************************************************************************/
 
 	test_midiOffsetIsValid_validInputDiatonic {
@@ -99,8 +93,6 @@ TestMEMIDIValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-	// MIDI VALIDATORS: Unit Tests for midiOffsetArrayIsValid
 	/****************************************************************************************/
 
 	test_midiOffsetArrayIsValid_validInputTwoNotesDiatonic {
@@ -221,8 +213,6 @@ TestMEMIDIValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-	// MIDI NAME PAIR: Unit Tests for midiNamePairIsValid
 	/****************************************************************************************/
 
 	test_midiNamePairIsValid_validInputFirstOctaveNoSign {
@@ -740,5 +730,4 @@ TestMEMIDIValidators : UnitTest {
 			);
 		};
 	}
-
 }
