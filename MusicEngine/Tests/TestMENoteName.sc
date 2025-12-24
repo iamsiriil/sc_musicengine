@@ -35,8 +35,8 @@ TestMENoteName : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MENoteName.getOffsetFromInterval(f.interval, validate: true),
+				f.expected,
 				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
 			);
 		};
@@ -73,8 +73,8 @@ TestMENoteName : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MENoteName.getOffsetFromInterval(f.interval, validate: true),
+				f.expected,
 				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
 			);
 		};
@@ -138,8 +138,8 @@ TestMENoteName : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				[0, 1, 2, 3, 4, 5, 6],
 				MENoteName.getOffsetArray(f, validate: true),
+				[0, 1, 2, 3, 4, 5, 6],
 				"Testing valid interval array: %. Should return [0, 1, 2, 3, 4, 5, 6].".format(f)
 			);
 		};
@@ -158,8 +158,8 @@ TestMENoteName : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				[0, 1, 2, 3, 4, 5, 6],
 				MENoteName.getOffsetArray(f, validate: true),
+				[0, 1, 2, 3, 4, 5, 6],
 				"Testing valid interval array: %. Should return [0, 1, 2, 3, 4, 5, 6].".format(f)
 			);
 		};
@@ -256,8 +256,8 @@ TestMENoteName : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MENoteName.getNoteLetters(f.letterOffsetArr, f.rootLetter, validate: true),
+				f.expected,
 				"Testing valid letter offset array: %, root letter: %. Should return %.".format(f.letterOffsetArray, f.rootLetter, f.expected)
 			);
 		};

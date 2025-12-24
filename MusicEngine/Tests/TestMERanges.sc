@@ -30,8 +30,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.sortAndSplit(f.dataArray),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
 	}
@@ -62,8 +62,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.sortAndSplit(f.dataArray),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
 	}
@@ -94,8 +94,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.sortAndSplit(f.dataArray),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
 	}
@@ -113,8 +113,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.getOffsets(f.intervalsArr),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
 		);
 	}
@@ -132,8 +132,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.getOffsets(f.intervalsArr),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
 		);
 	}
@@ -151,8 +151,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.getOffsets(f.intervalsArr),
+			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.intervalsArr, f.expected)
 		);
 	}
@@ -172,8 +172,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -193,8 +193,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -214,8 +214,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -235,8 +235,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -256,8 +256,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -277,8 +277,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapFirstOctave(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		)
 	}
@@ -289,8 +289,8 @@ TestMERanges : UnitTest {
 		var f = (expected: (0..127), midiNotesArr: (0..11));
 
 		this.assertEquals(
-			f.expected,
 			MERanges.extendMidiRange(f.midiNotesArr),
+			f.expected,
 			"Testing valid MIDI notes array: %. Should return %.".format(f.midiNotesArr, f.expected)
 		);
 	}
@@ -304,8 +304,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.extendMidiRange(f.midiNotesArr),
+			f.expected,
 			"Testing valid MIDI notes array: %. Should return %.".format(f.midiNotesArr, f.expected)
 		);
 	}
@@ -325,8 +325,8 @@ TestMERanges : UnitTest {
 		);
 
 		this.assertEquals(
-			f.expected,
 			MERanges.wrapAndExtend(f.midiNotesArr, f.noteLettersArr, f.intervalsArr),
+			f.expected,
 			"Testing valid MIDI notes array: %, note letters array: %, intervals array: %. Should return %.".format(f.midiNotesArr, f.noteLettersArr, f.intervalsArr, f.expected)
 		);
 	}

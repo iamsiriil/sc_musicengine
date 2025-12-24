@@ -12,8 +12,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				0,
 				MEAccidental.getOffsetFromName(f, validate: true),
+				0,
 				"Testing valid note name: %. Should return 0.".format(f)
 			);
 		};
@@ -27,8 +27,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				-1,
 				MEAccidental.getOffsetFromName(f, validate: true),
+				-1,
 				"Testing valid note name: %. Should return 0.".format(f)
 			);
 		};
@@ -42,8 +42,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				1,
 				MEAccidental.getOffsetFromName(f, validate: true),
+				1,
 				"Testing valid note name: %. Should return 0.".format(f)
 			);
 		};
@@ -69,8 +69,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid note name: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -122,8 +122,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				0,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				0,
 				"Testing valid MIDI note: %, note letter: %. Should return 0.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -145,8 +145,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				-1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				-1,
 				"Testing valid MIDI note: %, note letter: %. Should return -1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -169,8 +169,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				1,
 				"Testing valid MIDI note: %, note letter: %. Should return 1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -191,8 +191,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -213,8 +213,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -234,8 +234,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				0,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				0,
 				"Testing valid MIDI note: %, note letter: %. Should return 0.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -255,8 +255,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				-1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				-1,
 				"Testing valid MIDI note: %, note letter: %. Should return -1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -276,8 +276,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				1,
 				"Testing valid MIDI note: %, note letter: %. Should return 1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -296,8 +296,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -318,8 +318,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -342,8 +342,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				0,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				0,
 				"Testing valid MIDI note: %, note letter: %. Should return 0.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -366,8 +366,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				-1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				-1,
 				"Testing valid MIDI note: %, note letter: %. Should return -1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -390,8 +390,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				1,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				1,
 				"Testing valid MIDI note: %, note letter: %. Should return 1.".format(f.midiNote, f.noteLetter)
 			);
 		};
@@ -412,8 +412,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -434,8 +434,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getOffsetFromMidi(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -486,8 +486,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getSignFromOffset(f.signOffset, validate: true),
+				f.expected,
 				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
 			);
 		};
@@ -508,8 +508,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.getSignFromOffset(f.signOffset, validate: true),
+				f.expected,
 				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
 			);
 		};
@@ -546,8 +546,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -569,8 +569,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -593,8 +593,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expeted)
 			);
 		};
@@ -615,8 +615,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -637,8 +637,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -658,8 +658,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -679,8 +679,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return -1.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -700,8 +700,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -720,8 +720,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -742,8 +742,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -766,8 +766,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -790,8 +790,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -814,8 +814,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -836,8 +836,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};
@@ -858,8 +858,8 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEAccidental.resolveAccidental(f.midiNote, f.noteLetter, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %, note letter: %. Should return %.".format(f.midiNote, f.noteLetter, f.expected)
 			);
 		};

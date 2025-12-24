@@ -35,8 +35,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromInterval(f.interval, validate: true),
+				f.expected,
 				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
 			);
 		};
@@ -73,8 +73,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromInterval(f.interval, validate: true),
+				f.expected,
 				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
 			);
 		};
@@ -141,8 +141,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -164,8 +164,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -187,8 +187,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -209,8 +209,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -231,8 +231,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.getOffsetFromName(f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: %. Should return %.".format(f.noteName, f.expected)
 			);
 		};
@@ -289,8 +289,8 @@ TestMEMIDINotes : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEMIDINotes.transposeMidiOffset(f.midiOffsetArr, f.midiRoot, validate: true),
+				f.expected,
 				"Testing valid MIDI offset array: %, MIDI root: %. Should return %.".format(f.midiOffsetArr, f.midiRoot, f.expected)
 			);
 		};

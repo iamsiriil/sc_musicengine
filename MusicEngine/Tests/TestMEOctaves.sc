@@ -37,8 +37,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				f.expected,
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -65,8 +65,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				f.expected,
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -88,8 +88,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				f.expected,
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -116,8 +116,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				f.expected,
 				"Expected: %, for MIDI: % letter: %.".format(f.expected, f.midi, f.letter)
 			);
 		};
@@ -193,8 +193,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				nil,
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -217,8 +217,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				nil,
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -249,8 +249,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEOctaves.getClosestOctave(f.midi, f.letter, validate: true),
+				nil,
 				"Expected: nil for MIDI: % letter: %".format(f.midi, f.letter)
 			);
 		};
@@ -343,8 +343,8 @@ TestMEOctaves : UnitTest {
 			testNote = expected + offset;
 
 			this.assertEquals(
-				expected,
 				MEOctaves.getClosestOctave(testNote, letter.asString, validate: true),
+				expected,
 				"Expected: %, for MIDI: % letter: %".format(expected, testNote, letter)
 			);
 		};
@@ -379,8 +379,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.checkOctaveCross(f.noteName, validate: true),
+				f.expected,
 				"Expected % from note name %.".format(f.expected, f.noteName)
 			);
 		};
@@ -398,8 +398,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.checkOctaveCross(f.noteName, validate: true),
+				f.expected,
 				"Expected % from note name %.".format(f.expected, f.noteName)
 			);
 		};
@@ -426,8 +426,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.checkOctaveCross(f.noteName, validate: true),
+				f.expected,
 				"Expected % from note name %.".format(f.expected, f.noteName)
 			);
 		};
@@ -456,8 +456,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				-1,
 				MEOctaves.getOctave(f, validate: true),
+				-1,
 				"Testing valid MIDI note: %. Should return -1.".format(f)
 			);
 		};
@@ -471,8 +471,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				9,
 				MEOctaves.getOctave(f, validate: true),
+				9,
 				"Testing valid MIDI note: %. Should return 9.".format(f)
 			);
 		};
@@ -486,8 +486,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				4,
 				MEOctaves.getOctave(f, validate: true),
+				4,
 				"Testing valid MIDI note: %. Should return 4.".format(f)
 			);
 		};
@@ -512,8 +512,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getOctave(f.midiNote, f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: % note name: %. Should return %.".format(f.midiNote, f.noteName, f.expected)
 			);
 		};
@@ -538,8 +538,8 @@ TestMEOctaves : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				f.expected,
 				MEOctaves.getOctave(f.midiNote, f.noteName, validate: true),
+				f.expected,
 				"Testing valid MIDI note: % note name: %. Should return %.".format(f.midiNote, f.noteName, f.expected)
 			);
 		};

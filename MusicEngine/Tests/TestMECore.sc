@@ -18,8 +18,8 @@ TestMECore : UnitTest {
 	test_names_dataCorrectness {
 
 		this.assertEquals(
-			['C', 'D', 'E', 'F', 'G', 'A', 'B'],
 			MECore.letters,
+			['C', 'D', 'E', 'F', 'G', 'A', 'B'],
 			"names should return an array with Symbols representing the seven note letters."
 		);
 	}
@@ -29,8 +29,8 @@ TestMECore : UnitTest {
 	test_notes_dataCorrectness {
 
 		this.assertEquals(
-			[0, 2, 4, 5, 7, 9, 11],
 			MECore.notes,
+			[0, 2, 4, 5, 7, 9, 11],
 			"notes should return an array containing MIDI notes for the C major scale in octave -1."
 		);
 	}
@@ -42,8 +42,8 @@ TestMECore : UnitTest {
 		letters.do { |n, i|
 
 			this.assertEquals(
-				i,
 				MECore.indexOfLetter(n.asString),
+				i,
 				"indexOfLetter should also accept String."
 			);
 		};
@@ -71,8 +71,8 @@ TestMECore : UnitTest {
 		notes.do { |n, i|
 
 			this.assertEquals(
-				i,
 				MECore.indexOfNote(n),
+				i,
 				"indexOfNote should return index of note from MECore.notes array."
 			);
 		};
@@ -102,8 +102,8 @@ TestMECore : UnitTest {
 			index = letters.indexOf(l);
 
 			this.assertEquals(
-				notes[index],
 				MECore.noteFromLetter(l.asString),
+				notes[index],
 				"noteFromLetter should map note letters to the first MIDI octave."
 			);
 		};
@@ -116,8 +116,8 @@ TestMECore : UnitTest {
 		letters.do { |l, i|
 
 			this.assertEquals(
-				notes[i],
 				MECore.noteFromLetter(l.asString),
+				notes[i],
 				"noteFromLetter should also accept String."
 			);
 		};
@@ -147,8 +147,8 @@ TestMECore : UnitTest {
 			note = MECore.noteFromLetter(l.asString);
 
 			this.assertEquals(
-				l,
 				MECore.letterFromNote(note),
+				l,
 				"n should be equal to letterFromNote(noteFromLetter(n))."
 			);
 		};
@@ -161,8 +161,8 @@ TestMECore : UnitTest {
 		notes.do { |n, i|
 
 			this.assertEquals(
-				letters[i],
 				MECore.letterFromNote(n),
+				letters[i],
 				"letterFromNote should map MIDI notes, from the first octave, to note letters."
 			);
 		};
@@ -192,8 +192,8 @@ TestMECore : UnitTest {
 			letter = MECore.letterFromNote(n);
 
 			this.assertEquals(
-				n,
 				MECore.noteFromLetter(letter.asString),
+				n,
 				"n should be equal to noteFromLetter(letterFromNote(n))."
 			);
 		};
