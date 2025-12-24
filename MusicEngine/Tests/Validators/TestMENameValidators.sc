@@ -1,7 +1,10 @@
+/*********************************************************************************************
+* MusicEngine - A dynamic chord library for SuperCollider   								 *
+* Copyright (C) 2025 Siriil									    							 *
+* Licensed under GPLv3. See LICENSE file for details.			    						 *
+*********************************************************************************************/
+
 TestMENameValidators : UnitTest {
-	/****************************************************************************************/
-	// NOTE NAME VALIDATORS: Unit Tests for noteNameIsValid
-	/****************************************************************************************/
 
 	test_noteNameIsValid_correctInputNoAccidentals {
 		var fixtures = ["C", "D", "E", "F", "G", "A", "B"];
@@ -58,26 +61,6 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	/*test_noteNameIsValid_correctInputSymbols {
-		var fixtures = [
-			'C', 'Cbbbbb', 'D', 'D#####',
-			'E', 'Ebbbbb', 'F', 'F#####',
-			'G', 'Gbbbbb', 'A', 'A#####',
-			'B', 'Bbbbbb'
-		];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				nil,
-				MENameValidators.noteNameIsValid(f),
-				"Testing valid note name: %, as Symbol. Should return 'nil'.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-
 	test_noteNameIsValid_validOctaveString {
 		var fixtures = [
 			"C-1", "Cbbbbb0", "D1", "D#####2",
@@ -94,40 +77,6 @@ TestMENameValidators : UnitTest {
 			);
 		};
 	}
-
-	/****************************************************************************************/
-
-	/*test_noteNameIsValid_validOctaveSymbol {
-		var fixtures = [
-			'C-1', 'Cbbbbb0', 'D1', 'D#####2',
-			'E3',  'Ebbbbb4', 'F5', 'F#####6',
-			'G7',  'Gbbbbb8', 'A9'
-		];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				nil,
-				MENameValidators.noteNameIsValid(f),
-				"Testing valid note name with octave: %, as Symbol. Should return 'nil'.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-
-	/*test_noteNameIsValid_correctInputChar {
-		var fixtures = [$C, $D, $E, $F, $G, $A, $B];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				nil,
-				MENameValidators.noteNameIsValid(f),
-				"Testing valid note name: %, as Char. Should return 'nil'.".format(f)
-			);
-		};
-	}*/
 
 	/****************************************************************************************/
 
@@ -150,25 +99,6 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	/*test_noteNameIsValid_wrongInputSymbol {
-		var fixtures = [
-			'C######', 'D######', 'E######', 'F######', 'G######', 'A######', 'B######',
-			'Cbbbbbb', 'Dbbbbbb', 'Ebbbbbb', 'Fbbbbbb', 'Gbbbbbb', 'Abbbbbb', 'Bbbbbbb',
-			'c', 'd', 'e', 'f', 'g', 'a', 'b', 'X', 'x', '+', '1'
-		];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MENameValidators.noteNameIsValid(f) },
-				Error,
-				"Testing invalid note name: %, as Symbol. Should throw an Error.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-
 	test_noteNameIsValid_invalidOctavesString {
 		var fixtures = ["C-10", "D-2", "Eb-", "F#10", "G###4.0", "Abbb-1.0", "B####x"];
 
@@ -182,23 +112,6 @@ TestMENameValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-
-	/*test_noteNameIsValid_invalidOctavesSymbol {
-		var fixtures = ['C-10', 'D-2', 'Eb-', 'F#10', 'G###4.0', 'Abbb-1.0', 'B####x'];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MENameValidators.noteNameIsValid(f) },
-				Error,
-				"Testing note name with invalid octave: %, as Symbols. Should throw an Error.".format(f)
-			);
-		};
-	}*/
-
-	/****************************************************************************************/
-	// NOTE NAME VALIDATORS: Unit Tests for rootNoteIsValid
 	/****************************************************************************************/
 
 	test_rootNoteIsValid_correctInputString {
