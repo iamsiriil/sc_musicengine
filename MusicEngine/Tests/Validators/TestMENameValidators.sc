@@ -12,8 +12,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.noteNameIsValid(f),
+				nil,
 				"Testing valid note name; %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -32,8 +32,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.noteNameIsValid(f),
+				nil,
 				"Testing valid note name: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -52,8 +52,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.noteNameIsValid(f),
+				nil,
 				"Testing valid note name: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -71,8 +71,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.noteNameIsValid(f, octave: true),
+				nil,
 				"Testing valid note name with octave: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -124,8 +124,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.rootNoteIsValid(f),
+				nil,
 				"Testing valid root note: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -143,8 +143,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.rootNoteIsValid(f),
+				nil,
 				"Testing valid root note: %, as Symbol. Should return 'nil'.".format(f)
 			);
 		};
@@ -158,8 +158,8 @@ TestMENameValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MENameValidators.rootNoteIsValid(f),
+				nil,
 				"Testing valid root note: %, as Char. Should return 'nil'.".format(f)
 			);
 		};

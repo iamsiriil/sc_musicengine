@@ -12,8 +12,8 @@ TestMEOctaveValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEOctaveValidators.octaveIsValid(f, start: -1),
+				nil,
 				"Testing valid octave number: %. Should return 'nil'.".format(f)
 			);
 		};

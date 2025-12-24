@@ -24,8 +24,8 @@ TestMEIntervalValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEIntervalValidators.intervalIsValid(f),
+				nil,
 				"Testing valid interval: %. Should return 'nil'.".format(f)
 			);
 		};

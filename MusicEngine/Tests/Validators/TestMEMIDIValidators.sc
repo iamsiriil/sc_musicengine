@@ -11,8 +11,8 @@ TestMEMIDIValidators : UnitTest {
 		(0..127).do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNoteIsValid(f),
+				nil,
 				"Testing valid MIDI note: %. Should return 'nil'.".format(f)
 			);
 		};
@@ -41,8 +41,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetIsValid(f, diatonic: true),
+				nil,
 				"Testing valid diatonic MIDI offset: %. Should return 'nil'.".format(f)
 			);
 		};
@@ -56,8 +56,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetIsValid(f, diatonic: false),
+				nil,
 				"Testing valid chromatic MIDI offset: %. Should return 'nil'.".format(f)
 			);
 		};
@@ -101,8 +101,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetArrayIsValid(f, diatonic: true),
+				nil,
 				"Testing valid diatonic MIDI offset array: %. Should return 'nil'.".format(f.join(", "))
 			);
 		};
@@ -119,8 +119,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetArrayIsValid(f, diatonic: false),
+				nil,
 				"Testing valid chromatic MIDI offset array: %. Should return 'nil'.".format(f.join(", "))
 			);
 		};
@@ -139,8 +139,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetArrayIsValid(f, diatonic: true),
+				nil,
 				"Testing valid diatonic MIDI offset array: %. Should return 'nil'.".format(f.join(", "))
 			);
 		};
@@ -163,8 +163,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiOffsetArrayIsValid(f, diatonic: false),
+				nil,
 				"Testing valid chromatic MIDI offset array: %. Should return 'nil'.".format(f.join(", "))
 			);
 		};
@@ -229,8 +229,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -259,8 +259,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -299,8 +299,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -320,8 +320,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -345,8 +345,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -377,8 +377,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -401,8 +401,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -431,8 +431,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};
@@ -465,8 +465,8 @@ TestMEMIDIValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEMIDIValidators.midiNamePairIsValid(f.midiNote, f.noteName, validate: true),
+				nil,
 				"Testing valid MIDI note: %, note name: %. Should return 'nil'.".format(f.midiNote, f.noteName)
 			);
 		};

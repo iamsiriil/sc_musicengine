@@ -12,8 +12,8 @@ TestMELetterValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MELetterValidators.noteLetterIsValid(f),
+				nil,
 				"Testing valid letter: %, as String. Should return 'nil'.".format(f)
 			);
 		};
@@ -42,8 +42,8 @@ TestMELetterValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MELetterValidators.letterOffsetIsValid(f),
+				nil,
 				"Testing valid letter offset: %. Should return 'nil'.".format(f)
 			);
 		};
@@ -79,8 +79,8 @@ TestMELetterValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MELetterValidators.letterOffsetArrayIsValid(f),
+				nil,
 				"Testing valid letter offset array: %. Should return 'nil'.".format(f)
 			);
 		};

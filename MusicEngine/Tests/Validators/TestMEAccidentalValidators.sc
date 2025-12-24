@@ -12,8 +12,8 @@ TestMEAccidentalValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				nil,
 				MEAccidentalValidators.signOffsetIsValid(f),
+				nil,
 				"Testing valid sign offset: %. Should return 'nil'.".format(f)
 			);
 		};
