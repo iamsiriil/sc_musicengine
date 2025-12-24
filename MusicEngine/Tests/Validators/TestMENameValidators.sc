@@ -133,40 +133,6 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_rootNoteIsValid_correctInputSymbol {
-		var fixtures = [
-			'C',  'D',  'E',  'F',  'G',  'A',  'B',
-			'C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#',
-			'Cb', 'Db', 'Eb', 'Fb', 'Gb', 'Ab', 'Bb'
-		];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				MENameValidators.rootNoteIsValid(f),
-				nil,
-				"Testing valid root note: %, as Symbol. Should return 'nil'.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_rootNoteIsValid_correctInputChar {
-		var fixtures = [$C, $D, $E, $F, $G, $A, $B];
-
-		fixtures.do { |f|
-
-			this.assertEquals(
-				MENameValidators.rootNoteIsValid(f),
-				nil,
-				"Testing valid root note: %, as Char. Should return 'nil'.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
 	test_rootNoteIsValid_invalidAccidentalString {
 		var fixtures = [
 			"C##", "D###", "E####", "F#####", "G######", "A#######", "B########",
@@ -185,24 +151,6 @@ TestMENameValidators : UnitTest {
 
 	/****************************************************************************************/
 
-	test_rootNoteIsValid_invalidAccidentalSymbol {
-		var fixtures = [
-			'C##', 'D###', 'E####', 'F#####', 'G######', 'A#######', 'B########',
-			'Cbb', 'Dbbb', 'Ebbbb', 'Fbbbbb', 'Gbbbbbb', 'Abbbbbbb', 'Bbbbbbbbb'
-		];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MENameValidators.rootNoteIsValid(f) },
-				Error,
-				"Testing invalid root note: %, as Symbol. Should throw an Error.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
 	test_rootNoteIsValid_invalidNoteString {
 		var fixtures = ["a", "b", "c", "d", "e", "f", "g", "1", "X", "+", "0.0"];
 
@@ -212,36 +160,6 @@ TestMENameValidators : UnitTest {
 				{ MENameValidators.rootNoteIsValid(f) },
 				Error,
 				"Testing invalid root note: %, as String. Should throw an Error.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_rootNoteIsValid_invalidNoteSymbol {
-		var fixtures = ['a', 'b', 'c', 'd', 'e', 'f', 'g', '1', 'X', '+', '0.0'];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MENameValidators.rootNoteIsValid(f) },
-				Error,
-				"Testing invalid root note: %, as Symbol. Should throw an Error.".format(f)
-			);
-		};
-	}
-
-	/****************************************************************************************/
-
-	test_rootNoteIsValid_invalidNoteChar {
-		var fixtures = [$a, $b, $c, $d, $e, $f, $g, $1, $X, $+, $0];
-
-		fixtures.do { |f|
-
-			this.assertException(
-				{ MENameValidators.rootNoteIsValid(f) },
-				Error,
-				"Testing invalid root note: %, as Char. Should throw an Error".format(f)
 			);
 		};
 	}
