@@ -6,10 +6,6 @@
 
 TestMEAccidentalValidators : UnitTest {
 
-/****************************************************************************************/
-	// ACCIDENTAL SIGN VALIDATORS: Unit Tests for signOffsetIsValid
-	/****************************************************************************************/
-
 	test_signOffsetIsValid_validInput {
 		var fixtures = (-5..5);
 

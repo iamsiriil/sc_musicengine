@@ -6,10 +6,6 @@
 
 TestMEOctaveValidators : UnitTest {
 
-    /****************************************************************************************/
-	// OCTAVE VALIDATORS: Unit Tests for octaveIsValid
-	/****************************************************************************************/
-
 	test_octaveIsValid_validInput {
 		var fixtures = (-1..9);
 

@@ -6,10 +6,6 @@
 
 TestMELetterValidators : UnitTest {
 
-	/****************************************************************************************/
-	// Unit Tests for: noteLetterIsValid
-	/****************************************************************************************/
-
 	test_noteLetterIsValid_validtInputString {
 		var fixtures = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -38,8 +34,6 @@ TestMELetterValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-	// Unit Tests for: letterOffsetIsValid
 	/****************************************************************************************/
 
 	test_letterOffsetIsValid_validInput {
@@ -70,8 +64,6 @@ TestMELetterValidators : UnitTest {
 		};
 	}
 
-	/****************************************************************************************/
-	// Unit Tests for: letterOffsetArrayIsValid
 	/****************************************************************************************/
 
 	test_letterOffsetArrayIsValid_validInput {

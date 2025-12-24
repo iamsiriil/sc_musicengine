@@ -6,10 +6,6 @@
 
 TestMEIntervalValidators : UnitTest {
 
-    /****************************************************************************************/
-	// INTERVALS VALIDATORS: Unit Tests for intervalIsValid
-	/****************************************************************************************/
-
 	test_intervalIsValid_validInput {
 		var fixtures = [
 			"m2", "m9", "A1", "A8",
