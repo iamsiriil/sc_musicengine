@@ -13,6 +13,11 @@ MEAccidentalValidators {
 	*signOffsetIsValid { |signOffset|
 		var offsets = (-5..5).asSet;
 
+		//MEDebug.log("MEAccidentalValidators", "signOffsetIsValid");
+
+		if (signOffset.isInteger.not) {
+			Error("Sign offset must be of type Integer.").throw;
+		};
 		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
 			Error("% is not a valid sign offset.".format(signOffset)).throw;
 		};

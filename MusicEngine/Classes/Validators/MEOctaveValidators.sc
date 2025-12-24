@@ -12,9 +12,12 @@ MEOctaveValidators {
 
 	*octaveIsValid { |octave, start = -1|
 
-		//MEDebug.log("MEValidators", "*octaveIsValid");
+		//MEDebug.log("MEOctaveValidators", "octaveIsValid");
 
-		if ((octave < start) || (octave > (start + 10)) || (octave.isInteger.not)) {
+		if (octave.isInteger.not) {
+			Error("Octave must be of type Integer.").throw;
+		};
+		if ((octave < start) || (octave > (start + 10))) {
 			Error("% is not a valid octave number.".format(octave)).throw;
 		};
 		^nil;
