@@ -123,7 +123,6 @@ MESymbolValidator {
 		intervalsArr.do { |s|
 
 			if (s.findRegexp(this.testRegex).isEmpty) {
-
 				error.add(s);
 			};
 		};
@@ -153,7 +152,7 @@ MESymbolValidator {
 		MESymbolValidator.checkInvalidSpaces(symbol);
 		MESymbolValidator.checkInvalidWords(symbol);
 
-		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1]};
+		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1] };
 
 		MESymbolValidator.checkSymbolSize(intervalsArr);
 		MESymbolValidator.checkInvalidDegrees(symbol, intervalsArr);

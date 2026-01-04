@@ -28,7 +28,6 @@ MESymbol {
 			} {
 				alias = symbol;
 			};
-
 			symbol  = normSymbol;
 		};
 		degrees = MESymbol.getIntervalsFromSymbol(symbol);
