@@ -16,6 +16,7 @@ MESymbol {
 
 	init { |newSymbol|
 		var normSymbol;
+		var validate = true;
 
 		MEDebug.log("MESymbols", "init", "\nin:  %\n".format(newSymbol));
 
@@ -28,9 +29,10 @@ MESymbol {
 			} {
 				alias = symbol;
 			};
-			symbol  = normSymbol;
+			symbol   = normSymbol;
+			validate = false;
 		};
-		degrees = MESymbol.getIntervalsFromSymbol(symbol);
+		degrees = MESymbol.getIntervalsFromSymbol(symbol, validate);
 
 		^this;
 	}
@@ -63,11 +65,13 @@ MESymbol {
 
 	/****************************************************************************************/
 
-	*getIntervalsFromSymbol { |symbol|
+	*getIntervalsFromSymbol { |symbol, validate = true|
 		var regex = MESymbolValidator.testRegex;
 		var intervalsArr;
 
-		MESymbolValidator.symbolIsValid(symbol);
+		if (validate) {
+			MESymbolValidator.symbolIsValid(symbol);
+		};
 
 		intervalsArr = symbol.findRegexp(regex).collect { |i| i[1] };
 
