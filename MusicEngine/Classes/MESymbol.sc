@@ -19,14 +19,7 @@ MESymbol {
 
 		MEDebug.log("MESymbols", "init", "\nin:  %\n".format(newSymbol));
 
-		// This is a test
-		/*root   = super.getRoot(newSymbol);
-		symbol = newSymbol[root.size..];*/
-
-		root   = MESymbol.getRootFromSymbol(newSymbol);
-		symbol = newSymbol.replace(root, "");
-
-		//#root, symbol = MESymbol.splitSymbol(newSymbol);
+		#root, symbol = MESymbol.splitSymbol(newSymbol);
 
 		if ((normSymbol = MEAliases.checkAliases(symbol)).notNil) {
 
@@ -37,12 +30,8 @@ MESymbol {
 			};
 
 			symbol  = normSymbol;
-			//degrees = super.getDegrees(symbol);
-			degrees = MESymbol.getIntervalsFromSymbol(symbol);
-		} {
-			//degrees = super.getDegrees(symbol);
-			degrees = MESymbol.getIntervalsFromSymbol(symbol);
 		};
+		degrees = MESymbol.getIntervalsFromSymbol(symbol);
 
 		^this;
 	}
