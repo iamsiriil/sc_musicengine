@@ -112,6 +112,7 @@ MESymbolValidator {
 
 	*checkInvalidDegrees { |symbol, intervalsArr|
 		var error = Array.new(11);
+		var plural;
 
 		intervalsArr.do { |s|
 			symbol = symbol.replace(s, " ");
@@ -126,25 +127,6 @@ MESymbolValidator {
 				error.add(s);
 			};
 		};
-		^error;
-	}
-
-	/****************************************************************************************/
-
-	*symbolIsValid { |symbol|
-		var regex = "(?:[a-zA-Z][0-9]{1,2})";
-		var error, plural, intervalsArr;
-
-		MESymbolValidator.checkInvalidNumbers(symbol);
-		MESymbolValidator.checkInvalidSymbols(symbol);
-		MESymbolValidator.checkInvalidSpaces(symbol);
-		MESymbolValidator.checkInvalidWords(symbol);
-
-		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1]};
-
-		MESymbolValidator.checkSymbolSize(intervalsArr);
-
-		error = MESymbolValidator.checkInvalidDegrees(symbol, intervalsArr);
 
 		if (error.notEmpty) {
 
@@ -157,6 +139,24 @@ MESymbolValidator {
 				plural[2])
 			).throw;
 		};
+		^nil;
+	}
+
+	/****************************************************************************************/
+
+	*symbolIsValid { |symbol|
+		var regex = "(?:[a-zA-Z][0-9]{1,2})";
+		var intervalsArr;
+
+		MESymbolValidator.checkInvalidNumbers(symbol);
+		MESymbolValidator.checkInvalidSymbols(symbol);
+		MESymbolValidator.checkInvalidSpaces(symbol);
+		MESymbolValidator.checkInvalidWords(symbol);
+
+		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1]};
+
+		MESymbolValidator.checkSymbolSize(intervalsArr);
+		MESymbolValidator.checkInvalidDegrees(symbol, intervalsArr);
 		^nil;
 	}
 }
