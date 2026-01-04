@@ -61,21 +61,6 @@ MESymbol {
 		^[root, symbol];
 	}
 
-	/****************************************************************************************/
-
-	*getRootFromSymbol { |chorSymbol|
-		var rootNote;
-
-		MESymbolValidator.symbolRootIsValid(chorSymbol);
-
-		rootNote = chorSymbol.findRegexp("^[A-G][#|b]*")[0][1];
-
-		MENameValidators.rootNoteIsValid(rootNote);
-
-		MEDebug.log("MESymbol", "getRootFromSymbol", "\nin:  %\nout: %\n".format(chorSymbol, rootNote));
-
-		^rootNote;
-	}
 
 	/****************************************************************************************/
 
