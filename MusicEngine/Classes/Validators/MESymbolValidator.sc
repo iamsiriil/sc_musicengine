@@ -22,7 +22,7 @@ MESymbolValidator {
 
 	/****************************************************************************************/
 
-	*symbolIsValid { |symbol, intervalsArr|
+	/**symbolIsValid { |symbol, intervalsArr|
 		var error = Array.new(12);
 		var verb;
 
@@ -53,6 +53,94 @@ MESymbolValidator {
 				verb[0],
 				verb[1],
 				verb[2])
+			).throw;
+		};
+
+		^intervalsArr;
+	}*/
+
+	/****************************************************************************************/
+
+	*checkInvalidNumbers { |symbol|
+		var regex = "(?:[0-9]{3,})|(?:[2-9][0-9])|(?:1[5-9])|(?<!\\d)0(?!\\d)";
+
+		if (regex.matchRegexp(symbol)) {
+			Error("Symbol %, contains invalid numbers. Only numbers from 1 to 14 allowed.".format(symbol)).throw;
+		};
+		^nil;
+	}
+
+	/****************************************************************************************/
+
+	*checkInvalidSymbols { |symbol|
+		var regex = "(?:[[:punct:]]+)";
+
+		if (regex.matchRegexp(symbol)) {
+			Error("Symbol %, contains invalid non-alphanumeric symbols.".format(symbol)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	*checkInvalidSpaces { |symbol|
+		var regex = "(?:[[:space:]]+)";
+
+		if (regex.matchRegexp(symbol)) {
+			Error("Symbol %, contains space characters.".format(symbol)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	*checkInvalidWords { |symbol|
+		var regex = "(?:[a-zA-Z]{2,})";
+
+		if (regex.matchRegexp(symbol)) {
+			Error("Symbol %, contains invalid alphabetical constructs.".format(symbol)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	*symbolIsValid { |symbol|
+		var regex = "(?:[a-zA-Z][0-9]{1,2})";
+		var error = Array.new(12);
+		var plural, intervalsArr;
+
+		MESymbolValidator.checkInvalidNumbers(symbol);
+		MESymbolValidator.checkInvalidSymbols(symbol);
+		MESymbolValidator.checkInvalidSpaces(symbol);
+		MESymbolValidator.checkInvalidWords(symbol);
+
+		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1]};
+
+		if (intervalsArr.size > 11) {
+			Error("Range symbol cannot contains more than 11 degrees.").throw;
+		};
+
+		intervalsArr.do { |s|
+			symbol = symbol.replace(s, " ");
+		};
+
+		error = symbol.split($ ).select { |i| i != ""};
+
+		intervalsArr.do { |s|
+
+			if (s.findRegexp(this.testRegex).isEmpty) {
+
+				error.add(s);
+			};
+		};
+
+		if (error.notEmpty) {
+
+			plural = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
+
+			Error("%, % not %valid %.".format(
+				error.join(", "),
+				plural[0],
+				plural[1],
+				plural[2])
 			).throw;
 		};
 
