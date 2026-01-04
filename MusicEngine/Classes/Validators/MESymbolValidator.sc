@@ -120,7 +120,6 @@ MESymbolValidator {
 		error = symbol.split($ ).select { |i| i != ""};
 
 		intervalsArr.do { |s|
-
 			if (s.findRegexp(this.testRegex).isEmpty) {
 				error.add(s);
 			};
@@ -129,7 +128,6 @@ MESymbolValidator {
 		if (error.notEmpty) {
 
 			plural = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
-
 			Error("%, % not %valid %.".format(
 				error.join(", "),
 				plural[0],
