@@ -61,19 +61,6 @@ MESymbolValidator {
 
 	/****************************************************************************************/
 
-	*symbolRootIsValid { |chordSymbol|
-		var regex = "^[A-G][#|b]*";
-
-		MEDebug.log("MESymbolValidators", "symbolRootIsValid", "\n");
-
-		if (regex.matchRegexp(chordSymbol).not) {
-			Error("Symbol: %, has no valid root.".format(chordSymbol)).throw;
-		};
-		^nil;
-	}
-
-	/****************************************************************************************/
-
 	*rootIsValid { |rangeSymbol|
 		var rgx0 = "^(?:[A-G][#b]*)";
 		var rgx1 = "^(?:[A-G][#b]{2,})";
@@ -96,95 +83,4 @@ MESymbolValidator {
 		};
 		^nil;
 	}
-
-	/****************************************************************************************/
-
-	/*getDegreeArray { |symbol|
-		var regex = "[a-zA-Z]\\d{1,2}";
-		var degreeArray;
-
-		//MEDebug.log("MESymbolTools", "*getDegreeArray");
-
-		degreeArray = symbol.findRegexp(testRegex).collect { |i| i[1] };
-
-		^degreeArray;
-	}*/
-
-	/****************************************************************************************/
-	// Split and test symbol
-
-	/*getDegrees { |symbol|
-		var error = Array.new(12);
-		var degreeArray, verb;
-		var input = symbol;
-
-
-		// Collect all modifier/degree pairs
-		degreeArray = this.getDegreeArray(symbol);
-
-		// Check number of pairs
-		if (degreeArray.size > 11) {
-			Error("Symbol array cannot have more than 11 degrees.").throw;
-		};
-
-		// Remove degrees from string and check leftover characters
-		degreeArray.do { |s|
-			symbol = symbol.replace(s, " ");
-		};
-
-		// Add leftovers to error
-		error = symbol.split($ ).select { |i| i != ""};
-
-		// Iterate array, look for invalid symbols and append them to error
-		degreeArray.do { |s|
-
-			if (s.findRegexp(testRegex).isEmpty) {
-
-				error.add(s);
-			}
-		};
-
-		// If error is not empty throw error
-		if (error.notEmpty) {
-
-			verb = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
-
-			Error("%: % not %valid %.".format(
-				error.join(", "),
-				verb[0],
-				verb[1],
-				verb[2])
-			).throw;
-		};
-
-		MEDebug.log("MESymbolValidator", "*getDegrees", "\nin:  %;\nout: %\n".format(input, degreeArray));
-
-		^degreeArray;
-	}*/
-
-	/****************************************************************************************/
-	// Split and test root
-
-	/*getRoot { |symbol|
-		var regex = "^[A-G][#|b]*";
-		var root;
-
-
-		// Checks for a valid root at the beginning of the symbol
-		if (regex.matchRegexp(symbol).not) {
-			Error("Symbol: %, has no valid root.".format(symbol)).throw;
-		} {
-			root  = symbol.findRegexp(regex)[0][1];
-
-			// Checks for more than one accidental
-			if ("[A-G][#b]{2}".matchRegexp(root)) {
-				Error("%: Root can only have 0 to 1 accidentals.".format(root)).throw;
-			}
-		};
-
-		MEDebug.log("MESymbolValidator", "*getRoot", "\nin:  %;\nout: %\n".format(symbol, root));
-
-		^root;
-	}*/
-
 }
