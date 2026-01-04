@@ -64,15 +64,15 @@ MESymbol {
 
 	/****************************************************************************************/
 
-	*getIntervalsFromSymbol { |chordSymbol|
+	*getIntervalsFromSymbol { |symbol|
 		var regex = MESymbolValidator.testRegex;
 		var intervalsArr;
 
-		intervalsArr = chordSymbol.findRegexp(regex).collect { |i| i[1] };
+		MESymbolValidator.symbolIsValid(symbol);
 
-		MESymbolValidator.symbolIsValid(chordSymbol, intervalsArr);
+		intervalsArr = symbol.findRegexp(regex).collect { |i| i[1] };
 
-		MEDebug.log("MESymbol", "getIntervalsFromSymbol", "\nin:  %\nout: %\n".format(chordSymbol, intervalsArr));
+		MEDebug.log("MESymbol", "getIntervalsFromSymbol", "\nin:  %\nout: %\n".format(symbol, intervalsArr));
 
 		^intervalsArr;
 	}
