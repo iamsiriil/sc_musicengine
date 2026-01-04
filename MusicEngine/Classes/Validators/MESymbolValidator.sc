@@ -22,42 +22,37 @@ MESymbolValidator {
 
 	/****************************************************************************************/
 
-	/**symbolIsValid { |symbol, intervalsArr|
-		var error = Array.new(12);
-		var verb;
+	*checkString { |rangeSymbol|
 
-		if (intervalsArr.size > 11) {
-			Error("Symbol array cannot have more than 11 degrees.").throw;
+		if (rangeSymbol.isString.not) {
+			Error("Range symbol must be of type String.").throw;
 		};
-
-		intervalsArr.do { |s|
-			symbol = symbol.replace(s, " ");
+		if (rangeSymbol.isEmpty) {
+			Error("Range symbol cannot be an empty String").throw;
 		};
+		^nil;
+	}
 
-		error = symbol.split($ ).select { |i| i != ""};
+	/****************************************************************************************/
 
-		intervalsArr.do { |s|
+	*rootIsValid { |rangeSymbol|
+		var rgx0 = "^(?:[A-G][#b]*)";
+		var rgx1 = "^(?:[A-G][#b]{2,})";
+		var root;
 
-			if (s.findRegexp(this.testRegex).isEmpty) {
+		MEDebug.log("MESymbolValidators", "symbolRootIsValid", "\n");
 
-				error.add(s);
-			};
+		MESymbolValidator.checkString(rangeSymbol);
+
+		if (rgx0.matchRegexp(rangeSymbol).not) {
+			Error("Symbol %, has no valid root.".format(rangeSymbol)).throw;
 		};
-
-		if (error.notEmpty) {
-
-			verb = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
-
-			Error("%: % not %valid %.".format(
-				error.join(", "),
-				verb[0],
-				verb[1],
-				verb[2])
-			).throw;
+		if (rgx1.matchRegexp(rangeSymbol)) {
+			root = rangeSymbol.findRegexp(rgx1).collect { |n| n[1] }[0];
+			Error("%, is not a valid root.".format(root)).throw;
 		};
-
-		^intervalsArr;
-	}*/
+		^nil;
+	}
 
 	/****************************************************************************************/
 
@@ -78,6 +73,7 @@ MESymbolValidator {
 		if (regex.matchRegexp(symbol)) {
 			Error("Symbol %, contains invalid non-alphanumeric symbols.".format(symbol)).throw;
 		};
+		^nil;
 	}
 
 	/****************************************************************************************/
@@ -88,6 +84,7 @@ MESymbolValidator {
 		if (regex.matchRegexp(symbol)) {
 			Error("Symbol %, contains space characters.".format(symbol)).throw;
 		};
+		^nil;
 	}
 
 	/****************************************************************************************/
@@ -98,6 +95,7 @@ MESymbolValidator {
 		if (regex.matchRegexp(symbol)) {
 			Error("Symbol %, contains invalid alphabetical constructs.".format(symbol)).throw;
 		};
+		^nil;
 	}
 
 	/****************************************************************************************/
@@ -147,28 +145,4 @@ MESymbolValidator {
 		^intervalsArr;
 	}
 
-	/****************************************************************************************/
-
-	*rootIsValid { |rangeSymbol|
-		var rgx0 = "^(?:[A-G][#b]*)";
-		var rgx1 = "^(?:[A-G][#b]{2,})";
-		var root;
-
-		MEDebug.log("MESymbolValidators", "symbolRootIsValid", "\n");
-
-		if (rangeSymbol.isString.not) {
-			Error("Symbol must be of type String.").throw;
-		};
-		if (rangeSymbol.isEmpty) {
-			Error("Symbol cannot be empty String").throw;
-		};
-		if (rgx0.matchRegexp(rangeSymbol).not) {
-			Error("Symbol %, has no valid root.".format(rangeSymbol)).throw;
-		};
-		if (rgx1.matchRegexp(rangeSymbol)) {
-			root = rangeSymbol.findRegexp(rgx1).collect { |n| n[1] }[0];
-			Error("%, is not a valid root.".format(root)).throw;
-		};
-		^nil;
-	}
 }
