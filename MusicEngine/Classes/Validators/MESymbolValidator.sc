@@ -14,7 +14,7 @@ MESymbolValidator {
 		var rx1 = "[dmMA](?:3|6|10|13)";
 		var rx2 = "[dPA](?:4|5|11|12)";
 		var rx3 = "[mMA](?:2|9)";
-		var rx4 = "(?:[dA]8)|(?:A1)";
+		var rx4 = "[dA]8|A1";
 
 		testRegex  = "(?:%|%|%|%|%)".format(rx0, rx1, rx2, rx3, rx4);
 	}
