@@ -14,7 +14,7 @@ MESymbolValidators {
 		var rx1 = "[dmMA](?:3|6|10|13)";
 		var rx2 = "[dPA](?:4|5|11|12)";
 		var rx3 = "[mMA](?:2|9)";
-		var rx4 = "[dA]8|A1";
+		var rx4 = "[dA]8|A1(?!\\d)";
 
 		testRegex  = "(?:%|%|%|%|%)".format(rx0, rx1, rx2, rx3, rx4);
 
@@ -111,19 +111,27 @@ MESymbolValidators {
 
 	/****************************************************************************************/
 
+	*checkDuplicateIntervals { |intervalsArr|
+
+		intervalsArr.do { |i|
+
+			if ((intervalsArr.count { |n| n == i }) > 1) {
+				Error("% is duplicate. Intervals must be unique.".format(i)).throw;
+			};
+		};
+		^nil;
+	}
+
+	/****************************************************************************************/
+
 	*checkInvalidDegrees { |symbol, intervalsArr|
 		var error = Array.new(11);
 		var plural;
 
-		intervalsArr.do { |s|
-			symbol = symbol.replace(s, " ");
-		};
+		intervalsArr.do { |i|
 
-		error = symbol.split($ ).select { |i| i != ""};
-
-		intervalsArr.do { |s|
-			if (s.findRegexp(this.testRegex).isEmpty) {
-				error.add(s);
+			if (i.findRegexp(this.testRegex).isEmpty) {
+				error.add(i);
 			};
 		};
 
@@ -155,6 +163,7 @@ MESymbolValidators {
 
 		this.checkSymbolSize(intervalsArr);
 		this.checkInvalidDegrees(symbol, intervalsArr);
+		this.checkDuplicateIntervals(intervalsArr);
 		^nil;
 	}
 }
