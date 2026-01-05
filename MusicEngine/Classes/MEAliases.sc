@@ -5,10 +5,9 @@
 *********************************************************************************************/
 
 MEAliases {
-	classvar aliases;
+	classvar <aliases;
 
 	*initClass {
-
 
 		aliases = Dictionary[
 			// Power chords
@@ -61,17 +60,17 @@ MEAliases {
 
 	/****************************************************************************************/
 
-	*checkAliases { |symbol|
+	*getSymbolFromAlias { |alias|
 		var out = nil;
 
 		aliases.keysValuesDo { |k, v|
 
-			if (v.includes(symbol)) {
+			if (v.includes(alias)) {
 				out = k;
 			};
 		};
 
-		MEDebug.log("MEAliases", "*checkAliases", "\nin:  %;\nout: %\n".format(symbol, out));
+		MEDebug.log("MEAliases", "*checkAliases", "\nin:  %;\nout: %\n".format(alias, out));
 
 		^out;
 	}
