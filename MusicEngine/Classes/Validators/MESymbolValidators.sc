@@ -124,7 +124,7 @@ MESymbolValidators {
 
 	/****************************************************************************************/
 
-	*checkInvalidIntervals { |symbol, intervalsArr|
+	*checkInvalidIntervals { |intervalsArr|
 		var error = Array.new(11);
 		var plural;
 
@@ -162,7 +162,7 @@ MESymbolValidators {
 		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1] };
 
 		this.checkSymbolSize(intervalsArr);
-		this.checkInvalidIntervals(symbol, intervalsArr);
+		this.checkInvalidIntervals(intervalsArr);
 		this.checkDuplicateIntervals(intervalsArr);
 		^nil;
 	}
