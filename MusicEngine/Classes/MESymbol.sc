@@ -53,7 +53,7 @@ MESymbol {
 		var regex = "^(?:([A-G][#b]?)([^#b]*))$";
 		var root, symbol;
 
-		MESymbolValidator.rootIsValid(rangeSymbol);
+		MESymbolValidators.rootIsValid(rangeSymbol);
 
 		#root, symbol = rangeSymbol.findRegexp(regex).collect { |n| n[1] }[1..2];
 
@@ -66,11 +66,11 @@ MESymbol {
 	/****************************************************************************************/
 
 	*getIntervalsFromSymbol { |symbol, validate = true|
-		var regex = MESymbolValidator.testRegex;
+		var regex = MESymbolValidators.testRegex;
 		var intervalsArr;
 
 		if (validate) {
-			MESymbolValidator.symbolIsValid(symbol);
+			MESymbolValidators.symbolIsValid(symbol);
 		};
 
 		intervalsArr = symbol.findRegexp(regex).collect { |i| i[1] };

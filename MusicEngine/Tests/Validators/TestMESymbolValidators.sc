@@ -20,7 +20,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.rootIsValid(f),
+				MESymbolValidators.rootIsValid(f),
 				nil,
 				"Testing valid range symbol: %. Should return nil.".format(f)
 			);
@@ -35,7 +35,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.rootIsValid(f),
+				MESymbolValidators.rootIsValid(f),
 				nil,
 				"Testing valid range symbol: %. Should return nil.".format(f)
 			);
@@ -50,7 +50,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.rootIsValid(f) },
+				{ MESymbolValidators.rootIsValid(f) },
 				Error,
 				"Testing invalid input: %. Should throw Error.".format(f)
 			);
@@ -62,7 +62,7 @@ TestMESymbolValidators : UnitTest {
 	test_rootIsValid_invalidInputEmptyString {
 
 		this.assertException(
-			{ MESymbolValidator.rootIsValid("") },
+			{ MESymbolValidators.rootIsValid("") },
 			Error,
 			"Testing empty string. Should throw Error."
 		);
@@ -76,7 +76,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.rootIsValid(f) },
+				{ MESymbolValidators.rootIsValid(f) },
 				Error,
 				"Testing symbol with no root: %. Should throw Error.".format(f)
 			);
@@ -91,7 +91,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.rootIsValid(f) },
+				{ MESymbolValidators.rootIsValid(f) },
 				Error,
 				"Testing invalid root: %. Should throw Error.".format(f)
 			);
@@ -106,7 +106,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.rootIsValid(f) },
+				{ MESymbolValidators.rootIsValid(f) },
 				Error,
 				"Testing invalid accidental sign: %. Should throw Error.".format(f)
 			);
@@ -129,7 +129,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.symbolIsValid(f),
+				MESymbolValidators.symbolIsValid(f),
 				nil,
 				"Testing valid interval, under octave: %. Should return nil.".format(f)
 			);
@@ -152,7 +152,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.symbolIsValid(f),
+				MESymbolValidators.symbolIsValid(f),
 				nil,
 				"Testing valid interval, over octave: %. Should return nil.".format(f)
 			);
@@ -165,7 +165,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "m2M2m3M3P4A4P5m6M6m7M7";
 
 		this.assertEquals(
-			MESymbolValidator.symbolIsValid(fixture),
+			MESymbolValidators.symbolIsValid(fixture),
 			nil,
 			"Testing chromatic scale, under octave: %. Should return nil.".format(fixture)
 		);
@@ -177,7 +177,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "m9M9m10M10P11A11P12m13M13m14M14";
 
 		this.assertEquals(
-			MESymbolValidator.symbolIsValid(fixture),
+			MESymbolValidators.symbolIsValid(fixture),
 			nil,
 			"Testing chromatic scale, over octave: %. Should return nil.".format(fixture)
 		);
@@ -191,7 +191,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.symbolIsValid(f),
+				MESymbolValidators.symbolIsValid(f),
 				nil,
 				"Testing multiple valid intervals, under octave: %. Should return nil.".format(f)
 			);
@@ -206,7 +206,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbolValidator.symbolIsValid(f),
+				MESymbolValidators.symbolIsValid(f),
 				nil,
 				"Testing valid intervals across two octaves: %. Should return nil.".format(f)
 			);
@@ -221,7 +221,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.symbolIsValid(f) },
+				{ MESymbolValidators.symbolIsValid(f) },
 				Error,
 				"Testing invalid numbers: %. Should throw Error.".format(f)
 			);
@@ -236,7 +236,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.symbolIsValid(f) },
+				{ MESymbolValidators.symbolIsValid(f) },
 				Error,
 				"Testing invalid symbols: %. Should throw Error.".format(f)
 			);
@@ -251,7 +251,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.symbolIsValid(f) },
+				{ MESymbolValidators.symbolIsValid(f) },
 				Error,
 				"Testing invalid spaces: %. Should throw Error.".format(f)
 			);
@@ -266,7 +266,7 @@ TestMESymbolValidators : UnitTest {
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MESymbolValidator.symbolIsValid(f) },
+				{ MESymbolValidators.symbolIsValid(f) },
 				Error,
 				"Testing invalid words: %. Should throw Error.".format(f)
 			);
@@ -279,7 +279,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "m2M2m3M3P4d5P5m6M6m7M7A8";
 
 		this.assertException(
-			{ MESymbolValidator.symbolIsValid(fixture) },
+			{ MESymbolValidators.symbolIsValid(fixture) },
 			Error,
 			"Testing invalid number of intervals: %. Should throw Error.".format(fixture)
 		);
@@ -291,7 +291,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "d1d2P3m4M5P6P7";
 
 		this.assertException(
-			{ MESymbolValidator.symbolIsValid(fixture) },
+			{ MESymbolValidators.symbolIsValid(fixture) },
 			Error,
 			"Testing invalid intervals, under octave: %. Should throw Error.".format(fixture)
 		);
@@ -303,7 +303,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "P8d9P10m11M12P13A14";
 
 		this.assertException(
-			{ MESymbolValidator.symbolIsValid(fixture) },
+			{ MESymbolValidators.symbolIsValid(fixture) },
 			Error,
 			"Testing invalid intervals, over octave: %. Should throw Error.".format(fixture)
 		);
@@ -315,7 +315,7 @@ TestMESymbolValidators : UnitTest {
 		var fixture = "t8X9l3a4U12D13g14";
 
 		this.assertException(
-			{ MESymbolValidator.symbolIsValid(fixture) },
+			{ MESymbolValidators.symbolIsValid(fixture) },
 			Error,
 			"Testing invalid intervals, random letters: %. Should throw Error.".format(fixture)
 		);
