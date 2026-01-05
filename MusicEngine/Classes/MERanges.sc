@@ -6,7 +6,7 @@
 
 MERanges : MECore {
 
-	*initClass {}
+	*initClass {^this}
 
 	/****************************************************************************************/
 
@@ -52,7 +52,7 @@ MERanges : MECore {
 
 		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervalsArr, arr));
 
-		^MERanges.sortAndSplit(arr);
+		^this.sortAndSplit(arr);
 	}
 
 	/****************************************************************************************/
@@ -105,13 +105,13 @@ MERanges : MECore {
 	*wrapAndExtend { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
 
-		#tempM, tempL, tempI = MERanges.wrapFirstOctave(
+		#tempM, tempL, tempI = this.wrapFirstOctave(
 			midiNotesArr,
 			noteLettersArr,
 			intervalsArr
 		);
 
-		tempM = MERanges.extendMidiRange(tempM);
+		tempM = this.extendMidiRange(tempM);
 		tempL = tempL.wrapExtend(tempM.size);
 		tempI = tempI.wrapExtend(tempM.size);
 
@@ -127,7 +127,7 @@ MERanges : MECore {
 
 		MEDebug.log("MERanges", "*getMENotes");
 
-		#tempM, tempL, tempI = MERanges.wrapAndExtend(
+		#tempM, tempL, tempI = this.wrapAndExtend(
 			midiNotesArr,
 			noteLettersArr,
 			intervalsArr
@@ -154,7 +154,7 @@ MERanges : MECore {
 
 		MEDebug.log("MERanges", "*getRange", "\nin:  %\n".format(symbol));
 
-		#tempM, tempL, tempI = MERanges.getOffsets(symbol.intervals);
+		#tempM, tempL, tempI = this.getOffsets(symbol.intervals);
 
 		MEMIDIValidators.midiOffsetArrayIsValid(tempM, diatonic: false);
 
@@ -162,6 +162,6 @@ MERanges : MECore {
 		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
 		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
 
-		^MERanges.getMENotes(tempM, tempL, tempI);
+		^this.getMENotes(tempM, tempL, tempI);
 	}
 }
