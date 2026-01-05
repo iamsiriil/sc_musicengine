@@ -6,7 +6,7 @@
 
 MESymbol {
 	var <root;
-	var <degrees;
+	var <intervals;
 	var symbol;
 	var alias;
 
@@ -32,7 +32,7 @@ MESymbol {
 			symbol   = normSymbol;
 			validate = false;
 		};
-		degrees = MESymbol.getIntervalsFromSymbol(symbol, validate);
+		intervals = MESymbol.getIntervalsFromSymbol(symbol, validate);
 
 		^this;
 	}
@@ -42,7 +42,7 @@ MESymbol {
 	printOn { |stream|
 		stream << "MESymbol [ ";
 		stream << "Root: " << root << ", ";
-		stream << "Intervals: " << degrees << ", ";
+		stream << "Intervals: " << intervals << ", ";
 		stream << "Symbol: " << symbol << ", ";
 		stream << "Alias: " << alias << " ]";
 	}

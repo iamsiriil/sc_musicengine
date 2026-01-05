@@ -72,7 +72,7 @@ MENoteRange : MERanges {
 	/****************************************************************************************/
 
 	notes { |fromOctave = 1, toOctave = 9, fromDegree = nil|
-		var degreeSet = (["Rt"] ++ symbol.degrees).asSet;
+		var degreeSet = (["Rt"] ++ symbol.intervals).asSet;
 		var indexF, indexT;
 
 		if ((fromOctave > toOctave) || (fromOctave < -1) || (toOctave > 9)) {
@@ -82,7 +82,7 @@ MENoteRange : MERanges {
 		if (fromDegree.notNil && degreeSet.includes(fromDegree).not) {
 			Error("Range does not include interval %. Pick from Rt, %.\n".format(
 				fromDegree,
-				symbol.degrees.join(", ")
+				symbol.intervals.join(", ")
 			)).throw;
 		};
 

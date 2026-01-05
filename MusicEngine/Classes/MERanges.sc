@@ -154,7 +154,7 @@ MERanges : MECore {
 
 		MEDebug.log("MERanges", "*getRange", "\nin:  %\n".format(symbol));
 
-		#tempM, tempL, tempI = MERanges.getOffsets(symbol.degrees);
+		#tempM, tempL, tempI = MERanges.getOffsets(symbol.intervals);
 
 		MEMIDIValidators.midiOffsetArrayIsValid(tempM, diatonic: false);
 

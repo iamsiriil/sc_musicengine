@@ -104,7 +104,7 @@ MESymbolValidators {
 	*checkSymbolSize { |intervalsArr|
 
 		if (intervalsArr.size > 11) {
-			Error("Range symbol cannot contains more than 11 degrees.").throw;
+			Error("Range symbol cannot contains more than 11 intervals.").throw;
 		};
 		^nil;
 	}
@@ -124,7 +124,7 @@ MESymbolValidators {
 
 	/****************************************************************************************/
 
-	*checkInvalidDegrees { |symbol, intervalsArr|
+	*checkInvalidIntervals { |symbol, intervalsArr|
 		var error = Array.new(11);
 		var plural;
 
@@ -137,7 +137,7 @@ MESymbolValidators {
 
 		if (error.notEmpty) {
 
-			plural = if (error.size > 1)  {["Are", "", "degrees"]} {["Is", "a ", "degree"]};
+			plural = if (error.size > 1)  {["Are", "", "intervals"]} {["Is", "a ", "interval"]};
 			Error("%, % not %valid %.".format(
 				error.join(", "),
 				plural[0],
@@ -162,7 +162,7 @@ MESymbolValidators {
 		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1] };
 
 		this.checkSymbolSize(intervalsArr);
-		this.checkInvalidDegrees(symbol, intervalsArr);
+		this.checkInvalidIntervals(symbol, intervalsArr);
 		this.checkDuplicateIntervals(intervalsArr);
 		^nil;
 	}
