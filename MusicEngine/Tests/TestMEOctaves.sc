@@ -337,7 +337,7 @@ TestMEOctaves : UnitTest {
 			offset = (-5..5).choose;
 
 			letter = MECore.letters[index];
-			note   = MECore.noteFromLetter(letter.asString);
+			note   = MECore.offsetFromLetter(letter.asString);
 
 			expected = note + octave;
 			testNote = expected + offset;

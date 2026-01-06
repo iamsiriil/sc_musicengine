@@ -1,3 +1,4 @@
+
 /*********************************************************************************************
 * MusicEngine - A dynamic chord library for SuperCollider   								 *
 * Copyright (C) 2025 Siriil									    							 *
@@ -6,195 +7,252 @@
 
 TestMECore : UnitTest {
 	classvar letters;
-	classvar notes;
+	classvar offsets;
 
 	setUp {
 		letters = MECore.letters;
-		notes   = MECore.notes;
+		offsets = MECore.offsets;
 	}
 
 	/****************************************************************************************/
 
-	test_names_dataCorrectness {
+	test_letters_dataCorrectness {
 
 		this.assertEquals(
 			MECore.letters,
-			['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-			"names should return an array with Symbols representing the seven note letters."
+			["C", "D", "E", "F", "G", "A", "B"],
+			"Testing letters array for data correctness."
 		);
 	}
 
 	/****************************************************************************************/
 
-	test_notes_dataCorrectness {
+	test_offsets_dataCorrectness {
 
 		this.assertEquals(
-			MECore.notes,
+			MECore.offsets,
 			[0, 2, 4, 5, 7, 9, 11],
-			"notes should return an array containing MIDI notes for the C major scale in octave -1."
+			"Testing offsets array for data correctness."
 		);
 	}
 
 	/****************************************************************************************/
 
-	test_indexOfLetter_stringInput {
+	test_indexOfLetter_validNoteLetters {
+		var fixtures = [
+			(expected: 0, noteLetter: "C"),
+			(expected: 1, noteLetter: "D"),
+			(expected: 2, noteLetter: "E"),
+			(expected: 3, noteLetter: "F"),
+			(expected: 4, noteLetter: "G"),
+			(expected: 5, noteLetter: "A"),
+			(expected: 6, noteLetter: "B"),
+		];
 
-		letters.do { |n, i|
+		fixtures.do { |f|
 
 			this.assertEquals(
-				MECore.indexOfLetter(n.asString),
-				i,
-				"indexOfLetter should also accept String."
+				MECore.indexOfLetter(f.noteLetter, validate: true),
+				f.expected,
+				"Testing valid note letter: %. Should return: %.".format(f.noteLetter, f.expected)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_indexOfLetter_wrongInput {
-		var fixture = [1, 0.5, ["C"], "Z", 'a', "b"];
+	test_indexOfLetter_invalidNoteLetter {
+		var fixture = ["X", "c", "+", "1", "", " "];
 
 		fixture.do { |f|
 
 			this.assertException(
-				{ MECore.indexOfLetter(f) },
+				{ MECore.indexOfLetter(f, validate: true) },
 				Error,
-				"indexOfLetter should not accept anything other than letters A-G."
+				"Testing invalid note letter: %. Should throw Error.".format(f)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_indexOfNote_indexCorrectness {
+	test_indexOfLetter_invalidDataType {
+		var fixture = ['C', $C, 1, 1.0, ["C"]];
 
-		notes.do { |n, i|
+		fixture.do { |f|
+
+			this.assertException(
+				{ MECore.indexOfLetter(f, validate: true) },
+				Error,
+				"Testing invalid data type: %. Should throw Error.".format(f.class)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_indexOfOffset_validMidiOffsets {
+		var fixtures = [
+			(expected: 0, midiOffset: 0),
+			(expected: 1, midiOffset: 2),
+			(expected: 2, midiOffset: 4),
+			(expected: 3, midiOffset: 5),
+			(expected: 4, midiOffset: 7),
+			(expected: 5, midiOffset: 9),
+			(expected: 6, midiOffset: 11),
+		];
+
+		fixtures.do { |f|
 
 			this.assertEquals(
-				MECore.indexOfNote(n),
-				i,
-				"indexOfNote should return index of note from MECore.notes array."
+				MECore.indexOfOffset(f.midiOffset, validate: true),
+				f.expected,
+				"Testing valid midi offset: %. Should return: %.".format(f.midiOffset, f.expected)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_indexOfNote_wrongInput {
-		var fixtures = [1, 0.5, "A", [], -8, 13];
+	test_indexOfOffset_invalidMidiOffset {
+		var fixtures = [1, 12, -1, 1000];
 
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MECore.indexOfNote(f) },
+				{ MECore.indexOfOffset(f, validate: true) },
 				Error,
-				"indexOfNote should not accept anything other than %.".format(notes.join(", "))
+				"Testing invalid midi offset: %. Should throw Error.".format(f)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_noteFromLetter_mappingCorrectness {
+	test_indexOfOffset_invalidDataType {
+		var fixtures = [1.0, "1", '1', $1, [1]];
+
+		fixtures.do { |f|
+
+			this.assertException(
+				{ MECore.indexOfOffset(f, validate: true) },
+				Error,
+				"Testing invalid data type: %. Should throw Error.".format(f.class)
+			);
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_offsetFromLetter_mappingCorrectness {
 		var index;
 
 		letters.do { |l|
 			index = letters.indexOf(l);
 
 			this.assertEquals(
-				MECore.noteFromLetter(l.asString),
-				notes[index],
-				"noteFromLetter should map note letters to the first MIDI octave."
+				MECore.offsetFromLetter(l.asString, validate: true),
+				offsets[index],
+				"Testing mapping correctness between letters and offsets."
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_noteFromLetter_stringInput {
+	test_offsetFromLetter_validNoteLetter {
+		var fixtures = [
+			(expected: 0, noteLetter: "C"),
+			(expected: 2, noteLetter: "D"),
+			(expected: 4, noteLetter: "E"),
+			(expected: 5, noteLetter: "F"),
+			(expected: 7, noteLetter: "G"),
+			(expected: 9, noteLetter: "A"),
+			(expected: 11, noteLetter: "B"),
+		];
 
-		letters.do { |l, i|
+		fixtures.do { |f|
 
 			this.assertEquals(
-				MECore.noteFromLetter(l.asString),
-				notes[i],
-				"noteFromLetter should also accept String."
+				MECore.offsetFromLetter(f.noteLetter, validate: true),
+				f.expected,
+				"Testing valid note letter: %. Should return: %.".format(f.noteLetter, f.expected)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_noteFromLetter_wrongInput {
-		var fixtures = ['a', "b", 'Z', ">", 1, 0.5, ["A"]];
+	test_offsetFromLetter_invalidNoteLetter {
+		var fixtures = ["X", "c", "+", "1", "", " "];
 
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MECore.noteFromLetter(f) },
+				{ MECore.offsetFromLetter(f, validate: true) },
 				Error,
-				"noteFromLetter should not accept anything other than %.".format(letters.join(", "))
+				"Testing invalid String: %. Should throw Error.".format(f)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_noteFromLetter_roundTrip {
-		var note;
+	test_offsetFromLetter_roundTrip {
+		var offset;
 
 		letters.do { |l|
-			note = MECore.noteFromLetter(l.asString);
+			offset = MECore.offsetFromLetter(l.asString, validate: true);
 
 			this.assertEquals(
-				MECore.letterFromNote(note),
+				MECore.letterFromOffset(offset, validate: true),
 				l,
-				"n should be equal to letterFromNote(noteFromLetter(n))."
+				"letter: %, should be equal to letterFromNote(noteFromLetter(%)).".format(l, l);
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_letterFromNote_mappingCorrectness {
+	test_letterFromOffset_mappingCorrectness {
 
-		notes.do { |n, i|
+		offsets.do { |o, i|
 
 			this.assertEquals(
-				MECore.letterFromNote(n),
+				MECore.letterFromOffset(o, validate: true),
 				letters[i],
-				"letterFromNote should map MIDI notes, from the first octave, to note letters."
+				"Testing mapping correctness between offsets and letters."
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_letterFromNote_wrongInput {
-		var fixtures = ["b", 'Z', 1, 0.5, 12, ["A"]];
+	test_letterFromOffset_invalidOffset {
+		var fixtures = [1, 12, -1, 1000];
 
 		fixtures.do { |f|
 
 			this.assertException(
-				{ MECore.letterFromNote(f) },
+				{ MECore.letterFromOffset(f, validate: true) },
 				Error,
-				"letterFromNote should not accept anything other than %.".format(notes.join(", "))
+				"Testing invalid offser: %. Should throw Error.".format(f)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_letterFromNote_roundTrip {
+	test_letterFromOffset_roundTrip {
 		var letter;
 
-		notes.do { |n|
-			letter = MECore.letterFromNote(n);
+		offsets.do { |o|
+			letter = MECore.letterFromOffset(o, validate: true);
 
 			this.assertEquals(
-				MECore.noteFromLetter(letter.asString),
-				n,
-				"n should be equal to noteFromLetter(letterFromNote(n))."
+				MECore.offsetFromLetter(letter.asString, validate: true),
+				o,
+				"offset: %, should be equal to offsetFromLetter(letterFromOffset(%)).".format(o, o)
 			);
 		};
 	}
