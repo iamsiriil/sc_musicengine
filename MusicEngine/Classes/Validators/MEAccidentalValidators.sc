@@ -6,7 +6,7 @@
 
 MEAccidentalValidators {
 
-	*initClass {}
+	*initClass { ^this }
 
 	/****************************************************************************************/
 
@@ -18,7 +18,7 @@ MEAccidentalValidators {
 		if (signOffset.isInteger.not) {
 			Error("Sign offset must be of type Integer.").throw;
 		};
-		if (signOffset.isInteger.not || offsets.includes(signOffset).not) {
+		if (offsets.includes(signOffset).not) {
 			Error("% is not a valid sign offset.".format(signOffset)).throw;
 		};
 		^nil;
