@@ -73,7 +73,7 @@ MENoteName : MECore {
 		letterOffsetArr.add(0);
 
 		intervalArray.do { |i|
-			letterOffsetArr.add(MENoteName.getOffsetFromInterval(i, validate));
+			letterOffsetArr.add(this.getOffsetFromInterval(i, validate));
 		};
 
 		^letterOffsetArr;

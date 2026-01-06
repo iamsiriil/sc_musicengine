@@ -109,8 +109,8 @@ MEAccidental : MECore {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		signOffset = MEAccidental.getOffsetFromMidi(midiNote, noteLetter, validate: false);
-		sign       = MEAccidental.getSignFromOffset(signOffset, validate: false);
+		signOffset = this.getOffsetFromMidi(midiNote, noteLetter, validate: false);
+		sign       = this.getSignFromOffset(signOffset, validate: false);
 
 		^noteLetter ++ sign;
 	}

@@ -6,7 +6,7 @@
 
 MEOctaves : MECore {
 
-	*initClass {}
+	*initClass { ^this }
 
 	/****************************************************************************************/
 
@@ -77,7 +77,7 @@ MEOctaves : MECore {
 		octave = (octave + (midiNote/12).floor).asInteger;
 
 		if (noteName.notNil) {
-			cross = MEOctaves.checkOctaveCross(noteName, validate: false);
+			cross = this.checkOctaveCross(noteName, validate: false);
 			^octave + (cross * -1);
 		};
 		^octave;
