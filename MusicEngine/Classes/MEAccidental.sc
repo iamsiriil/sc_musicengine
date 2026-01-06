@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MEAccidental : MECore {
+MEAccidental {
 	var <offset;
 	var <sign;
 

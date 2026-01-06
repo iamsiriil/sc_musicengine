@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENote : MECore {
+MENote {
 	var name;
 	var <midi;
 	var <freq;

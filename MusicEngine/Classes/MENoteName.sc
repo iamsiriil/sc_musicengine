@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENoteName : MECore {
+MENoteName {
 	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
 	var noteLetter;
 	var <accidental;

@@ -4,7 +4,7 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MEOctaves : MECore {
+MEOctaves {
 
 	*initClass { ^this }
 
