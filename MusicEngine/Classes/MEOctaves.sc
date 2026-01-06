@@ -20,7 +20,8 @@ MEOctaves : MECore {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = super.noteFromLetter(noteLetter, validate: false);
+		//ref = super.noteFromLetter(noteLetter, validate: false);
+		ref = MECore.offsetFromLetter(noteLetter, validate: false);
 
 		case
 		{ (midiNote >= 5) && (midiNote <= 127) } {
@@ -49,7 +50,7 @@ MEOctaves : MECore {
 			MENameValidators.noteNameIsValid(noteName);
 		};
 
-		midiOffset = super.noteFromLetter(noteName[0], validate: false);
+		midiOffset = MECore.offsetFromLetter(noteName[0], validate: false);
 		signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
 		cross      = midiOffset + signOffset;
 

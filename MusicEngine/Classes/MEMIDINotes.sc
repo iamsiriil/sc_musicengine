@@ -18,7 +18,8 @@ MEMIDINotes : MECore {
 			MEIntervalValidators.intervalIsValid(interval);
 		};
 
-		super.intervals.keysValuesDo { |k, v|
+		//super.intervals.keysValuesDo { |k, v|
+		MECore.intervals.keysValuesDo { |k, v|
 
 			if (v.includes(interval)) {
 				^k;
@@ -36,14 +37,11 @@ MEMIDINotes : MECore {
 		};
 
 		if (noteName.size > 1) {
-			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
+			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false).postln;
 		};
 
-		midiOffset = super.noteFromLetter(noteName[0], validate: false) + signOffset;
-
-		/*if (noteName.asString == "Cb") {
-			^midiOffset + 12;
-		};*/
+		//midiOffset = super.noteFromLetter(noteName[0], validate: false) + signOffset;
+		midiOffset = MECore.offsetFromLetter(noteName[0], validate: false) + signOffset;
 
 		case
 		{ midiOffset < 0 }  { midiOffset = midiOffset + 12 }

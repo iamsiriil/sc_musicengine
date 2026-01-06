@@ -92,8 +92,11 @@ MENoteName : MECore {
 			MELetterValidators.noteLetterIsValid(rootLetter);
 		};
 
-		index     = super.indexOfLetter(rootLetter, validate: false);
-		letterArr = super.letters.wrapAt(index + letterOffsetArr);
+		/*index     = super.indexOfLetter(rootLetter, validate: false);
+		letterArr = super.letters.wrapAt(index + letterOffsetArr);*/
+
+		index     = MECore.indexOfLetter(rootLetter, validate: false);
+		letterArr = MECore.letters.wrapAt(index + letterOffsetArr);
 
 		letterArr.do { |n, i| letterArr[i] = n.asString };
 

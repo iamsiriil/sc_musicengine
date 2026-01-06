@@ -5,15 +5,11 @@
 *********************************************************************************************/
 
 MECore {
-	classvar notes;
-	classvar letters;
-	classvar intervals;
+	classvar <offsets = #[0, 2, 4, 5, 7, 9, 11];
+	classvar <letters = #["C", "D", "E", "F", "G", "A", "B"];
+	classvar <intervals;
 
 	*initClass {
-
-		notes = [0, 2, 4, 5, 7, 9, 11];
-
-		letters = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
 		intervals = Dictionary[
 			1  -> Set["m2", "m9", "A1", "A8"],
@@ -28,24 +24,8 @@ MECore {
 			10 -> Set["m7", "m14", "A6", "A13"],
 			11 -> Set["M7", "M14", "d1", "d8"]
 		];
-	}
 
-	/****************************************************************************************/
-
-	*letters {
-		^letters;
-	}
-
-	/****************************************************************************************/
-
-	*notes {
-		^notes;
-	}
-
-	/****************************************************************************************/
-
-	*intervals {
-		^intervals;
+		^this;
 	}
 
 	/****************************************************************************************/
@@ -56,37 +36,37 @@ MECore {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		^letters.indexOf(noteLetter.asSymbol);
+		^letters.detectIndex { |i| i == noteLetter.asString };
 	}
 
 	/****************************************************************************************/
 
-	*indexOfNote { |midiNote, validate = true|
+	*indexOfOffset { |midiOffset, validate = true|
 
 		if (validate) {
-			MEMIDIValidators.midiOffsetIsValid(midiNote, diatonic: true);
+			MEMIDIValidators.midiOffsetIsValid(midiOffset, diatonic: true);
 		};
 
-		^notes.indexOf(midiNote);
+		^offsets.indexOf(midiOffset);
 	}
 
 	/****************************************************************************************/
 
-	*noteFromLetter { |noteLetter, validate = true|
-		var index = MECore.indexOfLetter(noteLetter, validate);
+	*letterFromOffset { |midiOffset, validate = true|
+		var index = this.indexOfOffset(midiOffset, validate);
 
-		//MEDebug.log("MECore", "*noteFromLetter");
-
-		^notes[index];
-	}
-
-	/****************************************************************************************/
-
-	*letterFromNote { |midiNote, validate = true|
-		var index = MECore.indexOfNote(midiNote, validate);
-
-		//MEDebug.log("MECore", "*letterFromNote");
+		//MEDebug.log("MECore", "letterFromOffset");
 
 		^letters[index]
+	}
+
+	/****************************************************************************************/
+
+	*offsetFromLetter { |noteLetter, validate = true|
+		var index = this.indexOfLetter(noteLetter, validate);
+
+		//MEDebug.log("MECore", "offsetFromLetter");
+
+		^offsets[index];
 	}
 }

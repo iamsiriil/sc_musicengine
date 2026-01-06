@@ -85,7 +85,7 @@ MEMIDIValidators {
 		};
 
 		signOffset  = MEAccidental.getOffsetFromName(noteName, validate: false);
-		reference   = MECore.noteFromLetter(noteName[0], validate: false);
+		reference   = MECore.offsetFromLetter(noteName[0], validate: false);
 		cross       = MEOctaves.checkOctaveCross(noteName, validate: false);
 
 		octave        = (midiNote / 12).floor;
