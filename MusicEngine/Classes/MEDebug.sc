@@ -1,7 +1,7 @@
 MEDebug {
-	classvar <debug;
-	classvar <count;
-	classvar <scope;
+	classvar <debug = false;
+	classvar <count = nil;
+	classvar <scope = nil;
 	classvar <level1 = false;
 	classvar <level2 = false;
 	classvar <level3 = false;
