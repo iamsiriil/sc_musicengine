@@ -1,9 +1,12 @@
 // Run debugger
 (
 MEDebug.debug = true;
-MEDebug.count = 0;
-~r = MENoteRange("F#9");
+MEDebug.scope = 1;
+MEDebug.validate = false;
+MEDebug.showData = true; // Scope 1
+~r = MENoteRange("Abm");
 )
+
 // Inspect MENoteRange
 ~r.postln;
 
