@@ -12,7 +12,7 @@ MEOctaveValidators {
 
 	*octaveIsValid { |octave, start = -1|
 
-		//MEDebug.log("MEOctaveValidators", "octaveIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (octave.isInteger.not) {
 			Error("Octave must be of type Integer.").throw;

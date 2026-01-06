@@ -10,17 +10,17 @@ MESymbol {
 	var symbol;
 	var alias;
 
-	*new { |symbol|
-		^super.new.init(symbol);
+	*new { |rangeSymbol|
+		^super.new.init(rangeSymbol);
 	}
 
-	init { |newSymbol|
+	init { |newS|
 		var normSymbol;
 		var validate = true;
 
-		MEDebug.log("MESymbols", "init", "\nin:  %\n".format(newSymbol));
+		MEDebug.log(thisMethod, 1, [newS]);
 
-		#root, symbol = MESymbol.splitSymbol(newSymbol);
+		#root, symbol = MESymbol.splitSymbol(newS);
 
 		if ((normSymbol = MEAliases.getSymbolFromAlias(symbol)).notNil) {
 
@@ -51,15 +51,12 @@ MESymbol {
 
 	*splitSymbol { |rangeSymbol|
 		var regex = "^(?:([A-G][#b]?)([^#b]*))$";
-		var root, symbol;
+
+		MEDebug.log(thisMethod, 1, [rangeSymbol]);
 
 		MESymbolValidators.rootIsValid(rangeSymbol);
 
-		#root, symbol = rangeSymbol.findRegexp(regex).collect { |n| n[1] }[1..2];
-
-		//MEDebug.log("MESymbol", "splitSymbol");
-
-		^[root, symbol];
+		^rangeSymbol.findRegexp(regex).collect { |n| n[1] }[1..2];
 	}
 
 
@@ -69,15 +66,13 @@ MESymbol {
 		var regex = MESymbolValidators.testRegex;
 		var intervalsArr;
 
+		MEDebug.log(thisMethod, 1, [symbol]);
+
 		if (validate) {
 			MESymbolValidators.symbolIsValid(symbol);
 		};
 
-		intervalsArr = symbol.findRegexp(regex).collect { |i| i[1] };
-
-		MEDebug.log("MESymbol", "getIntervalsFromSymbol", "\nin:  %\nout: %\n".format(symbol, intervalsArr));
-
-		^intervalsArr;
+		^symbol.findRegexp(regex).collect { |i| i[1] };
 	}
 
 	/****************************************************************************************/

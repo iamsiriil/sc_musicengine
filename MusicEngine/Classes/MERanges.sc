@@ -15,6 +15,8 @@ MERanges {
 		var tempL = Array.new(dataArray.size);
 		var tempI = Array.new(dataArray.size);
 
+		MEDebug.log(thisMethod, 1, [dataArray]);
+
 		tempM.sort;
 
 		tempM.do { |n, i|
@@ -27,9 +29,6 @@ MERanges {
 				};
 			};
 		};
-
-		MEDebug.log("MERanges", "*sortAndSplit", "\nin:  %\nout: midiOffsets: %\nout: letterOffsets: %\nout: intervals: %\n".format(dataArray, tempM, tempL, tempI));
-
 		^[tempM, tempL, tempI];
 	}
 
@@ -37,6 +36,8 @@ MERanges {
 
 	*getOffsets { |intervalsArr|
 		var arr = Array.new(intervalsArr.size + 1);
+
+		MEDebug.log(thisMethod, 1, [intervalsArr]);
 
 		arr.add(["Rt", 0, 0]);
 
@@ -49,9 +50,6 @@ MERanges {
 
 			arr.add(temp);
 		};
-
-		MEDebug.log("MERanges", "*getOffsets", "\nin:  %;\nout: %\n".format(intervalsArr, arr));
-
 		^this.sortAndSplit(arr);
 	}
 
@@ -59,6 +57,8 @@ MERanges {
 
 	*wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
+
+		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
 		tempM = midiNotesArr.copy;
 		tempL = noteLettersArr.copy;
@@ -74,8 +74,6 @@ MERanges {
 		};
 		midiNotesArr.sort;
 
-		MEDebug.log("MERanges", "*wrapFirstOctave", "\nin:  %, %, %\nout: %, %, %\n".format(tempM, tempL, tempI, midiNotesArr, noteLettersArr, intervalsArr));
-
 		^[midiNotesArr, noteLettersArr, intervalsArr]
 	}
 
@@ -84,6 +82,7 @@ MERanges {
 	*extendMidiRange { |midiNotesArr|
 		var midiRange = Array.new(midiNotesArr.size * 11);
 
+		MEDebug.log(thisMethod, 1, [midiNotesArr]);
 
 		midiNotesArr.do { |m|
 
@@ -93,17 +92,15 @@ MERanges {
 				m = m + 12;
 			};
 		};
-		midiRange.sort;
-
-		MEDebug.log("MERanges", "*extendMidiRange", "\nin:  %\nout: %\n".format(midiNotesArr, midiRange));
-
-		^midiRange;
+		^midiRange.sort;
 	}
 
 	/****************************************************************************************/
 
 	*wrapAndExtend { |midiNotesArr, noteLettersArr, intervalsArr|
 		var tempM, tempL, tempI;
+
+		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
 		#tempM, tempL, tempI = this.wrapFirstOctave(
 			midiNotesArr,
@@ -115,17 +112,15 @@ MERanges {
 		tempL = tempL.wrapExtend(tempM.size);
 		tempI = tempI.wrapExtend(tempM.size);
 
-		MEDebug.log("MERanges", "*wrapAndExtend", "\nin:  %, %, %\nout: %\nout: %\nout: %\n".format(midiNotesArr, noteLettersArr, intervalsArr, tempM, tempL, tempI));
-
 		^[tempM, tempL, tempI];
 	}
 
 	/****************************************************************************************/
 
-	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr|
-		var tempM, tempL, tempI, range = List.new();
+	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr, validate|
+		var tempM, tempL, tempI, range = Array.new();
 
-		MEDebug.log("MERanges", "*getMENotes");
+		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
 		#tempM, tempL, tempI = this.wrapAndExtend(
 			midiNotesArr,
@@ -135,12 +130,12 @@ MERanges {
 
 		tempM.do { |m, i|
 
-			range.add(
+			range = range.add(
 				MENote(
 					noteLetter: tempL[i],
 					midiNote:   m,
 					degree:     tempI[i],
-					validate:   false
+					validate:   validate
 				);
 			);
 		};
@@ -149,19 +144,19 @@ MERanges {
 
 	/****************************************************************************************/
 
-	*getRange { |symbol|
+	*getRange { |symbol, validate = false|
 		var tempM, tempL, tempI, tempR;
 
-		MEDebug.log("MERanges", "*getRange", "\nin:  %\n".format(symbol));
+		MEDebug.log(thisMethod, 1, [symbol]);
 
 		#tempM, tempL, tempI = this.getOffsets(symbol.intervals);
 
 		MEMIDIValidators.midiOffsetArrayIsValid(tempM, diatonic: false);
 
-		tempR = MEMIDINotes.getOffsetFromName(symbol.root, validate: false);
-		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate: false);
-		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0], validate: false);
+		tempR = MEMIDINotes.getOffsetFromName(symbol.root, validate);
+		tempM = MEMIDINotes.transposeMidiOffset(tempM, tempR, validate);
+		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0].asString, validate);
 
-		^this.getMENotes(tempM, tempL, tempI);
+		^this.getMENotes(tempM, tempL, tempI, validate);
 	}
 }

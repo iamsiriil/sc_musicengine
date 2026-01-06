@@ -53,20 +53,14 @@ MECore {
 	/****************************************************************************************/
 
 	*letterFromOffset { |midiOffset, validate = true|
-		var index = this.indexOfOffset(midiOffset, validate);
 
-		//MEDebug.log("MECore", "letterFromOffset");
-
-		^letters[index]
+		^letters[this.indexOfOffset(midiOffset, validate)]
 	}
 
 	/****************************************************************************************/
 
 	*offsetFromLetter { |noteLetter, validate = true|
-		var index = this.indexOfLetter(noteLetter, validate);
 
-		//MEDebug.log("MECore", "offsetFromLetter");
-
-		^offsets[index];
+		^offsets[this.indexOfLetter(noteLetter, validate)];
 	}
 }

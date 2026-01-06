@@ -13,7 +13,7 @@ MENameValidators {
 	*noteNameIsValid { |noteName, octave = false|
 		var regex;
 
-		//MEDebug.log("MENameValidators", "noteNameIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		regex = if (octave) { "^[A-G][#b]{0,5}(-1|[0-9]{0,1})$" } { "^[A-G][#b]{0,5}$" };
 
@@ -31,7 +31,7 @@ MENameValidators {
 	*rootNoteIsValid { |rootNote|
 		var regex = "^[A-G][#b]{0,1}$";
 
-		//MEDebug.log("MENameValidators", "rootNoteIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (rootNote.isString.not) {
 			Error("Note name must be of type String.").throw;

@@ -5,6 +5,7 @@
 *********************************************************************************************/
 
 MENoteRange {
+	classvar validate = false;
 	var symbol;
 	var notes;
 
@@ -12,12 +13,14 @@ MENoteRange {
 		^super.new.init(symbol);
 	}
 
-	init { |newSymbol, newL|
+	init { |newS|
 
-		MEDebug.log("MENoteRanges", "init", "\nin:  %\n".format(newSymbol));
+		if (MEDebug.validate.postln) { validate = true };
 
-		symbol = MESymbol.new(newSymbol);
-		notes  = MERanges.getRange(symbol);
+		MEDebug.log(thisMethod, 1, [newS]);
+
+		symbol = MESymbol.new(newS);
+		notes  = MERanges.getRange(symbol, validate);
 
 		^this;
 	}

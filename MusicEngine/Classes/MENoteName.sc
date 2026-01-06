@@ -16,7 +16,7 @@ MENoteName {
 
 	init { |newN, newL, newM, val|
 
-		//MEDebug.log("MENoteNames", "init");
+		MEDebug.log(thisMethod, 2);
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
@@ -48,7 +48,7 @@ MENoteName {
 	*getOffsetFromInterval { |interval, validate = true|
 		var letterOffset;
 
-		//MEDebug.log("MENoteNames", "*getOffsetFromInterval");
+		MEDebug.log(thisMethod, 1, [interval]);
 
 		if (validate) {
 			MEIntervalValidators.intervalIsValid(interval);
@@ -68,7 +68,7 @@ MENoteName {
 	*getOffsetArray { |intervalArray, validate = true|
 		var letterOffsetArr = Array.new(intervalArray.size + 1);
 
-		//MEDebug.log("MENoteNames", "*getOffsetArray");
+		MEDebug.log(thisMethod, 2);
 
 		letterOffsetArr.add(0);
 
@@ -84,6 +84,7 @@ MENoteName {
 	*getNoteLetters { |letterOffsetArr, rootLetter, validate = true|
 		var index, letterArr;
 
+		MEDebug.log(thisMethod, 1, [letterOffsetArr]);
 
 		if (validate) {
 			MELetterValidators.letterOffsetArrayIsValid(letterOffsetArr);
@@ -94,8 +95,6 @@ MENoteName {
 		letterArr = MECore.letters.wrapAt(index + letterOffsetArr);
 
 		letterArr.do { |n, i| letterArr[i] = n.asString };
-
-		MEDebug.log("MENoteNames", "*getNoteNames", "\nin:  %, %\nout: %\n".format(rootLetter, letterOffsetArr, letterArr));
 
 		^letterArr;
 	}

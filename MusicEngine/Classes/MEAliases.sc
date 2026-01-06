@@ -63,17 +63,15 @@ MEAliases {
 	/****************************************************************************************/
 
 	*getSymbolFromAlias { |alias|
-		var out = nil;
+
+		MEDebug.log(thisMethod, 1, [alias]);
 
 		aliases.keysValuesDo { |k, v|
 
 			if (v.includes(alias)) {
-				out = k;
+				^k;
 			};
 		};
-
-		MEDebug.log("MEAliases", "*checkAliases", "\nin:  %;\nout: %\n".format(alias, out));
-
-		^out;
+		^nil;
 	}
 }

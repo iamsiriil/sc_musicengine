@@ -21,7 +21,7 @@ MENote {
 
 	init { |newN, newL, newM, newD, val|
 
-		//MEDebug.log("MENotes", "init");
+		MEDebug.log(thisMethod, 2);
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {

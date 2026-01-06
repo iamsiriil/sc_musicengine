@@ -13,7 +13,7 @@ MELetterValidators {
 	*noteLetterIsValid { |noteLetter|
 		var regex = "^[A-G]$";
 
-		//MEDebug.log("MELetterValidators", "noteLetterIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (noteLetter.isString.not) {
 			Error("Note letter must be of type String.").throw;
@@ -29,7 +29,7 @@ MELetterValidators {
 	*letterOffsetIsValid { |letterOffset|
 		var offsets = (0..6).asSet;
 
-		//MEDebug.log("MELetterValidators", "letterOffsetIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (letterOffset.isInteger.not) {
 			Error("Letter offset must be of type Integer.").throw;
@@ -44,7 +44,7 @@ MELetterValidators {
 
 	*letterOffsetArrayIsValid { |letterOffsetArr|
 
-		//MEDebug.log("MELetterValidators", "letterOffsetArrayIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		letterOffsetArr.do { |o|
 			this.letterOffsetIsValid(o);

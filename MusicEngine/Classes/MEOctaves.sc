@@ -13,7 +13,7 @@ MEOctaves {
 	*getClosestOctave { |midiNote, noteLetter, validate = true|
 		var ref;
 
-		//MEDebug.log("MEOctaves", "*getClosestOctave");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MEMIDIValidators.midiNoteIsValid(midiNote);
@@ -43,7 +43,7 @@ MEOctaves {
 	*checkOctaveCross { |noteName, validate = true|
 		var midiOffset, signOffset, cross;
 
-		//MEDebug.log("MEOctaves", "*checkOctaveCross");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MENameValidators.noteNameIsValid(noteName);
@@ -64,7 +64,7 @@ MEOctaves {
 	*getOctave { |midiNote, noteName = nil, validate = true|
 		var cross, octave = -1;
 
-		//MEDebug.log("MEOctaves", "*getOctave");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 

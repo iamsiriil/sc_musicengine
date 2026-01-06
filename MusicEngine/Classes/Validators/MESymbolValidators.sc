@@ -41,7 +41,7 @@ MESymbolValidators {
 		var rgx1 = "^(?:[A-G][#b]{2,})";
 		var root;
 
-		MEDebug.log("MESymbolValidators", "symbolRootIsValid", "\n");
+		MEDebug.log(thisMethod, 3);
 
 		this.checkString(rangeSymbol);
 
@@ -153,6 +153,8 @@ MESymbolValidators {
 	*symbolIsValid { |symbol|
 		var regex = "(?:[a-zA-Z][0-9]{1,2})";
 		var intervalsArr;
+
+		MEDebug.log(thisMethod, 3);
 
 		this.checkInvalidNumbers(symbol);
 		this.checkInvalidSymbols(symbol);

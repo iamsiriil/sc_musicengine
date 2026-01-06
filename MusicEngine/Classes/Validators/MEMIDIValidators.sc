@@ -13,7 +13,7 @@ MEMIDIValidators {
 	*midiNoteIsValid { |midiNote|
 		var min;
 
-		//MEDebug.log("MEMIDIValidators", "midiNoteIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (midiNote.isInteger.not) {
 			Error("MIDI offset must be of type Integer.").throw;
@@ -29,7 +29,7 @@ MEMIDIValidators {
 	*midiOffsetIsValid { |midiOffset, diatonic = true|
 		var offsets, min;
 
-		//MEDebug.log("MEMIDIValidators", "midiOffsetIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (midiOffset.isInteger.not) {
 			Error("MIDI offset must be of type Integer.").throw;
@@ -52,7 +52,7 @@ MEMIDIValidators {
 	*midiOffsetArrayIsValid { |midiOffsetArr, diatonic = true|
 		var arrSize, setSize;
 
-		//MEDebug.log("MEMIDIValidators", "midiNamePairIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (midiOffsetArr[0] != 0) {
 			Error("MIDI offset array must start with '0'.".format(midiOffsetArr.join(", ")));
@@ -77,7 +77,7 @@ MEMIDIValidators {
 		var signOffset, cross, reference;
 		var octave, noteFirstOct;
 
-		//MEDebug.log("MEMIDIValidators", "midiNamePairIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (validate) {
 			this.midiNoteIsValid(midiNote);

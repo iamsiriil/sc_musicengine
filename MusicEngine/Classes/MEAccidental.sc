@@ -15,7 +15,7 @@ MEAccidental {
 
 	init { |newN, newL, newM, val|
 
-		//MEDebug.log("MEAccidentals", "init");
+		MEDebug.log(thisMethod, 2);
 
 		case
 		{ newN.isNil && newL.notNil && newM.notNil } {
@@ -48,7 +48,7 @@ MEAccidental {
 	*getOffsetFromName { |noteName, validate = true|
 		var signOffset;
 
-		//MEDebug.log("MEAccidentals", "*getOffsetFromName");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MENameValidators.noteNameIsValid(noteName);
@@ -67,7 +67,7 @@ MEAccidental {
 	*getOffsetFromMidi { |midiNote, noteLetter, validate = true|
 		var ref;
 
-		//MEDebug.log("MEAccidentals", "*getOffsetFromMidi");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MEMIDIValidators.midiNoteIsValid(midiNote);
@@ -84,7 +84,7 @@ MEAccidental {
 	*getSignFromOffset { |signOffset, validate = true|
 		var sign = "";
 
-		//MEDebug.log("MEAccidentals", "*getSignFromOffset");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MEAccidentalValidators.signOffsetIsValid(signOffset);
@@ -102,7 +102,7 @@ MEAccidental {
 	*resolveAccidental { |midiNote, noteLetter, validate = true|
 		var signOffset, sign;
 
-		//MEDebug.log("MEAccidentals", "*resolveAccidental");
+		MEDebug.log(thisMethod, 2);
 
 		if (validate) {
 			MEMIDIValidators.midiNoteIsValid(midiNote);

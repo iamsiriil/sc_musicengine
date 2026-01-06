@@ -13,7 +13,7 @@ MEIntervalValidators {
 	*intervalIsValid { |interval|
 		var result = false;
 
-		//MEDebug.log("MEIntervalValidators", "intervalIsValid");
+		MEDebug.log(thisMethod, 3);
 
 		if (interval.isString.not) {
 			Error("Interval must be of type String.").throw;
