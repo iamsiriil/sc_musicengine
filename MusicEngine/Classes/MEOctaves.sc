@@ -20,7 +20,6 @@ MEOctaves : MECore {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		//ref = super.noteFromLetter(noteLetter, validate: false);
 		ref = MECore.offsetFromLetter(noteLetter, validate: false);
 
 		case

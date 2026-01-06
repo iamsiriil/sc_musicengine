@@ -18,7 +18,6 @@ MEMIDINotes : MECore {
 			MEIntervalValidators.intervalIsValid(interval);
 		};
 
-		//super.intervals.keysValuesDo { |k, v|
 		MECore.intervals.keysValuesDo { |k, v|
 
 			if (v.includes(interval)) {
@@ -40,7 +39,6 @@ MEMIDINotes : MECore {
 			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false).postln;
 		};
 
-		//midiOffset = super.noteFromLetter(noteName[0], validate: false) + signOffset;
 		midiOffset = MECore.offsetFromLetter(noteName[0], validate: false) + signOffset;
 
 		case

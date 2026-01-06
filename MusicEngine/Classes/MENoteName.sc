@@ -70,8 +70,6 @@ MENoteName : MECore {
 
 		//MEDebug.log("MENoteNames", "*getOffsetArray");
 
-		// intervalArrayIsValid
-
 		letterOffsetArr.add(0);
 
 		intervalArray.do { |i|
@@ -91,9 +89,6 @@ MENoteName : MECore {
 			MELetterValidators.letterOffsetArrayIsValid(letterOffsetArr);
 			MELetterValidators.noteLetterIsValid(rootLetter);
 		};
-
-		/*index     = super.indexOfLetter(rootLetter, validate: false);
-		letterArr = super.letters.wrapAt(index + letterOffsetArr);*/
 
 		index     = MECore.indexOfLetter(rootLetter, validate: false);
 		letterArr = MECore.letters.wrapAt(index + letterOffsetArr);

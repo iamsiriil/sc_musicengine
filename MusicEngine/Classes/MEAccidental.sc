@@ -74,7 +74,7 @@ MEAccidental : MECore {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false); // max 5
+		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false);
 
 		if (ref.notNil) { ^midiNote - ref } { ^nil };
 	}
