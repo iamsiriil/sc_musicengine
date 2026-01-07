@@ -20,7 +20,7 @@ MENoteRange {
 		MEDebug.log(thisMethod, 1, [newS]);
 
 		symbol = MESymbol.new(newS);
-		notes  = MERanges.getRange(symbol, validate);
+		notes  = MERange.getRange(symbol, validate);
 
 		^this;
 	}

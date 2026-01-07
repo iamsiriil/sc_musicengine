@@ -74,7 +74,7 @@ MEAccidental {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = MEOctaves.getClosestOctave(midiNote, noteLetter, validate: false);
+		ref = MEOctave.getClosestOctave(midiNote, noteLetter, validate: false);
 
 		if (ref.notNil) { ^midiNote - ref } { ^nil };
 	}

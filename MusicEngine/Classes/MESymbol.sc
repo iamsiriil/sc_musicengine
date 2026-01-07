@@ -22,7 +22,7 @@ MESymbol {
 
 		#root, symbol = MESymbol.splitSymbol(newS);
 
-		if ((normSymbol = MEAliases.getSymbolFromAlias(symbol)).notNil) {
+		if ((normSymbol = MEAlias.getSymbolFromAlias(symbol)).notNil) {
 
 			if (symbol == "") {
 				alias = nil;
