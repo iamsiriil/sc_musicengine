@@ -109,21 +109,6 @@ MESymbolValidators {
 
 	/****************************************************************************************/
 
-	*breakSymbol { |symbol, intervalsArr|
-		var temp = symbol;
-
-		intervalsArr.do { |i|
-			temp = temp.replace(i, "");
-		};
-
-		if (temp.notEmpty) {
-			Error("Symbol %, is not valid.".format(symbol)).throw;
-		}
-		^nil;
-	}
-
-	/****************************************************************************************/
-
 	*checkSymbolSize { |intervalsArr|
 
 		if (intervalsArr.size > 11) {
@@ -185,7 +170,6 @@ MESymbolValidators {
 		this.checkInvalidWords(symbol);
 
 		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1] };
-		this.breakSymbol(symbol, intervalsArr);
 
 		this.checkSymbolSize(intervalsArr);
 		this.checkInvalidIntervals(intervalsArr);
