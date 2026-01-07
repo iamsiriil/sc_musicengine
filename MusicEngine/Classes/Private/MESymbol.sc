@@ -77,16 +77,26 @@ MESymbol {
 
 	/****************************************************************************************/
 
-	symbol { // withRoot = true
-		^root ++ symbol;
+	symbol { |withRoot = true|
+
+		if (withRoot) {
+			^root ++ symbol;
+		} {
+			^symbol;
+		};
 	}
 
 	/****************************************************************************************/
 
-	alias { // withRoot = true
+	alias { |withRoot = true|
 
 		if (alias.notNil) {
-			^root ++ alias;
+
+			if (withRoot) {
+				^root ++ alias;
+			} {
+				^alias;
+			};
 		};
 		^nil;
 	}
