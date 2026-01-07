@@ -84,9 +84,9 @@ MEMIDIValidators {
 			MENameValidators.noteNameIsValid(noteName);
 		};
 
-		signOffset  = MEAccidental.getOffsetFromName(noteName, validate: false);
-		reference   = MECore.offsetFromLetter(noteName[0], validate: false);
-		cross       = MEOctave.checkOctaveCross(noteName, validate: false);
+		signOffset  = MEAccidental.getOffsetFromName(noteName, false);
+		reference   = MECore.offsetFromLetter(noteName[0], false);
+		cross       = MEOctave.checkOctaveCross(noteName, false);
 
 		octave        = (midiNote / 12).floor;
 		noteFirstOct  = (midiNote - (12 * octave));

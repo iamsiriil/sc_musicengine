@@ -8,9 +8,7 @@ MEDebug {
 	classvar <>showData = false;
 	classvar <>validate = false;
 
-	*initClass {
-		super.initClass;
-	}
+	*initClass { super.initClass }
 
 	/****************************************************************************************/
 
@@ -69,11 +67,10 @@ MEDebug {
 	*log { |method, level, in = nil, out = nil, showData = true|
 
 		if (debug) {
-
 			switch(level)
 			{ 1 } { if (level1) { this.printValues(method, in, out, showData) } }
 			{ 2 } { if (level2) { this.printValues(method, in, out, showData) } }
-			{ 3 } { if (level3) { this.printValues(method, in, out, showData) } };
+			{ 3 } { if (level3) { this.printValues(method, in, out, showData) } }
 		};
 	}
 }
