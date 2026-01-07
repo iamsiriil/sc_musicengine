@@ -18,7 +18,6 @@ MEDebug {
 
 		debug = value;
 		count = 0;
-
 		level1 = false;
 		level2 = false;
 		level3 = false;
