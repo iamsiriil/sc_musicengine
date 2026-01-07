@@ -45,8 +45,8 @@ MERange {
 			var temp = Array.new(3);
 
 			temp.add(i);
-			temp.add(MEMIDINote.getOffsetFromInterval(i, validate: false));
-			temp.add(MENoteName.getOffsetFromInterval(i, validate: false));
+			temp.add(MEMIDINote.getOffsetFromInterval(i, false));
+			temp.add(MENoteName.getOffsetFromInterval(i, false));
 
 			arr.add(temp);
 		};

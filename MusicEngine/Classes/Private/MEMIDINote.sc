@@ -38,10 +38,10 @@ MEMIDINote {
 		};
 
 		if (noteName.size > 1) {
-			signOffset = MEAccidental.getOffsetFromName(noteName, validate: false);
+			signOffset = MEAccidental.getOffsetFromName(noteName, false);
 		};
 
-		midiOffset = MECore.offsetFromLetter(noteName[0], validate: false) + signOffset;
+		midiOffset = MECore.offsetFromLetter(noteName[0], false) + signOffset;
 
 		case
 		{ midiOffset < 0 }  { ^midiOffset + 12 }

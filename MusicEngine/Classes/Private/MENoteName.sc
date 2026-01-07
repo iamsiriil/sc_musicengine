@@ -81,7 +81,7 @@ MENoteName {
 			MELetterValidators.noteLetterIsValid(rootLetter);
 		};
 
-		index     = MECore.indexOfLetter(rootLetter, validate: false);
+		index     = MECore.indexOfLetter(rootLetter, false);
 		letterArr = MECore.letters.wrapAt(index + letterOffsetArr);
 
 		letterArr.do { |n, i| letterArr[i] = n.asString };
@@ -116,7 +116,7 @@ MENoteName {
 	/****************************************************************************************/
 
 	solfege {
-		var index = MECore.indexOfLetter(noteLetter, validate: false);
+		var index = MECore.indexOfLetter(noteLetter, false);
 
 		^solfege[index] ++ accidental.sign;
 	}

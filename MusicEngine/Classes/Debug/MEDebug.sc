@@ -16,8 +16,8 @@ MEDebug {
 
 	*debug_ { |value|
 
-		debug = value;
-		count = 0;
+		debug  = value;
+		count  = 0;
 		level1 = false;
 		level2 = false;
 		level3 = false;
@@ -47,25 +47,20 @@ MEDebug {
 		"@%".format(method.asString.replace("Meta_", "")).postln;
 
 		if (in.notNil && (showData == true)) {
-
 			in.do { |v|
 				"in: ".padRight(5).post;
 				"%".format(v).postln;
 			};
 		};
-
 		if (out.notNil && (showData == true)) {
-
 			out.do { |v|
 				"out: ".padRight(5).post;
 				"%".format(v).postln;
 			};
 		};
-
 		if ((scope == 1) && (showData == true)) {
 			"".postln;
 		};
-
 		count = count + 1;
 	}
 
@@ -76,21 +71,9 @@ MEDebug {
 		if (debug) {
 
 			switch(level)
-			{ 1 } {
-				if (level1) {
-					this.printValues(method, in, out, showData)
-				}
-			}
-			{ 2 } {
-				if (level2) {
-					this.printValues(method, in, out, showData)
-				}
-			}
-			{ 3 } {
-				if (level3) {
-					this.printValues(method, in, out, showData)
-				};
-			};
+			{ 1 } { if (level1) { this.printValues(method, in, out, showData) } }
+			{ 2 } { if (level2) { this.printValues(method, in, out, showData) } }
+			{ 3 } { if (level3) { this.printValues(method, in, out, showData) } };
 		};
 	}
 }

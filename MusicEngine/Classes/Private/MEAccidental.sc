@@ -64,7 +64,7 @@ MEAccidental {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		ref = MEOctave.getClosestOctave(midiNote, noteLetter, validate: false);
+		ref = MEOctave.getClosestOctave(midiNote, noteLetter, false);
 
 		if (ref.notNil) { ^midiNote - ref } { ^nil };
 	}
@@ -99,7 +99,7 @@ MEAccidental {
 			MELetterValidators.noteLetterIsValid(noteLetter);
 		};
 
-		signOffset = this.getOffsetFromMidi(midiNote, noteLetter, validate: false);
+		signOffset = this.getOffsetFromMidi(midiNote, noteLetter, false);
 		sign       = this.getSignFromOffset(signOffset, validate);
 
 		^noteLetter ++ sign;
