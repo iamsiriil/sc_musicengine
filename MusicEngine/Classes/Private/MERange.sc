@@ -129,16 +129,9 @@ MERange {
 		);
 
 		tempM.do { |m, i|
-
-			range = range.add(
-				MENote(
-					noteLetter: tempL[i],
-					midiNote:   m,
-					degree:     tempI[i],
-					validate:   validate
-				);
-			);
+			range = range.add(MENote(tempL[i], m, tempI[i], validate));
 		};
+
 		^range;
 	}
 

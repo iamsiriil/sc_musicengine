@@ -14,32 +14,19 @@ MENote {
 	var <>articulation;
 	var <>dynamic;
 
-	*new { |noteName = nil, noteLetter = nil, midiNote = nil, degree = nil, validate = true|
+	*new { |noteLetter = nil, midiNote = nil, degree = nil, validate = false|
 
-		^super.new.init(noteName, noteLetter, midiNote, degree, validate);
+		^super.new.init(noteLetter, midiNote, degree, validate);
 	}
 
-	init { |newN, newL, newM, newD, val|
+	init { |newL, newM, newD, val|
 
 		MEDebug.log(thisMethod, 2);
 
-		case
-		{ newN.isNil && newL.notNil && newM.notNil } {
-			midi   = newM;
-			freq   = midi.midicps;
-			name   = MENoteName(noteLetter: newL, midiNote: newM, validate: val);
-			octave = MEOctave.getOctave(midi, name.name, val);
-		}
-		{ newN.notNil && newL.isNil && newM.isNil } {
-			midi   = MEMIDINotes.getOffsetFromName(newN) + (12 * 5); // Octave number 4
-			freq   = midi.midicps;
-			name   = MENoteName(noteName: newN, validate: val);
-			octave = MEOctave.getOctave(midi, name.name, val);
-		}
-		{
-			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
-		};
-
+		midi   = newM;
+		freq   = midi.midicps;
+		name   = MENoteName(newL, newM, val);
+		octave = MEOctave.getOctave(midi, name.name, val);
 		degree = newD;
 
 		^this;

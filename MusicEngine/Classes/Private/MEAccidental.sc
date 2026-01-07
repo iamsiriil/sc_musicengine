@@ -8,27 +8,17 @@ MEAccidental {
 	var <offset;
 	var <sign;
 
-	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
+	*new { |noteLetter = nil, midiNote = nil, validate = false|
 
-		^super.new.init(noteName, noteLetter, midiNote, validate);
+		^super.new.init(noteLetter, midiNote, validate);
 	}
 
-	init { |newN, newL, newM, val|
+	init { |newL, newM, val|
 
 		MEDebug.log(thisMethod, 2);
 
-		case
-		{ newN.isNil && newL.notNil && newM.notNil } {
-			offset = MEAccidental.getOffsetFromMidi(newM, newL, val);
-			sign   = MEAccidental.getSignFromOffset(offset, val);
-		}
-		{ newN.notNil && newL.isNil && newM.isNil } {
-			offset = MEAccidental.getOffsetFromName(newN, val);
-			sign   = MEAccidental.getSignFromOffset(offset, val);
-		}
-		{
-			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
-		};
+		offset = MEAccidental.getOffsetFromMidi(newM, newL, val);
+		sign   = MEAccidental.getSignFromOffset(offset, val);
 
 		^this;
 	}
@@ -110,7 +100,7 @@ MEAccidental {
 		};
 
 		signOffset = this.getOffsetFromMidi(midiNote, noteLetter, validate: false);
-		sign       = this.getSignFromOffset(signOffset, validate: false);
+		sign       = this.getSignFromOffset(signOffset, validate);
 
 		^noteLetter ++ sign;
 	}

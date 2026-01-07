@@ -9,27 +9,17 @@ MENoteName {
 	var noteLetter;
 	var <accidental;
 
-	*new { |noteName = nil, noteLetter = nil, midiNote = nil, validate = true|
+	*new { |noteLetter = nil, midiNote = nil, validate = false|
 
-		^super.new.init(noteName, noteLetter, midiNote, validate);
+		^super.new.init(noteLetter, midiNote, validate);
 	}
 
-	init { |newN, newL, newM, val|
+	init { |newL, newM, val|
 
 		MEDebug.log(thisMethod, 2);
 
-		case
-		{ newN.isNil && newL.notNil && newM.notNil } {
-			noteLetter = newL;
-			accidental = MEAccidental(noteLetter: newL, midiNote: newM, validate: val);
-		}
-		{ newN.notNil && newL.isNil && newM.isNil } {
-			noteLetter = newN[0];
-			accidental = MEAccidental(noteName: newN, validate: val);
-		}
-		{
-			Error("Instance must be created with either a complete note name, or a note letter and a midi note.\n").throw;
-		};
+		noteLetter = newL;
+		accidental = MEAccidental(newL, newM, val);
 
 		^this;
 	}

@@ -15,7 +15,7 @@ MENoteRange {
 
 	init { |newS|
 
-		if (MEDebug.validate.postln) { validate = true };
+		if (MEDebug.validate) { validate = true };
 
 		MEDebug.log(thisMethod, 1, [newS]);
 
