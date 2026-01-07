@@ -37,19 +37,19 @@ MESymbolValidators {
 	/****************************************************************************************/
 
 	*rootIsValid { |rangeSymbol|
-		var rgx0 = "^(?:[A-G][#b]*)";
-		var rgx1 = "^(?:[A-G][#b]{2,})";
+		var regex0 = "^(?:[A-G][#b]*)";
+		var regex1 = "^(?:[A-G][#b]{2,})";
 		var root;
 
 		MEDebug.log(thisMethod, 3);
 
 		this.checkString(rangeSymbol);
 
-		if (rgx0.matchRegexp(rangeSymbol).not) {
+		if (regex0.matchRegexp(rangeSymbol).not) {
 			Error("Symbol %, has no valid root.".format(rangeSymbol)).throw;
 		};
-		if (rgx1.matchRegexp(rangeSymbol)) {
-			root = rangeSymbol.findRegexp(rgx1).collect { |n| n[1] }[0];
+		if (regex1.matchRegexp(rangeSymbol)) {
+			root = rangeSymbol.findRegexp(regex1).collect { |n| n[1] }[0];
 			Error("%, is not a valid root.".format(root)).throw;
 		};
 		^nil;
@@ -58,10 +58,14 @@ MESymbolValidators {
 	/****************************************************************************************/
 
 	*checkInvalidNumbers { |symbol|
-		var regex = "(?:[0-9]{3,})|(?:[2-9][0-9])|(?:1[5-9])|(?<!\\d)0(?!\\d)";
+		var regex0 = "(?:[0-9]{3,})|(?:[2-9][0-9])|(?:1[5-9])|(?<!\\d)0(?!\\d)";
+		var regex1 = "^(?:\\d+)(\\w)";
 
-		if (regex.matchRegexp(symbol)) {
+		if (regex0.matchRegexp(symbol)) {
 			Error("Symbol %, contains invalid numbers. Only numbers from 1 to 14 allowed.".format(symbol)).throw;
+		};
+		if (regex1.matchRegexp(symbol)) {
+			Error("Symbol %, contains leading number without letter.".format(symbol)).throw;
 		};
 		^nil;
 	}
@@ -91,11 +95,30 @@ MESymbolValidators {
 	/****************************************************************************************/
 
 	*checkInvalidWords { |symbol|
-		var regex = "(?:[a-zA-Z]{2,})";
+		var regex0 = "(?:[a-zA-Z]{2,})";
+		var regex1 = "(?:[^0-9]+[a-zA-Z]?)$";
 
-		if (regex.matchRegexp(symbol)) {
+		if (regex0.matchRegexp(symbol)) {
 			Error("Symbol %, contains invalid alphabetical constructs.".format(symbol)).throw;
 		};
+		if (regex1.matchRegexp(symbol)) {
+			Error("Symbol %, contains a trailling letter without number.".format(symbol)).throw;
+		};
+		^nil;
+	}
+
+	/****************************************************************************************/
+
+	*breakSymbol { |symbol, intervalsArr|
+		var temp = symbol;
+
+		intervalsArr.do { |i|
+			temp = temp.replace(i, "");
+		};
+
+		if (temp.notEmpty) {
+			Error("Symbol %, is not valid.".format(symbol)).throw;
+		}
 		^nil;
 	}
 
@@ -162,6 +185,7 @@ MESymbolValidators {
 		this.checkInvalidWords(symbol);
 
 		intervalsArr = symbol.findRegexp(regex).collect { |n| n[1] };
+		this.breakSymbol(symbol, intervalsArr);
 
 		this.checkSymbolSize(intervalsArr);
 		this.checkInvalidIntervals(intervalsArr);
