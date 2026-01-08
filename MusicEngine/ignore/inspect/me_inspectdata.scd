@@ -41,13 +41,14 @@ s.waitForBoot({
 ~al4 = "Gb-9";
 ~al5 = "C-^7";
 
-// Augmented sixth chords and Neapolitan sixth
+// Augmented sixth chords
 ~as0 = "BFrench";
 ~as1 = "F#ita";
 ~as2 = "D#Gr";
 
 // Weird random chords
-~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented, the 6th comes before the 5th in sorted order
+~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented,
+                  // the 6th comes before the 5th in sorted order
 
 ~a10 = "Cd8";
 ~a11 = "CA8";
@@ -71,7 +72,7 @@ s.waitForBoot({
 )
 /********************************************************************************************/
 (
-// Select test symbol and create new noteRange
+// Select test symbol and create new note range
 ~testSymbol = ~wt0;
 ~range = MENoteRange(~testSymbol);
 )
