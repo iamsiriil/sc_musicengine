@@ -88,8 +88,7 @@ A range symbol may be built using a verbose syntax, where all intervals are disc
 ## Support
 
 This project is shared freely with the community, and feedback, testing, or ideas for improvements are always welcome.
-If you appreciate this project and would like to help support my work, consider becoming a [GitHub Sponsor](https://github.com/sponsors/iamsiriil)
-, or [Buy me a coffee](http://paypal.me/iamsiriil).
+If you appreciate this project and would like to help support my work, consider becoming a [GitHub Sponsor](https://github.com/sponsors/iamsiriil) or [Buy me a coffee](http://paypal.me/iamsiriil).
 
 ## License
 
