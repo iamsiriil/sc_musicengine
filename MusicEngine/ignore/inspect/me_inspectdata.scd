@@ -6,8 +6,7 @@ s.waitForBoot({
 	"./me_utils.scd".loadRelative;
 });
 /****************************************************************************************/
-// TEST SYMBOLS
-
+// EXAMPLE CHORDS
 // Cb
 ~cb0 = "Cbd3d5d7"; // Cb root
 ~cb1 = "Abm3P5";   // Cb m3
@@ -50,9 +49,8 @@ s.waitForBoot({
 
 ~a10 = "Cd8";
 ~a11 = "CA8";
-
 /****************************************************************************************/
-// SCALES
+// EXAMPLE SCALES
 // Chromatic
 ~chr0 = "GA1M2A2M3P4A4P5A5M6A6M7";
 ~chr1 = "Gbm2M2m3M3P4d5P5m6M6m7M7";
