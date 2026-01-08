@@ -3,7 +3,7 @@
 MEDebug.debug = true;
 MEDebug.scope = 1;
 MEDebug.validate = false;
-MEDebug.showData = true; // Scope 1
+MEDebug.showData = false; // Scope 1
 ~r = MENoteRange("Abm");
 )
 

@@ -3,7 +3,7 @@
 *****************************************************************************************/
 (
 s.waitForBoot({
-	"./inspecttools.scd".loadRelative;
+	"./me_utils.scd".loadRelative;
 });
 /****************************************************************************************/
 // TEST SYMBOLS
@@ -48,18 +48,36 @@ s.waitForBoot({
 // Weird random chords
 ~wc0 = "Dd3A5d6"; // Since the 6th is diminished and the 5th augmented, the 6th comes before the 5th in sorted order
 
-~cs0 = "CbA1M2A2M3P4A4P5A5M6A6M7";
-~cs1 = "Cbm2M2m3M3P4d5P5m6M6m7M7";
-
 ~a10 = "Cd8";
 ~a11 = "CA8";
+
+/****************************************************************************************/
+// SCALES
+// Chromatic
+~chr0 = "GA1M2A2M3P4A4P5A5M6A6M7";
+~chr1 = "Gbm2M2m3M3P4d5P5m6M6m7M7";
+
+// Octatonic
+~oct0 = "CA1m3M3d5P5d7m7";
+~oct1 = "CM2m3P4d5m6d7d8";
+
+// Penthatonic
+~pnt0 = "AM2M3P5M6";
+~pnt1 = "Am3P4P5m7";
+
+// Whole-tone
+~wt0 = "Bd3d4d5m6m7";
+~wt1 = "CM2M3A4A5A6";
 )
 /****************************************************************************************/
 (
 // Select test symbol and create new noteRange
-~testSymbol = ~al4;
+~testSymbol = ~wt0;
 ~range = MENoteRange(~testSymbol);
 )
+
+// Inspect sound
+~routine.(~range.notes(4, 6, "Rt")).play
 
 // Inspect range properties
 ~inspectRange.(~range);
@@ -67,6 +85,3 @@ s.waitForBoot({
 // Inspect random note properties
 // (different calls will prompt different notes)
 ~inspectNotes.(~range);
-
-// Inspect sound
-~routine.(~range.notes(4, 8, "Rt")).play
