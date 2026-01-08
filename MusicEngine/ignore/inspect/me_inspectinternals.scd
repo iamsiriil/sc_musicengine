@@ -1,6 +1,12 @@
+/*********************************************************************************************
+* MusicEngine - A dynamic chord library for SuperCollider   								 *
+* Copyright (C) 2025 Siriil									    							 *
+* Licensed under GPLv3. See LICENSE file for details.			    						 *
+*********************************************************************************************/
+
 // Run debugger
 (
-MEDebug.debug = true;
+MEDebug.debug = false;
 MEDebug.scope = 1;
 MEDebug.validate = false;
 MEDebug.showData = false; // Scope 1
