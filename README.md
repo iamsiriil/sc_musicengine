@@ -6,7 +6,7 @@ __MusicEngine__ uses a system of verbose range symbols, where all intervals, or 
 
 Note ranges are arrays of `MENote` objects that encapsulate all data pertaining to each note (e.g., MIDI number, frequency, note name, degree, octave, etc.). Note ranges gather all notes belonging to any chord or scale across the entire MIDI range (0-127), spanning a total of 11 octaves.
 
-__MusicEngine__ is currently in its `version 0.0.0`.
+__MusicEngine__ is currently in its `version 0.1.0-beta`.
 
 ---
 
