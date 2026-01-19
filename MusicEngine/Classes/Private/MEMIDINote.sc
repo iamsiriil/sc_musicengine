@@ -53,7 +53,6 @@ MEMIDINote {
 	/****************************************************************************************/
 
 	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true|
-		var transpose;
 
 		MEDebug.log(thisMethod, 1, [midiOffsetArr, midiRoot]);
 
