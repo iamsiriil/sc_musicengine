@@ -1,4 +1,3 @@
-
 /*********************************************************************************************
 * MusicEngine - A dynamic music library for SuperCollider   								 *
 * Copyright (C) 2025 Siriil									    							 *
