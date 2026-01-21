@@ -10,18 +10,18 @@ MERange {
 
 	/****************************************************************************************/
 
-	*sortAndSplit { |dataArray|
-		var tempM = dataArray.collect { |n| n[1] };
-		var tempL = Array.new(dataArray.size);
-		var tempI = Array.new(dataArray.size);
+	*sortAndSplit { |dataArr|
+		var tempM = dataArr.collect { |n| n[1] };
+		var tempL = Array.new(dataArr.size);
+		var tempI = Array.new(dataArr.size);
 
-		MEDebug.log(thisMethod, 1, [dataArray]);
+		MEDebug.log(thisMethod, 1, [dataArr]);
 
 		tempM.sort;
 
 		tempM.do { |n, i|
 
-			dataArray.do { |a|
+			dataArr.do { |a|
 
 				if (a[1] == n) {
 					tempL.add(a[2]);
@@ -35,11 +35,11 @@ MERange {
 	/****************************************************************************************/
 
 	*getOffsets { |intervalsArr|
-		var arr = Array.new(intervalsArr.size + 1);
+		var dataArr = Array.new(intervalsArr.size + 1);
 
 		MEDebug.log(thisMethod, 1, [intervalsArr]);
 
-		arr.add(["Rt", 0, 0]);
+		dataArr.add(["Rt", 0, 0]);
 
 		intervalsArr.do { |i|
 			var temp = Array.new(3);
@@ -48,21 +48,16 @@ MERange {
 			temp.add(MEMIDINote.getOffsetFromInterval(i, false));
 			temp.add(MENoteName.getOffsetFromInterval(i, false));
 
-			arr.add(temp);
+			dataArr.add(temp);
 		};
-		^this.sortAndSplit(arr);
+		^this.sortAndSplit(dataArr);
 	}
 
 	/****************************************************************************************/
 
 	*wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
-		var tempM, tempL, tempI;
 
 		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
-
-		tempM = midiNotesArr.copy;
-		tempL = noteLettersArr.copy;
-		tempI = intervalsArr.copy;
 
 		midiNotesArr.do { |m, i|
 
