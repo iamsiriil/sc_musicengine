@@ -25,8 +25,9 @@ MENoteRange {
 	/****************************************************************************************/
 
 	printOn { |stream|
-		stream << "MENoteRange [ ";
-		stream << "Symbol: " << symbol << " ]";
+		var chordSymbol = if (symbol.alias.isNil) { symbol.symbol } { symbol.alias };
+
+		stream << chordSymbol << " " << notes;
 	}
 
 	/****************************************************************************************/
