@@ -1,3 +1,9 @@
+/*********************************************************************************************
+* MusicEngine - A dynamic music library for SuperCollider   								 *
+* Copyright (C) 2025 Siriil									    							 *
+* Licensed under GPLv3. See LICENSE file for details.			    						 *
+*********************************************************************************************/
+
 MEDebug {
 	classvar <debug = false;
 	classvar <count = nil;
