@@ -1,5 +1,5 @@
 /*********************************************************************************************
-* MusicEngine - A dynamic chord library for SuperCollider   								 *
+* MusicEngine - A dynamic music library for SuperCollider   								 *
 * Copyright (C) 2025 Siriil									    							 *
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
@@ -10,11 +10,10 @@ MEAlias {
 	*initClass {
 
 		aliases = Dictionary[
-			// CHORDS
 			// Power chords
 			"P5"   -> Set["5"],
 
-			// Triads
+			// Triads,
 			"m3d5" -> Set["Dim", "dim", "Dim5", "dim5", "o5", "05", "o", "0"],
 			"m3P5" -> Set["m", "Mi", "mi", "Min", "min", "-"],
 			"M3P5" -> Set["", "M", "Ma", "ma", "Maj", "maj", "^", "Neapolitan", "neapolitan", "Nap", "nap", "Na", "na"],
@@ -38,9 +37,9 @@ MEAlias {
 			"d3d5d7" -> Set["German", "german", "Ger", "ger", "Gr", "gr"],
 
 			// Suspended chords
-			"M2P5"   -> Set["Sus2", "sus2", "S2", "s2"],
-			"P4P5"   -> Set["Sus4", "sus4", "S4", "s4"],
-			"M2P4P5" -> Set["Sus24", "sus24", "S24", "s24"],
+			"M2P5"   -> Set["Sus2", "sus2"],
+			"P4P5"   -> Set["Sus4", "sus4"],
+			"M2P4P5" -> Set["Sus24", "sus24"],
 
 			// Nineth chords
 			"m3P5m7M9" -> Set["m79", "Mi79", "mi79", "Min79", "min79", "-9", "-79"],
@@ -55,35 +54,7 @@ MEAlias {
 			// Thirteenth chords
 			"m3P5m7M9P11M13" -> Set["m13", "m713", "Mi13", "mi13", "Mi713", "mi713", "Min13", "min13", "Min713", "min713", "-13", "-713"],
 			"M3P5m7M9P11M13" -> Set["Dom13", "dom13", "Dom713", "dom713", "13"],
-			"M3P5M7M9P11M13" -> Set["M13", "M713", "Ma13", "ma13", "Ma713", "ma713", "Maj13", "maj13", "Maj713", "maj713", "^13", "^713"],
-
-			// SCALES
-			// Penthatonic scales
-			"M2M3P5M6" -> Set["MajorPenthatonic", "majorpenthatonic", "MajPent", "majpent", "MPent", "Mpent", "MP", "Mp", "^P", "^p"],
-			"m3P4P5m7" -> Set["MinorPenthatonic", "minorpenthatonic", "MinPent", "minpent", "mPent", "mpent", "mP", "mp", "-P", "-p"],
-
-			// Hexatonic scales
-			"M2M3A4A5A6" -> Set["WholeTone", "wholetone", "WT", "wt", "AugS", "augs", "+S", "+s"],
-			"m3P4A4P5m7" -> Set["Blues", "BS", "Bs"],
-
-			// Heptatonic scales
-			"M2M3P4P5M6M7" -> Set["Ionian", "ionian", "Io", "io", "MajorS", "majors", "MajS", "majs", "MS", "Ms", "S", "s", "^S", "^s"],
-			"M2m3P4P5M6m7" -> Set["Dorian", "dorian", "Do", "do", "Protus", "protus"],
-			"m2m3P4P5m6m7" -> Set["Phrygian", "phrygian", "Ph", "ph", "Deuterus", "deuterus"],
-			"M2M3A4P5M6M7" -> Set["Lydian", "lydian", "Ly", "ly", "Tritus", "tritus"],
-			"M2M3P4P5M6m7" -> Set["Mixolydian", "mixolydian", "Ml", "ml", "Tetrardus", "tetrardus"],
-			"M2m3P4P5m6m7" -> Set["Aeolian", "aeolian", "Ae", "ae", "MinorS", "minors", "ms", "-s"],
-			"m2m3P4d5m6m7" -> Set["Locrian", "locrian", "Lo", "lo"],
-
-			"M2m3P4P5m6M7" -> Set["HarmonicMinor", "harmonichminor", "HMinor", "Hminor", "Hm", "hm", "H-", "h-"],
-			"M2M3A4P5M6m7" -> Set["LydianDominant", "lydiandominant", "LydianD", "lydiand", "Ly7", "ly7", "LD", "ld"],
-
-			// Octatonic scales
-			"A1m3M3d5P5d7m7" -> Set["OctatonicA1", "octatonicA1", "OctA1", "octA1", "DiminishedScaleA1", "diminishedscaleA1", "DimSA1", "dimsA1", "OA1", "oA1", "O+1", "o+1"],
-			"M2m3P4d5m6d7d8" -> Set["OctatonicM2", "octatonicM2", "OctM2", "octM2", "DiminishedScaleM2", "diminishedscaleM2", "DimSM2", "dimsM2", "OM2", "oM2", "O^2", "o^2"],
-
-			// Chromatic scales
-			"m2M2m3M3P4d5P5m6M6m7M7" -> Set["Chromatic", "chromatic", "CS", "cs", "C", "c"]
+			"M3P5M7M9P11M13" -> Set["M13", "M713", "Ma13", "ma13", "Ma713", "ma713", "Maj13", "maj13", "Maj713", "maj713", "^13", "^713"]
 		];
 
 		^this;
