@@ -9,7 +9,7 @@ MENote {
 	var <midi;
 	var <freq;
 	var <octave;
-	var <degree;
+	var degree; // <-- '<'
 	var <>duration;
 	var <>articulation;
 	var <>dynamic;
@@ -27,7 +27,9 @@ MENote {
 		freq   = midi.midicps;
 		name   = MENoteName(newL, newM, val);
 		octave = MEOctave.getOctave(midi, name.name, val);
-		degree = newD;
+	/****************************************************************************************/
+		degree = MEInterval(newD);
+	/****************************************************************************************/
 
 		^this;
 	}
@@ -35,7 +37,7 @@ MENote {
 	/****************************************************************************************/
 
 	printOn { |stream|
-		stream << degree << "\\" << this.name;
+		stream << this.name << "\\" << degree.interval;
 	}
 
 	/****************************************************************************************/
@@ -92,6 +94,21 @@ MENote {
 
 	accidentalOffset {
 		^name.accidentalOffset;
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+
+	degree {
+		^degree.interval(true);
+	}
+
+	number {
+		^degree.number
+	}
+
+	offset {
+		^degree.offset
 	}
 }
 
