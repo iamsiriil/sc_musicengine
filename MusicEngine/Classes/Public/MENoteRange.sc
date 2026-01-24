@@ -72,9 +72,26 @@ MENoteRange {
 
 	/****************************************************************************************/
 
-	notes { |fromOctave = 1, toOctave = 9, fromDegree = nil|
+	getTwoOctaveSpan { |notes, degrees|
+		var index = degrees.detectIndex { |i| i == notes[0].degree };
+		var temp  = Array();
+
+		notes.do { |n|
+
+			if (n.degree == degrees[index]) {
+				temp  = temp.add(n);
+				index = (index + 1) % degrees.size;
+			};
+		};
+
+		^temp;
+	}
+
+	/****************************************************************************************/
+
+	notes { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
 		var degrees = symbol.intervals.collect { |i| i.interval };
-		var indexF, indexT;
+		var indexF, indexT, temp;
 
 		if ((fromOctave > toOctave) || (fromOctave < -1) || (toOctave > 9)) {
 			Error("Octaves go from -1 to 9.\n").throw;
@@ -87,64 +104,92 @@ MENoteRange {
 			)).throw;
 		};
 
-		if (fromDegree.notNil) {
+		case
+		{ fromDegree.notNil && toDegree.notNil } {
+			indexF = this.degreeInOctave(fromOctave, fromDegree);
+			indexT = this.degreeInOctave(toOctave, toDegree);
+		}
+		{ fromDegree.isNil && toDegree.notNil } {
+			indexF = this.firstIndexFromOctave(fromOctave);
+			indexT = this.degreeInOctave(toOctave, toDegree);
+		}
+		{ fromDegree.notNil && toDegree.isNil } {
 			indexF = this.degreeInOctave(fromOctave, fromDegree);
 			indexT = this.lastIndexFromOctave(toOctave);
-
 		} {
 			indexF = this.firstIndexFromOctave(fromOctave);
 			indexT = this.lastIndexFromOctave(toOctave);
 		};
 
-		^notes[indexF..indexT];
+		temp = notes[indexF..indexT];
 
+		if (octaveSpan == 2) {
+			^this.getTwoOctaveSpan(temp, degrees)
+		} {
+			^temp;
+		};
 	}
 
 	/****************************************************************************************/
 
-	midi { |fromOctave = 1, toOctave = 9, fromDegree = nil|
-		^this.notes(fromOctave, toOctave, fromDegree).collect { |n| n.midi };
+	midi { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
+		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.midi };
 	}
 
 	/****************************************************************************************/
 
-	freq { |fromOctave = 1, toOctave = 9, fromDegree = nil|
-		^this.notes(fromOctave, toOctave, fromDegree).collect { |n| n.freq };
+	freq { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
+		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.freq };
 	}
 
 	/****************************************************************************************/
 
-	names { |fromOctave = 1, toOctave = 9, fromDegree = nil, withOctave = true|
-		^this.notes(fromOctave, toOctave, fromDegree).collect { |n| n.name(withOctave) };
+	names { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil,
+		octaveSpan = 1, withOctave = true|
+
+		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.name(withOctave) };
 	}
 
 	/****************************************************************************************/
 
-	sol { |fromOctave = 1, toOctave = 9, fromDegree = nil, withOctave = true|
-		^this.notes(fromOctave, toOctave, fromDegree).collect { |n| n.sol(withOctave) };
+	sol { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil,
+		octaveSpan = 1, withOctave = true|
+
+		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.sol(withOctave) };
 	}
 
 	/****************************************************************************************/
 
-	degrees { |fromOctave = 1, toOctave = 9, fromDegree = nil|
-		^this.notes(fromOctave, toOctave, fromDegree).collect { |n| n.degree };
+	degrees { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
+		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.degree };
 	}
 
 	/****************************************************************************************/
 
-	root {
-		^symbol.root;
+	root { |offset = false|
+
+		if (offset) {
+			^MEMIDINote.getOffsetFromName(symbol.root, false);
+		} {
+			^symbol.root;
+		}
 	}
 
 	/****************************************************************************************/
 
-	symbol {
-		^symbol.symbol;
+	symbol { |withRoot = true|
+		^symbol.symbol(withRoot);
 	}
 
 	/****************************************************************************************/
 
-	alias {
-		^symbol.alias;
+	alias { |withRoot = true|
+		^symbol.alias(withRoot);
+	}
+
+	/****************************************************************************************/
+
+	intervals {
+		^symbol.intervals.collect { |i| i.interval };
 	}
 }
