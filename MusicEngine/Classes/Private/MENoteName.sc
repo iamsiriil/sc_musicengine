@@ -55,7 +55,7 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	*getOffsetArray { |intervalArray, validate = true|
+	/**getOffsetArray { |intervalArray, validate = true|
 		var letterOffsetArr = Array.new(intervalArray.size + 1);
 
 		MEDebug.log(thisMethod, 2);
@@ -67,7 +67,7 @@ MENoteName {
 		};
 
 		^letterOffsetArr;
-	}
+	}*/
 
 	/****************************************************************************************/
 

@@ -12,7 +12,7 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[3, 5, 6, 8, 10, 12],
 				["C###-1", "D###-1", "E##-1", "F###-1", "G###-1", "B#-1"],
-				["A2", "A3", "A4", "A5", "A6", "Rt"]
+				["A2", "A3", "A4", "A5", "A6", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -37,7 +37,7 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[63, 65, 66, 68, 70, 72],
 				["C###4", "D###4", "E##4", "F###4", "G###4", "B#4"],
-				["A2", "A3", "A4", "A5", "A6", "Rt"]
+				["A2", "A3", "A4", "A5", "A6", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -87,7 +87,7 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[3, 5, 8, 10, 11, 13],
 				["C###-1", "E#-1", "F###-1", "G###-1", "A##-1", "B##-1"],
-				["A6", "Rt", "A2", "A3", "A4", "A5"]
+				["A6", "P1", "A2", "A3", "A4", "A5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -112,7 +112,7 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[63, 65, 68, 70, 71, 73],
 				["C###4", "E#4", "F###4", "G###4", "A##4", "B##4"],
-				["A6", "Rt", "A2", "A3", "A4", "A5"]
+				["A6", "P1", "A2", "A3", "A4", "A5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -137,7 +137,7 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[123, 125],
 				["C###9", "E#9"],
-				["A6", "Rt"]
+				["A6", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);

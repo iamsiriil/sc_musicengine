@@ -37,7 +37,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[59, 63, 66],
 				["Cb4", "Eb4", "Gb4"],
-				["Rt", "M3", "P5"]
+				["P1", "M3", "P5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -62,7 +62,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[119, 123, 126],
 				["Cb9", "Eb9", "Gb9"],
-				["Rt", "M3", "P5"]
+				["P1", "M3", "P5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -87,7 +87,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[3, 8],
 				["Eb-1", "Ab-1"],
-				["P5", "Rt"]
+				["P5", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -112,7 +112,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[59, 63, 68],
 				["Cb4", "Eb4", "Ab4"],
-				["m3", "P5", "Rt"]
+				["m3", "P5", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -162,7 +162,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[4, 8],
 				["Fb-1", "Ab-1"],
-				["Rt", "M3"]
+				["P1", "M3"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -187,7 +187,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[59, 64, 68],
 				["Cb4", "Fb4", "Ab4"],
-				["P5", "Rt", "M3"]
+				["P5", "P1", "M3"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -212,7 +212,7 @@ TestMENoteRange_E2E_CFlat : UnitTest {
 			expected: [
 				[119, 124],
 				["Cb9", "Fb9"],
-				["P5", "Rt"]
+				["P5", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);

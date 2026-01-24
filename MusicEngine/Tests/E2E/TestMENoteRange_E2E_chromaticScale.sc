@@ -12,7 +12,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C-1", "Db-1", "D-1", "Eb-1", "E-1", "F-1", "Gb-1", "G-1", "Ab-1", "A-1", "Bb-1", "B-1"],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -37,7 +37,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
 				["C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4", "A4", "Bb4", "B4"],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -62,7 +62,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[120, 121, 122, 123, 124, 125, 126, 127],
 				["C9", "Db9", "D9", "Eb9", "E9", "F9", "Gb9", "G9"],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -87,7 +87,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C-1", "C#-1", "D-1", "D#-1", "E-1","E#-1", "F#-1", "G-1", "G#-1", "A-1", "A#-1", "B-1"],
-				["d5", "P5", "m6", "M6", "m7", "M7", "Rt", "m2", "M2", "m3", "M3", "P4"]
+				["d5", "P5", "m6", "M6", "m7", "M7", "P1", "m2", "M2", "m3", "M3", "P4"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -112,7 +112,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
 				["C4", "C#4", "D4", "D#4", "E4","E#4", "F#4", "G4", "G#4", "A4", "A#4", "B4"],
-				["d5", "P5", "m6", "M6", "m7", "M7", "Rt", "m2", "M2", "m3", "M3", "P4"]
+				["d5", "P5", "m6", "M6", "m7", "M7", "P1", "m2", "M2", "m3", "M3", "P4"]
 			],
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -137,7 +137,7 @@ TestMENoteRange_E2E_chromaticScale : UnitTest {
 			expected: [
 				[120, 121, 122, 123, 124, 125, 126, 127],
 				["C9", "C#9", "D9", "D#9", "E9", "E#9", "F#9", "G9"],
-				["d5", "P5", "m6", "M6", "m7", "M7", "Rt", "m2"]
+				["d5", "P5", "m6", "M6", "m7", "M7", "P1", "m2"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);

@@ -9,7 +9,7 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalFirstOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[0, 7], ["C-1", "G-1"], ["Rt", "P5"]],
+			expected: [[0, 7], ["C-1", "G-1"], ["P1", "P5"]],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
@@ -30,7 +30,7 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalMiddleOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[60, 67], ["C4", "G4"], ["Rt", "P5"]],
+			expected: [[60, 67], ["C4", "G4"], ["P1", "P5"]],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
@@ -51,7 +51,7 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalLastOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[120, 127], ["C9", "G9"], ["Rt", "P5"]],
+			expected: [[120, 127], ["C9", "G9"], ["P1", "P5"]],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [

@@ -10,7 +10,7 @@ MEDebug.debug = false;
 MEDebug.scope = 1;
 MEDebug.validate = false;
 MEDebug.showData = false; // Scope 1
-~r = MENoteRange("Abm");
+~r = MENoteRange("F#");
 )
 
 // Inspect MENoteRange

@@ -8,6 +8,7 @@ TestMENoteName : UnitTest {
 
 	test_getOffsetFromInterval_validInputUnder8th {
 		var fixtures = [
+			(expected: 0, interval: "P1"),
 			(expected: 1, interval: "m2"),
 			(expected: 0, interval: "A1"),
 			(expected: 1, interval: "M2"),
@@ -33,11 +34,12 @@ TestMENoteName : UnitTest {
 		];
 
 		fixtures.do { |f|
+			var meinterval = MEInterval(f.interval);
 
 			this.assertEquals(
-				MENoteName.getOffsetFromInterval(f.interval, validate: true),
+				MENoteName.getOffsetFromInterval(meinterval, validate: true),
 				f.expected,
-				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
+				"Testing valid interval: %. Should return %.".format(meinterval, f.expected)
 			);
 		};
 	}
@@ -46,6 +48,7 @@ TestMENoteName : UnitTest {
 
 	test_getOffsetFromInterval_validInputOver8th {
 		var fixtures = [
+			(expected: 0, interval: "P8"),
 			(expected: 1, interval: "m9"),
 			(expected: 0, interval: "A8"),
 			(expected: 1, interval: "M9"),
@@ -71,11 +74,12 @@ TestMENoteName : UnitTest {
 		];
 
 		fixtures.do { |f|
+			var meinterval = MEInterval(f.interval);
 
 			this.assertEquals(
-				MENoteName.getOffsetFromInterval(f.interval, validate: true),
+				MENoteName.getOffsetFromInterval(meinterval, validate: true),
 				f.expected,
-				"Testing valid interval: %. Should return %.".format(f.interval, f.expected)
+				"Testing valid interval: %. Should return %.".format(meinterval, f.expected)
 			);
 		};
 	}
@@ -83,14 +87,15 @@ TestMENoteName : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputUnder8th {
-		var fixtures = ["P1", "d2", "P2", "P3", "m4", "M4", "m5", "M5", "P6", "P7", "A7"];
+		var fixtures = ["d2", "P2", "P3", "m4", "M4", "m5", "M5", "P6", "P7", "A7"];
 
 		fixtures.do { |f|
+			var meinterval = MEInterval(f);
 
 			this.assertException(
-				{ MENoteName.getOffsetFromInterval(f, validate: true) },
+				{ MENoteName.getOffsetFromInterval(meinterval, validate: true) },
 				Error,
-				"Testing invalid interval: %. Should throw Error.".format(f)
+				"Testing invalid interval: %. Should throw Error.".format(meinterval)
 			);
 		};
 	}
@@ -98,14 +103,15 @@ TestMENoteName : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputOver8th {
-		var fixtures = ["P8", "d9", "P9", "P10", "m11", "M11", "m12", "M12", "P13", "P14", "A14"];
+		var fixtures = ["d9", "P9", "P10", "m11", "M11", "m12", "M12", "P13", "P14", "A14"];
 
 		fixtures.do { |f|
+			var meinterval = MEInterval(f);
 
 			this.assertException(
-				{ MENoteName.getOffsetFromInterval(f, validate: true) },
+				{ MENoteName.getOffsetFromInterval(meinterval, validate: true) },
 				Error,
-				"Testing invalid interval: %. Should throw Error.".format(f)
+				"Testing invalid interval: %. Should throw Error.".format(meinterval)
 			);
 		};
 	}
@@ -127,7 +133,7 @@ TestMENoteName : UnitTest {
 
 	/****************************************************************************************/
 
-	test_getOffsetArray_validInputUnder8th {
+	/*test_getOffsetArray_validInputUnder8th {
 		var fixtures = [
 			["m2", "d3", "d4", "d5", "d6", "d7"],
 			["m2", "m3", "d4", "d5", "m6", "m7"],
@@ -238,7 +244,7 @@ TestMENoteName : UnitTest {
 				"Testing invalid interval array: %. Should throw Error.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 

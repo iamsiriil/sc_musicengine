@@ -11,7 +11,7 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
 			dataArray: [
 				["M7", 11, 6],
@@ -25,7 +25,7 @@ TestMERange : UnitTest {
 				["m3", 3, 2],
 				["M2", 2, 1],
 				["m2", 1, 1],
-				["Rt", 0, 0]
+				["P1", 0, 0]
 			]
 		);
 
@@ -43,7 +43,7 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+				["P1", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 			],
 			dataArray: [
 				["M14", 11, 6],
@@ -57,7 +57,7 @@ TestMERange : UnitTest {
 				["m10", 3, 2],
 				["M9", 2, 1],
 				["m9", 1, 1],
-				["Rt", 0, 0]
+				["P1", 0, 0]
 			]
 		);
 
@@ -75,7 +75,7 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+				["P1", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 			],
 			dataArray: [
 				["M7", 11, 6],
@@ -89,7 +89,7 @@ TestMERange : UnitTest {
 				["m3", 3, 2],
 				["M9", 2, 1],
 				["m2", 1, 1],
-				["Rt", 0, 0]
+				["P1", 0, 0]
 			]
 		);
 
@@ -107,9 +107,22 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
-			intervalsArr: ["M7", "m7",	"M6", "m6",	"P5", "d5",	"P4", "M3",	"m3", "M2", "m2"]
+			intervalsArr: [
+				MEInterval("M7"),
+				MEInterval("m7"),
+				MEInterval("M6"),
+				MEInterval("m6"),
+				MEInterval("P5"),
+				MEInterval("d5"),
+				MEInterval("P4"),
+				MEInterval("M3"),
+				MEInterval("m3"),
+				MEInterval("M2"),
+				MEInterval("m2"),
+				MEInterval("P1")
+			]
 		);
 
 		this.assertEquals(
@@ -126,9 +139,22 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+				["P1", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 			],
-			intervalsArr: ["M14", "m14", "M13", "m13", "P12", "d12", "P11", "M10", "m10", "M9", "m9"]
+			intervalsArr: [
+				MEInterval("M14"),
+				MEInterval("m14"),
+				MEInterval("M13"),
+				MEInterval("m13"),
+				MEInterval("P12"),
+				MEInterval("d12"),
+				MEInterval("P11"),
+				MEInterval("M10"),
+				MEInterval("m10"),
+				MEInterval("M9"),
+				MEInterval("m9"),
+				MEInterval("P1")
+			]
 		);
 
 		this.assertEquals(
@@ -145,9 +171,22 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				[0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6],
-				["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+				["P1", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 			],
-			intervalsArr: ["M7", "m14", "M6", "m13", "P5", "d12", "P4", "M10", "m3", "M9", "m2"]
+			intervalsArr: [
+				MEInterval("M7"),
+				MEInterval("m14"),
+				MEInterval("M6"),
+				MEInterval("m13"),
+				MEInterval("P5"),
+				MEInterval("d12"),
+				MEInterval("P4"),
+				MEInterval("M10"),
+				MEInterval("m3"),
+				MEInterval("M9"),
+				MEInterval("m2"),
+				MEInterval("P1")
+			]
 		);
 
 		this.assertEquals(
@@ -164,11 +203,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-				["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+				["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 			],
 			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-			intervalsArr:   ["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+			intervalsArr:   ["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 		);
 
 		this.assertEquals(
@@ -185,11 +224,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-				["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+				["P1", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 			],
 			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-			intervalsArr:   ["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+			intervalsArr:   ["P1", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 		);
 
 		this.assertEquals(
@@ -206,11 +245,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-				["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+				["P1", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 			],
 			midiNotesArr:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 			noteLettersArr: ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"],
-			intervalsArr:   ["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+			intervalsArr:   ["P1", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 		);
 
 		this.assertEquals(
@@ -227,11 +266,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
-				["P5", "m6", "M6", "m7", "M7", "Rt", "m2", "M2", "m3", "M3", "P4", "d5"]
+				["P5", "m6", "M6", "m7", "M7", "P1", "m2", "M2", "m3", "M3", "P4", "d5"]
 			],
 			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
-			intervalsArr:   ["Rt", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
+			intervalsArr:   ["P1", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"]
 		);
 
 		this.assertEquals(
@@ -248,11 +287,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
-				["P12", "m13", "M13", "m14", "M14", "Rt", "m9", "M9", "m10", "M10", "P11", "d12"]
+				["P12", "m13", "M13", "m14", "M14", "P1", "m9", "M9", "m10", "M10", "P11", "d12"]
 			],
 			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
-			intervalsArr:   ["Rt", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
+			intervalsArr:   ["P1", "m9", "M9", "m10", "M10", "P11", "d12", "P12", "m13", "M13", "m14", "M14"]
 		);
 
 		this.assertEquals(
@@ -269,11 +308,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 				["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "C"],
-				["P5", "m13", "M6", "m14", "M7", "Rt", "m2", "M9", "m3", "M10", "P4", "d12"]
+				["P5", "m13", "M6", "m14", "M7", "P1", "m2", "M9", "m3", "M10", "P4", "d12"]
 			],
 			midiNotesArr:   [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 			noteLettersArr: ["F", "G", "G", "A", "A", "B", "C", "C", "D", "D", "E", "E"],
-			intervalsArr:   ["Rt", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
+			intervalsArr:   ["P1", "m2", "M9", "m3", "M10", "P4", "d12", "P5", "m13", "M6", "m14", "M7"]
 		);
 
 		this.assertEquals(
@@ -317,11 +356,11 @@ TestMERange : UnitTest {
 			expected: [
 				[0, 4, 5, 9, 12, 16, 17, 21, 24, 28, 29, 33, 36, 40, 41, 45, 48, 52, 53, 57, 60, 64, 65, 69, 72, 76, 77, 81, 84, 88, 89, 93, 96, 100, 101, 105, 108, 112, 113, 117, 120, 124, 125],
 				["C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F", "A", "C", "E", "F"],
-				["P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt", "M3", "P5", "M7", "Rt"]
+				["P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1", "M3", "P5", "M7", "P1"]
 			],
 			midiNotesArr:   [5, 9, 12, 16],
 			noteLettersArr: ["F", "A", "C", "E"],
-			intervalsArr:   ["Rt", "M3", "P5", "M7"]
+			intervalsArr:   ["P1", "M3", "P5", "M7"]
 		);
 
 		this.assertEquals(

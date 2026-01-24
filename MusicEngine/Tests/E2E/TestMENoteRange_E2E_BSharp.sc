@@ -12,7 +12,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[4, 7, 12],
 				["D##-1", "F##-1", "B#-1"],
-				["M3", "P5", "Rt"]
+				["M3", "P5", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -37,7 +37,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[64, 67, 72],
 				["D##4", "F##4", "B#4"],
-				["M3", "P5", "Rt"]
+				["M3", "P5", "P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -87,7 +87,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[3, 8, 12],
 				["D#-1", "G#-1", "B#-1"],
-				["P5", "Rt", "M3"]
+				["P5", "P1", "M3"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -112,7 +112,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[63, 68, 72],
 				["D#4", "G#4", "B#4"],
-				["P5", "Rt", "M3"]
+				["P5", "P1", "M3"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -162,7 +162,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[5, 9, 12],
 				["E#-1", "G##-1", "B#-1"],
-				["Rt", "M3", "P5"]
+				["P1", "M3", "P5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -187,7 +187,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[65, 69, 72],
 				["E#4", "G##4", "B#4"],
-				["Rt", "M3", "P5"]
+				["P1", "M3", "P5"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
@@ -212,7 +212,7 @@ TestMENoteRange_E2E_BSharp : UnitTest {
 			expected: [
 				[125],
 				["E#9"],
-				["Rt"]
+				["P1"]
 			]
 		);
 		var range = MENoteRange(fixture.symbol);

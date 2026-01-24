@@ -70,14 +70,18 @@ TestMESymbol : UnitTest {
 
 	test_getIntervalsFromSymbol_validInputOnes {
 		var fixtures = [
-			(expected: ["A1","A10","A11","A12","A13"], symbol: "A1A10A11A12A13"),
-			(expected: ["A13","A12","A11","A10","A1"], symbol: "A13A12A11A10A1")
+			(
+				expected: ["P1","A1","A10","A11","A12","A13"],
+				symbol: "A1A10A11A12A13"),
+			(
+				expected: ["P1","A1","A10","A11","A12","A13"],
+				symbol: "A13A12A11A10A1")
 		];
 
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol),
+				MESymbol.getIntervalsFromSymbol(f.symbol).collect { |i| i.interval },
 				f.expected,
 				"Testing valid intervals with ones: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -89,11 +93,11 @@ TestMESymbol : UnitTest {
 	test_getIntervalsFromSymbol_validInputChromaticUnderOct {
 		var fixtures = [
 			(
-				expected: ["m2","M2","m3","M3","P4","d5","P5","m6","M6","m7","M7"],
+				expected: ["P1","m2","M2","m3","M3","P4","d5","P5","m6","M6","m7","M7"],
 				symbol: "m2M2m3M3P4d5P5m6M6m7M7"
 			),
 			(
-				expected: ["M7","m7","M6","m6","P5","d5","P4","M3","m3","M2","m2"],
+				expected: ["P1","m2","M2","m3","M3","P4","d5","P5","m6","M6","m7","M7"],
 				symbol: "M7m7M6m6P5d5P4M3m3M2m2"
 			)
 		];
@@ -101,7 +105,7 @@ TestMESymbol : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol),
+				MESymbol.getIntervalsFromSymbol(f.symbol).collect { |i| i.interval },
 				f.expected,
 				"Testing chromatic intervals, under octave: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -113,11 +117,11 @@ TestMESymbol : UnitTest {
 	test_getIntervalsFromSymbol_validInputChromaticOverOct {
 		var fixtures = [
 			(
-				expected: ["m9","M9","m10","M10","P11","d12","P12","m13","M13","m14","M14"],
+				expected: ["P1","m9","M9","m10","M10","P11","d12","P12","m13","M13","m14","M14"],
 				symbol: "m9M9m10M10P11d12P12m13M13m14M14"
 			),
 			(
-				expected: ["M14","m14","M13","m13","P12","d12","P11","M10","m10","M9","m9"],
+				expected: ["P1","m9","M9","m10","M10","P11","d12","P12","m13","M13","m14","M14"],
 				symbol: "M14m14M13m13P12d12P11M10m10M9m9"
 			)
 		];
@@ -125,7 +129,7 @@ TestMESymbol : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol),
+				MESymbol.getIntervalsFromSymbol(f.symbol).collect { |i| i.interval },
 				f.expected,
 				"Testing chromatic intervals, over octave: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -137,11 +141,11 @@ TestMESymbol : UnitTest {
 	test_getIntervalsFromSymbol_validInputChromaticCrossOct {
 		var fixtures = [
 			(
-				expected: ["m2","M9","m3","M10","P4","d12","P5","m13","M6","m14","M7"],
+				expected: ["P1","m2","m3","P4","P5","M6","M7","M9","M10","d12","m13","m14"],
 				symbol: "m2M9m3M10P4d12P5m13M6m14M7"
 			),
 			(
-				expected: ["M14","m7","M13","m6","P12","d5","P11","M3","m10","M2","m9"],
+				expected: ["P1","M2","M3","d5","m6","m7","m9","m10","P11","P12","M13","M14"],
 				symbol: "M14m7M13m6P12d5P11M3m10M2m9"
 			)
 		];
@@ -149,7 +153,7 @@ TestMESymbol : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol),
+				MESymbol.getIntervalsFromSymbol(f.symbol).collect { |i| i.interval },
 				f.expected,
 				"Testing chromatic intervals, across octaves: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -160,19 +164,19 @@ TestMESymbol : UnitTest {
 
 	test_getIntervalsFromSymbol_validInputSameNumberUnderOctave {
 		var fixtures = [
-			(expected: ["A1"],                symbol: "A1"),
-			(expected: ["m2","M2","A2"],      symbol: "m2M2A2"),
-			(expected: ["d3","m3","M3","A3"], symbol: "d3m3M3A3"),
-			(expected: ["d4","P4","A4"],      symbol: "d4P4A4"),
-			(expected: ["d5","P5","A5"],      symbol: "d5P5A5"),
-			(expected: ["d6","m6","M6","A6"], symbol: "d6m6M6A6"),
-			(expected: ["d7","m7","M7"],      symbol: "d7m7M7"),
+			(expected: ["P1","A1"],                symbol: "A1"),
+			(expected: ["P1","m2","M2","A2"],      symbol: "m2M2A2"),
+			(expected: ["P1","d3","m3","M3","A3"], symbol: "d3m3M3A3"),
+			(expected: ["P1","d4","P4","A4"],      symbol: "d4P4A4"),
+			(expected: ["P1","d5","P5","A5"],      symbol: "d5P5A5"),
+			(expected: ["P1","d6","m6","M6","A6"], symbol: "d6m6M6A6"),
+			(expected: ["P1","d7","m7","M7"],      symbol: "d7m7M7"),
 		];
 
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true),
+				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true).collect { |i| i.interval },
 				f.expected,
 				"Testing valid intervals with the same number: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -183,19 +187,19 @@ TestMESymbol : UnitTest {
 
 	test_getIntervalsFromSymbol_validInputSameNumberOverOctave {
 		var fixtures = [
-			(expected: ["d8","A8"],               symbol: "d8A8"),
-			(expected: ["m9","M9","A9"],          symbol: "m9M9A9"),
-			(expected: ["d10","m10","M10","A10"], symbol: "d10m10M10A10"),
-			(expected: ["d11","P11","A11"],       symbol: "d11P11A11"),
-			(expected: ["d12","P12","A12"],       symbol: "d12P12A12"),
-			(expected: ["d13","m13","M13","A13"], symbol: "d13m13M13A13"),
-			(expected: ["d14","m14","M14"],       symbol: "d14m14M14"),
+			(expected: ["P1","d8","A8"],               symbol: "d8A8"),
+			(expected: ["P1","m9","M9","A9"],          symbol: "m9M9A9"),
+			(expected: ["P1","d10","m10","M10","A10"], symbol: "d10m10M10A10"),
+			(expected: ["P1","d11","P11","A11"],       symbol: "d11P11A11"),
+			(expected: ["P1","d12","P12","A12"],       symbol: "d12P12A12"),
+			(expected: ["P1","d13","m13","M13","A13"], symbol: "d13m13M13A13"),
+			(expected: ["P1","d14","m14","M14"],       symbol: "d14m14M14"),
 		];
 
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true),
+				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true).collect { |i| i.interval },
 				f.expected,
 				"Testing valid intervals with the same number: %. Should return: %.".format(f.symbol, f.expected)
 			);
@@ -206,18 +210,18 @@ TestMESymbol : UnitTest {
 
 	test_getIntervalsFromSymbol_validInputChords {
 		var fixtures = [
-			(expected: ["P5"],                            symbol: "P5"),
-			(expected: ["M3","P5"],                       symbol: "M3P5"),
-			(expected: ["M3","P5","m7"],                  symbol: "M3P5m7"),
-			(expected: ["M3","P5","m7","M9"],             symbol: "M3P5m7M9"),
-			(expected: ["M3","P5","m7","M9","P11"],       symbol: "M3P5m7M9P11"),
-			(expected: ["M3","P5","m7","M9","P11","M13"], symbol: "M3P5m7M9P11M13")
+			(expected: ["P1","P5"],                            symbol: "P5"),
+			(expected: ["P1","M3","P5"],                       symbol: "M3P5"),
+			(expected: ["P1","M3","P5","m7"],                  symbol: "M3P5m7"),
+			(expected: ["P1","M3","P5","m7","M9"],             symbol: "M3P5m7M9"),
+			(expected: ["P1","M3","P5","m7","M9","P11"],       symbol: "M3P5m7M9P11"),
+			(expected: ["P1","M3","P5","m7","M9","P11","M13"], symbol: "M3P5m7M9P11M13")
 		];
 
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true),
+				MESymbol.getIntervalsFromSymbol(f.symbol, validate: true).collect { |i| i.interval },
 				f.expected,
 				"Testing valid chord: %. Should return: %.".format(f.symbol, f.expected)
 			);

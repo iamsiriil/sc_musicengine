@@ -8,6 +8,7 @@ TestMEIntervalValidators : UnitTest {
 
 	test_intervalIsValid_validInput {
 		var fixtures = [
+			"P1", "P8",
 			"m2", "m9", "A1", "A8",
 			"M2", "M9", "d3", "d10",
 			"m3", "m10", "A2", "A9",
@@ -35,7 +36,6 @@ TestMEIntervalValidators : UnitTest {
 
 	test_intervalIsValid_invalidtInput {
 		var fixtures = [
-			"P1", "P8",
 			"d2", "d9",
 			"P2", "P9",
 			"P3", "P10",
