@@ -28,3 +28,7 @@ MEDebug.showData = false; // Scope 1
 
 // Open unit tests GUI
 UnitTest.gui;
+
+~iarr = MEInterval.getMEIntervalArray(["P1", "m3", "P5", "m7", "M9"])
+
+~iarr.collect { |i| i.interval }
