@@ -39,12 +39,10 @@ MERange {
 
 		MEDebug.log(thisMethod, 1, [intervalsArr]);
 
-		dataArr.add(["Rt", 0, 0]);
-
 		intervalsArr.do { |i|
 			var temp = Array.new(3);
 
-			temp.add(i);
+			temp.add(i.interval);
 			temp.add(MEMIDINote.getOffsetFromInterval(i, false));
 			temp.add(MENoteName.getOffsetFromInterval(i, false));
 

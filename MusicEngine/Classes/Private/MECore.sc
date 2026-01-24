@@ -12,6 +12,7 @@ MECore {
 	*initClass {
 
 		intervals = Dictionary[
+			0  -> Set["P1", "P8"],
 			1  -> Set["m2", "m9", "A1", "A8"],
 			2  -> Set["M2", "M9", "d3", "d10"],
 			3  -> Set["m3", "m10", "A2", "A9"],

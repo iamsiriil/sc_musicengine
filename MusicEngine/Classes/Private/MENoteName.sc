@@ -35,16 +35,16 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |interval, validate = true|
+	*getOffsetFromInterval { |meinterval, validate = true|
 		var letterOffset;
 
-		MEDebug.log(thisMethod, 1, [interval]);
+		MEDebug.log(thisMethod, 1, [meinterval.interval]);
 
 		if (validate) {
-			MEIntervalValidators.intervalIsValid(interval);
+			MEIntervalValidators.intervalIsValid(meinterval.interval);
 		};
 
-		letterOffset = interval[1..].asInteger;
+		letterOffset = meinterval.number;
 
 		if (letterOffset > 7) {
 			^(letterOffset - 7) - 1;

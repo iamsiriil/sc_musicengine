@@ -10,17 +10,17 @@ MEMIDINote {
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |interval, validate = true|
+	*getOffsetFromInterval { |meinterval, validate = true|
 
-		MEDebug.log(thisMethod, 1, [interval]);
+		MEDebug.log(thisMethod, 1, [meinterval.interval]);
 
 		if (validate) {
-			MEIntervalValidators.intervalIsValid(interval);
+			MEIntervalValidators.intervalIsValid(meinterval.interval);
 		};
 
 		MECore.intervals.keysValuesDo { |k, v|
 
-			if (v.includes(interval)) {
+			if (v.includes(meinterval.interval)) {
 				^k;
 			};
 		};

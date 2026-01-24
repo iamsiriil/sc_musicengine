@@ -48,7 +48,7 @@ MENoteRange {
 
 	/****************************************************************************************/
 
-	firstIndexFromDegree { |degree = "Rt"|
+	firstIndexFromDegree { |degree = "P1"|
 		var note = notes.select { |n| n.degree == degree }.first;
 
 		^notes.indexOf(note);
@@ -56,7 +56,7 @@ MENoteRange {
 
 	/****************************************************************************************/
 
-	lastIndexFromDegree { |degree = "Rt"|
+	lastIndexFromDegree { |degree = "P1"|
 		var note = notes.select { |n| n.degree == degree }.last;
 
 		^notes.indexOf(note);
@@ -73,17 +73,17 @@ MENoteRange {
 	/****************************************************************************************/
 
 	notes { |fromOctave = 1, toOctave = 9, fromDegree = nil|
-		var degreeSet = (["Rt"] ++ symbol.intervals).asSet;
+		var degrees = symbol.intervals.collect { |i| i.interval };
 		var indexF, indexT;
 
 		if ((fromOctave > toOctave) || (fromOctave < -1) || (toOctave > 9)) {
 			Error("Octaves go from -1 to 9.\n").throw;
 		};
 
-		if (fromDegree.notNil && degreeSet.includes(fromDegree).not) {
-			Error("Range does not include interval %. Pick from Rt, %.\n".format(
+		if (fromDegree.notNil && degrees.asSet.includes(fromDegree).not) {
+			Error("Range does not include interval %. Pick from %.\n".format(
 				fromDegree,
-				symbol.intervals.join(", ")
+				degrees
 			)).throw;
 		};
 

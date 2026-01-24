@@ -27,9 +27,7 @@ MENote {
 		freq   = midi.midicps;
 		name   = MENoteName(newL, newM, val);
 		octave = MEOctave.getOctave(midi, name.name, val);
-	/****************************************************************************************/
 		degree = MEInterval(newD);
-	/****************************************************************************************/
 
 		^this;
 	}
@@ -100,7 +98,7 @@ MENote {
 	/****************************************************************************************/
 
 	degree {
-		^degree.interval(true);
+		^degree.interval;
 	}
 
 	number {

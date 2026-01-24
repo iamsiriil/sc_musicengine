@@ -16,13 +16,8 @@ MEInterval {
 	init { |newI|
 		var temp;
 
-		if (newI == "Rt") {
-			quality = $P;
-			number  = 1;
-		} {
-			quality  = newI[0];
-			number   = newI[1..].asInteger;
-		};
+		quality  = newI[0];
+		number   = newI[1..].asInteger;
 
 		switch(quality)
 		{ $d } { offset = number + 0.0 }

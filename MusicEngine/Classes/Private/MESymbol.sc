@@ -72,7 +72,9 @@ MESymbol {
 			MESymbolValidators.symbolIsValid(symbol);
 		};
 
-		^symbol.findRegexp(regex).collect { |i| i[1] };
+		intervalsArr = symbol.findRegexp(regex).collect { |i| i[1] };
+
+		^MEInterval.getMEIntervalArray(["P1"] ++ intervalsArr);
 	}
 
 	/****************************************************************************************/
