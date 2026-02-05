@@ -10,9 +10,7 @@ MENote {
 	var <freq;
 	var <octave;
 	var degree; // <-- '<'
-	var <>duration;
-	var <>articulation;
-	var <>dynamic;
+	var data;
 
 	*new { |noteLetter = nil, midiNote = nil, degree = nil, validate = false|
 
@@ -28,6 +26,7 @@ MENote {
 		name   = MENoteName(newL, newM, val);
 		octave = MEOctave.getOctave(midi, name.name, val);
 		degree = MEInterval(newD);
+		data   = Dictionary();
 
 		^this;
 	}
@@ -35,7 +34,7 @@ MENote {
 	/****************************************************************************************/
 
 	printOn { |stream|
-		stream << this.name << "\\" << degree.interval;
+		stream << this.name << ":" << degree.interval;
 	}
 
 	/****************************************************************************************/
@@ -96,6 +95,7 @@ MENote {
 
 	/****************************************************************************************/
 	/****************************************************************************************/
+	// MEInterval
 
 	degree {
 		^degree.interval;
@@ -107,6 +107,43 @@ MENote {
 
 	offset {
 		^degree.offset
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// DATA DICT
+
+	set { |key, value|
+		data[key] = value;
+	}
+
+	get { |key|
+		^data[key];
+	}
+
+	clearValue { |key|
+		data[key] = nil;
+	}
+
+	clearData {
+		data.clear;
+	}
+
+	getKeys {
+		^data.keys;
+	}
+
+	printData {
+		var maxKeySize = data
+		.keys
+		.maxItem { |i| i.asString.size }
+		.asString
+		.size;
+
+		data.keysValuesDo { |k, v|
+			"'%' ".format(k).padRight(maxKeySize + 3).post;
+			"-> %".format(v).postln;
+		};
 	}
 }
 
