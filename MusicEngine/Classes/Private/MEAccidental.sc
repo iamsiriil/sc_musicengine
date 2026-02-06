@@ -6,7 +6,7 @@
 
 MEAccidental {
 	var <offset;
-	var <sign;
+	var sign;
 
 	*new { |noteLetter = nil, midiNote = nil, validate = false|
 
@@ -47,7 +47,7 @@ MEAccidental {
 		signOffset = noteName[1..];
 
 		if (signOffset.includes($b)) {
-			^signOffset.size * -1;
+			^(signOffset.size * -1);
 		};
 		^signOffset.size;
 	}
@@ -71,7 +71,44 @@ MEAccidental {
 
 	/****************************************************************************************/
 
-	*getSignFromOffset { |signOffset, validate = true|
+	*getASCIISign { |signOffset, charSet|
+		var sign = "", flat;
+
+		case
+		{ signOffset < 0 } {
+			flat = if (charSet == \m21) { "-" } { "b" };
+			signOffset.abs.do { sign = sign ++ flat }
+		}
+		{ signOffset > 0 } {
+			signOffset.do { sign = sign ++ "#"}
+		};
+		^sign;
+	}
+
+	/****************************************************************************************/
+
+	*getANSISign { |signOffset|
+		var quo  = (signOffset / 2).abs.floor.asInteger;
+		var rem  = (signOffset % 2);
+		var sign = "";
+
+		case
+		{ signOffset == 1  } { sign = "♯" }
+		{ signOffset == -1 } { sign = "♭" }
+		{ signOffset > 0   } {
+			quo.do { sign = sign ++ "𝄪" };
+			rem.do { sign = sign ++ "♯" };
+		}
+		{ signOffset < 0   } {
+			quo.abs.do { sign = sign ++ "𝄫" };
+			rem.do { sign = sign ++ "♭" };
+		};
+		^sign;
+	}
+
+	/****************************************************************************************/
+
+	*getSignFromOffset { |signOffset, validate = true, charSet = \ascii|
 		var sign = "";
 
 		MEDebug.log(thisMethod, 2);
@@ -80,11 +117,13 @@ MEAccidental {
 			MEAccidentalValidators.signOffsetIsValid(signOffset);
 		};
 
-		case
-		{ signOffset < 0 } { signOffset.abs.do { sign = sign ++ "b"} }
-		{ signOffset > 0 } { signOffset.do { sign = sign ++ "#" } };
-
-		^sign;
+		switch(charSet)
+		{ \ascii } { ^this.getASCIISign(signOffset, charSet) }
+		{ \m21   } { ^this.getASCIISign(signOffset, charSet) }
+		{ \ansi  } { ^this.getANSISign(signOffset) }
+		{
+			Error("'%' is not a valid character set.".format(charSet)).throw;
+		};
 	}
 
 	/****************************************************************************************/
@@ -103,5 +142,15 @@ MEAccidental {
 		sign       = this.getSignFromOffset(signOffset, validate);
 
 		^noteLetter ++ sign;
+	}
+
+	/****************************************************************************************/
+
+	sign { |charSet = \ascii|
+
+		if (charSet != \ascii) {
+			^MEAccidental.getSignFromOffset(offset, charSet: charSet);
+		};
+		^sign;
 	}
 }
