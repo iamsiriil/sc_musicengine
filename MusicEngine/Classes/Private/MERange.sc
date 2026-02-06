@@ -4,9 +4,40 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MERange {
+MERange : SequenceableCollection {
+	var <>symbol;
+	var <notes;
 
-	*initClass { ^this }
+	*new { |input|
+		^super.new.init(input);
+	}
+
+	init { |newI|
+		var validate = MEDebug.validate;
+
+		case
+		{ newI.isInteger } {
+			notes = Array.new(newI);
+		}
+		{ newI.isString } {
+			symbol = MESymbol(newI);
+			this.getRange(symbol, validate);
+		};
+
+		^this;
+	}
+
+	*with { |symbol ... args|
+		var newRange = this.new(args.size);
+
+		newRange.symbol = symbol;
+
+		args.do { |n|
+			newRange.add(n);
+		};
+		^newRange
+	}
+
 
 	/****************************************************************************************/
 
@@ -111,7 +142,7 @@ MERange {
 	/****************************************************************************************/
 
 	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr, validate|
-		var tempM, tempL, tempI, range = Array.new();
+		var tempM, tempL, tempI, range;
 
 		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
@@ -121,8 +152,10 @@ MERange {
 			intervalsArr
 		);
 
+		range = Array.new(tempM.size);
+
 		tempM.do { |m, i|
-			range = range.add(MENote(tempL[i], m, tempI[i], validate));
+			range.add(MENote(tempL[i], m, tempI[i], validate));
 		};
 
 		^range;
@@ -130,19 +163,121 @@ MERange {
 
 	/****************************************************************************************/
 
-	*getRange { |symbol, validate = false|
+	getRange { |newS, validate = false|
 		var tempM, tempL, tempI, tempR;
 
-		MEDebug.log(thisMethod, 1, [symbol]);
+		MEDebug.log(thisMethod, 1, [newS]);
 
-		#tempM, tempL, tempI = this.getOffsets(symbol.intervals);
+		#tempM, tempL, tempI = MERange.getOffsets(newS.intervals);
 
 		MEMIDIValidators.midiOffsetArrayIsValid(tempM, diatonic: false);
 
-		tempR = MEMIDINote.getOffsetFromName(symbol.root, validate);
+		tempR = MEMIDINote.getOffsetFromName(newS.root, validate);
 		tempM = MEMIDINote.transposeMidiOffset(tempM, tempR, validate);
-		tempL = MENoteName.getNoteLetters(tempL, symbol.root[0].asString, validate);
+		tempL = MENoteName.getNoteLetters(tempL, newS.root[0].asString, validate);
 
-		^this.getMENotes(tempM, tempL, tempI, validate);
+		notes = MERange.getMENotes(tempM, tempL, tempI, validate);
+	}
+
+	/****************************************************************************************/
+
+	do { |function|
+		var size = notes.size - 1;
+		var i = 0;
+
+		while { i <= size } {
+			function.value(this[i], i);
+			i = i + 1;
+		};
+	}
+
+	/****************************************************************************************/
+
+	reverseDo { |function|
+		var j = this.size - 1;
+		var i = 0;
+
+		while { j >= 0 } {
+			function.value(this[j], i);
+			j = j - 1;
+			i = i + 1;
+		};
+	}
+
+	/****************************************************************************************/
+
+	at { |index|
+		^notes.at(index);
+	}
+
+	/****************************************************************************************/
+
+	species {
+		^this.class;
+	}
+
+	/****************************************************************************************/
+
+	size {
+		^notes.size;
+	}
+
+	/****************************************************************************************/
+
+	put { |index, item|
+
+		if (item.isKindOf(MENote)) {
+			notes.put(index, item)
+		} {
+			Error("MERange only allowes MENote objects.").throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	add { |item|
+		var nts = notes;
+
+		if (item.isKindOf(MENote)) {
+			notes.add(item);
+		} {
+			Error("MERange only allowes MENote objects.").throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	copy {
+		^this.class.newCopyArgs(symbol, notes)
+	}
+
+	/****************************************************************************************/
+
+	copyRange { |start, end|
+		^this.class.with(symbol, *notes.copyRange(start, end));
+	}
+
+	/****************************************************************************************/
+
+	copySeries { |first, second, last|
+		^this.class.with(symbol, *notes.copySeries(first, second, last));
+	}
+
+	/****************************************************************************************/
+
+	select { |function|
+		^this.selectAs(function, this.species);
+	}
+
+	/****************************************************************************************/
+
+	reject { |function|
+		^this.rejectAs(function, this.species);
+	}
+
+	/****************************************************************************************/
+
+	collect { |function|
+		^this.collectAs(function, Array);
 	}
 }
