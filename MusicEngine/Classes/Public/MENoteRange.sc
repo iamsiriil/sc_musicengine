@@ -4,175 +4,122 @@
 * Licensed under GPLv3. See LICENSE file for details.			    						 *
 *********************************************************************************************/
 
-MENoteRange {
-	var symbol;
-	var notes;
+MENoteRange : MERange {
 
-	*new { |symbol|
-		^super.new.init(symbol);
-	}
+	// Indexing data
 
-	init { |newS|
-
-		MEDebug.log(thisMethod, 1, [newS]);
-
-		symbol = MESymbol.new(newS);
-		notes  = MERange.getRange(symbol, MEDebug.validate);
-
-		^this;
+	firstIndexInOctave { |octave|
+		^this.detectIndex { |n| n.octave == octave };
 	}
 
 	/****************************************************************************************/
 
-	printOn { |stream|
-		var chordSymbol = if (symbol.alias.isNil) { symbol.symbol } { symbol.alias };
-
-		stream << chordSymbol << " " << notes;
+	lastIndexInOctave { |octave|
+		^this.detectLastIndex { |n| n.octave == octave };
 	}
 
 	/****************************************************************************************/
 
-	firstIndexFromOctave { |octave|
-		var note = notes.select { |n| (n.octave == octave) }.first;
-
-		^notes.indexOf(note);
+	firstIndexOfDegree { |degree|
+		^this.detectIndex { |n| n.degree == degree };
 	}
 
 	/****************************************************************************************/
 
-	lastIndexFromOctave { |octave|
-		var note = notes.select { |n| n.octave == octave }.last;
-
-		^notes.indexOf(note);
+	lastIndexOfDegree { |degree|
+		^this.detectLastIndex { |n| n.degree == degree };
 	}
 
 	/****************************************************************************************/
 
-	firstIndexFromDegree { |degree = "P1"|
-		var note = notes.select { |n| n.degree == degree }.first;
-
-		^notes.indexOf(note);
+	indexOfName { |name|
+		^this.detectIndex { |n| n.name == name };
 	}
 
 	/****************************************************************************************/
 
-	lastIndexFromDegree { |degree = "P1"|
-		var note = notes.select { |n| n.degree == degree }.last;
+	degreeInOctave { |degree, octave|
+		^this.detectIndex { |n| (n.degree == degree) && (n.octave == octave) };
+	}
 
-		^notes.indexOf(note);
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Trimming ranges by data type
+
+	trimO { |fromOctave, toOctave|
+		var fIndex = this.firstIndexInOctave(fromOctave);
+		var tIndex = this.lastIndexInOctave(toOctave);
+
+		^this[fIndex..tIndex];
 	}
 
 	/****************************************************************************************/
 
-	degreeInOctave { |octave, degree|
-		var note = notes.select { |n| (n.octave == octave) && (n.degree == degree) }.first;
+	trimD { |fromDegree, toDegree|
+		var fIndex = this.firstIndexOfDegree(fromDegree);
+		var tIndex = this.lastIndexOfDegree(toDegree);
 
-		^notes.indexOf(note);
+		^this[fIndex..tIndex];
 	}
 
 	/****************************************************************************************/
 
-	getTwoOctaveSpan { |notes, degrees|
-		var index = degrees.detectIndex { |i| i == notes[0].degree };
-		var temp  = Array();
-
-		notes.do { |n|
-
-			if (n.degree == degrees[index]) {
-				temp  = temp.add(n);
-				index = (index + 1) % degrees.size;
-			};
-		};
-
-		^temp;
+	trimM { |fromMIDI, toMIDI|
+		^this.select { |n| (n.midi >= fromMIDI) && (n.midi <= toMIDI) };
 	}
 
 	/****************************************************************************************/
 
-	notes { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
-		var degrees = symbol.intervals.collect { |i| i.interval };
-		var indexF, indexT, temp;
+	trimF { |fromFreq, toFreq|
+		^this.select { |n| (n.freq >= fromFreq) && (n.freq <= toFreq) };
+	}
 
-		if ((fromOctave > toOctave) || (fromOctave < -1) || (toOctave > 9)) {
-			Error("Octaves go from -1 to 9.\n").throw;
-		};
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Filtering data from ranges
 
-		if (fromDegree.notNil && degrees.asSet.includes(fromDegree).not) {
-			Error("Range does not include interval %. Pick from %.\n".format(
-				fromDegree,
-				degrees
-			)).throw;
-		};
-
-		case
-		{ fromDegree.notNil && toDegree.notNil } {
-			indexF = this.degreeInOctave(fromOctave, fromDegree);
-			indexT = this.degreeInOctave(toOctave, toDegree);
-		}
-		{ fromDegree.isNil && toDegree.notNil } {
-			indexF = this.firstIndexFromOctave(fromOctave);
-			indexT = this.degreeInOctave(toOctave, toDegree);
-		}
-		{ fromDegree.notNil && toDegree.isNil } {
-			indexF = this.degreeInOctave(fromOctave, fromDegree);
-			indexT = this.lastIndexFromOctave(toOctave);
-		} {
-			indexF = this.firstIndexFromOctave(fromOctave);
-			indexT = this.lastIndexFromOctave(toOctave);
-		};
-
-		temp = notes[indexF..indexT];
-
-		if (octaveSpan == 2) {
-			^this.getTwoOctaveSpan(temp, degrees)
-		} {
-			^temp;
-		};
+	filterD { |... args|
+		^this.reject { |n| args.includes(n.degree.asSymbol) };
 	}
 
 	/****************************************************************************************/
 
-	midi { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
-		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.midi };
+	filterN { |... args|
+		^this.reject { |n| args.includes(n.name.asSymbol) };
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Collecting data by type
+
+	midi {
+		^this.collect { |n| n.midi };
 	}
 
 	/****************************************************************************************/
 
-	freq { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
-		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.freq };
+	freq {
+		^this.collect { |n| n.freq };
 	}
 
 	/****************************************************************************************/
 
-	names { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil,
-		octaveSpan = 1, withOctave = true|
-
-		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.name(withOctave) };
+	names { |charSet = \ascii, withOctave = true|
+		^this.collect { |n| n.name(charSet, withOctave) };
 	}
 
 	/****************************************************************************************/
 
-	sol { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil,
-		octaveSpan = 1, withOctave = true|
-
-		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.sol(withOctave) };
+	degrees { |root = false|
+		^this.collect { |n| n.degree(root) };
 	}
 
 	/****************************************************************************************/
-
-	degrees { |fromOctave = 1, toOctave = 9, fromDegree = nil, toDegree = nil, octaveSpan = 1|
-		^this.notes(fromOctave, toOctave, fromDegree, toDegree, octaveSpan).collect { |n| n.degree };
-	}
-
 	/****************************************************************************************/
+	// Symbol data
 
-	root { |offset = false|
-
-		if (offset) {
-			^MEMIDINote.getOffsetFromName(symbol.root, false);
-		} {
-			^symbol.root;
-		}
+	intervals {
+		^symbol.intervals.collect { |i| i.offset };
 	}
 
 	/****************************************************************************************/
@@ -189,7 +136,142 @@ MENoteRange {
 
 	/****************************************************************************************/
 
-	intervals {
-		^symbol.intervals.collect { |i| i.interval };
+	root { |offset = false|
+
+		if (offset) {
+			^MEMIDINote.getOffsetFromName(symbol.root);
+		};
+		^symbol.root;
+	}
+
+	/****************************************************************************************/
+
+	symbolObj {
+		^symbol;
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Data dicts
+
+	setValues { |key, value|
+		this.do { |n| n.set(key, value)};
+	}
+
+	/****************************************************************************************/
+
+	setFunc { |key, function|
+		this.do { |n| n.set(key, function.value) };
+	}
+
+	/****************************************************************************************/
+
+	getValues { |key|
+
+		if (this.getKeys.includes(key)) {
+			^this.collect { |n| n.get(key) };
+		} {
+			Error("Key '%' is not defined.".format(key)).throw;
+		};
+	}
+
+	/****************************************************************************************/
+
+	clearValues { |key|
+		this.do { |n| n.clearValue(key) };
+	}
+
+	/****************************************************************************************/
+
+	clearDict {
+		this.do { |n| n.clearData };
+	}
+
+	/****************************************************************************************/
+
+	getKeys {
+		var set = Set();
+		this.do { |n| set = set ++ n.getKeys };
+		^set;
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+
+	asPseq { |what, rep = 1, off = 0|
+
+		switch(what)
+		{ \midi } { ^Pseq(this.midi, rep, off) }
+		{ \freq } { ^Pseq(this.freq, rep, off) }
+		{
+			if (this.getKeys.includes(what)) {
+				^Pseq(this.getValues(what), rep, off);
+			} {
+				Error("Key '%' is not defined.".format(what)).throw;
+			};
+		};
+	}
+
+	/****************************************************************************************/
+
+	/*getTwoOctaveSpan { |notes, degrees|
+		var index = degrees.detectIndex { |i| i == notes[0].degree };
+		//var underOct = degrees.collect { |i| i[1..].asInteger }.count { |n| n < 7 };
+		var temp  = Array();
+
+		notes.do { |n|
+
+			if (n.degree == degrees[index]) {
+
+				temp  = temp.add(n);
+				index = (index + 1) % degrees.size;
+			};
+		};
+
+		^temp;
+	}*/
+
+	span {
+		var temp = Array(this.size);
+		var ct  = 0, rt, bool;
+		var intervals = this.collect { |n| n.number }.asSet.asArray.sort;
+		var lt  = intervals.select { |i| i < 8 };
+		var bt  = intervals.select { |i| i >= 8 };
+
+		"symbol: %".format(this.symbolObj).postln;
+
+		if (this[0].number(true) < 8) {
+			bool = true;
+			ct   = lt.detectIndex { |i| i == this[0].number };
+			rt   = 0;
+		} {
+			bool = false;
+			ct   = bt.detectIndex { |i| i == this[0].number };
+			rt   = 1;
+		};
+
+		this.do { |n, i|
+
+			case
+			{ bool && lt[ct] == n.number } {
+				ct = ct + 1;
+				temp = temp.add(n);
+				if ((ct == lt.size)) {
+					bool = false;
+					ct = 0;
+				}
+			}
+			{ bool.not && bt[ct] == n.number && (rt == 1) } {
+				ct = ct + 1;
+				temp = temp.add(n);
+				if ((ct == bt.size)) {
+					bool = true;
+					ct = 0;
+					rt = 0;
+				};
+			}
+			{ n.degree == \P1 } { rt = rt + 1 };
+		};
+		^this.class.with(*temp);
 	}
 }
