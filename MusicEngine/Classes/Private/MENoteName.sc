@@ -44,30 +44,14 @@ MENoteName {
 			MEIntervalValidators.intervalIsValid(meinterval.interval);
 		};
 
-		letterOffset = meinterval.number;
+		letterOffset = meinterval.number(true);
 
 		if (letterOffset > 7) {
-			^(letterOffset - 7) - 1;
+			^letterOffset - 8;
 		} {
 			^letterOffset - 1;
 		};
 	}
-
-	/****************************************************************************************/
-
-	/**getOffsetArray { |intervalArray, validate = true|
-		var letterOffsetArr = Array.new(intervalArray.size + 1);
-
-		MEDebug.log(thisMethod, 2);
-
-		letterOffsetArr.add(0);
-
-		intervalArray.do { |i|
-			letterOffsetArr.add(this.getOffsetFromInterval(i, validate));
-		};
-
-		^letterOffsetArr;
-	}*/
 
 	/****************************************************************************************/
 
@@ -91,8 +75,8 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	name {
-		^noteLetter ++ accidental.sign;
+	name { |charSet = \ascii|
+		^noteLetter ++ accidental.sign(charSet);
 	}
 
 	/****************************************************************************************/
@@ -103,21 +87,21 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	sign {
-		^accidental.sign
+	sign { |charSet = \ascii|
+		^accidental.sign(charSet)
 	}
 
 	/****************************************************************************************/
 
-	accidentalOffset {
+	signOffset {
 		^accidental.offset;
 	}
 
 	/****************************************************************************************/
 
-	solfege {
+	solfege { |charSet = \ascii|
 		var index = MECore.indexOfLetter(noteLetter, false);
 
-		^solfege[index] ++ accidental.sign;
+		^solfege[index] ++ accidental.sign(charSet);
 	}
 }
