@@ -60,12 +60,16 @@ MESymbolValidators {
 	*checkInvalidNumbers { |symbol|
 		var regex0 = "(?:[0-9]{3,})|(?:[2-9][0-9])|(?:1[5-9])|(?<!\\d)0(?!\\d)";
 		var regex1 = "^(?:\\d+)(\\w)";
+		var regex2 = "(?:^[0-9]$)";
 
 		if (regex0.matchRegexp(symbol)) {
 			Error("Symbol %, contains invalid numbers. Only numbers from 1 to 14 allowed.".format(symbol)).throw;
 		};
 		if (regex1.matchRegexp(symbol)) {
 			Error("Symbol %, contains leading number without letter.".format(symbol)).throw;
+		};
+		if (regex2.matchRegexp(symbol)) {
+			Error("Symbol contains single digit %.".format(symbol)).throw;
 		};
 		^nil;
 	}
