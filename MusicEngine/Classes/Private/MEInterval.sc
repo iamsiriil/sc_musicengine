@@ -5,28 +5,35 @@
 *********************************************************************************************/
 
 MEInterval {
-	var <offset;
-	var <number;
-	var <quality;
+	classvar <dict;
+	var interval;
+	var number;
+
 
 	*new {|interval|
 		^super.new.init(interval);
 	}
 
 	init { |newI|
-		var temp;
+		var temp, quality;
 
-		quality  = newI[0];
-		number   = newI[1..].asInteger;
+		interval = newI;
+		temp     = newI.asString;
 
-		switch(quality)
-		{ $d } { offset = number + 0.0 }
-		{ $m } { offset = number + 0.1 }
-		{ $P } { offset = number + 0.2 }
-		{ $M } { offset = number + 0.3 }
-		{ $A } { offset = number + 0.4 };
+		quality  = MEInterval.convertQuality(temp[0].asSymbol);
+		number   = temp[1..].asInteger + quality;
 
 		^this;
+	}
+
+	*initClass {
+		dict = Dictionary[
+			\d -> 0.0,
+			\m -> 0.1,
+			\P -> 0.2,
+			\M -> 0.3,
+			\A -> 0.4
+		];
 	}
 
 	/****************************************************************************************/
@@ -41,7 +48,7 @@ MEInterval {
 		var arr = Array();
 
 		intervalsArr.do { |i|
-			arr = arr.add(MEInterval(i));
+			arr = arr.add(MEInterval(i.asSymbol));
 		};
 		^this.sortIntervals(arr);
 	}
@@ -49,18 +56,53 @@ MEInterval {
 	/****************************************************************************************/
 
 	*sortIntervals { |intervalsArr|
-		^intervalsArr.sort { |a, b| a.offset < b.offset };
+		^intervalsArr.sort { |a, b| a.number < b.number };
+	}
+
+	/****************************************************************************************/
+
+	*convertQuality { |value|
+
+		case
+		{ value.isKindOf(Float)  } { ^dict.findKeyForValue(value) }
+		{ value.isKindOf(Symbol) } { ^dict[value] }
+		{
+			Error("% is not a valid value.".format(value)).throw;
+		};
 	}
 
 	/****************************************************************************************/
 
 	interval { |root = false|
 
-		if (root && (number == 1 && quality == $P)) {
-			^"Rt";
-		} {
-			^quality ++ number;
+		if (root && (number == 1.2) ) {
+			^\Rt;
 		};
+		^interval;
+	}
+
+	/****************************************************************************************/
+
+	number { |asInt = false|
+
+		if (asInt) {
+			^number.floor.asInteger;
+		};
+		^number;
+	}
+
+	/****************************************************************************************/
+
+	quality { |asFloat = false|
+		var int, float;
+
+		int   = this.number.floor;
+		float = this.number - int;
+
+		if (asFloat) {
+			^float;
+		};
+		^MEInterval.convertQuality(float);
 	}
 }
 
