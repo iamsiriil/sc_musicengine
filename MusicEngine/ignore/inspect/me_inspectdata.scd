@@ -73,12 +73,12 @@ s.waitForBoot({
 /********************************************************************************************/
 (
 // Select test symbol and create new note range
-~testSymbol = ~oct0;
-~range = MENoteRange(~testSymbol);
-~routine.(~range.notes(4, 6, "P1")).play
+~testSymbol = ~al0;
+~range = MENoteRange("C-11");
 )
 
 // Inspect sound
+~routine.(~range.trimO(4, 5).trimD(\P1, \m3)).play;
 
 // Inspect range properties
 ~inspectRange.(~range);
