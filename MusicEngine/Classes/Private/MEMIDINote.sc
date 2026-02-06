@@ -19,7 +19,6 @@ MEMIDINote {
 		};
 
 		MECore.intervals.keysValuesDo { |k, v|
-
 			if (v.includes(meinterval.interval)) {
 				^k;
 			};
@@ -44,7 +43,7 @@ MEMIDINote {
 		midiOffset = MECore.offsetFromLetter(noteName[0], false) + signOffset;
 
 		case
-		{ midiOffset < 0 }  { ^midiOffset + 12 }
+		{ midiOffset < 0  } { ^midiOffset + 12 }
 		{ midiOffset > 11 } { ^midiOffset - 12 };
 
 		^midiOffset;
