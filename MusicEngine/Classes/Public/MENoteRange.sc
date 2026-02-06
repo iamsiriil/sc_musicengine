@@ -79,7 +79,7 @@ MENoteRange : MERange {
 	// Filtering data from ranges
 
 	filterD { |... args|
-		^this.reject { |n| args.includes(n.degree.asSymbol) };
+		^this.reject { |n| args.includes(n.degree) };
 	}
 
 	/****************************************************************************************/
@@ -118,8 +118,12 @@ MENoteRange : MERange {
 	/****************************************************************************************/
 	// Symbol data
 
-	intervals {
-		^symbol.intervals.collect { |i| i.offset };
+	intervals { |asSymbol = true|
+
+		if (asSymbol) {
+			^symbol.intervals.collect { |i| i.interval };
+		};
+		^symbol.intervals.collect { |i| i.number };
 	}
 
 	/****************************************************************************************/
@@ -234,13 +238,13 @@ MENoteRange : MERange {
 	span {
 		var temp = Array(this.size);
 		var ct  = 0, rt, bool;
-		var intervals = this.collect { |n| n.number }.asSet.asArray.sort;
+		var intervals = this.intervals;
 		var lt  = intervals.select { |i| i < 8 };
 		var bt  = intervals.select { |i| i >= 8 };
 
 		"symbol: %".format(this.symbolObj).postln;
 
-		if (this[0].number(true) < 8) {
+		if (this[0].number < 8.0) {
 			bool = true;
 			ct   = lt.detectIndex { |i| i == this[0].number };
 			rt   = 0;
@@ -270,7 +274,7 @@ MENoteRange : MERange {
 					rt = 0;
 				};
 			}
-			{ n.degree == \P1 } { rt = rt + 1 };
+			{ n.number == 1.2 } { rt = rt + 1 };
 		};
 		^this.class.with(*temp);
 	}
