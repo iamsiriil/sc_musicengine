@@ -78,7 +78,7 @@ MEOctave {
 
 		if (noteName.notNil) {
 			cross = this.checkOctaveCross(noteName, false);
-			^octave + (cross * -1);
+			^(octave + (cross * -1));
 		};
 		^octave;
 	}
