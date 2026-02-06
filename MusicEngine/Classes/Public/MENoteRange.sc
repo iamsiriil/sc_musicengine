@@ -110,6 +110,12 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
+	sol { |charSet = \ascii, withOctave = true|
+		^this.collect { |n| n.sol(charSet, withOctave) };
+	}
+
+	/****************************************************************************************/
+
 	degrees { |root = false|
 		^this.collect { |n| n.degree(root) };
 	}
