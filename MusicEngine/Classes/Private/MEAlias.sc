@@ -63,7 +63,7 @@ MEAlias {
 			"m3P4P5m7" -> Set['MinorPenthatonic', 'minorpenthatonic', 'MinPent', 'minpent', 'mPent', 'mpent', 'mP', 'mp', '-P', '-p'],
 
 			// Hexatonic scales
-			"M2M3A4A5A6" -> Set["WholeTone", "wholetone", "WT", "wt", "AugS", "augs", "+S", "+s"],
+			"M2M3A4A5A6" -> Set['WholeTone', 'wholetone', 'WT', 'wt', 'AugS', 'augs', '+S', '+s'],
 			"m3P4A4P5m7" -> Set['Blues', 'BS', 'Bs'],
 
 			// Heptatonic scales
