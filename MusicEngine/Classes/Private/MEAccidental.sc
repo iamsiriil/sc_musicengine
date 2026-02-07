@@ -149,7 +149,7 @@ MEAccidental {
 	sign { |charSet = \ascii|
 
 		if (charSet != \ascii) {
-			^MEAccidental.getSignFromOffset(offset, charSet: charSet);
+			^MEAccidental.getSignFromOffset(offset, false, charSet: charSet);
 		};
 		^sign;
 	}
