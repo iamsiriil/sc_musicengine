@@ -22,8 +22,13 @@ MESymbol {
 
 		#root, symbol = MESymbol.splitSymbol(newS);
 
-		if ((normSymbol = MEAlias.getSymbolFromAlias(symbol)).notNil) {
-
+		case
+		{ ((normSymbol = MERegister.getSymbolFromAlias(symbol)).notNil) } {
+			alias    = symbol;
+			symbol   = normSymbol;
+			validate = false;
+		}
+		{ ((normSymbol = MEAlias.getSymbolFromAlias(symbol)).notNil)    } {
 			if (symbol == "") {
 				alias = nil;
 			} {
