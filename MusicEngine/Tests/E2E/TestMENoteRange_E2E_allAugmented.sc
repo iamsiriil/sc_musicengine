@@ -12,14 +12,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[3, 5, 6, 8, 10, 12],
 				["C###-1", "D###-1", "E##-1", "F###-1", "G###-1", "B#-1"],
-				["A2", "A3", "A4", "A5", "A6", "P1"]
+				['A2', 'A3', 'A4', 'A5', 'A6', 'P1']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(-1, -1),
-			range.names(-1, -1),
-			range.degrees(-1, -1)
+			range.trimO(-1, -1).midi,
+			range.trimO(-1, -1).names,
+			range.trimO(-1, -1).degrees
 		];
 
 		this.assertEquals(
@@ -37,14 +37,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[63, 65, 66, 68, 70, 72],
 				["C###4", "D###4", "E##4", "F###4", "G###4", "B#4"],
-				["A2", "A3", "A4", "A5", "A6", "P1"]
+				['A2', 'A3', 'A4', 'A5', 'A6', 'P1']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(4, 4),
-			range.names(4, 4),
-			range.degrees(4, 4)
+			range.trimO(4, 4).midi,
+			range.trimO(4, 4).names,
+			range.trimO(4, 4).degrees
 		];
 
 		this.assertEquals(
@@ -62,14 +62,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[123, 125, 126],
 				["C###9", "D###9", "E##9"],
-				["A2", "A3", "A4"]
+				['A2', 'A3', 'A4']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(9, 9),
-			range.names(9, 9),
-			range.degrees(9, 9)
+			range.trimO(9, 9).midi,
+			range.trimO(9, 9).names,
+			range.trimO(9, 9).degrees
 		];
 
 		this.assertEquals(
@@ -87,14 +87,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[3, 5, 8, 10, 11, 13],
 				["C###-1", "E#-1", "F###-1", "G###-1", "A##-1", "B##-1"],
-				["A6", "P1", "A2", "A3", "A4", "A5"]
+				['A6', 'P1', 'A2', 'A3', 'A4', 'A5']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(-1, -1),
-			range.names(-1, -1),
-			range.degrees(-1, -1)
+			range.trimO(-1, -1).midi,
+			range.trimO(-1, -1).names,
+			range.trimO(-1, -1).degrees
 		];
 
 		this.assertEquals(
@@ -112,14 +112,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[63, 65, 68, 70, 71, 73],
 				["C###4", "E#4", "F###4", "G###4", "A##4", "B##4"],
-				["A6", "P1", "A2", "A3", "A4", "A5"]
+				['A6', 'P1', 'A2', 'A3', 'A4', 'A5']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(4, 4),
-			range.names(4, 4),
-			range.degrees(4, 4)
+			range.trimO(4, 4).midi,
+			range.trimO(4, 4).names,
+			range.trimO(4, 4).degrees
 		];
 
 		this.assertEquals(
@@ -137,14 +137,14 @@ TestMENoteRange_E2E_allAugmented : UnitTest {
 			expected: [
 				[123, 125],
 				["C###9", "E#9"],
-				["A6", "P1"]
+				['A6', 'P1']
 			]
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(9, 9),
-			range.names(9, 9),
-			range.degrees(9, 9)
+			range.trimO(9, 9).midi,
+			range.trimO(9, 9).names,
+			range.trimO(9, 9).degrees
 		];
 
 		this.assertEquals(

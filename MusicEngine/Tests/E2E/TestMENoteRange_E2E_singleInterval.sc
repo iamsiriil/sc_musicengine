@@ -9,13 +9,13 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalFirstOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[0, 7], ["C-1", "G-1"], ["P1", "P5"]],
+			expected: [[0, 7], ["C-1", "G-1"], ['P1', 'P5']],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(-1, -1),
-			range.names(-1, -1),
-			range.degrees(-1, -1)
+			range.trimO(-1, -1).midi,
+			range.trimO(-1, -1).names,
+			range.trimO(-1, -1).degrees
 		];
 
 		this.assertEquals(
@@ -30,13 +30,13 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalMiddleOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[60, 67], ["C4", "G4"], ["P1", "P5"]],
+			expected: [[60, 67], ["C4", "G4"], ['P1', 'P5']],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(4, 4),
-			range.names(4, 4),
-			range.degrees(4, 4)
+			range.trimO(4, 4).midi,
+			range.trimO(4, 4).names,
+			range.trimO(4, 4).degrees
 		];
 
 		this.assertEquals(
@@ -51,13 +51,13 @@ TestMENoteRange_E2E_singleInterval : UnitTest {
 	test_MENoteRange_singleIntervalLastOct {
 		var fixture = (
 			symbol:   "C5",
-			expected: [[120, 127], ["C9", "G9"], ["P1", "P5"]],
+			expected: [[120, 127], ["C9", "G9"], ['P1', 'P5']],
 		);
 		var range = MENoteRange(fixture.symbol);
 		var rangeData = [
-			range.midi(9, 9),
-			range.names(9, 9),
-			range.degrees(9, 9)
+			range.trimO(9, 9).midi,
+			range.trimO(9, 9).names,
+			range.trimO(9, 9).degrees
 		];
 
 		this.assertEquals(
