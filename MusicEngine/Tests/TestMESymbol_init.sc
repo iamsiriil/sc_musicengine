@@ -24,12 +24,19 @@ TestMESymbol_init : UnitTest {
 	test_init_validInputNoSymbol {
 		var fixture = (
 			symbol: "F#",
-			expected: ["F#", ["P1", "M3", "P5"], "F#M3P5", "M3P5", nil, nil]
+			expected: [
+				"F#",
+				[MEInterval('P1'),MEInterval('M3'),MEInterval('P5')],
+				"F#M3P5",
+				"M3P5",
+				nil,
+				nil
+			]
 		);
 		var symbol = MESymbol(fixture.symbol);
 		var symbolData = [
 			symbol.root,
-			symbol.intervals.collect { |i| i.interval },
+			symbol.intervals,
 			symbol.symbol(true),
 			symbol.symbol(false),
 			symbol.alias(true),
@@ -48,12 +55,19 @@ TestMESymbol_init : UnitTest {
 	test_init_validInputAlias {
 		var fixture = (
 			symbol: "G#min7",
-			expected: ["G#", ["P1", "m3", "P5", "m7"], "G#m3P5m7", "m3P5m7", "G#min7", "min7"]
+			expected: [
+				"G#",
+				[MEInterval('P1'), MEInterval('m3'), MEInterval('P5'), MEInterval('m7')],
+				"G#m3P5m7",
+				"m3P5m7",
+				"G#min7",
+				"min7"
+			]
 		);
 		var symbol = MESymbol(fixture.symbol);
 		var symbolData = [
 			symbol.root,
-			symbol.intervals.collect { |i| i.interval },
+			symbol.intervals,
 			symbol.symbol(true),
 			symbol.symbol(false),
 			symbol.alias(true),
@@ -72,12 +86,25 @@ TestMESymbol_init : UnitTest {
 	test_init_validInputVerbose {
 		var fixture = (
 			symbol: "CbM3P5M7M9",
-			expected: ["Cb", ["P1", "M3", "P5", "M7", "M9"], "CbM3P5M7M9", "M3P5M7M9", nil, nil]
+			expected: [
+				"Cb",
+				[
+					MEInterval('P1'),
+					MEInterval('M3'),
+					MEInterval('P5'),
+					MEInterval('M7'),
+					MEInterval('M9')
+				],
+				"CbM3P5M7M9",
+				"M3P5M7M9",
+				nil,
+				nil
+			]
 		);
 		var symbol = MESymbol(fixture.symbol);
 		var symbolData = [
 			symbol.root,
-			symbol.intervals.collect { |i| i.interval },
+			symbol.intervals,
 			symbol.symbol(true),
 			symbol.symbol(false),
 			symbol.alias(true),
