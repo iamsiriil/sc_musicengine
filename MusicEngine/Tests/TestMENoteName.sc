@@ -8,29 +8,29 @@ TestMENoteName : UnitTest {
 
 	test_getOffsetFromInterval_validInputUnder8th {
 		var fixtures = [
-			(expected: 0, interval: "P1"),
-			(expected: 1, interval: "m2"),
-			(expected: 0, interval: "A1"),
-			(expected: 1, interval: "M2"),
-			(expected: 2, interval: "d3"),
-			(expected: 2, interval: "m3"),
-			(expected: 1, interval: "A2"),
-			(expected: 2, interval: "M3"),
-			(expected: 3, interval: "d4"),
-			(expected: 3, interval: "P4"),
-			(expected: 2, interval: "A3"),
-			(expected: 3, interval: "A4"),
-			(expected: 4, interval: "d5"),
-			(expected: 4, interval: "P5"),
-			(expected: 5, interval: "d6"),
-			(expected: 5, interval: "m6"),
-			(expected: 4, interval: "A5"),
-			(expected: 5, interval: "M6"),
-			(expected: 6, interval: "d7"),
-			(expected: 6, interval: "m7"),
-			(expected: 5, interval: "A6"),
-			(expected: 6, interval: "M7"),
-			(expected: 0, interval: "d1")
+			(expected: 0, interval: 'P1'),
+			(expected: 1, interval: 'm2'),
+			(expected: 0, interval: 'A1'),
+			(expected: 1, interval: 'M2'),
+			(expected: 2, interval: 'd3'),
+			(expected: 2, interval: 'm3'),
+			(expected: 1, interval: 'A2'),
+			(expected: 2, interval: 'M3'),
+			(expected: 3, interval: 'd4'),
+			(expected: 3, interval: 'P4'),
+			(expected: 2, interval: 'A3'),
+			(expected: 3, interval: 'A4'),
+			(expected: 4, interval: 'd5'),
+			(expected: 4, interval: 'P5'),
+			(expected: 5, interval: 'd6'),
+			(expected: 5, interval: 'm6'),
+			(expected: 4, interval: 'A5'),
+			(expected: 5, interval: 'M6'),
+			(expected: 6, interval: 'd7'),
+			(expected: 6, interval: 'm7'),
+			(expected: 5, interval: 'A6'),
+			(expected: 6, interval: 'M7'),
+			(expected: 0, interval: 'd1')
 		];
 
 		fixtures.do { |f|
@@ -48,29 +48,29 @@ TestMENoteName : UnitTest {
 
 	test_getOffsetFromInterval_validInputOver8th {
 		var fixtures = [
-			(expected: 0, interval: "P8"),
-			(expected: 1, interval: "m9"),
-			(expected: 0, interval: "A8"),
-			(expected: 1, interval: "M9"),
-			(expected: 2, interval: "d10"),
-			(expected: 2, interval: "m10"),
-			(expected: 1, interval: "A9"),
-			(expected: 2, interval: "M10"),
-			(expected: 3, interval: "d11"),
-			(expected: 3, interval: "P11"),
-			(expected: 2, interval: "A10"),
-			(expected: 3, interval: "A11"),
-			(expected: 4, interval: "d12"),
-			(expected: 4, interval: "P12"),
-			(expected: 5, interval: "d13"),
-			(expected: 5, interval: "m13"),
-			(expected: 4, interval: "A12"),
-			(expected: 5, interval: "M13"),
-			(expected: 6, interval: "d14"),
-			(expected: 6, interval: "m14"),
-			(expected: 5, interval: "A13"),
-			(expected: 6, interval: "M14"),
-			(expected: 0, interval: "d8")
+			(expected: 0, interval: 'P8'),
+			(expected: 1, interval: 'm9'),
+			(expected: 0, interval: 'A8'),
+			(expected: 1, interval: 'M9'),
+			(expected: 2, interval: 'd10'),
+			(expected: 2, interval: 'm10'),
+			(expected: 1, interval: 'A9'),
+			(expected: 2, interval: 'M10'),
+			(expected: 3, interval: 'd11'),
+			(expected: 3, interval: 'P11'),
+			(expected: 2, interval: 'A10'),
+			(expected: 3, interval: 'A11'),
+			(expected: 4, interval: 'd12'),
+			(expected: 4, interval: 'P12'),
+			(expected: 5, interval: 'd13'),
+			(expected: 5, interval: 'm13'),
+			(expected: 4, interval: 'A12'),
+			(expected: 5, interval: 'M13'),
+			(expected: 6, interval: 'd14'),
+			(expected: 6, interval: 'm14'),
+			(expected: 5, interval: 'A13'),
+			(expected: 6, interval: 'M14'),
+			(expected: 0, interval: 'd8')
 		];
 
 		fixtures.do { |f|
@@ -87,7 +87,7 @@ TestMENoteName : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputUnder8th {
-		var fixtures = ["d2", "P2", "P3", "m4", "M4", "m5", "M5", "P6", "P7", "A7"];
+		var fixtures = ['d2', 'P2', 'P3', 'm4', 'M4', 'm5', 'M5', 'P6', 'P7', 'A7'];
 
 		fixtures.do { |f|
 			var meinterval = MEInterval(f);
@@ -103,7 +103,7 @@ TestMENoteName : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputOver8th {
-		var fixtures = ["d9", "P9", "P10", "m11", "M11", "m12", "M12", "P13", "P14", "A14"];
+		var fixtures = ['d9', 'P9', 'P10', 'm11', 'M11', 'm12', 'M12', 'P13', 'P14', 'A14'];
 
 		fixtures.do { |f|
 			var meinterval = MEInterval(f);
@@ -119,7 +119,7 @@ TestMENoteName : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidDataType {
-		var fixtures = ['M2', 2, 0.2, $M, ["M2"]];
+		var fixtures = ["M2", 2, 0.2, $M, ['M2']];
 
 		fixtures.do { |f|
 
