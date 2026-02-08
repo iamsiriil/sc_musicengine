@@ -15,12 +15,12 @@ MEIntervalValidators {
 
 		MEDebug.log(thisMethod, 3);
 
-		if (interval.isString.not) {
-			Error("Interval must be of type String.").throw;
+		if (interval.isKindOf(Symbol).not) {
+			Error("Interval must be of type Symbol.").throw;
 		};
 
 		MECore.intervals.do { |v|
-			result = result || v.includes(interval.asString);
+			result = result || v.includes(interval);
 		};
 
 		if (result == false) {
