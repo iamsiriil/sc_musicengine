@@ -8,29 +8,29 @@ TestMEMIDINote : UnitTest {
 
 	test_getOffsetFromInterval_validInputUnder8th {
 		var fixtures = [
-			(expected: 0, interval: "P1"),
-			(expected: 1, interval: "m2"),
-			(expected: 1, interval: "A1"),
-			(expected: 2, interval: "M2"),
-			(expected: 2, interval: "d3"),
-			(expected: 3, interval: "m3"),
-			(expected: 3, interval: "A2"),
-			(expected: 4, interval: "M3"),
-			(expected: 4, interval: "d4"),
-			(expected: 5, interval: "P4"),
-			(expected: 5, interval: "A3"),
-			(expected: 6, interval: "A4"),
-			(expected: 6, interval: "d5"),
-			(expected: 7, interval: "P5"),
-			(expected: 7, interval: "d6"),
-			(expected: 8, interval: "m6"),
-			(expected: 8, interval: "A5"),
-			(expected: 9, interval: "M6"),
-			(expected: 9, interval: "d7"),
-			(expected: 10, interval: "m7"),
-			(expected: 10, interval: "A6"),
-			(expected: 11, interval: "M7"),
-			(expected: 11, interval: "d1")
+			(expected: 0, interval: 'P1'),
+			(expected: 1, interval: 'm2'),
+			(expected: 1, interval: 'A1'),
+			(expected: 2, interval: 'M2'),
+			(expected: 2, interval: 'd3'),
+			(expected: 3, interval: 'm3'),
+			(expected: 3, interval: 'A2'),
+			(expected: 4, interval: 'M3'),
+			(expected: 4, interval: 'd4'),
+			(expected: 5, interval: 'P4'),
+			(expected: 5, interval: 'A3'),
+			(expected: 6, interval: 'A4'),
+			(expected: 6, interval: 'd5'),
+			(expected: 7, interval: 'P5'),
+			(expected: 7, interval: 'd6'),
+			(expected: 8, interval: 'm6'),
+			(expected: 8, interval: 'A5'),
+			(expected: 9, interval: 'M6'),
+			(expected: 9, interval: 'd7'),
+			(expected: 10, interval: 'm7'),
+			(expected: 10, interval: 'A6'),
+			(expected: 11, interval: 'M7'),
+			(expected: 11, interval: 'd1')
 		];
 
 		fixtures.do { |f|
@@ -48,29 +48,29 @@ TestMEMIDINote : UnitTest {
 
 	test_getOffsetFromInterval_validInputOver8th {
 		var fixtures = [
-			(expected: 0, interval: "P8"),
-			(expected: 1, interval: "m9"),
-			(expected: 1, interval: "A8"),
-			(expected: 2, interval: "M9"),
-			(expected: 2, interval: "d10"),
-			(expected: 3, interval: "m10"),
-			(expected: 3, interval: "A9"),
-			(expected: 4, interval: "M10"),
-			(expected: 4, interval: "d11"),
-			(expected: 5, interval: "P11"),
-			(expected: 5, interval: "A10"),
-			(expected: 6, interval: "A11"),
-			(expected: 6, interval: "d12"),
-			(expected: 7, interval: "P12"),
-			(expected: 7, interval: "d13"),
-			(expected: 8, interval: "m13"),
-			(expected: 8, interval: "A12"),
-			(expected: 9, interval: "M13"),
-			(expected: 9, interval: "d14"),
-			(expected: 10, interval: "m14"),
-			(expected: 10, interval: "A13"),
-			(expected: 11, interval: "M14"),
-			(expected: 11, interval: "d8")
+			(expected: 0, interval: 'P8'),
+			(expected: 1, interval: 'm9'),
+			(expected: 1, interval: 'A8'),
+			(expected: 2, interval: 'M9'),
+			(expected: 2, interval: 'd10'),
+			(expected: 3, interval: 'm10'),
+			(expected: 3, interval: 'A9'),
+			(expected: 4, interval: 'M10'),
+			(expected: 4, interval: 'd11'),
+			(expected: 5, interval: 'P11'),
+			(expected: 5, interval: 'A10'),
+			(expected: 6, interval: 'A11'),
+			(expected: 6, interval: 'd12'),
+			(expected: 7, interval: 'P12'),
+			(expected: 7, interval: 'd13'),
+			(expected: 8, interval: 'm13'),
+			(expected: 8, interval: 'A12'),
+			(expected: 9, interval: 'M13'),
+			(expected: 9, interval: 'd14'),
+			(expected: 10, interval: 'm14'),
+			(expected: 10, interval: 'A13'),
+			(expected: 11, interval: 'M14'),
+			(expected: 11, interval: 'd8')
 		];
 
 		fixtures.do { |f|
@@ -87,7 +87,7 @@ TestMEMIDINote : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputUnder8th {
-		var fixtures = ["d2", "P2", "P3", "m4", "M4", "m5", "M5", "P6", "P7", "A7"];
+		var fixtures = ['d2', 'P2', 'P3', 'm4', 'M4', 'm5', 'M5', 'P6', 'P7', 'A7'];
 
 		fixtures.do { |f|
 			var meinterval = MEInterval(f);
@@ -103,7 +103,7 @@ TestMEMIDINote : UnitTest {
 	/****************************************************************************************/
 
 	test_getOffsetFromInterval_invalidInputOver8th {
-		var fixtures = ["d9", "P9", "P10", "m11", "M11", "m12", "M12", "P13", "P14", "A14"];
+		var fixtures = ['d9', 'P9', 'P10', 'm11', 'M11', 'm12', 'M12', 'P13', 'P14', 'A14'];
 
 		fixtures.do { |f|
 			var meinterval = MEInterval(f);
