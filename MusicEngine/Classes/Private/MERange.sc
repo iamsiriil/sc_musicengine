@@ -30,7 +30,9 @@ MERange : SequenceableCollection {
 	*with { |symbol ... args|
 		var newRange = this.new(args.size);
 
-		newRange.symbol = symbol;
+		if (symbol.notNil) {
+			newRange.symbol = symbol;
+		};
 
 		args.do { |n|
 			newRange.add(n);
@@ -38,63 +40,48 @@ MERange : SequenceableCollection {
 		^newRange
 	}
 
-
-	/****************************************************************************************/
-
-	*sortAndSplit { |dataArr|
-		var tempM = dataArr.collect { |n| n[1] };
-		var tempL = Array.new(dataArr.size);
-		var tempI = Array.new(dataArr.size);
-
-		MEDebug.log(thisMethod, 1, [dataArr]);
-
-		tempM.sort;
-
-		tempM.do { |n, i|
-
-			dataArr.do { |a|
-
-				if (a[1] == n) {
-					tempL.add(a[2]);
-					tempI.add(a[0]);
-				};
-			};
-		};
-		^[tempM, tempL, tempI];
-	}
-
 	/****************************************************************************************/
 
 	*getOffsets { |intervalsArr|
-		var dataArr = Array.new(intervalsArr.size + 1);
+		var size    = intervalsArr.size;
+		var dataArr = Array.new(size);
+		var i, int, temp;
 
 		MEDebug.log(thisMethod, 1, [intervalsArr]);
 
-		intervalsArr.do { |i|
-			var temp = Array.new(3);
+		i = 0;
+		while { i < size } {
+			int  = intervalsArr[i];
+			temp = Array(3);
 
-			temp.add(i.interval);
-			temp.add(MEMIDINote.getOffsetFromInterval(i, false));
-			temp.add(MENoteName.getOffsetFromInterval(i, false));
+			temp.add(int.asMIDIOffset);//add(MEMIDINote.getOffsetFromInterval(int, false));
+			temp.add(int.asLetterOffset);//add(MENoteName.getOffsetFromInterval(int, false));
+			temp.add(int.interval);
 
 			dataArr.add(temp);
+			i = i + 1;
 		};
-		^this.sortAndSplit(dataArr);
+		^dataArr.sort { |a, b| a[0] < b[0] }.flop;
 	}
 
 	/****************************************************************************************/
 
 	*wrapFirstOctave { |midiNotesArr, noteLettersArr, intervalsArr|
+		var size = midiNotesArr.size;
+		var i, m;
 
 		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
-		midiNotesArr.do { |m, i|
+		i = 0;
+		while { i < size } {
 
+			m = midiNotesArr[i];
 			if (m > 11) {
 				midiNotesArr[i] = m - 12;
 				noteLettersArr  = noteLettersArr.rotate(1);
 				intervalsArr    = intervalsArr.rotate(1);
 			};
+			i = i + 1;
 		};
 		midiNotesArr.sort;
 
@@ -104,17 +91,22 @@ MERange : SequenceableCollection {
 	/****************************************************************************************/
 
 	*extendMidiRange { |midiNotesArr|
-		var midiRange = Array.new(midiNotesArr.size * 11);
+		var size      = midiNotesArr.size;
+		var midiRange = Array.new(size * 11);
+		var i, m;
 
 		MEDebug.log(thisMethod, 1, [midiNotesArr]);
 
-		midiNotesArr.do { |m|
+		i = 0;
+		while { i < size } {
 
+			m = midiNotesArr[i];
 			while { m <= 127 } {
 
 				midiRange.add(m);
 				m = m + 12;
 			};
+			i = i + 1;
 		};
 		^midiRange.sort;
 	}
@@ -143,6 +135,7 @@ MERange : SequenceableCollection {
 
 	*getMENotes { |midiNotesArr, noteLettersArr, intervalsArr, validate|
 		var tempM, tempL, tempI, range;
+		var size, i;
 
 		MEDebug.log(thisMethod, 1, [midiNotesArr, noteLettersArr, intervalsArr]);
 
@@ -152,10 +145,13 @@ MERange : SequenceableCollection {
 			intervalsArr
 		);
 
-		range = Array.new(tempM.size);
+		size  = tempM.size;
+		range = Array.new(size);
 
-		tempM.do { |m, i|
-			range.add(MENote(tempL[i], m, tempI[i], validate));
+		i = 0;
+		while { i < size } {
+			range.add(MENote(tempL[i], tempM[i], tempI[i], validate: validate));
+			i = i + 1;
 		};
 
 		^range;
@@ -236,7 +232,6 @@ MERange : SequenceableCollection {
 	/****************************************************************************************/
 
 	add { |item|
-		var nts = notes;
 
 		if (item.isKindOf(MENote)) {
 			notes.add(item);
@@ -279,5 +274,17 @@ MERange : SequenceableCollection {
 
 	collect { |function|
 		^this.collectAs(function, Array);
+	}
+
+	foldExtend { |index|
+		var newR = this.notes.foldExtend(index);
+
+		^this.species.with(nil, *newR);
+	}
+
+	pyramid { |number|
+		var newR = this.notes.pyramid(number);
+
+		^this.species.with(nil, *newR);
 	}
 }
