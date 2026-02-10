@@ -6,63 +6,44 @@
 
 MEInterval {
 	classvar <dict;
-	var interval;
+	var <interval;
 	var number;
 
-
-	*new {|interval|
-		^super.new.init(interval);
-	}
+	*new { |interval| ^super.new.init(interval) }
 
 	init { |newI|
 		var temp, quality;
 
 		interval = newI;
-		temp     = newI.asString;
 
-		quality  = MEInterval.convertQuality(temp[0].asSymbol);
-		number   = temp[1..].asInteger + quality;
+		temp    = newI.asString;
+		quality = MEInterval.convertQuality(temp[0].asSymbol);
+		number  = temp[1..].asInteger + quality;
 
 		^this;
 	}
 
 	*initClass {
-		dict = Dictionary[
-			\d -> 0.0,
-			\m -> 0.1,
-			\P -> 0.2,
-			\M -> 0.3,
-			\A -> 0.4
+		dict = TwoWayIdentityDictionary[
+			\d -> '0.0',
+			\m -> '0.1',
+			\P -> '0.2',
+			\M -> '0.3',
+			\A -> '0.4'
 		];
 	}
 
 	/****************************************************************************************/
 
-	== { |aMEInterval|
-		^(this.number == aMEInterval.number);
-	}
-
-	/****************************************************************************************/
-
-	printOn { |stream|
-		stream << this.interval(false);
-	}
-
-	/****************************************************************************************/
-
 	*getMEIntervalArray { |intervalsArr|
-		var arr = Array();
+		var size = intervalsArr.size, i = 0;
+		var temp = Array(size);
 
-		intervalsArr.do { |i|
-			arr = arr.add(MEInterval(i.asSymbol));
+		while { i < size } {
+			temp.add(MEInterval(intervalsArr[i].asSymbol));
+			i = i + 1;
 		};
-		^this.sortIntervals(arr);
-	}
-
-	/****************************************************************************************/
-
-	*sortIntervals { |intervalsArr|
-		^intervalsArr.sort { |a, b| a.number < b.number };
+		^temp.sort { |a, b| a < b };
 	}
 
 	/****************************************************************************************/
@@ -70,8 +51,8 @@ MEInterval {
 	*convertQuality { |value|
 
 		case
-		{ value.isKindOf(Float)  } { ^dict.findKeyForValue(value) }
-		{ value.isKindOf(Symbol) } { ^dict[value] }
+		{ value.isKindOf(Float)  } { ^dict.getID(value.asSymbol) }
+		{ value.isKindOf(Symbol) } { ^dict[value].asFloat }
 		{
 			Error("% is not a valid value.".format(value)).throw;
 		};
@@ -79,20 +60,10 @@ MEInterval {
 
 	/****************************************************************************************/
 
-	interval { |root = false|
-
-		if (root && (number == 1.2) ) {
-			^\Rt;
-		};
-		^interval;
-	}
-
-	/****************************************************************************************/
-
 	number { |asInt = false|
 
 		if (asInt) {
-			^number.floor.asInteger;
+			^number.asInteger;
 		};
 		^number;
 	}
@@ -100,15 +71,62 @@ MEInterval {
 	/****************************************************************************************/
 
 	quality { |asFloat = false|
-		var int, float;
-
-		int   = this.number.floor;
-		float = this.number - int;
 
 		if (asFloat) {
-			^float;
+			^this.number.frac;
 		};
-		^MEInterval.convertQuality(float);
+		^MEInterval.convertQuality(this.number.frac);
 	}
-}
 
+	/****************************************************************************************/
+
+	asLetterOffset {
+
+		if (this.number(true) > 7) {
+			^this.number(true) - 8;
+		};
+		^this.number(true) - 1;
+	}
+
+	/****************************************************************************************/
+
+	asMIDIOffset {
+
+		MECore.intervals.keysValuesDo { |k, v|
+			if (v.includes(this.interval)) { ^k };
+		};
+		^nil;
+	}
+
+	/****************************************************************************************/
+
+	isEnharmonic { |aMEInterval| ^this.asMIDIOffset == aMEInterval.asMIDIOffset }
+
+	/****************************************************************************************/
+
+	== { |aMEInterval| ^(this.number == aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	!= { |aMEInterval| ^(this.number != aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	>= { |aMEInterval| ^(this.number >= aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	<= { |aMEInterval| ^(this.number <= aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	>  { |aMEInterval| ^(this.number > aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	<  { |aMEInterval| ^(this.number < aMEInterval.number) }
+
+	/****************************************************************************************/
+
+	printOn { |stream| stream << this.interval }
+}
