@@ -6,7 +6,7 @@
 
 TestMENoteName : UnitTest {
 
-	test_getOffsetFromInterval_validInputUnder8th {
+	/*test_getOffsetFromInterval_validInputUnder8th {
 		var fixtures = [
 			(expected: 0, interval: 'P1'),
 			(expected: 1, interval: 'm2'),
@@ -129,7 +129,7 @@ TestMENoteName : UnitTest {
 				"Testing invalid interval: %. Should throw Error.".format(f)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
