@@ -5,14 +5,12 @@
 *********************************************************************************************/
 
 MESymbol {
-	var <root;
 	var <intervals;
 	var symbol;
 	var alias;
+	var root;
 
-	*new { |rangeSymbol|
-		^super.new.init(rangeSymbol);
-	}
+	*new { |rangeSymbol| ^super.new.init(rangeSymbol) }
 
 	init { |newS|
 		var normSymbol;
@@ -29,11 +27,7 @@ MESymbol {
 			validate = false;
 		}
 		{ ((normSymbol = MEAlias.getSymbolFromAlias(symbol)).notNil)    } {
-			if (symbol == "") {
-				alias = nil;
-			} {
-				alias = symbol;
-			};
+			alias    = if (symbol == "") { nil } { symbol };
 			symbol   = normSymbol;
 			validate = false;
 		};
@@ -55,13 +49,13 @@ MESymbol {
 	/****************************************************************************************/
 
 	*splitSymbol { |rangeSymbol|
-		var regex = "^(?:([A-G][#b]?)([^#b]*))$";
+		var regex = "^(?:([A-G][#b]{0,3})(?![#b])(.*))$"; // "^(?:([A-G][#b]?)([^#b]*))$";
 
 		MEDebug.log(thisMethod, 1, [rangeSymbol]);
 
 		MESymbolValidators.rootIsValid(rangeSymbol);
 
-		^rangeSymbol.findRegexp(regex).collect { |n| n[1] }[1..2];
+		^rangeSymbol.findRegexp(regex)[1..2].collect { |n| n[1] };
 	}
 
 
@@ -100,10 +94,19 @@ MESymbol {
 
 			if (withRoot) {
 				^root ++ alias;
-			} {
-				^alias;
 			};
+			^alias;
 		};
 		^nil;
+	}
+
+	/****************************************************************************************/
+
+	root { |offset = false|
+
+		if (offset) {
+			^MEMIDINote.getOffsetFromName(root);
+		};
+		^root;
 	}
 }
