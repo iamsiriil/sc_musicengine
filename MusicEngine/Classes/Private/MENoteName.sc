@@ -5,12 +5,11 @@
 *********************************************************************************************/
 
 MENoteName {
-	var solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
-	var noteLetter;
+	classvar <solfege = #["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
+	var <letter;
 	var <accidental;
 
-	*new { |noteLetter = nil, midiNote = nil, validate = false|
-
+	*new { |noteLetter, midiNote, validate = false|
 		^super.new.init(noteLetter, midiNote, validate);
 	}
 
@@ -18,7 +17,7 @@ MENoteName {
 
 		MEDebug.log(thisMethod, 2);
 
-		noteLetter = newL;
+		letter     = newL;
 		accidental = MEAccidental(newL, newM, val);
 
 		^this;
@@ -29,13 +28,13 @@ MENoteName {
 	printOn { |stream|
 		var s = if (accidental.sign == "") { nil } { accidental.sign };
 		stream << "MENoteName [ ";
-		stream << "Letter: " << noteLetter << ", ";
+		stream << "Letter: " << letter << ", ";
 		stream << "Accidental: "<< accidental << " ]";
 	}
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |meinterval, validate = true|
+	/**getOffsetFromInterval { |meinterval, validate = true|
 		var letterOffset;
 
 		MEDebug.log(thisMethod, 1, [meinterval.interval]);
@@ -51,7 +50,7 @@ MENoteName {
 		} {
 			^letterOffset - 1;
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
@@ -75,32 +74,20 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	name { |charSet = \ascii|
-		^noteLetter ++ accidental.sign(charSet);
-	}
+	name { |charSet = \ascii| ^letter ++ accidental.sign(charSet) }
 
 	/****************************************************************************************/
 
-	letter {
-		^noteLetter;
-	}
+	sign { |charSet = \ascii| ^accidental.sign(charSet) }
 
 	/****************************************************************************************/
 
-	sign { |charSet = \ascii|
-		^accidental.sign(charSet)
-	}
-
-	/****************************************************************************************/
-
-	signOffset {
-		^accidental.offset;
-	}
+	signOffset { ^accidental.offset }
 
 	/****************************************************************************************/
 
 	solfege { |charSet = \ascii|
-		var index = MECore.indexOfLetter(noteLetter, false);
+		var index = MECore.indexOfLetter(letter, false);
 
 		^solfege[index] ++ accidental.sign(charSet);
 	}
