@@ -38,7 +38,7 @@ MESymbolValidators {
 
 	*rootIsValid { |rangeSymbol|
 		var regex0 = "^(?:[A-G][#b]*)";
-		var regex1 = "^(?:[A-G][#b]{2,})";
+		var regex1 = "^(?:[A-G][#b]{4,})";
 		var root;
 
 		MEDebug.log(thisMethod, 3);
