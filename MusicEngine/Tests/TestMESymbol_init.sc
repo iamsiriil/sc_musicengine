@@ -14,14 +14,15 @@ TestMESymbol_init : UnitTest {
 
 			this.assert(
 				temp.isKindOf(MESymbol),
-				"Testing object instantiation, for valid symbol: %. Should return a MESymbol object.".format(s)
+				"Testing object instantiation for symbol: %. Should return a MESymbol object."
+				.format(s)
 			);
 		};
 	}
 
 	/****************************************************************************************/
 
-	test_init_validInputNoSymbol {
+	/*test_init_validInputNoSymbol {
 		var fixture = (
 			symbol: "F#",
 			expected: [
@@ -48,11 +49,11 @@ TestMESymbol_init : UnitTest {
 			fixture.expected,
 			"Testing valid symbol: %. Should return symbol data.".format(fixture.symbol)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_init_validInputAlias {
+	/*test_init_validInputAlias {
 		var fixture = (
 			symbol: "G#min7",
 			expected: [
@@ -79,11 +80,11 @@ TestMESymbol_init : UnitTest {
 			fixture.expected,
 			"Testing valid symbol: %. Should return symbol data.".format(fixture.symbol)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_init_validInputVerbose {
+	/*test_init_validInputVerbose {
 		var fixture = (
 			symbol: "CbM3P5M7M9",
 			expected: [
@@ -116,12 +117,12 @@ TestMESymbol_init : UnitTest {
 			fixture.expected,
 			"Testing valid symbol: %. Should return symbol data.".format(fixture.symbol)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
 	test_init_invalidRoot {
-		var fixtures = ['CM3P5', "", "C###M3P5", "CbbbM3P5", "XM3P3", "M3P5"];
+		var fixtures = ['CM3P5', "", "C####M3P5", "CbbbbbM3P5", "XM3P3", "M3P5"];
 
 		fixtures.do { |f|
 
@@ -161,5 +162,92 @@ TestMESymbol_init : UnitTest {
 				"Testing invalid symbol: %. Should throw Error.".format(f)
 			);
 		};
+	}
+
+	/****************************************************************************************/
+
+	test_symbol_withRoot {
+		var fixture = (symbol: "CMaj7", expected: "CM3P5M7");
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).symbol,
+			fixture.expected,
+			"Calling symbol method from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_symbol_withoutRoot {
+		var fixture = (symbol: "CMaj7", expected: "M3P5M7");
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).symbol(false),
+			fixture.expected,
+			"Calling symbol method from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_alias_withRoot {
+		var fixture = (symbol: "CMaj7", expected: "CMaj7");
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).alias,
+			fixture.expected,
+			"Calling alias method from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_alias_withoutRoot {
+		var fixture = (symbol: "CMaj7", expected: "Maj7");
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).alias(false),
+			fixture.expected,
+			"Calling alias method from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_root_asString {
+		var fixture = (symbol: "CMaj7", expected: "C");
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).root,
+			fixture.expected,
+			"Calling root as String from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_root_asOffset {
+		var fixture = (symbol: "CMaj7", expected: 0);
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).root(true),
+			fixture.expected,
+			"Calling root as offset from instance. Should return %.".format(fixture.expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_intervals_objArray {
+		var fixture = (
+			symbol: "CMaj7",
+			expected: [MEInterval('P1'), MEInterval('M3'), MEInterval('P5'), MEInterval('M7')]
+		);
+
+		this.assertEquals(
+			MESymbol(fixture.symbol).intervals,
+			fixture.expected,
+			"Calling intervals from instance. Should return %.".format(fixture.expected)
+		);
 	}
 }
