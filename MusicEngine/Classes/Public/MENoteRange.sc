@@ -74,33 +74,54 @@ MENoteRange : MERange {
 		^this.select { |n| (n.freq >= fromFreq) && (n.freq <= toFreq) };
 	}
 
+	>< { |limits|
+
+		if (limits.size == 2) {
+			case
+			{ limits.every { |i| (i >= -1) && (i <= 9) }      } {
+				^this.trimO(limits[0], limits[1]);
+			}
+			{ limits.every { |i| (i >= 12) && (i <= 127) }    } {
+				^this.trimM(limits[0], limits[1]);
+			}
+			{ limits.every { |i| (i >= 20) && (i <= 20000) } } {
+				^this.trimF(limits[0], limits[1]);
+			};
+		};
+	}
+
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Filtering data from ranges
 
-	filterD { |... args|
-		^this.reject { |n| args.includes(n.degree) };
-	}
+	filterD { |... args| ^this.reject { |n| args.includes(n.degree) } }
 
 	/****************************************************************************************/
 
-	filterN { |... args|
-		^this.reject { |n| args.includes(n.name.asSymbol) };
+	filterN { |... args| ^this.reject { |n| args.includes(n.name.asSymbol) } }
+
+	/****************************************************************************************/
+
+	* { |args|
+
+		case
+		{ args.every { |n| n.isKindOf(Symbol) } } {
+			^this.filterD(*args);
+		}
+		{ args.every { |n| n.isKindOf(String) } } {
+			^this.filterN(*args);
+		};
 	}
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Collecting data by type
 
-	midi {
-		^this.collect { |n| n.midi };
-	}
+	midi { ^this.collect { |n| n.midi } }
 
 	/****************************************************************************************/
 
-	freq {
-		^this.collect { |n| n.freq };
-	}
+	freq { ^this.collect { |n| n.freq } }
 
 	/****************************************************************************************/
 
@@ -134,45 +155,29 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
-	symbol { |withRoot = true|
-		^symbol.symbol(withRoot);
-	}
+	symbol { |withRoot = true| ^symbol.symbol(withRoot) }
 
 	/****************************************************************************************/
 
-	alias { |withRoot = true|
-		^symbol.alias(withRoot);
-	}
+	alias { |withRoot = true| ^symbol.alias(withRoot) }
 
 	/****************************************************************************************/
 
-	root { |offset = false|
-
-		if (offset) {
-			^MEMIDINote.getOffsetFromName(symbol.root);
-		};
-		^symbol.root;
-	}
+	root { |offset = false| ^symbol.root(offset) }
 
 	/****************************************************************************************/
 
-	symbolObj {
-		^symbol;
-	}
+	symbolObj { ^symbol }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Data dicts
 
-	setValues { |key, value|
-		this.do { |n| n.set(key, value)};
-	}
+	setValues { |key, value| this.do { |n| n.set(key, value)} }
 
 	/****************************************************************************************/
 
-	setFunc { |key, function|
-		this.do { |n| n.set(key, function.value) };
-	}
+	setFunc { |key, function| this.do { |n| n.set(key, function.value) } }
 
 	/****************************************************************************************/
 
@@ -180,22 +185,17 @@ MENoteRange : MERange {
 
 		if (this.getKeys.includes(key)) {
 			^this.collect { |n| n.get(key) };
-		} {
-			Error("Key '%' is not defined.".format(key)).throw;
 		};
+		Error("Key '%' is not defined.".format(key)).throw;
 	}
 
 	/****************************************************************************************/
 
-	clearValues { |key|
-		this.do { |n| n.clearValue(key) };
-	}
+	clearValues { |key| this.do { |n| n.clearValue(key) } }
 
 	/****************************************************************************************/
 
-	clearDict {
-		this.do { |n| n.clearData };
-	}
+	clearDict { this.do { |n| n.clearData } }
 
 	/****************************************************************************************/
 
@@ -216,10 +216,33 @@ MENoteRange : MERange {
 		{
 			if (this.getKeys.includes(what)) {
 				^Pseq(this.getValues(what), rep, off);
-			} {
-				Error("Key '%' is not defined.".format(what)).throw;
 			};
+			Error("Key '%' is not defined.".format(what)).throw;
 		};
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Range transposition
+
+	+ { |interval|
+		var arr = Array.new(this.size);
+
+		this.do { |n|
+			arr.add(n.transposeUp(interval));
+		};
+		^this.species.with(nil, *arr);
+	}
+
+	/****************************************************************************************/
+
+	- { |interval|
+		var arr = Array.new(this.size);
+
+		this.do { |n|
+			arr.add(n.transposeDown(interval));
+		};
+		^this.species.with(nil, *arr);
 	}
 
 	/****************************************************************************************/
@@ -284,4 +307,5 @@ MENoteRange : MERange {
 		};
 		^this.class.with(*temp);
 	}
+
 }
