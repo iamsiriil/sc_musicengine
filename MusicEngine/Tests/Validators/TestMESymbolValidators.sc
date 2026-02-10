@@ -8,13 +8,13 @@ TestMESymbolValidators : UnitTest {
 
 	test_rootIsValid_validInputAllRoots {
 		var fixtures = [
-			"Cb", "C", "C#",
-			"Db", "D", "D#",
-			"Eb", "E", "E#",
-			"Fb", "F", "F#",
-			"Gb", "G", "G#",
-			"Ab", "A", "A#",
-			"Bb", "B", "B#",
+			"Cbbb", "Cbb", "Cb", "C", "C#", "C##", "C###",
+			"Dbbb", "Dbb", "Db", "D", "D#", "D##", "D###",
+			"Ebbb", "Ebb", "Eb", "E", "E#", "E##", "E###",
+			"Fbbb", "Fbb", "Fb", "F", "F#", "F##", "F###",
+			"Gbbb", "Gbb", "Gb", "G", "G#", "G##", "G###",
+			"Abbb", "Abb", "Ab", "A", "A#", "A##", "A###",
+			"Bbbb", "Bbb", "Bb", "B", "B#", "B##", "B###"
 		];
 
 		fixtures.do { |f|
@@ -30,7 +30,7 @@ TestMESymbolValidators : UnitTest {
 	/****************************************************************************************/
 
 	test_rootIsValid_validInputRootWithSymbol {
-		var fixtures = ["CbP5", "CM3P5", "C#M3P5M7", "Cb13", "C-^7", "C#Gr"];
+		var fixtures = ["CbP5", "CM3P5", "C##M3P5M7", "Cb13", "C-^7", "CbbbGr"];
 
 		fixtures.do { |f|
 
@@ -101,7 +101,7 @@ TestMESymbolValidators : UnitTest {
 	/****************************************************************************************/
 
 	test_rootIsValid_invalidInpuInvalidAccidental {
-		var fixtures = ["C##M3P5", "CbbXb^", "C###+M3P5", "Cbbbo"];
+		var fixtures = ["C####M3P5", "CbbbbXb^", "C#####+M3P5", "Cbbbbbo"];
 
 		fixtures.do { |f|
 
@@ -216,7 +216,7 @@ TestMESymbolValidators : UnitTest {
 	/****************************************************************************************/
 
 	test_symbolIsValid_invalidNumbers {
-		var fixtures = ["M0P5m7", "M3P15m7M9", "M3P5m1000"];
+		var fixtures = ["M0P5m7", "M3P15m7M9", "M3P5m1000", "1", "2", "3", "4", "6", "8"];
 
 		fixtures.do { |f|
 
