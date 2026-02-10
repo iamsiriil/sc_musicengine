@@ -40,6 +40,37 @@ TestMERegister : UnitTest{
 
 	/****************************************************************************************/
 
+	test_newEntry_MESymbol {
+		var fixture = (
+			alias:    'Toby',
+			symbol:   "M3d5",
+			mesymbol: "CToby",
+			expect:   ["C", "CM3d5", "CToby"];
+		);
+		var symbol, symbolData;
+
+		MERegister.newEntry(fixture.alias, fixture.symbol);
+
+		symbol = MESymbol(fixture.mesymbol);
+		symbolData = [
+			symbol.root,
+			symbol.symbol,
+			symbol.alias
+		];
+
+		this.assertEquals(
+			symbolData,
+			fixture.expect,
+			"Creating a MESymbol object using symbol in register: %. Should return symbol data: %."
+			.format(
+				fixture.mesymbol,
+				fixture.expect
+			);
+		);
+	}
+
+	/****************************************************************************************/
+
 	test_newEntry_invalidAlias {
 		var fixture = (alias: '-7', symbol: "m3P5m7");
 
