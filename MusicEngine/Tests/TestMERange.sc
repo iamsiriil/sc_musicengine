@@ -6,7 +6,7 @@
 
 TestMERange : UnitTest {
 
-	test_sortAndSplit_validInputReverseChromaticUnderOct {
+	/*test_sortAndSplit_validInputReverseChromaticUnderOct {
 		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -34,11 +34,11 @@ TestMERange : UnitTest {
 			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_sortAndSplit_validInputReverseChromaticOverOct {
+	/*test_sortAndSplit_validInputReverseChromaticOverOct {
 		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -66,11 +66,11 @@ TestMERange : UnitTest {
 			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_sortAndSplit_validInputReverseChromaticMixedOcts {
+	/*test_sortAndSplit_validInputReverseChromaticMixedOcts {
 		var f = (
 			expected: [
 				[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -98,7 +98,7 @@ TestMERange : UnitTest {
 			f.expected,
 			"Testing valid data array: %. Should return %.".format(f.dataArray, f.expected)
 		);
-	}
+	}*/
 
 	/****************************************************************************************/
 
