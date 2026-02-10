@@ -10,7 +10,7 @@ MEMIDINote {
 
 	/****************************************************************************************/
 
-	*getOffsetFromInterval { |meinterval, validate = true|
+	/**getOffsetFromInterval { |meinterval, validate = true|
 
 		MEDebug.log(thisMethod, 1, [meinterval.interval]);
 
@@ -23,7 +23,7 @@ MEMIDINote {
 				^k;
 			};
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
