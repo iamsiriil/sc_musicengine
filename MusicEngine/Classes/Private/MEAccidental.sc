@@ -8,8 +8,7 @@ MEAccidental {
 	var <offset;
 	var sign;
 
-	*new { |noteLetter = nil, midiNote = nil, validate = false|
-
+	*new { |noteLetter, midiNote, validate = false|
 		^super.new.init(noteLetter, midiNote, validate);
 	}
 
@@ -149,7 +148,7 @@ MEAccidental {
 	sign { |charSet = \ascii|
 
 		if (charSet != \ascii) {
-			^MEAccidental.getSignFromOffset(offset, false, charSet: charSet);
+			^this.getSignFromOffset(offset, false, charSet: charSet);
 		};
 		^sign;
 	}
