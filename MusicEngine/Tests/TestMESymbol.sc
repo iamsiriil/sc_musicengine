@@ -8,10 +8,10 @@ TestMESymbol : UnitTest {
 
 	test_splitSymbol_validInput {
 		var fixtures = [
-			(expected: ["C", ""],               rangeSymbol: "C"),
-			(expected: ["Cb", "M3P5"],          rangeSymbol: "CbM3P5"),
-			(expected: ["C#", "-9"],            rangeSymbol: "C#-9"),
-			(expected: ["C", "M3P5m7M9M11M13"], rangeSymbol: "CM3P5m7M9M11M13")
+			(expected: ["C", ""],                  rangeSymbol: "C"),
+			(expected: ["Cb", "M3P5"],             rangeSymbol: "CbM3P5"),
+			(expected: ["C##", "-9"],              rangeSymbol: "C##-9"),
+			(expected: ["Cbbb", "M3P5m7M9M11M13"], rangeSymbol: "CbbbM3P5m7M9M11M13")
 		];
 
 		fixtures.do { |f|
@@ -27,7 +27,7 @@ TestMESymbol : UnitTest {
 	/****************************************************************************************/
 
 	test_splitSymbol_invalidRoot {
-		var fixtures = ["CbbbbM3P5", "C##M3P5", "cM3P5", "XM3P5", "M3P5", "X"];
+		var fixtures = ["CbbbbM3P5", "C#####M3P5", "cM3P5", "XM3P5", "M3P5", "X"];
 
 		fixtures.do { |f|
 
