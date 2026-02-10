@@ -112,11 +112,6 @@ MERegister {
 	*getSymbolFromAlias { |alias|
 		var dict = Archive.global.at(dictName);
 
-		if (dict.isEmpty) {
-			if (test.not) {
-				"Alias dictionary is empty".warn;
-			};
-		};
 		^dict[alias.asSymbol];
 	}
 
