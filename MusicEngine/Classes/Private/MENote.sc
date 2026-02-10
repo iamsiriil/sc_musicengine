@@ -7,25 +7,26 @@
 MENote {
 	var <midi;
 	var <freq;
+	var <data;
 	var <octave;
 	var degree;
 	var name;
-	var data;
 
-	*new { |noteLetter = nil, midiNote = nil, degree = nil, validate = false|
-		^super.new.init(noteLetter, midiNote, degree, validate);
+	*new { |noteLetter, midiNote, interval, data, validate = false|
+		^super.new.init(noteLetter, midiNote, interval, data, validate);
 	}
 
-	init { |newL, newM, newD, val|
+	init { |newL, newM, newI, newD, val|
 
 		MEDebug.log(thisMethod, 2);
 
 		midi   = newM;
-		freq   = midi.midicps;
+		freq   = newM.midicps;
 		name   = MENoteName(newL, newM, val);
-		degree = MEInterval(newD);
 		octave = MEOctave.getOctave(midi, name.name, val);
-		data   = Dictionary();
+		degree = MEInterval(newI);
+
+		data   = if (newD.isNil) { Dictionary() } { newD };
 
 		^this;
 	}
@@ -33,14 +34,12 @@ MENote {
 	/****************************************************************************************/
 
 	printOn { |stream|
-		stream << this.name(\ansi) << ":" << degree.interval;
+		stream << this.name << ":" << degree.interval;
 	}
 
 	/****************************************************************************************/
 
-	copy {
-		^this.deepCopy;
-	}
+	copy { ^this.deepCopy }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -56,12 +55,6 @@ MENote {
 
 	/****************************************************************************************/
 
-	m21 {
-		^name.name(\m21) ++ octave;
-	}
-
-	/****************************************************************************************/
-
 	sol { |charSet = \ascii, withOctave = true|
 
 		if (withOctave) {
@@ -72,93 +65,71 @@ MENote {
 
 	/****************************************************************************************/
 
-	letter {
-		^name.letter;
-	}
+	m21 { ^name.name(\m21) ++ octave }
 
 	/****************************************************************************************/
 
-	nameObj {
-		^name;
-	}
+	letter { ^name.letter }
+
+	/****************************************************************************************/
+
+	nameObj { ^name }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Accidental data
 
-	sign { |charSet = \ascii|
-		^name.sign(charSet);
-	}
+	sign { |charSet = \ascii| ^name.sign(charSet) }
 
 	/****************************************************************************************/
 
-	signOffset {
-		^name.signOffset;
-	}
+	signOffset { ^name.signOffset }
 
 	/****************************************************************************************/
 
-	accidentalObj {
-		^name.accidental;
-	}
+	accidentalObj { ^name.accidental }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Interval data
 
-	degree { |root = false|
-		^degree.interval(root);
+	degree { |meInterval = false|
+
+		if (meInterval) {
+			^degree;
+		};
+		^degree.interval;
 	}
 
 	/****************************************************************************************/
 
-	number { |asInt = false|
-		^degree.number(asInt);
-	}
+	number { |asInt = false| ^degree.number(asInt) }
 
 	/****************************************************************************************/
 
-	quality { |asFloat = false|
-		^degree.quality(asFloat);
-	}
-
-	/****************************************************************************************/
-
-	intervalObj {
-		^degree;
-	}
+	quality { |asFloat = false| ^degree.quality(asFloat) }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Data dict
 
-	set { |key, value|
-		data[key] = value;
-	}
+	set { |key, value| data[key] = value }
 
 	/****************************************************************************************/
 
-	get { |key|
-		^data[key];
-	}
+	get { |key| ^data[key] }
 
 	/****************************************************************************************/
 
-	clearValue { |key|
-		data[key] = nil;
-	}
+	clearValue { |key| data[key] = nil }
 
 	/****************************************************************************************/
 
-	clearDict {
-		data.clear;
-	}
+	clearDict { data.clear }
 
 	/****************************************************************************************/
 
-	getKeys {
-		^data.keys;
-	}
+	getKeys { ^data.keys }
 
 	/****************************************************************************************/
 
@@ -174,5 +145,39 @@ MENote {
 			"-> %".format(v).postln;
 		};
 	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Note transposition
+
+	transposeUp { |interval|
+		var meInt = MEInterval(interval);
+		var newL  = MECore.letters.wrapAt(
+			MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
+		);
+		var newM = this.midi + meInt.asMIDIOffset;
+
+		^MENote(newL, newM, this.degree, this.data);
+	}
+
+	/****************************************************************************************/
+
+	transposeDown { |interval|
+		var meInt = MEInterval(interval);
+		var newL  = MECore.letters.wrapAt(
+			MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
+		);
+		var newM = this.midi - meInt.asMIDIOffset;
+
+		^MENote(newL, newM, this.degree, this.data);
+	}
+
+	/****************************************************************************************/
+
+	+ { |interval| ^this.transposeUp(interval) }
+
+	/****************************************************************************************/
+
+	- { |interval| ^this.transposeDown(interval) }
 }
 
