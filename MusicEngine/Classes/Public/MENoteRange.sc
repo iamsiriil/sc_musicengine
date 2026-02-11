@@ -78,13 +78,13 @@ MENoteRange : MERange {
 
 		if (limits.size == 2) {
 			case
-			{ limits.every { |i| (i >= -1) && (i <= 9) }      } {
+			{ limits.every { |i| i.isInteger && ((i >= -1) && (i <= 9)) }      } {
 				^this.trimO(limits[0], limits[1]);
 			}
-			{ limits.every { |i| (i >= 12) && (i <= 127) }    } {
+			{ limits.every { |i| i.isInteger && ((i >= 12) && (i <= 127)) }    } {
 				^this.trimM(limits[0], limits[1]);
 			}
-			{ limits.every { |i| (i >= 20) && (i <= 20000) } } {
+			{ limits.every { |i| i.isFloat && ((i >= 20.0) && (i <= 20000.0)) } } {
 				^this.trimF(limits[0], limits[1]);
 			};
 		};
@@ -227,9 +227,12 @@ MENoteRange : MERange {
 
 	+ { |interval|
 		var arr = Array.new(this.size);
+		var newN;
 
 		this.do { |n|
-			arr.add(n.transposeUp(interval));
+			if ((newN = n.transposeUp(interval)).notNil) {
+				arr.add(newN);
+			};
 		};
 		^this.species.with(nil, *arr);
 	}
@@ -238,12 +241,17 @@ MENoteRange : MERange {
 
 	- { |interval|
 		var arr = Array.new(this.size);
+		var newN;
 
 		this.do { |n|
-			arr.add(n.transposeDown(interval));
+			if ((newN = n.transposeDown(interval)).notNil) {
+				arr.add(newN);
+			};
 		};
 		^this.species.with(nil, *arr);
 	}
+
+
 
 	/****************************************************************************************/
 
@@ -265,47 +273,49 @@ MENoteRange : MERange {
 	}*/
 
 	span {
-		var temp = Array(this.size);
+		var temp = Array(this.size.postln);
 		var ct  = 0, rt, bool;
-		var intervals = this.intervals;
-		var lt  = intervals.select { |i| i < 8 };
-		var bt  = intervals.select { |i| i >= 8 };
-
-		"symbol: %".format(this.symbolObj).postln;
+		var intervals = this.collect{ |n| n.number }.asSet.asArray.sort;
+		var lt  = intervals.select { |i| i < 8 }.postln;
+		var bt  = intervals.select { |i| i >= 8 }.postln;
 
 		if (this[0].number < 8.0) {
 			bool = true;
-			ct   = lt.detectIndex { |i| i == this[0].number };
+			ct   = lt.detectIndex { |i| i == this[0].number }.postln;
 			rt   = 0;
 		} {
 			bool = false;
-			ct   = bt.detectIndex { |i| i == this[0].number };
+			ct   = bt.detectIndex { |i| i == this[0].number }.postln;
 			rt   = 1;
 		};
 
+
 		this.do { |n, i|
 
+			"ct: %; boot: %; rt: %; lt: %; gt: %; n: %"
+			.format(ct, bool, rt, lt[ct], bt[ct], n.number).postln;
 			case
 			{ bool && lt[ct] == n.number } {
 				ct = ct + 1;
-				temp = temp.add(n);
-				if ((ct == lt.size)) {
+				temp.add(n).postln;
+				if (ct == lt.size) {
 					bool = false;
 					ct = 0;
 				}
 			}
-			{ bool.not && bt[ct] == n.number && (rt == 1) } {
+			{ bool.not && (bt[ct] == n.number) && (rt == 1) } {
 				ct = ct + 1;
-				temp = temp.add(n);
-				if ((ct == bt.size)) {
+				temp.add(n).postln;
+				if (ct == bt.size) {
 					bool = true;
 					ct = 0;
 					rt = 0;
 				};
 			}
-			{ n.number == 1.2 } { rt = rt + 1 };
+			{ (n.number == lt[0]) && (rt == 0) } { rt = rt + 1 };
 		};
-		^this.class.with(*temp);
+
+		^this.class.with(nil, *temp);
 	}
 
 }
