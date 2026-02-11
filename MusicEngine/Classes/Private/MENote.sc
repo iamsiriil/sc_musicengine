@@ -151,25 +151,51 @@ MENote {
 	// Note transposition
 
 	transposeUp { |interval|
-		var meInt = MEInterval(interval);
-		var newL  = MECore.letters.wrapAt(
+		var meInt, newL, newM, symbol;
+
+		case
+		{ interval.isInteger } {
+			symbol = MECore.default[interval % 12];
+			meInt  = MEInterval(symbol);
+			newM   = this.midi + interval;
+		}
+		{ interval.isKindOf(Symbol) } {
+			meInt = MEInterval(interval);
+			newM  = this.midi + meInt.asMIDIOffset;
+		};
+		newL = MECore.letters.wrapAt(
 			MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
 		);
-		var newM = this.midi + meInt.asMIDIOffset;
 
-		^MENote(newL, newM, this.degree, this.data);
+		if (newM <= 127) {
+			^MENote(newL, newM, this.degree, this.data);
+		};
+		^nil;
 	}
 
 	/****************************************************************************************/
 
 	transposeDown { |interval|
-		var meInt = MEInterval(interval);
-		var newL  = MECore.letters.wrapAt(
+		var meInt, newL, newM, symbol;
+
+		case
+		{ interval.isInteger } {
+			symbol = MECore.default[interval % 12];
+			meInt  = MEInterval(symbol);
+			newM   = this.midi - interval;
+		}
+		{ interval.isKindOf(Symbol) } {
+			meInt = MEInterval(interval);
+			newM  = this.midi - meInt.asMIDIOffset;
+		};
+		newL = MECore.letters.wrapAt(
 			MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
 		);
-		var newM = this.midi - meInt.asMIDIOffset;
 
-		^MENote(newL, newM, this.degree, this.data);
+		if (newM >= 0) {
+			^MENote(newL, newM, this.degree, this.data);
+		};
+		^nil;
 	}
 
 	/****************************************************************************************/
