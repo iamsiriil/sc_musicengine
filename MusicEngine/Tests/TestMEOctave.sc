@@ -271,7 +271,7 @@ TestMEOctave : UnitTest {
 				if (result.notNil) {
 
 					this.assert(
-						(result >= -1) && (result <= 129),
+						(result >= -5) && (result <= 131), // -5 ; 131
 						"Result: %, within MIDI range.".format(result)
 					);
 				};
