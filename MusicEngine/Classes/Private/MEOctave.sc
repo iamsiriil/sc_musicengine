@@ -13,7 +13,7 @@ MEOctave {
 	*getClosestOctave { |midiNote, noteLetter, validate = true|
 		var ref;
 
-		MEDebug.log(thisMethod, 2);
+		MEDebug.log(thisMethod, 2, [midiNote, noteLetter]);
 
 		if (validate) {
 			MEMIDIValidators.midiNoteIsValid(midiNote);
@@ -24,18 +24,17 @@ MEOctave {
 
 		case
 		{ (midiNote >= 5) && (midiNote <= 127) } {
-
-			while { ((ref >= (midiNote - 5)) && (ref <= (midiNote + 5))).not && (ref <= 127) } {
-
-				ref = (ref + 12)
+			while {
+				((ref >= (midiNote - 5)) && (ref <= (midiNote + 5))).not && (ref <= 127)
+			} {
+				ref = ref + 12
 			};
 		}
-		{ (midiNote < 5)  && (noteLetter.asString == "B") } {
+		{ (midiNote < 5) && (noteLetter == "B") } { ref = ref - 12 }
+		{ (midiNote < 3) && (noteLetter == "A") } { ref = ref - 12 }
+		{ (midiNote < 1) && (noteLetter == "G") } { ref = ref - 12 };
 
-			ref = ref - 12;
-		};
-
-		if (((ref - midiNote).abs >= 6) || (ref > 129)) { ^nil } { ^ref };
+		if (((ref - midiNote).abs >= 6) || (ref > 131)) { ^nil } { ^ref };
 	}
 
 	/****************************************************************************************/
@@ -74,7 +73,7 @@ MEOctave {
 			MEMIDIValidators.midiNoteIsValid(midiNote);
 		};
 
-		octave = (octave + (midiNote/12).floor).asInteger;
+		octave = octave + (midiNote/12).asInteger;
 
 		if (noteName.notNil) {
 			cross = this.checkOctaveCross(noteName, false);
