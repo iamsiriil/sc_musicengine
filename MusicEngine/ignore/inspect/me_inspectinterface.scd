@@ -93,3 +93,25 @@
 ~range3.intervals(false).postln; // float representation of intervals
 ~range3.symbolObj.postln         // symbol object stored in MENoteRange
 )
+
+/****************************************************************************************/
+// Trimming and transposition operator overload
+(
+"New range: F-79".postln;
+~range4 = MENoteRange("F-79").postln;
+
+"\ntrim by octave: 4 - 8".postln;
+~t1 = (~range4 >< [4, 8]).postln;
+
+"\ntranspose a Major third up".postln;
+~t1 = (~t1 + \M3).postln;
+
+"\ntrim by MIDI values".postln;
+~t2 = (~range4 >< [40, 80]).postln;
+
+"\ntranspose a Perfect fouth down".postln;
+~t2 = (~t2 - 5).postln;
+
+"\ntrim by frequency values".postln;
+~t3 = ~range4 >< [100.0, 5000.0]
+)
