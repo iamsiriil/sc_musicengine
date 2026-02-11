@@ -473,7 +473,7 @@ TestMEAccidental : UnitTest {
 
 	/****************************************************************************************/
 
-	test_getSignFromOffset_validInputFlats {
+	/*test_getSignFromOffset_validInputFlats {
 		var fixtures = [
 			(expected: "", signOffset: 0),
 			(expected: "b", signOffset: -1),
@@ -491,11 +491,11 @@ TestMEAccidental : UnitTest {
 				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
 			);
 		};
-	}
+	}*/
 
 	/****************************************************************************************/
 
-	test_getSignFromOffset_validInputSharps {
+	/*test_getSignFromOffset_validInputSharps {
 		var fixtures = [
 			(expected: "", signOffset: 0),
 			(expected: "#", signOffset: 1),
@@ -513,6 +513,118 @@ TestMEAccidental : UnitTest {
 				"Testing valid sign offset: %. Should return %.".format(f.signOffset, f.expected)
 			);
 		};
+	}*/
+
+	/****************************************************************************************/
+
+	test_getASCIISign_ascii {
+		var fixtures = [
+			(signOffset: -5, expect: "bbbbb"),
+			(signOffset: -4, expect: "bbbb"),
+			(signOffset: -3, expect: "bbb"),
+			(signOffset: -2, expect: "bb"),
+			(signOffset: -1, expect: "b"),
+			(signOffset: 0, expect: ""),
+			(signOffset: 1, expect: "#"),
+			(signOffset: 2, expect: "##"),
+			(signOffset: 3, expect: "###"),
+			(signOffset: 4, expect: "####"),
+			(signOffset: 5, expect: "#####"),
+		];
+		var charSet = \ansii;
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				MEAccidental.getASCIISign(f.signOffset, charSet),
+				f.expect,
+				"Testing sign offset: %. Should return ASCII string: %."
+				.format(f.signOffset, f.expect)
+			)
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getASCIISign_m21 {
+		var fixtures = [
+			(signOffset: -5, expect: "-----"),
+			(signOffset: -4, expect: "----"),
+			(signOffset: -3, expect: "---"),
+			(signOffset: -2, expect: "--"),
+			(signOffset: -1, expect: "-"),
+			(signOffset: 0, expect: ""),
+			(signOffset: 1, expect: "#"),
+			(signOffset: 2, expect: "##"),
+			(signOffset: 3, expect: "###"),
+			(signOffset: 4, expect: "####"),
+			(signOffset: 5, expect: "#####"),
+		];
+		var charSet = \m21;
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				MEAccidental.getASCIISign(f.signOffset, charSet),
+				f.expect,
+				"Testing sign offset: %. Should return ASCII string: %."
+				.format(f.signOffset, f.expect)
+			)
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getANSISign_ansi {
+		var fixtures = [
+			(signOffset: -5, expect: "𝄫𝄫♭"),
+			(signOffset: -4, expect: "𝄫𝄫"),
+			(signOffset: -3, expect: "𝄫♭"),
+			(signOffset: -2, expect: "𝄫"),
+			(signOffset: -1, expect: "♭"),
+			(signOffset: 0, expect: ""),
+			(signOffset: 1, expect: "♯"),
+			(signOffset: 2, expect: "𝄪"),
+			(signOffset: 3, expect: "𝄪♯"),
+			(signOffset: 4, expect: "𝄪𝄪"),
+			(signOffset: 5, expect: "𝄪𝄪♯"),
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				MEAccidental.getANSISign(f.signOffset),
+				f.expect,
+				"Testing sign offset: %. Should return ANSI string: %."
+				.format(f.signOffset, f.expect)
+			)
+		};
+	}
+
+	/****************************************************************************************/
+
+	test_getSignFromOffset_validInput {
+		var fixtures = [
+			(signOffset: -5, charSet: \ascii, expect: "bbbbb"),
+			(signOffset: -5, charSet: \m21, expect: "-----"),
+			(signOffset: -5, charSet: \ansi, expect: "𝄫𝄫♭"),
+			(signOffset: 5, charSet: \ascii, expect: "#####"),
+			(signOffset: 5, charSet: \m21, expect: "#####"),
+			(signOffset: 5, charSet: \ansi, expect: "𝄪𝄪♯"),
+			(signOffset: 0, charSet: \ascii, expect: ""),
+			(signOffset: 0, charSet: \m21, expect: ""),
+			(signOffset: 0, charSet: \ansi, expect: "")
+		];
+
+		fixtures.do { |f|
+
+			this.assertEquals(
+				MEAccidental.getSignFromOffset(f.signOffset, f.charSet, validate: true),
+				f.expect,
+				"Testing valid sign offset: %. Should return: %."
+				.format(f.signOffset, f.expect)
+			);
+		}
 	}
 
 	/****************************************************************************************/
