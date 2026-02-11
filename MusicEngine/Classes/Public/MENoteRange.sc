@@ -78,10 +78,10 @@ MENoteRange : MERange {
 
 		if (limits.size == 2) {
 			case
-			{ limits.every { |i| i.isInteger && ((i >= -1) && (i <= 9)) }      } {
+			{ limits.every { |i| i.isInteger && ((i >= -1) && (i <= 9)) }       } {
 				^this.trimO(limits[0], limits[1]);
 			}
-			{ limits.every { |i| i.isInteger && ((i >= 12) && (i <= 127)) }    } {
+			{ limits.every { |i| i.isInteger && ((i >= 12) && (i <= 127)) }     } {
 				^this.trimM(limits[0], limits[1]);
 			}
 			{ limits.every { |i| i.isFloat && ((i >= 20.0) && (i <= 20000.0)) } } {
@@ -273,27 +273,24 @@ MENoteRange : MERange {
 	}*/
 
 	span {
-		var temp = Array(this.size.postln);
-		var ct  = 0, rt, bool;
 		var intervals = this.collect{ |n| n.number }.asSet.asArray.sort;
-		var lt  = intervals.select { |i| i < 8 }.postln;
-		var bt  = intervals.select { |i| i >= 8 }.postln;
+		var temp = Array(this.size.postln);
+		var lt   = intervals.select { |i| i < 8 };
+		var bt   = intervals.select { |i| i >= 8 };
+		var ct   = 0, rt, bool;
 
 		if (this[0].number < 8.0) {
 			bool = true;
-			ct   = lt.detectIndex { |i| i == this[0].number }.postln;
+			ct   = lt.detectIndex { |i| i == this[0].number };
 			rt   = 0;
 		} {
 			bool = false;
-			ct   = bt.detectIndex { |i| i == this[0].number }.postln;
+			ct   = bt.detectIndex { |i| i == this[0].number };
 			rt   = 1;
 		};
 
-
 		this.do { |n, i|
 
-			"ct: %; boot: %; rt: %; lt: %; gt: %; n: %"
-			.format(ct, bool, rt, lt[ct], bt[ct], n.number).postln;
 			case
 			{ bool && lt[ct] == n.number } {
 				ct = ct + 1;
