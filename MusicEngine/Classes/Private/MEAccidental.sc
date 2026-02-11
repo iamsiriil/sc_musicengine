@@ -17,7 +17,7 @@ MEAccidental {
 		MEDebug.log(thisMethod, 2);
 
 		offset = MEAccidental.getOffsetFromMidi(newM, newL, val);
-		sign   = MEAccidental.getSignFromOffset(offset, val);
+		sign   = MEAccidental.getSignFromOffset(offset, validate: val);
 
 		^this;
 	}
@@ -87,18 +87,18 @@ MEAccidental {
 	/****************************************************************************************/
 
 	*getANSISign { |signOffset|
-		var quo  = (signOffset / 2).abs.floor.asInteger;
-		var rem  = (signOffset % 2);
+		var quo  = (signOffset / 2).abs.asInteger;
+		var rem  = signOffset % 2;
 		var sign = "";
 
 		case
 		{ signOffset == 1  } { sign = "♯" }
 		{ signOffset == -1 } { sign = "♭" }
-		{ signOffset > 0   } {
+		{ signOffset > 1   } {
 			quo.do { sign = sign ++ "𝄪" };
 			rem.do { sign = sign ++ "♯" };
 		}
-		{ signOffset < 0   } {
+		{ signOffset < 1   } {
 			quo.abs.do { sign = sign ++ "𝄫" };
 			rem.do { sign = sign ++ "♭" };
 		};
@@ -107,7 +107,7 @@ MEAccidental {
 
 	/****************************************************************************************/
 
-	*getSignFromOffset { |signOffset, validate = true, charSet = \ascii|
+	*getSignFromOffset { |signOffset, charSet = \ascii, validate = true|
 		var sign = "";
 
 		MEDebug.log(thisMethod, 2);
@@ -138,7 +138,7 @@ MEAccidental {
 		};
 
 		signOffset = this.getOffsetFromMidi(midiNote, noteLetter, false);
-		sign       = this.getSignFromOffset(signOffset, validate);
+		sign       = this.getSignFromOffset(signOffset, validate: validate);
 
 		^noteLetter ++ sign;
 	}
@@ -148,7 +148,7 @@ MEAccidental {
 	sign { |charSet = \ascii|
 
 		if (charSet != \ascii) {
-			^this.getSignFromOffset(offset, false, charSet: charSet);
+			^MEAccidental.getSignFromOffset(offset, charSet, false);
 		};
 		^sign;
 	}
