@@ -8,6 +8,7 @@ MECore {
 	classvar <offsets = #[0, 2, 4, 5, 7, 9, 11];
 	classvar <letters = #["C", "D", "E", "F", "G", "A", "B"];
 	classvar <intervals;
+	classvar <default;
 
 	*initClass {
 
@@ -26,6 +27,20 @@ MECore {
 			11 -> Set['M7', 'M14', 'd1', 'd8']
 		];
 
+		default = Dictionary[
+			0  -> \P1,
+			1  -> \m2,
+			2  -> \M2,
+			3  -> \m3,
+			4  -> \M3,
+			5  -> \P4,
+			6  -> \A4,
+			7  -> \P5,
+			8  -> \m6,
+			9  -> \M6,
+			10 -> \m7,
+			11 -> \M7
+		];
 		^this;
 	}
 
