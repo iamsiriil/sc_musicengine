@@ -102,8 +102,8 @@ TestMENoteName_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_name_ansiSharp {
-		var fixture = (noteLetter: "C", midiNote: 61, charSet: \ansi, expect: "C♯");
+	test_name_unicSharp {
+		var fixture = (noteLetter: "C", midiNote: 61, charSet: \unic, expect: "C♯");
 
 		this.assertEquals(
 			MENoteName(fixture.noteLetter, fixture.midiNote, validate: true).name(fixture.charSet),
@@ -115,8 +115,8 @@ TestMENoteName_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_name_ansiFlat {
-		var fixture = (noteLetter: "C", midiNote: 59, charSet: \ansi, expect: "C♭");
+	test_name_unicFlat {
+		var fixture = (noteLetter: "C", midiNote: 59, charSet: \unic, expect: "C♭");
 
 		this.assertEquals(
 			MENoteName(fixture.noteLetter, fixture.midiNote, validate: true).name(fixture.charSet),
@@ -185,8 +185,8 @@ TestMENoteName_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_solfege_ansiSharp {
-		var fixture = (noteLetter: "C", midiNote: 61, charSet: \ansi, expect: "Do♯");
+	test_solfege_unicSharp {
+		var fixture = (noteLetter: "C", midiNote: 61, charSet: \unic, expect: "Do♯");
 
 		this.assertEquals(
 			MENoteName(fixture.noteLetter, fixture.midiNote, validate: true)
@@ -199,8 +199,8 @@ TestMENoteName_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_solfege_ansiFlat {
-		var fixture = (noteLetter: "C", midiNote: 59, charSet: \ansi, expect: "Do♭");
+	test_solfege_unicFlat {
+		var fixture = (noteLetter: "C", midiNote: 59, charSet: \unic, expect: "Do♭");
 
 		this.assertEquals(
 			MENoteName(fixture.noteLetter, fixture.midiNote, validate: true)

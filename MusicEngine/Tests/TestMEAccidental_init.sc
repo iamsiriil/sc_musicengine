@@ -105,11 +105,11 @@ TestMEAccidental_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_sign_ansi {
+	test_sign_unic {
 		var fixtures = [
-			(noteLetter: "C", midiNote: 59, charSet: \ansi, expect: "♭"),
-			(noteLetter: "C", midiNote: 60, charSet: \ansi, expect: ""),
-			(noteLetter: "C", midiNote: 61, charSet: \ansi, expect: "♯"),
+			(noteLetter: "C", midiNote: 59, charSet: \unic, expect: "♭"),
+			(noteLetter: "C", midiNote: 60, charSet: \unic, expect: ""),
+			(noteLetter: "C", midiNote: 61, charSet: \unic, expect: "♯"),
 		];
 
 		fixtures.do { |f|

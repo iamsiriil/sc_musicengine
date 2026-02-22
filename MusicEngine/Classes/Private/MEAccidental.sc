@@ -86,7 +86,7 @@ MEAccidental {
 
 	/****************************************************************************************/
 
-	*getANSISign { |signOffset|
+	*getUnicodeSign { |signOffset|
 		var quo  = (signOffset / 2).abs.asInteger;
 		var rem  = signOffset % 2;
 		var sign = "";
@@ -119,7 +119,7 @@ MEAccidental {
 		switch(charSet)
 		{ \ascii } { ^this.getASCIISign(signOffset, charSet) }
 		{ \m21   } { ^this.getASCIISign(signOffset, charSet) }
-		{ \ansi  } { ^this.getANSISign(signOffset) }
+		{ \unic  } { ^this.getUnicodeSign(signOffset) }
 		{
 			Error("'%' is not a valid character set.".format(charSet)).throw;
 		};

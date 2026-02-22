@@ -575,7 +575,7 @@ TestMEAccidental : UnitTest {
 
 	/****************************************************************************************/
 
-	test_getANSISign_ansi {
+	test_getUnicodeSign_ansi {
 		var fixtures = [
 			(signOffset: -5, expect: "𝄫𝄫♭"),
 			(signOffset: -4, expect: "𝄫𝄫"),
@@ -593,7 +593,7 @@ TestMEAccidental : UnitTest {
 		fixtures.do { |f|
 
 			this.assertEquals(
-				MEAccidental.getANSISign(f.signOffset),
+				MEAccidental.getUnicodeSign(f.signOffset),
 				f.expect,
 				"Testing sign offset: %. Should return ANSI string: %."
 				.format(f.signOffset, f.expect)
@@ -607,13 +607,13 @@ TestMEAccidental : UnitTest {
 		var fixtures = [
 			(signOffset: -5, charSet: \ascii, expect: "bbbbb"),
 			(signOffset: -5, charSet: \m21, expect: "-----"),
-			(signOffset: -5, charSet: \ansi, expect: "𝄫𝄫♭"),
+			(signOffset: -5, charSet: \unic, expect: "𝄫𝄫♭"),
 			(signOffset: 5, charSet: \ascii, expect: "#####"),
 			(signOffset: 5, charSet: \m21, expect: "#####"),
-			(signOffset: 5, charSet: \ansi, expect: "𝄪𝄪♯"),
+			(signOffset: 5, charSet: \unic, expect: "𝄪𝄪♯"),
 			(signOffset: 0, charSet: \ascii, expect: ""),
 			(signOffset: 0, charSet: \m21, expect: ""),
-			(signOffset: 0, charSet: \ansi, expect: "")
+			(signOffset: 0, charSet: \unic, expect: "")
 		];
 
 		fixtures.do { |f|
