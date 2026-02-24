@@ -24,17 +24,29 @@ MENote {
 		freq   = newM.midicps;
 		name   = MENoteName(newL, newM, val);
 		octave = MEOctave.getOctave(midi, name.name, val);
-		degree = MEInterval(newI);
 
-		data   = if (newD.isNil) { Dictionary() } { newD };
+		degree = if (newI.notNil) { MEInterval(newI) } { nil };
+		data   = if (newD.notNil) { newD } { Dictionary() };
 
 		^this;
+	}
+
+	*newFromName { |noteName, interval, data|
+		var noteLetter = noteName[0].asString;
+		var midiNote   = MEMIDINote.getMIDINoteFromName(noteName);
+
+		^this.new(noteLetter, midiNote, interval, data);
 	}
 
 	/****************************************************************************************/
 
 	printOn { |stream|
-		stream << this.name << ":" << degree.interval;
+
+		if (degree.notNil) {
+			stream << this.name << ":" << degree.interval;
+		} {
+			stream << this.name;
+		}
 	}
 
 	/****************************************************************************************/
