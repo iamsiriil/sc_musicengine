@@ -51,6 +51,20 @@ MEMIDINote {
 
 	/****************************************************************************************/
 
+	*getMIDINoteFromName { |noteName|
+		var regex = "^([A-G][#b]{0,5})([-]?[0-9])$";
+		var octave, name, midiOffset;
+
+		#name, octave = noteName.findRegexp(regex)[1..].collect { |n| n[1] };
+
+		midiOffset = this.getOffsetFromName(name);
+		octave     = octave.asInteger + 1;
+
+		^midiOffset + (12 * octave);
+	}
+
+	/****************************************************************************************/
+
 	*transposeMidiOffset { |midiOffsetArr, midiRoot, validate = true|
 
 		MEDebug.log(thisMethod, 1, [midiOffsetArr, midiRoot]);
