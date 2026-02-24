@@ -40,6 +40,19 @@ MERange : SequenceableCollection {
 		^newRange
 	}
 
+	*newClear { |size|
+		var newR = MENoteRange(size);
+		var i = 0;
+
+		"newClear".postln;
+
+		while { i < size } {
+			newR.add(nil);
+			i = i + 1;
+		} ;
+		^newR;
+	}
+
 	/****************************************************************************************/
 
 	*getOffsets { |intervalsArr|
@@ -54,8 +67,8 @@ MERange : SequenceableCollection {
 			int  = intervalsArr[i];
 			temp = Array(3);
 
-			temp.add(int.asMIDIOffset);//add(MEMIDINote.getOffsetFromInterval(int, false));
-			temp.add(int.asLetterOffset);//add(MENoteName.getOffsetFromInterval(int, false));
+			temp.add(int.asMIDIOffset);
+			temp.add(int.asLetterOffset);
 			temp.add(int.interval);
 
 			dataArr.add(temp);
@@ -202,48 +215,28 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	at { |index|
-		^notes.at(index);
-	}
+	at { |index| ^notes.at(index) }
 
 	/****************************************************************************************/
 
-	species {
-		^this.class;
-	}
+	species { ^this.class }
 
 	/****************************************************************************************/
 
-	size {
-		^notes.size;
-	}
+	size { ^notes.size }
 
 	/****************************************************************************************/
 
-	put { |index, item|
-
-		if (item.isKindOf(MENote)) {
-			notes.put(index, item)
-		} {
-			Error("MERange only allowes MENote objects.").throw;
-		};
-	}
+	put { |index, item| notes.put(index, item) }
 
 	/****************************************************************************************/
 
-	add { |item|
-
-		if (item.isKindOf(MENote)) {
-			notes.add(item);
-		} {
-			Error("MERange only allowes MENote objects.").throw;
-		};
-	}
+	add { |item| notes.add(item) }
 
 	/****************************************************************************************/
 
 	copy {
-		^this.class.newCopyArgs(symbol, notes)
+		^this.deepCopy;
 	}
 
 	/****************************************************************************************/
@@ -260,21 +253,45 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
+	collect { |function| ^this.collectAs(function, Array) }
+
+	/****************************************************************************************/
+
 	select { |function|
-		^this.selectAs(function, this.species);
+		var temp = Array(this.size);
+		var i = 0;
+
+		"Select".postln;
+
+		while { i < this.size } {
+
+			if (function.value(this[i])) {
+				temp.add(this[i]);
+			};
+			i = i + 1;
+		};
+		^this.species.with(this.symbolObj, *temp);
 	}
 
 	/****************************************************************************************/
 
 	reject { |function|
-		^this.rejectAs(function, this.species);
+		var temp = Array(this.size);
+		var i = 0;
+
+		"Reject".postln;
+
+		while { i < this.size } {
+
+			if (function.value(this[i]).not) {
+				temp.add(this[i]);
+			};
+			i = i + 1;
+		};
+		^this.species.with(this.symbolObj, *temp);
 	}
 
 	/****************************************************************************************/
-
-	collect { |function|
-		^this.collectAs(function, Array);
-	}
 
 	foldExtend { |index|
 		var newR = this.notes.foldExtend(index);
