@@ -25,35 +25,6 @@ MENoteName {
 
 	/****************************************************************************************/
 
-	printOn { |stream|
-		var s = if (accidental.sign == "") { nil } { accidental.sign };
-		stream << "MENoteName [ ";
-		stream << "Letter: " << letter << ", ";
-		stream << "Accidental: "<< accidental << " ]";
-	}
-
-	/****************************************************************************************/
-
-	/**getOffsetFromInterval { |meinterval, validate = true|
-		var letterOffset;
-
-		MEDebug.log(thisMethod, 1, [meinterval.interval]);
-
-		if (validate) {
-			MEIntervalValidators.intervalIsValid(meinterval.interval);
-		};
-
-		letterOffset = meinterval.number(true);
-
-		if (letterOffset > 7) {
-			^letterOffset - 8;
-		} {
-			^letterOffset - 1;
-		};
-	}*/
-
-	/****************************************************************************************/
-
 	*getNoteLetters { |letterOffsetArr, rootLetter, validate = true|
 		var index, letterArr;
 
