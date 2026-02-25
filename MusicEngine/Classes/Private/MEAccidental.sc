@@ -24,16 +24,6 @@ MEAccidental {
 
 	/****************************************************************************************/
 
-	printOn { |stream|
-		var s = if (sign == "") { nil } { sign };
-
-		stream << "MEAccidental [ ";
-		stream << "Offset: " << offset << ", ";
-		stream << "Sign: " << s << " ]";
-	}
-
-	/****************************************************************************************/
-
 	*getOffsetFromName { |noteName, validate = true|
 		var signOffset;
 
