@@ -38,18 +38,12 @@ MESymbol {
 
 	/****************************************************************************************/
 
-	printOn { |stream|
-		stream << "MESymbol [ ";
-		stream << "Root: " << root << ", ";
-		stream << "Intervals: " << intervals << ", ";
-		stream << "Symbol: " << symbol << ", ";
-		stream << "Alias: " << alias << " ]";
-	}
+	printOn { |stream| stream << "MESymbol(" << this.symbol << ")" }
 
 	/****************************************************************************************/
 
 	*splitSymbol { |rangeSymbol|
-		var regex = "^(?:([A-G][#b]{0,3})(?![#b])(.*))$"; // "^(?:([A-G][#b]?)([^#b]*))$";
+		var regex = "^(?:([A-G][#b]{0,3})(?![#b])(.*))$";
 
 		MEDebug.log(thisMethod, 1, [rangeSymbol]);
 
