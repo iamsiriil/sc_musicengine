@@ -35,6 +35,10 @@ MEInterval {
 
 	/****************************************************************************************/
 
+	printOn { |stream| stream << "MEInterval(" << this.interval << ")" }
+
+	/****************************************************************************************/
+
 	*getMEIntervalArray { |intervalsArr|
 		var size = intervalsArr.size, i = 0;
 		var temp = Array(size);
@@ -126,7 +130,4 @@ MEInterval {
 
 	<  { |aMEInterval| ^(this.number < aMEInterval.number) }
 
-	/****************************************************************************************/
-
-	printOn { |stream| stream << this.interval }
 }
