@@ -6,6 +6,28 @@
 
 MENoteRange : MERange {
 
+	*newFromName { |... args, kwargs|
+		var newRange = this.newClear(args.size);
+
+		args.do { |n, i|
+			newRange.put(i, MENote.newFromName(n));
+		};
+
+		kwargs.keysValuesDo { |k, v|
+
+			if (k == \intervals) {
+				v.do { |i, j|
+					newRange[j].degree = MEInterval(i);
+				};
+			} {
+				newRange.setArray(k, v) };
+			};
+
+		^newRange;
+	}
+
+	/****************************************************************************************/
+
 	// Indexing data
 
 	firstIndexInOctave { |octave|
@@ -173,7 +195,11 @@ MENoteRange : MERange {
 	/****************************************************************************************/
 	// Data dicts
 
-	setValues { |key, value| this.do { |n| n.set(key, value)} }
+	setValues { |key, value| this.do { |n| n.set(key, value) } }
+
+	/****************************************************************************************/
+
+	setArray { |key, array| this.do { |n, i| n.set(key, array[i]) } }
 
 	/****************************************************************************************/
 
@@ -225,7 +251,7 @@ MENoteRange : MERange {
 	/****************************************************************************************/
 	// Range transposition
 
-	+ { |interval|
+	>> { |interval|
 		var arr = Array.new(this.size);
 		var newN;
 
@@ -239,7 +265,7 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
-	- { |interval|
+	<< { |interval|
 		var arr = Array.new(this.size);
 		var newN;
 
