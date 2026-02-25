@@ -44,8 +44,6 @@ MERange : SequenceableCollection {
 		var newR = MENoteRange(size);
 		var i = 0;
 
-		"newClear".postln;
-
 		while { i < size } {
 			newR.add(nil);
 			i = i + 1;
