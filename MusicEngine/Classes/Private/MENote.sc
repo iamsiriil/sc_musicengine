@@ -9,7 +9,7 @@ MENote {
 	var <freq;
 	var <data;
 	var <octave;
-	var degree;
+	var >degree;
 	var name;
 
 	*new { |noteLetter, midiNote, interval, data, validate = false|
@@ -46,7 +46,7 @@ MENote {
 			stream << this.name << ":" << degree.interval;
 		} {
 			stream << this.name;
-		}
+		};
 	}
 
 	/****************************************************************************************/
@@ -85,12 +85,6 @@ MENote {
 
 	/****************************************************************************************/
 
-	nameObj { ^name }
-
-	/****************************************************************************************/
-	/****************************************************************************************/
-	// Accidental data
-
 	sign { |charSet = \ascii| ^name.sign(charSet) }
 
 	/****************************************************************************************/
@@ -98,28 +92,40 @@ MENote {
 	signOffset { ^name.signOffset }
 
 	/****************************************************************************************/
-
-	accidentalObj { ^name.accidental }
-
-	/****************************************************************************************/
 	/****************************************************************************************/
 	// Interval data
 
 	degree { |meInterval = false|
 
-		if (meInterval) {
-			^degree;
+		if (degree.notNil) {
+			if (meInterval) {
+				^degree;
+			};
+			^degree.interval;
 		};
-		^degree.interval;
+		^nil;
 	}
 
 	/****************************************************************************************/
 
-	number { |asInt = false| ^degree.number(asInt) }
+	number { |asInt = false|
+
+		if (degree.notNil) {
+			^degree.number(asInt);
+		};
+		^nil;
+	}
 
 	/****************************************************************************************/
 
-	quality { |asFloat = false| ^degree.quality(asFloat) }
+	quality { |asFloat = false|
+
+		if (degree.notNil) {
+			^degree.quality(asFloat)
+		};
+		^nil;
+	}
+
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -169,17 +175,17 @@ MENote {
 		{ interval.isInteger } {
 			symbol = MECore.default[interval % 12];
 			meInt  = MEInterval(symbol);
-			newM   = this.midi + interval;
+			newM   = (this.midi + interval);
 		}
 		{ interval.isKindOf(Symbol) } {
 			meInt = MEInterval(interval);
 			newM  = this.midi + meInt.asMIDIOffset;
 		};
-		newL = MECore.letters.wrapAt(
-			MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
-		);
 
 		if (newM <= 127) {
+			newL = MECore.letters.wrapAt(
+				MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
+			);
 			^MENote(newL, newM, this.degree, this.data);
 		};
 		^nil;
@@ -200,11 +206,11 @@ MENote {
 			meInt = MEInterval(interval);
 			newM  = this.midi - meInt.asMIDIOffset;
 		};
-		newL = MECore.letters.wrapAt(
-			MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
-		);
 
 		if (newM >= 0) {
+			newL = MECore.letters.wrapAt(
+				MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
+			);
 			^MENote(newL, newM, this.degree, this.data);
 		};
 		^nil;
@@ -212,10 +218,10 @@ MENote {
 
 	/****************************************************************************************/
 
-	+ { |interval| ^this.transposeUp(interval) }
+	>> { |interval| ^this.transposeUp(interval) }
 
 	/****************************************************************************************/
 
-	- { |interval| ^this.transposeDown(interval) }
+	<< { |interval| ^this.transposeDown(interval) }
 }
 
