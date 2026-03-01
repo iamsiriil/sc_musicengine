@@ -17,7 +17,7 @@ MENoteRange : MERange {
 
 			if (k == \intervals) {
 				v.do { |i, j|
-					newRange[j].degree = MEInterval(i);
+					newRange[j].degree = i;
 				};
 			} {
 				newRange.setArray(k, v) };
