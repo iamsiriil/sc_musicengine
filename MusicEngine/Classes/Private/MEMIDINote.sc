@@ -10,23 +10,6 @@ MEMIDINote {
 
 	/****************************************************************************************/
 
-	/**getOffsetFromInterval { |meinterval, validate = true|
-
-		MEDebug.log(thisMethod, 1, [meinterval.interval]);
-
-		if (validate) {
-			MEIntervalValidators.intervalIsValid(meinterval.interval);
-		};
-
-		MECore.intervals.keysValuesDo { |k, v|
-			if (v.includes(meinterval.interval)) {
-				^k;
-			};
-		};
-	}*/
-
-	/****************************************************************************************/
-
 	*getOffsetFromName { |noteName, validate = true|
 		var midiOffset, signOffset = 0;
 
@@ -53,12 +36,13 @@ MEMIDINote {
 
 	*getMIDINoteFromName { |noteName|
 		var regex = "^([A-G][#b]{0,5})([-]?[0-9])$";
-		var octave, name, midiOffset;
+		var octave, name, cross, midiOffset;
 
 		#name, octave = noteName.findRegexp(regex)[1..].collect { |n| n[1] };
 
 		midiOffset = this.getOffsetFromName(name);
-		octave     = octave.asInteger + 1;
+		cross      = MEOctave.checkOctaveCross(name, false);
+		octave     = octave.asInteger + 1 + cross;
 
 		^midiOffset + (12 * octave);
 	}
