@@ -27,6 +27,8 @@ MERange : SequenceableCollection {
 		^this;
 	}
 
+	/****************************************************************************************/
+
 	*with { |symbol ... args|
 		var newRange = this.new(args.size);
 
@@ -40,6 +42,8 @@ MERange : SequenceableCollection {
 		^newRange
 	}
 
+	/****************************************************************************************/
+
 	*newClear { |size|
 		var newR = MENoteRange(size);
 		var i = 0;
@@ -52,6 +56,8 @@ MERange : SequenceableCollection {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// Range building methods
 
 	*getOffsets { |intervalsArr|
 		var size    = intervalsArr.size;
@@ -187,6 +193,34 @@ MERange : SequenceableCollection {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// Basic methods
+
+	at { |index| ^notes.at(index) }
+
+	/****************************************************************************************/
+
+	species { ^this.class }
+
+	/****************************************************************************************/
+
+	size { ^notes.size }
+
+	/****************************************************************************************/
+
+	put { |index, item| notes.put(index, item) }
+
+	/****************************************************************************************/
+
+	add { |item| notes.add(item) }
+
+	/****************************************************************************************/
+
+	symbolObj { ^this.symbol }
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Iterator methods
 
 	do { |function|
 		var size = notes.size - 1;
@@ -213,53 +247,9 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	at { |index| ^notes.at(index) }
-
-	/****************************************************************************************/
-
-	species { ^this.class }
-
-	/****************************************************************************************/
-
-	size { ^notes.size }
-
-	/****************************************************************************************/
-
-	put { |index, item| notes.put(index, item) }
-
-	/****************************************************************************************/
-
-	add { |item| notes.add(item) }
-
-	/****************************************************************************************/
-
-	copy {
-		^this.deepCopy;
-	}
-
-	/****************************************************************************************/
-
-	copyRange { |start, end|
-		^this.class.with(symbol, *notes.copyRange(start, end));
-	}
-
-	/****************************************************************************************/
-
-	copySeries { |first, second, last|
-		^this.class.with(symbol, *notes.copySeries(first, second, last));
-	}
-
-	/****************************************************************************************/
-
-	collect { |function| ^this.collectAs(function, Array) }
-
-	/****************************************************************************************/
-
 	select { |function|
 		var temp = Array(this.size);
 		var i = 0;
-
-		"Select".postln;
 
 		while { i < this.size } {
 
@@ -277,8 +267,6 @@ MERange : SequenceableCollection {
 		var temp = Array(this.size);
 		var i = 0;
 
-		"Reject".postln;
-
 		while { i < this.size } {
 
 			if (function.value(this[i]).not) {
@@ -291,15 +279,251 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	foldExtend { |index|
-		var newR = this.notes.foldExtend(index);
+	collect { |function| ^this.collectAs(function, Array) }
 
-		^this.species.with(nil, *newR);
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Copy methods
+
+	copy {
+		var newR = Array(this.size);
+
+		this.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.symbolObj, *newR);
 	}
 
-	pyramid { |number|
-		var newR = this.notes.pyramid(number);
+	/****************************************************************************************/
 
-		^this.species.with(nil, *newR);
+	copyRange { |start, end|
+		var size, temp, i, j;
+
+		i = if (start.isNil) { 0 } { start };
+		j = if (end.isNil)   { this.size - 1 } { end };
+
+		size = j - i;
+		temp = Array(size);
+
+		while { i <= j } {
+			temp.add(this[i]);
+			i = i + 1;
+		};
+		^this.species.with(this.symbolObj, *temp);
+	}
+
+	/****************************************************************************************/
+
+	copySeries { |first, second, last|
+		var size, temp, i, j, k;
+
+		i = if (first.isNil)  { 0 } { first };
+		j = if (second.isNil) { 1 } { second };
+
+		size = (this.size / j).ceil;
+		temp = Array(size.asInteger);
+
+		case
+		{ last.isNil             } { k = this.size - 1 }
+		{ last > (this.size - 1) } { k = this.size - 1 }
+		{ k = last };
+
+		while { i <= k } {
+			temp.add(this[i]);
+			i = i + j;
+		};
+		^this.species.with(this.symbolObj, *temp);
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Clip, wrap and fold
+
+	clipAt { |index| ^this.notes.clipAt(index) }
+
+	/****************************************************************************************/
+
+	wrapAt { |index| ^this.notes.wrapAt(index) }
+
+	/****************************************************************************************/
+
+	foldAt { |index| ^this.notes.foldAt(index) }
+
+	/****************************************************************************************/
+
+	clipExtend { |index|
+		var temp = this.notes.clipExtend(index);
+		var newR = Array(temp.size);
+
+		temp.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.symbolObj, *newR);
+	}
+
+	/****************************************************************************************/
+
+	wrapExtend { |index|
+		var temp = this.notes.wrapExtend(index);
+		var newR = Array(temp.size);
+
+		temp.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.symbolObj, *newR);
+	}
+
+	/****************************************************************************************/
+
+
+	foldExtend { |index|
+		var temp = this.notes.foldExtend(index);
+		var newR = Array(temp.size);
+
+		temp.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.symbolObj, *newR);
+	}
+
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Indexing data
+
+	firstIndexInOctave { |octave| ^this.detectIndex { |n| n.octave == octave } }
+
+	/****************************************************************************************/
+
+	lastIndexInOctave { |octave| ^this.detectLastIndex { |n| n.octave == octave } }
+
+	/****************************************************************************************/
+
+	firstIndexOfDegree { |degree| ^this.detectIndex { |n| n.degree == degree } }
+
+	/****************************************************************************************/
+
+	lastIndexOfDegree { |degree| ^this.detectLastIndex { |n| n.degree == degree } }
+
+	/****************************************************************************************/
+
+	firstIndexOfName { |name|
+		^this.detectIndex { |n| n.name(withOctave: false) == name };
+	}
+
+	/****************************************************************************************/
+
+	lastIndexOfName { |name|
+		^this.detectLastIndex { |n| n.name(withOctave: false) == name };
+	}
+
+	/****************************************************************************************/
+
+	indexOfName { |name| ^this.detectIndex { |n| n.name == name } }
+
+	/****************************************************************************************/
+
+	firstOverMIDI { |midi| ^this.detectIndex { |n| n.midi >= midi } }
+
+	/****************************************************************************************/
+
+	firstUnderMIDI { |midi| ^this.detectLastIndex { |n| n.midi <= midi } }
+
+	/****************************************************************************************/
+
+	firstOverFreq { |freq| ^this.detectIndex { |n| n.freq >= freq } }
+
+	/****************************************************************************************/
+
+	firstUnderFreq { |freq| ^this.detectLastIndex { |n| n.freq <= freq } }
+
+	/****************************************************************************************/
+
+	degreeInOctave { |degree, octave|
+		^this.detectIndex { |n| (n.degree == degree) && (n.octave == octave) };
+	}
+
+	/****************************************************************************************/
+
+	degreeOverMIDI { |midi, degree|
+		^this.detectIndex { |n| (n.midi >= midi) && (n.degree == degree) };
+	}
+
+	/****************************************************************************************/
+
+	degreeUnderMIDI { |midi, degree|
+		^this.detectLastIndex { |n| (n.midi <= midi) && (n.degree == degree) };
+	}
+
+	/****************************************************************************************/
+
+	nameOverMIDI { |midi, name|
+		^this.detectIndex { |n| (n.midi >= midi) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	nameUnderMIDI { |midi, name|
+		^this.detectLastIndex { |n| (n.midi <= midi) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	degreeOverFreq { |freq, degree|
+		^this.detectIndex { |n| (n.freq >= freq) && (n.degree == degree) };
+	}
+
+	/****************************************************************************************/
+
+	degreeUnderFreq { |freq, degree|
+		^this.detectLastIndex { |n| (n.freq <= freq) && (n.degree == degree) };
+	}
+
+	/****************************************************************************************/
+
+	nameOverFreq { |freq, name|
+		^this.detectIndex { |n| (n.freq >= freq) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	nameUnderFreq { |freq, name|
+		^this.detectLastIndex { |n| (n.freq <= freq) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	indicesOfDegree { |degree|
+		^this.notes.selectIndices { |n| n.degree == degree };
+	}
+
+	/****************************************************************************************/
+
+	indicesOfName { |name|
+		^this.notes.selectIndices { |n| n.name(withOctave: false) == name };
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+
+	pyramid { |number|
+		var temp = this.notes.pyramid(number);
+		var newR = Array(temp.size);
+
+		temp.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.symbolObj, *newR);
+	}
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+
+	== { |aMENoteRange|
+		case
+		{ this === aMENoteRange                } { ^true  }
+		{ this.size != aMENoteRange.size       } { ^false }
+		{ this.species != aMENoteRange.species } { ^false }
+		{
+			this.do { |n, i|
+				if (n != aMENoteRange[i]) { ^false };
+			};
+			^true;
+		}
 	}
 }
