@@ -6,24 +6,24 @@
 
 MENoteRange : MERange {
 
-	*newFromName { |... args, kwargs|
-		var newRange = this.newClear(args.size);
+	*newFromName { |...args, kwargs|
+		var newR = this.new(args.size);
 
-		args.do { |n, i|
-			newRange.put(i, MENote.newFromName(n));
+		args.do { |n|
+			newR.add(MENote.newFromName(n));
 		};
 
 		kwargs.keysValuesDo { |k, v|
 
-			if (k == \intervals) {
+			if (k == \degrees) {
 				v.do { |i, j|
-					newRange[j].degree = i;
+					newR[j].degree = i;
 				};
 			} {
-				newRange.setArray(k, v) };
+				newR.setArray(k, v)
 			};
-
-		^newRange;
+		};
+		^newR;
 	}
 
 	/****************************************************************************************/
@@ -207,7 +207,15 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
-	filterN { |... args| ^this.reject { |n| args.includes(n.name.asSymbol) } }
+	filterN { |... args|
+		var regex = "[-]?\\d$";
+
+		if (args.every(regex.matchRegexp(_)).postln) {
+			^this.reject { |n| args.includes(n.name.asSymbol) }
+		};
+		^this.reject { |n| args.includes(n.name(withOctave: false)).asSymbol};
+	}
+
 
 	/****************************************************************************************/
 
