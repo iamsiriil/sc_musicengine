@@ -39,6 +39,8 @@ MENote {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// Instance methods
 
 	printOn { |stream|
 
@@ -51,7 +53,15 @@ MENote {
 
 	/****************************************************************************************/
 
-	copy { ^this.deepCopy }
+	species { ^this.class }
+
+	/****************************************************************************************/
+
+	hash { ^(this.species.hash.bitXor(this.name.hash).bitXor(this.midi.hash)) }
+
+	/****************************************************************************************/
+
+	copy { ^this.species.new(this.letter, this.midi, this.degree, this.data.copy) }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -168,7 +178,7 @@ MENote {
 			newL = MECore.letters.wrapAt(
 				MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
 			);
-			^MENote(newL, newM, this.degree, this.data);
+			^MENote(newL, newM, this.degree, this.data.copy);
 		};
 		^nil;
 	}
@@ -193,7 +203,7 @@ MENote {
 			newL = MECore.letters.wrapAt(
 				MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
 			);
-			^MENote(newL, newM, this.degree, this.data);
+			^MENote(newL, newM, this.degree, this.data.copy);
 		};
 		^nil;
 	}
@@ -210,40 +220,48 @@ MENote {
 	/****************************************************************************************/
 	// Note comparison
 
-	isEnharmonic { |aMENote|
-		if ((this.midi == aMENote.midi) && (this.name != aMENote.name)) {
-			^true;
-		};
-		^false;
+	enharmonicTo { |aMENote|
+		^(this.species == aMENote.species) && (this.midi == aMENote.midi)
 	}
+
+	/****************************************************************************************/
+
+	notEnharmonicTo { |aMENote|
+		^(this.species == aMENote.species) && (this.midi == aMENote.midi).not
+	}
+
+	/****************************************************************************************/
+
+	==? { |aMENote| ^this.enharmonicTo(aMENote) }
+
+	/****************************************************************************************/
+
+	!=? { |aMENote| ^this.notEnharmonicTo(aMENote) }
+
 
 	/****************************************************************************************/
 
 	== { |aMENote|
-		if ((this.midi == aMENote.midi) && (this.name == aMENote.name)) {
-			^true;
-		};
-		^false;
+		^(this.species == aMENote.species) && (
+			(this.midi == aMENote.midi)    &&
+			(this.name == aMENote.name)
+		);
 	}
 
 	/****************************************************************************************/
 
-	!= { |aMENote| ^if (this.midi != aMENote.midi) { true } { false } }
+	< { |aMENote| ^(this.species == aMENote.species) && (this.midi < aMENote.midi) }
 
 	/****************************************************************************************/
 
-	<= { |aMENote| ^if ((this.midi < aMENote.midi) || (this == aMENote)) { true } { false } }
+	> { |aMENote| ^(this.species == aMENote.species) && (this.midi > aMENote.midi) }
 
 	/****************************************************************************************/
 
-	>= { |aMENote| ^if ((this.midi > aMENote.midi) || (this == aMENote)) { true } { false } }
+	<= { |aMENote| ^(this == aMENote) || (this < aMENote) }
 
 	/****************************************************************************************/
 
-	< { |aMENote| ^if (this.midi < aMENote.midi) { true } { false } }
-
-	/****************************************************************************************/
-
-	> { |aMENote| ^if (this.midi > aMENote.midi) { true } { false } }
+	>= { |aMENote| ^(this == aMENote) || (this > aMENote) }
 }
 
