@@ -103,13 +103,13 @@ TestMEInterval_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_isEnharmonic_true {
+	test_enharmonicTo_true {
 		var meInterval1 = MEInterval('A4');
 		var meInterval2 = MEInterval('d5');
 		var expected = true;
 
 		this.assertEquals(
-			meInterval1.isEnharmonic(meInterval2),
+			meInterval1.enharmonicTo(meInterval2),
 			expected,
 			"Comparing enharmony between two intervals % and %. Should return %."
 			.format(meInterval1, meInterval2, expected)
@@ -118,13 +118,103 @@ TestMEInterval_init : UnitTest {
 
 	/****************************************************************************************/
 
-	test_isEnharmonic_false {
+	test_enharmonicTo_false {
 		var meInterval1 = MEInterval('P4');
 		var meInterval2 = MEInterval('P5');
 		var expected = false;
 
 		this.assertEquals(
-			meInterval1.isEnharmonic(meInterval2),
+			meInterval1.enharmonicTo(meInterval2),
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_enharmonicTo_operatorTrue {
+		var meInterval1 = MEInterval('A4');
+		var meInterval2 = MEInterval('d5');
+		var expected = true;
+
+		this.assertEquals(
+			meInterval1 ==? meInterval2,
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_enharmonicTo_operatorFalse {
+		var meInterval1 = MEInterval('P4');
+		var meInterval2 = MEInterval('P5');
+		var expected = false;
+
+		this.assertEquals(
+			meInterval1 ==? meInterval2,
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_notEnharmonicTo_true {
+		var meInterval1 = MEInterval('P4');
+		var meInterval2 = MEInterval('P5');
+		var expected = true;
+
+		this.assertEquals(
+			meInterval1.notEnharmonicTo(meInterval2),
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_notEnharmonicTo_false {
+		var meInterval1 = MEInterval('A4');
+		var meInterval2 = MEInterval('d5');
+		var expected = false;
+
+		this.assertEquals(
+			meInterval1.notEnharmonicTo(meInterval2),
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_notEnharmonicTo_operatorTrue {
+		var meInterval1 = MEInterval('P4');
+		var meInterval2 = MEInterval('P5');
+		var expected = true;
+
+		this.assertEquals(
+			meInterval1 !=? meInterval2,
+			expected,
+			"Comparing enharmony between two intervals % and %. Should return %."
+			.format(meInterval1, meInterval2, expected)
+		);
+	}
+
+	/****************************************************************************************/
+
+	test_notEnharmonicTo_operatorFalse {
+		var meInterval1 = MEInterval('A4');
+		var meInterval2 = MEInterval('d5');
+		var expected = false;
+
+		this.assertEquals(
+			meInterval1 !=? meInterval2,
 			expected,
 			"Comparing enharmony between two intervals % and %. Should return %."
 			.format(meInterval1, meInterval2, expected)
