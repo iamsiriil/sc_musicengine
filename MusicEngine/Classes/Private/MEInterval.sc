@@ -35,10 +35,6 @@ MEInterval {
 
 	/****************************************************************************************/
 
-	printOn { |stream| stream << "MEInterval(" << this.interval << ")" }
-
-	/****************************************************************************************/
-
 	*getMEIntervalArray { |intervalsArr|
 		var size = intervalsArr.size, i = 0;
 		var temp = Array(size);
@@ -63,6 +59,22 @@ MEInterval {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// instance methods
+
+	printOn { |stream| stream << "MEInterval(" << this.interval << ")" }
+
+	/****************************************************************************************/
+
+	species { ^this.class }
+
+	/****************************************************************************************/
+
+	hash { ^this.species.hash.bitXor(this.number.hash) }
+
+	/****************************************************************************************/
+	/****************************************************************************************/
+	// Interval information
 
 	number { |asInt = false|
 
@@ -83,6 +95,8 @@ MEInterval {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// Conversion to offsets
 
 	asLetterOffset {
 
@@ -103,31 +117,54 @@ MEInterval {
 	}
 
 	/****************************************************************************************/
+	/****************************************************************************************/
+	// Comparison operators
 
-	isEnharmonic { |aMEInterval| ^this.asMIDIOffset == aMEInterval.asMIDIOffset }
+	enharmonicTo { |aMEInterval|
+		^(this.species == aMEInterval.species) &&
+		(this.asMIDIOffset == aMEInterval.asMIDIOffset)
+	}
 
 	/****************************************************************************************/
 
-	== { |aMEInterval| ^(this.number == aMEInterval.number) }
+	notEnharmonicTo { |aMEInterval|
+		^(this.species == aMEInterval.species) &&
+		(this.asMIDIOffset != aMEInterval.asMIDIOffset)
+	}
 
 	/****************************************************************************************/
 
-	!= { |aMEInterval| ^(this.number != aMEInterval.number) }
+	==? { |aMEInterval| ^this.enharmonicTo(aMEInterval) }
 
 	/****************************************************************************************/
 
-	>= { |aMEInterval| ^(this.number >= aMEInterval.number) }
+	!=? { |aMEInterval| ^this.notEnharmonicTo(aMEInterval) }
 
 	/****************************************************************************************/
 
-	<= { |aMEInterval| ^(this.number <= aMEInterval.number) }
+	== { |aMEInterval|
+		^(this.species == aMEInterval.species) && (this.number == aMEInterval.number);
+	}
 
 	/****************************************************************************************/
 
-	>  { |aMEInterval| ^(this.number > aMEInterval.number) }
+	>  { |aMEInterval|
+		^(this.species == aMEInterval.species) && (this.number > aMEInterval.number);
+	}
 
 	/****************************************************************************************/
 
-	<  { |aMEInterval| ^(this.number < aMEInterval.number) }
+	<  { |aMEInterval|
+		^(this.species == aMEInterval.species) && (this.number < aMEInterval.number);
+	}
+
+	/****************************************************************************************/
+
+	>= { |aMEInterval| ^(this == aMEInterval) || (this > aMEInterval) }
+
+	/****************************************************************************************/
+
+	<= { |aMEInterval| ^(this == aMEInterval) || (this < aMEInterval) }
+
 
 }
