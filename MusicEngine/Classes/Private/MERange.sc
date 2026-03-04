@@ -8,9 +8,7 @@ MERange : SequenceableCollection {
 	var <>symbol;
 	var <notes;
 
-	*new { |input|
-		^super.new.init(input);
-	}
+	*new { |input| ^super.new.init(input) }
 
 	init { |newI|
 		var validate = MEDebug.validate;
@@ -21,9 +19,8 @@ MERange : SequenceableCollection {
 		}
 		{ newI.isString } {
 			symbol = MESymbol(newI);
-			this.getRange(symbol, validate);
+			notes  = MERange.getRange(symbol, validate);
 		};
-
 		^this;
 	}
 
@@ -40,19 +37,6 @@ MERange : SequenceableCollection {
 			newRange.add(n);
 		};
 		^newRange
-	}
-
-	/****************************************************************************************/
-
-	*newClear { |size|
-		var newR = MENoteRange(size);
-		var i = 0;
-
-		while { i < size } {
-			newR.add(nil);
-			i = i + 1;
-		} ;
-		^newR;
 	}
 
 	/****************************************************************************************/
@@ -176,7 +160,7 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	getRange { |newS, validate = false|
+	*getRange { |newS, validate = false|
 		var tempM, tempL, tempI, tempR;
 
 		MEDebug.log(thisMethod, 1, [newS]);
@@ -189,7 +173,7 @@ MERange : SequenceableCollection {
 		tempM = MEMIDINote.transposeMidiOffset(tempM, tempR, validate);
 		tempL = MENoteName.getNoteLetters(tempL, newS.root[0].asString, validate);
 
-		notes = MERange.getMENotes(tempM, tempL, tempI, validate);
+		^MERange.getMENotes(tempM, tempL, tempI, validate);
 	}
 
 	/****************************************************************************************/
@@ -415,10 +399,6 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	indexOfName { |name| ^this.detectIndex { |n| n.name == name } }
-
-	/****************************************************************************************/
-
 	firstOverMIDI { |midi| ^this.detectIndex { |n| n.midi >= midi } }
 
 	/****************************************************************************************/
@@ -435,56 +415,57 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 
-	degreeInOctave { |degree, octave|
-		^this.detectIndex { |n| (n.degree == degree) && (n.octave == octave) };
-	}
 
-	/****************************************************************************************/
-
-	degreeOverMIDI { |midi, degree|
+	degreeOverMIDI { |degree, midi|
 		^this.detectIndex { |n| (n.midi >= midi) && (n.degree == degree) };
 	}
 
 	/****************************************************************************************/
 
-	degreeUnderMIDI { |midi, degree|
+	degreeUnderMIDI { |degree, midi|
 		^this.detectLastIndex { |n| (n.midi <= midi) && (n.degree == degree) };
 	}
 
 	/****************************************************************************************/
 
-	nameOverMIDI { |midi, name|
-		^this.detectIndex { |n| (n.midi >= midi) && (n.name(withOctave: false) == name) };
-	}
-
-	/****************************************************************************************/
-
-	nameUnderMIDI { |midi, name|
-		^this.detectLastIndex { |n| (n.midi <= midi) && (n.name(withOctave: false) == name) };
-	}
-
-	/****************************************************************************************/
-
-	degreeOverFreq { |freq, degree|
+	degreeOverFreq { |degree, freq|
 		^this.detectIndex { |n| (n.freq >= freq) && (n.degree == degree) };
 	}
 
 	/****************************************************************************************/
 
-	degreeUnderFreq { |freq, degree|
+	degreeUnderFreq { |degree, freq|
 		^this.detectLastIndex { |n| (n.freq <= freq) && (n.degree == degree) };
 	}
 
 	/****************************************************************************************/
 
-	nameOverFreq { |freq, name|
+	nameOverMIDI { |name, midi|
+		^this.detectIndex { |n| (n.midi >= midi) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	nameUnderMIDI { |name, midi|
+		^this.detectLastIndex { |n| (n.midi <= midi) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	nameOverFreq { |name, freq|
 		^this.detectIndex { |n| (n.freq >= freq) && (n.name(withOctave: false) == name) };
 	}
 
 	/****************************************************************************************/
 
-	nameUnderFreq { |freq, name|
+	nameUnderFreq { |name, freq|
 		^this.detectLastIndex { |n| (n.freq <= freq) && (n.name(withOctave: false) == name) };
+	}
+
+	/****************************************************************************************/
+
+	degreeInOctave { |degree, octave|
+		^this.detectIndex { |n| (n.degree == degree) && (n.octave == octave) };
 	}
 
 	/****************************************************************************************/
@@ -500,10 +481,14 @@ MERange : SequenceableCollection {
 	}
 
 	/****************************************************************************************/
+
+	indexOfName { |name| ^this.detectIndex { |n| n.name == name } }
+
+	/****************************************************************************************/
 	/****************************************************************************************/
 
-	pyramid { |number|
-		var temp = this.notes.pyramid(number);
+	pyramid { |patternType|
+		var temp = this.notes.pyramid(patternType);
 		var newR = Array(temp.size);
 
 		temp.do { |n| newR.add(n.copy) };
@@ -525,5 +510,14 @@ MERange : SequenceableCollection {
 			};
 			^true;
 		}
+	}
+
+	hash {
+		var hash;
+
+		hash = this.species.hash;
+		this.do { |n| hash.bitXor(n.hash) };
+
+		^hash;
 	}
 }
