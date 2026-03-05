@@ -1,6 +1,6 @@
 TITLE:: MENoteRange
-summary:: Creates MENote ranges.
-categories:: MusicEngine library
+summary:: Creates MENote ranges
+categories:: MusicEngine Library
 related:: Classes/MERange, Classes/MENote
 
 DESCRIPTION::
@@ -8,11 +8,6 @@ MENoteRange is MusicEngines primary tool for generating and accessing
 
 
 CLASSMETHODS::
-
-copymethod:: MERange, *new
-
-copymethod:: MERange, *with
-
 
 METHOD:: newFromName
 Allow the creation of a new MENoteRange from a sequence of note names.
@@ -56,13 +51,9 @@ r[0].quality;
 
 INSTANCEMETHODS::
 
+
+
 SUBSECTION:: Data retrieval
-
-copymethod:: MERange, -notes
-
-
-
-
 
 
 METHOD:: midi
@@ -97,122 +88,6 @@ METHOD:: symbolObj
 
 METHOD:: asPseq
 (describe method here)
-
-SUBSECTION:: Common methods
-
-
-
-copymethod:: MERange, -hash
-
-copymethod:: MERange, -at
-
-copymethod:: SequenceableCollection, -first
-
-copymethod:: SequenceableCollection, -last
-
-copymethod:: MERange, -size
-
-copymethod:: MERange, -species
-
-copymethod:: MERange, -add
-
-copymethod:: MERange, -put
-
-
-
-SUBSECTION:: Copy methods
-
-
-
-copymethod:: MERange, -copy
-
-copymethod:: MERange, -copyRange
-
-copymethod:: MERange, -copySeries
-
-
-
-SUBSECTION:: Iterators
-
-
-
-copymethod:: MERange, -do
-
-copymethod:: MERange, -reverseDo
-
-copymethod:: MERange, -select
-
-copymethod:: MERange, -reject
-
-copymethod:: MERange, -collect
-
-
-
-SUBSECTION:: Clip, wrap, fold and pyramid
-
-
-
-copymethod:: MERange, -clipAt
-
-copymethod:: MERange, -wrapAt
-
-copymethod:: MERange, -foldAt
-
-copymethod:: MERange, -clipExtend
-
-copymethod:: MERange, -wrapExtend
-
-copymethod:: MERange, -foldExtend
-
-copymethod:: MERange, -pyramid
-
-
-
-SUBSECTION:: Indexing methods
-
-copymethod:: MERange, -firstIndexInOctave
-
-copymethod:: MERange, -lastIndexInOctave
-
-copymethod:: MERange, -firstIndexOfDegree
-
-copymethod:: MERange, -lastIndexOfDegree
-
-copymethod:: MERange, -firstIndexOfName
-
-copymethod:: MERange, -lastIndexOfName
-
-copymethod:: MERange, -firstOverMIDI
-
-copymethod:: MERange, -firstUnderMIDI
-
-copymethod:: MERange, -firstOverFreq
-
-copymethod:: MERange, -firstUnderFreq
-
-copymethod:: MERange, -degreeOverMIDI
-
-copymethod:: MERange, -degreeUnderMIDI
-
-copymethod:: MERange, -degreOverFreq
-
-copymethod:: MERange, -degreeUnderFreq
-
-copymethod:: MERange, -nameOverMIDI
-
-copymethod:: MERange, -nameUnderMIDI
-
-copymethod:: MERange, -nameOverFreq
-
-copymethod:: MERange, -nameUnderFreq
-
-copymethod:: MERange, -degreeInOctave
-
-copymethod:: MERange, -indicesOfDegree
-
-copymethod:: MERange, -indicesOfName
-
-copymethod:: MERange, -indexOfName
 
 
 

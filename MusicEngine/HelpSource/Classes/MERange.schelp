@@ -20,7 +20,7 @@ METHOD:: new
 Creates a new MERange object. It also works as the primary constructor for MENoteRange.
 
 ARGUMENT:: input
-The EMPHASIS::input:: argument may take a LINK::Classes/String:: with the range symbol required (e.g.: EMPHASIS::"Cmaj7", "Em3P5", "F#"::, etc.), or an LINK::Classes/Integer:: size.
+The EMPHASIS::input:: argument may take a LINK::Classes/String:: with the range symbol required (e.g.: EMPHASIS::"Cmaj7"::, EMPHASIS::"Em3P5"::, EMPHASIS::"F#"::, etc.), or an LINK::Classes/Integer:: size.
 
 NOTE:: The Integer instantiation is mostly meant to be used internally, in conjunction with the LINK::Classes/MERange#*with:: method.
 ::
@@ -42,11 +42,9 @@ CODE::
 METHOD:: with
 Creates a new MERange object from a preexisting collection of MENote objects.
 
-NOTE:: Mostly used internally with methods such as LINK::Classes/MERange#-copyRange::, LINK::Classes/MERange#-copySeries::, Link::Classes/MERange#-select::, LINK::Classes/MERange#-reject::, etc.
-::
-
 ARGUMENT:: symbol
 A copy of the MESymbol object stored in MERange.
+
 NOTE:: When a new range is created, the symbol used as EMPHASIS::input:: is stored as a MESymbol object. MENoteRange includes a series of methods for accessing data from this object. By copying this object it is ensured that the symbol data is always accessible, even after the range has been manipulated.
 ::
 
