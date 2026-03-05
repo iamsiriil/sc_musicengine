@@ -1,0 +1,344 @@
+TITLE:: MENoteRange
+summary:: Creates MENote ranges.
+categories:: MusicEngine library
+related:: Classes/MERange, Classes/MENote
+
+DESCRIPTION::
+MENoteRange is MusicEngines primary tool for generating and accessing
+
+
+CLASSMETHODS::
+
+copymethod:: MERange, *new
+
+copymethod:: MERange, *with
+
+
+METHOD:: newFromName
+Allow the creation of a new MENoteRange from a sequence of note names.
+
+ARGUMENT:: ... args
+Sequence of note names as string, with octave number.
+
+ARGUMENT:: kwargs
+Additional key value pairs containing user assigned data. EMPHASIS::value:: should always be an array the size of EMPHASIS::args::, and EMPHASIS::key:: an identifier.
+
+NOTE::
+If the user wishes to add interval data, the key CODE::\degrees:: should be used. Internally CODE::\degrees:: creates a new MEInterval object for each MENote and assigns it to the property CODE::degree::. Remaining key value pairs will be stored in a data dictionary.
+::
+
+returns:: A new MENoteRange object.
+
+CODE::
+(
+// Take the A train
+r = MENoteRange.newFromName(
+	"G4", "E5", "G4", "C5", "E5", "G#4", "A4", "Bb4", "B4", "E5", "G4", "F#4", "F4", "C#5", "C5", "E4",
+	degrees:  [\P5, \M3, \P5, \P1, \M3, \A5, \M6, \m7, \M7, \M3, \P5, \A4, \P4, \A1, \P1, \M3],
+	dur:      [4.5, 1.5, 1, 1, 0.5, 7.5, 5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 4],
+);
+)
+
+(
+// Create a pattern
+t = TempoClock(120/60);
+Pbind(
+	midinote: r.asPseq(\midi, 1, 0),
+	dur: r.asPseq(\dur, 1, 0)
+).play(t);
+)
+
+(
+// Or a routine
+
+)
+
+// degree data
+r[0].degree;
+r[0].number;
+r[0].quality;
+// etc.
+::
+
+
+INSTANCEMETHODS::
+
+SUBSECTION:: Data retrieval
+
+copymethod:: MERange, -notes
+
+
+
+
+
+
+METHOD:: midi
+(describe method here)
+
+METHOD:: freq
+(describe method here)
+
+METHOD:: names
+(describe method here)
+
+METHOD:: sol
+(describe method here)
+
+METHOD:: degrees
+(describe method here)
+
+METHOD:: symbol
+(describe method here)
+
+METHOD:: alias
+(describe method here)
+
+METHOD:: root
+(describe method here)
+
+METHOD:: intervals
+(describe method here)
+
+METHOD:: symbolObj
+(describe method here)
+
+METHOD:: asPseq
+(describe method here)
+
+SUBSECTION:: Common methods
+
+
+
+copymethod:: MERange, -hash
+
+copymethod:: MERange, -at
+
+copymethod:: SequenceableCollection, -first
+
+copymethod:: SequenceableCollection, -last
+
+copymethod:: MERange, -size
+
+copymethod:: MERange, -species
+
+copymethod:: MERange, -add
+
+copymethod:: MERange, -put
+
+
+
+SUBSECTION:: Copy methods
+
+
+
+copymethod:: MERange, -copy
+
+copymethod:: MERange, -copyRange
+
+copymethod:: MERange, -copySeries
+
+
+
+SUBSECTION:: Iterators
+
+
+
+copymethod:: MERange, -do
+
+copymethod:: MERange, -reverseDo
+
+copymethod:: MERange, -select
+
+copymethod:: MERange, -reject
+
+copymethod:: MERange, -collect
+
+
+
+SUBSECTION:: Clip, wrap, fold and pyramid
+
+
+
+copymethod:: MERange, -clipAt
+
+copymethod:: MERange, -wrapAt
+
+copymethod:: MERange, -foldAt
+
+copymethod:: MERange, -clipExtend
+
+copymethod:: MERange, -wrapExtend
+
+copymethod:: MERange, -foldExtend
+
+copymethod:: MERange, -pyramid
+
+
+
+SUBSECTION:: Indexing methods
+
+copymethod:: MERange, -firstIndexInOctave
+
+copymethod:: MERange, -lastIndexInOctave
+
+copymethod:: MERange, -firstIndexOfDegree
+
+copymethod:: MERange, -lastIndexOfDegree
+
+copymethod:: MERange, -firstIndexOfName
+
+copymethod:: MERange, -lastIndexOfName
+
+copymethod:: MERange, -firstOverMIDI
+
+copymethod:: MERange, -firstUnderMIDI
+
+copymethod:: MERange, -firstOverFreq
+
+copymethod:: MERange, -firstUnderFreq
+
+copymethod:: MERange, -degreeOverMIDI
+
+copymethod:: MERange, -degreeUnderMIDI
+
+copymethod:: MERange, -degreOverFreq
+
+copymethod:: MERange, -degreeUnderFreq
+
+copymethod:: MERange, -nameOverMIDI
+
+copymethod:: MERange, -nameUnderMIDI
+
+copymethod:: MERange, -nameOverFreq
+
+copymethod:: MERange, -nameUnderFreq
+
+copymethod:: MERange, -degreeInOctave
+
+copymethod:: MERange, -indicesOfDegree
+
+copymethod:: MERange, -indicesOfName
+
+copymethod:: MERange, -indexOfName
+
+
+
+SUBSECTION:: Trimming methods
+
+
+
+METHOD:: trimO
+(describe method here)
+
+METHOD:: trimM
+(describe method here)
+
+METHOD:: trimF
+(describe method here)
+
+METHOD:: trimD
+(describe method here)
+
+METHOD:: trimN
+(describe method here)
+
+
+
+METHOD:: bTrimO
+(describe method here)
+
+METHOD:: bTrimM
+(describe method here)
+
+METHOD:: bTrimF
+(describe method here)
+
+METHOD:: bTrimD
+(describe method here)
+
+METHOD:: bTrimN
+(describe method here)
+
+
+
+METHOD:: tTrimO
+(describe method here)
+
+METHOD:: tTrimM
+(describe method here)
+
+METHOD:: tTrimF
+(describe method here)
+
+METHOD:: tTrimD
+(describe method here)
+
+METHOD:: tTrimN
+(describe method here)
+
+
+
+METHOD:: ><
+(describe method here)
+
+METHOD:: <|
+(describe method here)
+
+METHOD:: |>
+(describe method here)
+
+
+
+SUBSECTION:: Filtering methods
+
+
+
+METHOD:: filterD
+(describe method here)
+
+METHOD:: filterN
+(describe method here)
+
+METHOD:: span
+(describe method here)
+
+METHOD:: *
+(describe method here)
+
+
+
+SUBSECTION:: User assigned data
+
+
+
+METHOD:: setValues
+(describe method here)
+
+METHOD:: setArray
+(describe method here)
+
+METHOD:: setFunc
+(describe method here)
+
+METHOD:: getValues
+(describe method here)
+
+METHOD:: getKeys
+(describe method here)
+
+METHOD:: clearValues
+(describe method here)
+
+METHOD:: clearDict
+(describe method here)
+
+
+
+SUBSECTION:: Range transposition
+
+METHOD:: >>
+(describe method here)
+
+METHOD:: <<
+(describe method here)
+

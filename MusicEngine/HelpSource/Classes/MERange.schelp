@@ -1,0 +1,709 @@
+TITLE:: MERange
+summary:: Main MERange builder class.
+categories:: MusicEngine Library
+related:: Classes/MENoteRange, Classes/MENote
+
+DESCRIPTION::
+MERange is primarily a range builder class. As such, it contains all the methods needed to create new ranges, including the primary constructor methods used by MENoteRange. MERange is also a subclass of LINK::Classes/SequenceableCollection::. Many fundamental tools for interacting with ranges are defined in this class, which are then inherited by MENoteRange for user interaction. MERange and MENoteRange are collections of MENote objects.
+
+NOTE::
+MERange is a private class, meant to separate the logic behind range generation from the public interface provided by MENoteRange. As such, the user should use MENoteRange to generate ranges, and not MERange. All instance methods discussed in this file, and implemented at this level, are inherited by MENoteRange.
+::
+
+
+
+CLASSMETHODS::
+
+
+
+METHOD:: new
+Creates a new MERange object. It also works as the primary constructor for MENoteRange.
+
+ARGUMENT:: input
+The EMPHASIS::input:: argument may take a LINK::Classes/String:: with the range symbol required (e.g.: EMPHASIS::"Cmaj7", "Em3P5", "F#"::, etc.), or an LINK::Classes/Integer:: size.
+
+NOTE:: The Integer instantiation is mostly meant to be used internally, in conjunction with the LINK::Classes/MERange#*with:: method.
+::
+
+numberedList::
+## A LINK::Classes/String:: will return a collection of MENote objects based on the provided symbol.
+## An LINK::Classes/Integer:: will return an empty MERange object with the same number of slots available as the value provided.
+::
+
+returns:: Depending on the EMPHASIS::input:: MERange will return either a collection of MENote objects or an empty MERange object of specified size.
+
+CODE::
+~r1 = MENoteRange("F#-7"); // Returns collection of MENote objects
+~r2 = MENoteRange(40);     // Returns an empty MERange object with 40 available slots
+::
+
+
+
+METHOD:: with
+Creates a new MERange object from a preexisting collection of MENote objects.
+
+NOTE:: Mostly used internally with methods such as LINK::Classes/MERange#-copyRange::, LINK::Classes/MERange#-copySeries::, Link::Classes/MERange#-select::, LINK::Classes/MERange#-reject::, etc.
+::
+
+ARGUMENT:: symbol
+A copy of the MESymbol object stored in MERange.
+NOTE:: When a new range is created, the symbol used as EMPHASIS::input:: is stored as a MESymbol object. MENoteRange includes a series of methods for accessing data from this object. By copying this object it is ensured that the symbol data is always accessible, even after the range has been manipulated.
+::
+
+ARGUMENT::  ... args
+A collection of MENote objects to be used in the new MERange object.
+
+returns:: A new MERange object.
+
+
+
+PRIVATE:: extendMidiRange, getMENotes, getOffsets, wrapAndExtend, wrapFirstOctave, getRange
+
+
+
+INSTANCEMETHODS::
+
+PRIVATE:: symbol, symbolObj
+
+
+
+SUBSECTION:: Data retrieval
+
+
+
+METHOD:: notes
+Returns an Array of MENote objects (not a MENoteRange).
+
+CODE::
+r = MENoteRange("F#-7");
+r.notes;
+::
+
+
+
+SUBSECTION:: Common methods
+
+
+
+METHOD:: hash
+Returns a unique hash value for the range.
+
+CODE::
+r = MENoteRange("F#-7");
+r.hash; // An integer value
+::
+
+
+
+METHOD:: at
+Returns MENote object at the specified EMPHASIS::index::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.at(20);   // MENote object at index 20
+// Same as:
+r[20];
+::
+
+copymethod:: SequenceableCollection, -first
+
+copymethod:: SequenceableCollection, -last
+
+
+METHOD:: size
+Returns the size of the collection.
+
+CODE::
+r = MENoteRange("F#-7");
+r.size; // 43
+::
+
+
+METHOD:: species
+Returns name of class. Similar to the CODE::class:: method.
+
+CODE::
+r = MENoteRange("F#-7");
+r.species; // MENoteRange
+r.class;   // MENoteRange
+::
+
+
+METHOD:: add
+Adds a new EMPHASIS::item:: to the end of a collection.
+
+CODE::
+r = MENoteRange(4);
+a = MENote("C", 60, \P1);
+b = MENote("E", 64, \M3);
+c = MENote("G", 67, \P5);
+d = MENote("B", 70, \m7);
+
+r.add(a);
+r.add(b);
+r.add(c);
+r.add(d);
+
+r;
+::
+
+
+
+METHOD:: put
+Puts EMPHASIS::item:: at specified EMPHASIS::index::.
+
+CODE::
+r = MENoteRange("F#-7");
+r[20];                           // D4 at index 20
+r.put(20, MENote("C", 60, \P5)); // New MENote object
+r[20];                           // Db4 at index 20
+::
+
+
+
+SUBSECTION:: Copy methods
+
+
+METHOD:: copy
+Returns a deep copy of the collection.
+
+CODE::
+r = MENoteRange("F#-7");
+c = r.copy;
+
+r === c;      // false
+r[0] === c[0] // false
+::
+
+
+
+METHOD:: copyRange
+Returns a subrange, from EMPHASIS::start:: to EMPHASIS::end::.
+
+CODE::
+r = MENoteRange("F#-7");
+c = r.copyRange(10,20);  // Returns subrange from index 10 to 20
+// Same as:
+r[10..20];
+::
+
+
+
+METHOD:: copySeries
+Returns a series, from EMPHASIS::first:: to EMPHASIS::last::, where EMPHASIS::second:: determines the step.
+
+CODE::
+r = MENoteRange("F#-7");
+c = r.copySeries(10,2,20); // Returns every second item from first to last
+// Same as:
+r[10,2..20];
+::
+
+
+
+SUBSECTION:: Iterators
+
+
+
+METHOD:: do
+Runs a EMPHASIS::function:: for each iteration over a collection. Inside EMPHASIS::function::, the first argument refers to the item, and the second to the index.
+
+CODE::
+r = MENoteRange("F#-7");
+r[20..25].do({ |n, i| "#% : %".format(i, n).postln }); // Function prints every index and item
+::
+
+
+
+METHOD:: reverseDo
+Same as CODE::do:: but in reverse order.
+
+CODE::
+r = MENoteRange("F#-7");
+r[20..25].reverseDo({ |n, i| "#% : %".format(i, n).postln }); // Function prints every index and item, in reverse
+::
+
+
+
+METHOD:: select
+Returns a new collection with every item for which the EMPHASIS::function:: evaluates to CODE::true::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.select({ |n| n.midi >= 60 }); // Returns every item with MIDI value greater than or equal to 60
+::
+
+
+
+METHOD:: reject
+Rejects every item of a collection, for which the EMPHASIS::function:: evaluates to CODE::true::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.reject({ |n| n.midi >= 60 }); // Returns every item with MIDI value lesser than 60
+::
+
+
+
+METHOD:: collect
+Collects item from a collection based on the non-boolean evaluation of the EMPHASIS::function:: provided.
+
+NOTE:: Contrary to CODE::select:: and CODE::reject::, which return a new MENoteRange object, CODE::collect:: returns a regular Array.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.collect({ |n| n.midi }); // Returns all MIDI values from each of the MEnotes
+::
+
+
+
+SUBSECTION:: Clip, wrap, fold and pyramid
+
+
+METHOD:: clipAt
+If MATH::index > (size - 1)::, CODE::clipAt:: will keep returning the last item.
+
+CODE::
+r = MENoteRange("F#-7");
+r = r[25..30];
+r.size;        // 6
+r.clipAt(4);   // E6:m7
+r.clipAt(5);   // F#6:P1
+r.clipAt(6);   // F#6:P1
+r.clipAt(7);   // F#6:P1
+::
+
+
+
+
+METHOD:: wrapAt
+If MATH::index > (size - 1)::, CODE::wrapAt:: will keep counting back from the beginning, for the remaining positions.
+
+CODE::
+r = MENoteRange("F#-7");
+r = r[25..30];
+r.size;        // 6
+r.wrapAt(4);   // E6:m7
+r.wrapAt(5);   // F#6:P1
+r.wrapAt(6);   // E5:m7
+r.wrapAt(7);   // F#5:P1
+::
+
+
+
+
+METHOD:: foldAt
+If MATH::index > (size - 1)::, CODE::foldAt:: will keep counting back from the end, for the remaining positions.
+
+CODE::
+r = MENoteRange("F#-7");
+r = r[25..30];
+r.size;        // 6
+r.foldAt(4);   // E6:m7
+r.foldAt(5);   // F#6:P1
+r.foldAt(6);   // E6:m7
+r.foldAt(7);   // C#6:P5
+::
+
+
+
+METHOD:: clipExtend
+If EMPHASIS::index:: is greater than MATH::size - 1::, CODE::clipExtend:: will extend the collection by repeating the last item.
+
+NOTE::
+All repeated MENote objects have unique identities.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r[20..25].clipExtend(10); // Last E5 gets repeated 5 times
+::
+
+
+
+METHOD:: wrapExtend
+If EMPHASIS::index:: is greater than MATH::size - 1::, CODE::wrapExtend:: will extend the sequance by repeating items from the start.
+
+NOTE::
+All repeated MENote objects have unique identities.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r[20..25].wrapExtend(10); // Last four items repeat the start of the sequence
+::
+
+
+
+METHOD:: foldExtend
+if EMPHASIS::index:: is greater than MATH::size - 1::, CODE::foldExtend:: will extend the sequence by folding back from the last item.
+
+NOTE::
+All repeated MENote objects have unique identities.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r[20..25].foldExtend(10); // Sequence goes up to E5, then back down again to E4
+::
+
+
+
+METHOD:: pyramid
+Returns new MENoteRange whose elements have been reordered via one of 10 "counting" algorithms. Run the examples to see the results. The argument EMPHASIS::patternType:: takes an integer up to 10.
+
+NOTE::
+CODE::pyramid:: returns a new MENoteRange. All repeated MENote objects have unique identities.
+::
+
+CODE::
+(
+r = MENoteRange("F#-7");
+
+10.do { |i|
+	r[20..25].pyramid(i).postln;
+};
+)
+
+c = r[20..25].pyramid(1);
+c[0] === c[1] // false
+::
+
+SUBSECTION:: Operators
+
+copymethod:: SequenceableCollection, -|@|
+
+copymethod:: SequenceableCollection, -@@
+
+copymethod:: SequenceableCollection, -@|@
+
+
+
+METHOD:: ==
+Comparison operator for equality.
+
+CODE::
+r = MENoteRange("F#-7");
+
+a = r[20..30];
+b = r[20..30];
+a == b;        // Ranges a and b are equal
+
+c = r[20..25];
+a == c;        // Ranges a and c are not equal
+::
+
+
+
+copymethod:: Object, -===
+
+
+
+SUBSECTION:: Indexing methods
+
+
+METHOD:: firstIndexInOctave
+Returns the index of the first MENote found with matching EMPHASIS::octave:: number. If EMPHASIS::octave:: MATH::> 9:: or MATH::< -1::, CODE::nil:: is returned.
+
+NOTE::
+Middle EMPHASIS::C:: = EMPHASIS::C4:: = MIDI 60. Octaves go from -1 to 9.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstIndexInOctave(4);  // 20
+r[20];                    // C#4
+r.firstIndexInOctave(-2); // nil
+::
+
+
+
+METHOD:: lastIndexInOctave
+Returns the index of the last MENote found with matching EMPHASIS::octave:: number. If EMPHASIS::octave:: MATH::> 9:: or MATH::< -1::, CODE::nil:: is returned.
+
+NOTE::
+Middle EMPHASIS::C:: = EMPHASIS::C4:: = MIDI 60. Octaves go from -1 to 9.
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.lastIndexInOctave(4);  // 23
+r[23];                   // A4
+r.lastIndexInOctave(10); // nil
+::
+
+
+
+METHOD:: firstIndexOfDegree
+Returns the index of the first MENote found with a matching EMPHASIS::degree::. If the EMPHASIS::degree:: provided is not present in the range, CODE::nil:: is returned.
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstIndexOfDegree(\m7); // 1
+r[1];                      // E-1:m7
+r.firstIndexOfDegree(\P4); // Minor seventh chord does not have a P4 degree
+::
+
+
+
+METHOD:: lastIndexOfDegree
+Returns the index of the last MENote found with a matching EMPHASIS::degree::. If the EMPHASIS::degree:: provided is not present in the range, CODE::nil:: is returned.
+
+CODE::
+r = MENoteRange("F#-7");
+r.lastIndexOfDegree(\m7); // 41
+r[41];                    // E9:m7
+r.lastIndexOfDegree(\P4); // Minor seventh chord does not have a P4 degree
+::
+
+
+
+METHOD:: firstIndexOfName
+Returns the index of the first MENote found with matching EMPHASIS::name::. If the EMPHASIS::name:: provided is not present in the range, CODE::nil:: is returned.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstIndexOfName("F#"); // 2
+r[2];                     // F#-1:P1
+r.firstIndexOfName("F");  // Current range does not have F natural
+::
+
+
+
+METHOD:: lastIndexOfName
+Returns the index of the last MENote found with matching EMPHASIS::name::. If the EMPHASIS::name:: provided is not present in the range, CODE::nil:: is returned.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.lastIndexOfName("F#"); // 42
+r[42];                   // F#9:P1
+r.lastIndexOfName("F");  // Current range does not have F natural
+::
+
+
+
+METHOD:: firstOverMIDI
+Returns index of first MENote with MIDI value MATH::\ge:: EMPHASIS::midi::. if EMPHASIS::midi:: MATH::> 127::, CODE::nil:: is returned.
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstOverMIDI(66);  // 22
+r[22];                // F#4:P1
+r[22].midi;           // 66 is actually part of the range
+
+r.firstOverMIDI(67);  // 23
+r[23];                // A4:m3
+r[23].midi;           // 69
+
+r.firstOverMIDI(128); // nil
+::
+
+
+METHOD:: firstUnderMIDI
+Returns index of first MENote with MIDI value MATH::\le:: EMPHASIS::midi::. if EMPHASIS::midi:: MATH::< -1::, CODE::nil:: is returned.
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstUnderMIDI(66); // 22
+r[22];                // F#4:P1
+r[22].midi;           // 66 is actually part of the range
+
+r.firstUnderMIDI(65); // 21
+r[21];                // E4:m7
+r[21].midi;           // 64
+
+r.firstUnderMIDI(-2); // nil
+::
+
+
+
+METHOD:: firstOverFreq
+Returns index of first MENote with frequency value MATH::\ge:: EMPHASIS::freq::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstOverFreq(440); // 23
+r[23];                // A4:m3
+r[23].freq            // 440 is actually part of the range
+
+r.firstOverFreq(450); // 24
+r[24];                // C#4:P5
+r[24].freq;           // 554.36
+::
+
+
+METHOD:: firstUnderFreq
+Returns index of first MENote with frequency value MATH::\le:: EMPHASIS::freq::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.firstUnderFreq(440); // 23
+r[23];                 // A4:m3
+r[23].freq             // 440 is actually part of the range
+
+r.firstUnderFreq(430); // 24
+r[22];                 // F#4:P1
+r[22].freq             // 369.99
+::
+
+
+
+METHOD:: degreeOverMIDI
+Returns first instance of MENote with matching EMPHASIS::degree::, and MIDI value MATH::\ge:: EMPHASIS::midi::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.degreeOverMIDI(\P1, 60); // 22
+r[22];                     // F#4:P1
+r[22].midi;                // 66
+::
+
+
+METHOD:: degreeUnderMIDI
+Returns first instance of MENote with matching EMPHASIS::degree::, and MIDI value MATH::\le:: EMPHASIS::midi::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.degreeUnderMIDI(\P1, 60); // 18
+r[18];                      // F#3:P1
+r[18].midi;                 // 54
+::
+
+
+METHOD:: degreeOverFreq
+Returns first instance of MENote with matching EMPHASIS::degree::, and frequency value MATH::\ge:: EMPHASIS::freq::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.degreeOverFreq(\P5, 440); // 24
+r[24];                      // C#5:P5
+r[24].freq;                 // 554.36
+::
+
+
+METHOD:: degreeUnderFreq
+Returns first instance of MENote with matching EMPHASIS::degree::, and frequency value MATH::\le:: EMPHASIS::freq::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.degreeUnderFreq(\P5, 440); // 20
+r[20];                       // C#4:P5
+r[20].freq;                  // 227.18
+::
+
+
+METHOD:: nameOverMIDI
+Returns first instance of MENote with matching EMPHASIS::name:: and MIDI value MATH::\ge:: EMPHASIS::midi::.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.nameOverMIDI("F#", 60); // 22
+r[22];                    // F#4:P1
+r[22].midi;               // 66
+::
+
+
+METHOD:: nameUnderMIDI
+Returns first instance of MENote with matching EMPHASIS::name:: and MIDI value MATH::\le:: EMPHASIS::midi::.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.nameUnderMIDI("F#", 60); // 18
+r[18];                     // F#3:P1
+r[18].midi;                // 54
+::
+
+
+
+METHOD:: nameOverFreq
+Returns first instance of MENote with matching EMPHASIS::name::, and frequency value MATH::\ge:: EMPHASIS::freq::.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.nameOverFreq("C#", 440); // 24
+r[24];                     // C#5:P5
+r[24].freq;                // 554.36
+::
+
+
+
+METHOD:: nameUnderFreq
+Returns first instance of MENote with matching EMPHASIS::name::, and frequency value MATH::\le:: EMPHASIS::freq::.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.nameUnderFreq("C#", 440); // 20
+r[20];                      // C#4:P5
+r[20].freq;                 // 227.18
+::
+
+
+
+METHOD:: degreeInOctave
+Returns index of MENote with matching EMPHASIS::degree::, in respective EMPHASIS::octave::.
+
+CODE::
+r = MENoteRange("F#-7");
+r.degreeInOctave(\m3, 4); // 23
+r[23];                    // A4:m3
+r[23].degree;             // m3
+r[23].octave;             // 4
+::
+
+
+
+METHOD:: indicesOfDegree
+Returns an Array containing indeces for all MENote objects with matching EMPHASIS::degree::.
+
+CODE::
+r = MENoteRange("F#-7");
+i = r.indicesOfDegree(\P1); // [2, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42]
+i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
+::
+
+
+
+METHOD:: indicesOfName
+Returns an Array containing indeces for all MENote objects with matching EMPHASIS::name::.
+
+NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+i = r.indicesOfName("C#"); // [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
+i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
+::
+
+
+
+METHOD:: indexOfName
+Takes a CODE::String:: describing the note name, with an appending octave number, and returns the corresponding index.
+
+NOTE:: This method requires a note name STRONG::with:: an octave number (e.g.: EMPHASIS::"C4"::, EMPHASIS::"F#5"::, etc.).
+::
+
+CODE::
+r = MENoteRange("F#-7");
+r.indexOfName("C#4"); // 20
+r[20];                // C#4:P5
+::
