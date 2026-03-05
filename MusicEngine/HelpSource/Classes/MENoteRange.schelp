@@ -37,20 +37,13 @@ r = MENoteRange.newFromName(
 	degrees:  [\P5, \M3, \P5, \P1, \M3, \A5, \M6, \m7, \M7, \M3, \P5, \A4, \P4, \A1, \P1, \M3],
 	dur:      [4.5, 1.5, 1, 1, 0.5, 7.5, 5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 4],
 );
-)
 
-(
 // Create a pattern
 t = TempoClock(120/60);
 Pbind(
 	midinote: r.asPseq(\midi, 1, 0),
 	dur: r.asPseq(\dur, 1, 0)
 ).play(t);
-)
-
-(
-// Or a routine
-
 )
 
 // degree data
