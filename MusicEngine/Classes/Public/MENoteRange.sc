@@ -14,13 +14,12 @@ MENoteRange : MERange {
 		};
 
 		kwargs.keysValuesDo { |k, v|
-
 			if (k == \degrees) {
 				v.do { |i, j|
 					newR[j].degree = i;
 				};
 			} {
-				newR.setArray(k, v)
+				newR.setValues(k, v)
 			};
 		};
 		^newR;
@@ -203,30 +202,31 @@ MENoteRange : MERange {
 	/****************************************************************************************/
 	// Filtering data from ranges
 
-	filterD { |... args| ^this.reject { |n| args.includes(n.degree) } }
+	filterD { |... degrees| ^this.reject { |n| degrees.includes(n.degree) } }
 
 	/****************************************************************************************/
 
-	filterN { |... args|
-		var regex = "[-]?\\d$";
+	filterN { |... names|
 
-		if (args.every(regex.matchRegexp(_)).postln) {
-			^this.reject { |n| args.includes(n.name.asSymbol) }
+		if (names.every("[-]?\\d$".matchRegexp(_))) {
+			names.do { |a, i| names[i] = a.asSymbol };
+			^this.reject { |n| names.includes(n.name.asSymbol) }
+		} {
+			names.do { |a, i| names[i] = a.asSymbol };
+			^this.reject { |n| names.includes(n.name(withOctave: false).asSymbol) };
 		};
-		^this.reject { |n| args.includes(n.name(withOctave: false)).asSymbol};
 	}
 
 
 	/****************************************************************************************/
 
-	* { |args|
-
+	| { |item|
 		case
-		{ args.every { |n| n.isKindOf(Symbol) } } {
-			^this.filterD(*args);
+		{ item.isKindOf(Symbol) } {
+			^this.filterD(item);
 		}
-		{ args.every { |n| n.isKindOf(String) } } {
-			^this.filterN(*args);
+		{ item.isString } {
+			^this.filterN(item);
 		};
 	}
 
@@ -254,9 +254,7 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
-	degrees { |root = false|
-		^this.collect { |n| n.degree(root) };
-	}
+	degrees { ^this.collect { |n| n.degree } }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -265,40 +263,69 @@ MENoteRange : MERange {
 	intervals { |asSymbol = true|
 
 		if (asSymbol) {
-			^symbol.intervals.collect { |i| i.interval };
+			^meSymbol.intervals.collect { |i| i.interval };
 		};
-		^symbol.intervals.collect { |i| i.number };
+		^meSymbol.intervals.collect { |i| i.number };
 	}
 
 	/****************************************************************************************/
 
-	symbol { |withRoot = true| ^symbol.symbol(withRoot) }
+	symbol { |withRoot = true| ^meSymbol.symbol(withRoot) }
 
 	/****************************************************************************************/
 
-	alias { |withRoot = true| ^symbol.alias(withRoot) }
+	alias { |withRoot = true| ^meSymbol.alias(withRoot) }
 
 	/****************************************************************************************/
 
-	root { |offset = false| ^symbol.root(offset) }
+	root { |offset = false| ^meSymbol.root(offset) }
 
-	/****************************************************************************************/
-
-	symbolObj { ^symbol }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
 	// Data dicts
 
-	setValues { |key, value| this.do { |n| n.set(key, value) } }
+	setValue { |key, value, inplace = true|
+		var newR;
+
+		if (inplace) {
+			^this.do { |n| n.set(key, value) };
+		} {
+			newR = this.copy;
+			newR.do { |n| n.set(key, value) };
+			^newR;
+		};
+	}
 
 	/****************************************************************************************/
 
-	setArray { |key, array| this.do { |n, i| n.set(key, array[i]) } }
+	setValues { |key, sequence, inplace = true|
+		var newR;
+
+		if (inplace) {
+			^this.do { |n, i| n.set(key, sequence[i]) };
+		} {
+			newR = this.copy;
+			newR.do { |n, i| n.set(key, sequence[i]) };
+			^newR;
+		};
+	}
+
+
 
 	/****************************************************************************************/
 
-	setFunc { |key, function| this.do { |n| n.set(key, function.value) } }
+	setFunc { |key, function, inplace = true|
+		var newR;
+
+		if (inplace) {
+			^this.do { |n| n.set(key, function.value) };
+		} {
+			newR = this.copy;
+			newR.do { |n| n.set(key, function.value) };
+			^newR;
+		};
+	}
 
 	/****************************************************************************************/
 
@@ -316,7 +343,7 @@ MENoteRange : MERange {
 
 	/****************************************************************************************/
 
-	clearDict { this.do { |n| n.clearData } }
+	clearDict { this.do { |n| n.clearDict } }
 
 	/****************************************************************************************/
 
