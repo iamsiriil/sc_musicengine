@@ -5,7 +5,7 @@
 *********************************************************************************************/
 
 MERange : SequenceableCollection {
-	var <>symbol;
+	var <>meSymbol;
 	var <notes;
 
 	*new { |input| ^super.new.init(input) }
@@ -18,8 +18,8 @@ MERange : SequenceableCollection {
 			notes = Array.new(newI);
 		}
 		{ newI.isString } {
-			symbol = MESymbol(newI);
-			notes  = MERange.getRange(symbol, validate);
+			meSymbol = MESymbol(newI);
+			notes    = MERange.getRange(meSymbol, validate);
 		};
 		^this;
 	}
@@ -30,7 +30,7 @@ MERange : SequenceableCollection {
 		var newRange = this.new(args.size);
 
 		if (symbol.notNil) {
-			newRange.symbol = symbol;
+			newRange.meSymbol = symbol;
 		};
 
 		args.do { |n|
@@ -199,10 +199,6 @@ MERange : SequenceableCollection {
 	add { |item| notes.add(item) }
 
 	/****************************************************************************************/
-
-	symbolObj { ^this.symbol }
-
-	/****************************************************************************************/
 	/****************************************************************************************/
 	// Iterator methods
 
@@ -242,7 +238,7 @@ MERange : SequenceableCollection {
 			};
 			i = i + 1;
 		};
-		^this.species.with(this.symbolObj, *temp);
+		^this.species.with(this.meSymbol, *temp);
 	}
 
 	/****************************************************************************************/
@@ -258,7 +254,7 @@ MERange : SequenceableCollection {
 			};
 			i = i + 1;
 		};
-		^this.species.with(this.symbolObj, *temp);
+		^this.species.with(this.meSymbol, *temp);
 	}
 
 	/****************************************************************************************/
@@ -274,7 +270,7 @@ MERange : SequenceableCollection {
 
 		this.do { |n| newR.add(n.copy) };
 
-		^this.species.with(this.symbolObj, *newR);
+		^this.species.with(this.meSymbol, *newR);
 	}
 
 	/****************************************************************************************/
@@ -292,7 +288,7 @@ MERange : SequenceableCollection {
 			temp.add(this[i]);
 			i = i + 1;
 		};
-		^this.species.with(this.symbolObj, *temp);
+		^this.species.with(this.meSymbol, *temp);
 	}
 
 	/****************************************************************************************/
@@ -315,7 +311,7 @@ MERange : SequenceableCollection {
 			temp.add(this[i]);
 			i = i + j;
 		};
-		^this.species.with(this.symbolObj, *temp);
+		^this.species.with(this.meSymbol, *temp);
 	}
 
 	/****************************************************************************************/
@@ -340,7 +336,7 @@ MERange : SequenceableCollection {
 
 		temp.do { |n| newR.add(n.copy) };
 
-		^this.species.with(this.symbolObj, *newR);
+		^this.species.with(this.meSymbol, *newR);
 	}
 
 	/****************************************************************************************/
@@ -351,7 +347,7 @@ MERange : SequenceableCollection {
 
 		temp.do { |n| newR.add(n.copy) };
 
-		^this.species.with(this.symbolObj, *newR);
+		^this.species.with(this.meSymbol, *newR);
 	}
 
 	/****************************************************************************************/
@@ -363,7 +359,7 @@ MERange : SequenceableCollection {
 
 		temp.do { |n| newR.add(n.copy) };
 
-		^this.species.with(this.symbolObj, *newR);
+		^this.species.with(this.meSymbol, *newR);
 	}
 
 
@@ -493,7 +489,7 @@ MERange : SequenceableCollection {
 
 		temp.do { |n| newR.add(n.copy) };
 
-		^this.species.with(this.symbolObj, *newR);
+		^this.species.with(this.meSymbol, *newR);
 	}
 
 	/****************************************************************************************/
