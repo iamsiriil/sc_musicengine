@@ -178,7 +178,18 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 	/****************************************************************************************/
-	// Basic methods
+	// Common methods
+
+	hash {
+		var hash = this.species.hash;
+
+		this.do { |n|
+			hash.bitXor(n.hash)
+		};
+		^hash;
+	}
+
+	/****************************************************************************************/
 
 	at { |index| ^notes.at(index) }
 
@@ -316,7 +327,7 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 	/****************************************************************************************/
-	// Clip, wrap and fold
+	// Clip, wrap, fold and pyramid
 
 	clipAt { |index| ^this.notes.clipAt(index) }
 
@@ -362,6 +373,16 @@ MERange : SequenceableCollection {
 		^this.species.with(this.meSymbol, *newR);
 	}
 
+	/****************************************************************************************/
+
+	pyramid { |patternType|
+		var temp = this.notes.pyramid(patternType);
+		var newR = Array(temp.size);
+
+		temp.do { |n| newR.add(n.copy) };
+
+		^this.species.with(this.meSymbol, *newR);
+	}
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -482,18 +503,7 @@ MERange : SequenceableCollection {
 
 	/****************************************************************************************/
 	/****************************************************************************************/
-
-	pyramid { |patternType|
-		var temp = this.notes.pyramid(patternType);
-		var newR = Array(temp.size);
-
-		temp.do { |n| newR.add(n.copy) };
-
-		^this.species.with(this.meSymbol, *newR);
-	}
-
-	/****************************************************************************************/
-	/****************************************************************************************/
+	// Equality operator
 
 	== { |aMENoteRange|
 		case
@@ -508,12 +518,4 @@ MERange : SequenceableCollection {
 		}
 	}
 
-	hash {
-		var hash;
-
-		hash = this.species.hash;
-		this.do { |n| hash.bitXor(n.hash) };
-
-		^hash;
-	}
 }

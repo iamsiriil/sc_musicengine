@@ -400,32 +400,13 @@ MENoteRange : MERange {
 	}
 
 
-
 	/****************************************************************************************/
 
-	/*getTwoOctaveSpan { |notes, degrees|
-		var index = degrees.detectIndex { |i| i == notes[0].degree };
-		//var underOct = degrees.collect { |i| i[1..].asInteger }.count { |n| n < 7 };
-		var temp  = Array();
-
-		notes.do { |n|
-
-			if (n.degree == degrees[index]) {
-
-				temp  = temp.add(n);
-				index = (index + 1) % degrees.size;
-			};
-		};
-
-		^temp;
-	}*/
-
 	span {
-		var intervals = this.collect{ |n| n.number }.asSet.asArray.sort;
 		var temp = Array(this.size);
-		var lt   = intervals.select { |i| i < 8 };
-		var bt   = intervals.select { |i| i >= 8 };
-		var ct   = 0, rt, bool;
+		var lt   = this.intervals(false).select { |i| i < 8 };
+		var bt   = this.intervals(false).select { |i| i >= 8 };
+		var rt, bool, ct = 0;
 
 		if (this[0].number < 8.0) {
 			bool = true;
