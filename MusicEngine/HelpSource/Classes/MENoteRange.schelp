@@ -1,13 +1,14 @@
 TITLE:: MENoteRange
-summary:: Creates MENote ranges
+summary:: Public interface of MusicEngine.
 categories:: MusicEngine Library
-related:: Classes/MERange, Classes/MENote
+related:: Classes/MERange, Classes/MENote, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
 MENoteRange is MusicEngines primary tool for generating and accessing
 
 
 CLASSMETHODS::
+
 
 copymethod:: MERange, *new
 
@@ -60,6 +61,7 @@ SUBSECTION:: Data retrieval
 
 copymethod:: MERange, -notes
 
+
 METHOD:: midi
 Returns an array of MIDI values.
 
@@ -79,7 +81,7 @@ r[20..25].freq;
 
 
 METHOD:: names
-Returns an array of note names, in scientific notation (EMPHASIS::A-G::). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
+Returns an array of note names, in scientific notation (EMPHASIS::A::-EMPHASIS::G::). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
 
 NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
 ::
@@ -182,7 +184,7 @@ METHOD:: trimO
 Returns all MENote objects with octave numbers MATH::\ge:: EMPHASIS::fromOctave:: and MATH::\le:: EMPHASIS::toOctave::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.trimO(4, 5); // Returns items from octaves 4 and 5
 ::
 
@@ -191,7 +193,7 @@ METHOD:: trimM
 Returns all MENote objects with MIDI values MATH::\ge:: EMPHASIS::fromMIDI:: and MATH::\le:: EMPHASIS::toMIDI::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.trimM(48, 72); // Range between MIDI notes 48 and 72
 ::
 
@@ -199,7 +201,7 @@ METHOD:: trimF
 Returns all MENote Objects with frequency values MATH::\ge:: EMPHASIS::fromFreq:: and MATH::\le:: EMPHASIS::toFreq::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.trimM(500, 1000); // Range between 500Hz and 1000Hz
 ::
 
@@ -207,7 +209,7 @@ METHOD:: trimD
 Returns all MENote objects starting from the first instance of EMPHASIS::fromDegree::, over the bottom of the range, to the last instance of EMPHASIS::toDegree::, under the top of the range.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.trimD(\P1, \P5); // From the first P1 found, to the last P5 found
 ::
 
@@ -218,7 +220,7 @@ NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.trimN("F#", "C#"); // From the first F# found, to the last C# found
 ::
 
@@ -226,7 +228,7 @@ METHOD:: bTrimO
 Trims the bottom of the range by returning all MENote objects with octave numbers MATH::\ge:: EMPHASIS::fromOctave::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 r.bTrimO(7); // Returns octaves 7, 8 and 9
 ::
 
@@ -234,7 +236,7 @@ METHOD:: bTrimM
 Trims the bottom of the range by returning all MENote objects with MIDI values MATH::\ge:: EMPHASIS::fromMIDI::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.bTrimM(100); // From MIDI value 100
 c[0].midi;         // 100
 ::
@@ -243,7 +245,7 @@ METHOD:: bTrimF
 Trims the bottom of the range by returning all MENote objects with frequency values MATH::\ge:: EMPHASIS::fromFreq::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.bTrimF(2000); // From 2000Hz
 c[0].freq;          // Closest at 2217.46Hz
 ::
@@ -252,7 +254,7 @@ METHOD:: bTrimD
 Trims the bottom of the range by starting the sequence at the first instance of a MENote that matches EMPHASIS::fromDegree::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.bTrimD(\m3); // Starts from A-1:m3
 ::
 
@@ -263,7 +265,7 @@ NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.bTrimN("A"); // Starts from A-1:m3
 ::
 
@@ -271,7 +273,7 @@ METHOD:: tTrimO
 Trims the top of the range by returning all MENote objects with octave numbers MATH::\le:: EMPHASIS::toOctave::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.tTrimO(4); // Ends with the last note with octave 4
 ::
 
@@ -279,7 +281,7 @@ METHOD:: tTrimM
 Trims the top of the range by returning all MENote objects with MIDI values MATH::\le:: EMPHASIS::toMIDI::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.tTrimM(48);
 ::
 
@@ -287,7 +289,7 @@ METHOD:: tTrimF
 Trims the top of the range by returning all MENote objects with frequency values MATH::\le:: EMPHASIS::toFreq::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.tTrimF(100);
 ::
 
@@ -295,7 +297,7 @@ METHOD:: tTrimD
 Trims the top of the range by ending the sequence at the last instance of a MENote that matches EMPHASIS::toDegree::.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.tTrimD(\m3);
 ::
 
@@ -306,7 +308,7 @@ NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 c = r.tTrimD("A");
 ::
 
@@ -314,11 +316,11 @@ METHOD:: ><
 Shorthand from all double-ended trimming methods. The argument EMPHASIS::limits:: accepts an array of size 2, where both values are of the same type. Numeric values should be sorted from smallest to greatest.
 
 NOTE::
-Depending on the input CODE::><:: will call on different methods:
+Depending on the input >< will call on different methods:
 ::
 
 table::
- ## String SOFT::(without octave)::                     || CODE::trimN(fromName, toName)::
+ ## String SOFT::(without octave)::                || CODE::trimN(fromName, toName)::
  ## Symbol                                         || CODE::trimD(fromDegree, toDegree)::
  ## Integer MATH::\ge -1:: AND MATH::\le 9::       || CODE::trimO(fromOctave, toOctave)::
  ## Integer MATH::\ge 12:: AND MATH::\le 127::     || CODE::trimM(fromMIDI, toMIDI)::
@@ -326,7 +328,7 @@ table::
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 
 // Trims by frequency, then by degree and then by note name
 r >< [500.0,10000.0] >< [\P1,\P1] >< ["A","E"];
@@ -339,11 +341,11 @@ METHOD:: |>
 Shorthand for all bottom trimming methods.
 
 NOTE::
-Depending on the input CODE::|>:: will call on different methods:
+Depending on the input |> will call on different methods:
 ::
 
 table::
- ## String SOFT::(without octave)::                     || CODE::bTrimN(fromName)::
+ ## String SOFT::(without octave)::                || CODE::bTrimN(fromName)::
  ## Symbol                                         || CODE::bTrimD(fromDegree)::
  ## Integer MATH::\ge -1:: AND MATH::\le 9::       || CODE::bTrimO(fromOctave)::
  ## Integer MATH::\ge 12:: AND MATH::\le 127::     || CODE::bTrimM(fromMIDI)::
@@ -351,7 +353,7 @@ table::
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 
 // Trims the bottom by frequency, then by degree and then by note name
 r |> 1000.0 |> \P1 |> "A";
@@ -364,11 +366,11 @@ METHOD:: <|
 Shorthand for all top trimming methods.
 
 NOTE::
-Depending on the input CODE::<|:: will call on different methods:
+Depending on the input <| will call on different methods:
 ::
 
 table::
- ## String SOFT::(without octave)::                     || CODE::tTrimN(toName)::
+ ## String SOFT::(without octave)::                || CODE::tTrimN(toName)::
  ## Symbol                                         || CODE::tTrimD(toDegree)::
  ## Integer MATH::\ge -1:: AND MATH::\le 9::       || CODE::tTrimO(toOctave)::
  ## Integer MATH::\ge 12:: AND MATH::\le 127::     || CODE::tTrimM(toMIDI)::
@@ -376,7 +378,7 @@ table::
 ::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
 
 // Trims by frequency, then by degree and then by note name
 r <| 100.0 <| \P1 <| "E";
@@ -421,7 +423,7 @@ METHOD:: |
 Shorthand for methods CODE::filterD:: and CODE::filterN::. Only one EMPHASIS::item:: allowed per call.
 
 NOTE::
-Depending on the input CODE::|:: will call on different methods:
+Depending on the input | will call on different methods:
 ::
 
 table::
@@ -441,7 +443,42 @@ a == b; // true
 
 
 METHOD:: span
-(describe method here)
+Returns a MENoteRange with MENotes filtered such that notes with degrees under the octave are separeted from those with degrees above. This method can only be applyed to ranges with symbols that contain degrees larger than a seventh (e.g.: EMPHASIS::"F#-13"::). This method creates a pattern that spans two octaves before repeating.
+
+NOTE::
+The sequence may start from any range note.
+::
+
+WARNING::
+This method should not be used after other filtering methods have been applied, or its behaviour might become unpredictable.
+::
+
+CODE::
+r = MENoteRange.new("F#-13");
+
+// Instead of having all the notes wrapped in an octave, as such:
+// P1 - M9 - m3 - P11 - P5 - M13 - m7
+c = r >< [4, 8] |> \P1;
+
+// The notes are ordered according to their distance to P1:
+// P1 - m3 - P5 - m7 - M9 - P11 - M13
+c.span
+
+// Starting from M9
+c = r >< [4, 8] |> \M9;
+c.span;
+
+// A single interval over the octave;
+r = MENoteRange.new("F#P11");
+
+c = r >< [4, 8] |> \P1;
+c.span
+
+// Starting from P11
+c = r >< [4, 8] |> \P11;
+c.span
+::
+
 
 SUBSECTION:: User assigned data
 
@@ -579,12 +616,66 @@ r.getKeys;   // Set[]
 ::
 
 
-
 SUBSECTION:: Range transposition
 
 METHOD:: >>
-(describe method here)
+Transposes all range notes up, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.
+
+NOTE::
+EMPHASIS::interval:: may be expressed using an integer MATH::\ge 0::, or a symbol describing an interval (e.g.: CODE::\M2::). Integer values default to specific symbols as decribed in the section LINK::Classes/MENote#Note transposition::.
+::
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+c = r >< [4, 6] |> \P1;
+
+(
+Routine({
+	var syn;
+
+	3.do {
+		c.do { |n|
+			n.name.postln;
+			syn = Synth(\default, [\freq, n.freq, \gate, 1]);
+			0.5.wait;
+			syn.set(\gate, 0);
+		};
+		c = c >> \M2; // Transpose M2 up
+		"".postln;
+	};
+	syn.release(2);
+}).play;
+)
+::
 
 METHOD:: <<
-(describe method here)
+Transposes all range notes down, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.
 
+NOTE::
+EMPHASIS::interval:: may be expressed using an integer MATH::\ge 0::, or a symbol describing an interval (e.g.: CODE::\M2::). Integer values default to specific symbols as decribed in the section LINK::Classes/MENote#Note transposition::.
+::
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+c = r >< [4, 6] |> \P1;
+
+(
+Routine({
+	var syn;
+
+	3.do {
+		c.do { |n|
+			n.name.postln;
+			syn = Synth(\default, [\freq, n.freq, \gate, 1]);
+			0.5.wait;
+			syn.set(\gate, 0);
+		};
+		c = c << 3; // Transpose m3 down
+		"".postln;
+	};
+	syn.release(2);
+}).play;
+)
+::

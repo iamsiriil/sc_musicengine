@@ -1,0 +1,115 @@
+TITLE:: MERegister
+summary:: Symbol and alias register class.
+categories:: MusicEngine Library
+related:: Classes/MENoteRange, Classes/MERange, Classes/MENote, Reference/RangeSymbols
+
+DESCRIPTION::
+MERegister uses the class LINK::Classes/Archive:: to allow the user to save custom aliases and symbols to file, premanently registering them across sessions.
+
+
+CLASSMETHODS::
+
+PRIVATE:: test, initClass, dictName
+
+
+METHOD:: newEntry
+Creates a new entry in the MERegister dictionary. The symbol EMPHASIS::alias:: gets registered as a key to the string EMPHASIS::symbol::.
+
+NOTE::
+LIST::
+## EMPHASIS::alias:: should be of type Symbol.
+## EMPHASIS::symbol:: should be of type String.
+## The EMPHASIS::symbol:: should not include a root note (e.g.: EMPHASIS::"M3P5"::, and NOT EMPHASIS::"CM3P5"::).
+## EMPHASIS::alias:: can take any name, provided is not in use by the MEAlias dictionary, it's not an interval (in the format EMPHASIS::P1::, EMPHASIS::m3::, EMPHASIS::P5::, EMPHASIS::M9::, etc.) and provided it does not start with a small caps EMPHASIS::'b':: (if it does it may get mistaken for a flat sign).
+## For more information see page LINK::Reference/RangeSymbols::.
+::
+::
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+r = MENoteRange.new("F#Barbara");
+
+// We can check if a register has been made by running:
+Archive.global[\MERegister][\Barbara]; // M3d5M6
+
+// Get the symbol
+MERegister.getSymbolFromAlias('Barbara'); // M3d5M6
+
+// Clear example alias
+MERegister.removeEntry('Barbara');
+Archive.global[\MERegister][\Barbara]; // nil
+::
+
+
+METHOD:: changeEntry
+Allows the user to change the EMPHASIS::symbol:: associated to an EMPHASIS::alias::.
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+r = MENoteRange.new("F#Barbara");
+
+MERegister.getSymbolFromAlias('Barbara'); // M3d5M6
+MERegister.changeEntry('Barbara', "m3P5M6");
+MERegister.getSymbolFromAlias('Barbara'); // m3P5M6
+
+// Clear example alias
+MERegister.removeEntry('Barbara');
+::
+
+
+METHOD:: removeEntry
+Allows the user to remove an entry by specifying its EMPHASIS::alias::.
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+r = MENoteRange.new("F#Barbara");
+
+MERegister.getSymbolFromAlias('Barbara'); // M3d5M6
+MERegister.removeEntry('Barbara');
+MERegister.getSymbolFromAlias('Barbara'); // nil
+::
+
+
+METHOD:: getSymbolFromAlias
+Returns the EMPHASIS::symbol:: associated to an EMPHASIS::alias::.
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+r = MENoteRange.new("F#Barbara");
+
+MERegister.getSymbolFromAlias('Barbara'); // M3d5M6
+// Clear example alias
+MERegister.removeEntry('Barbara');
+::
+
+
+METHOD:: showEntries
+Lists all entries stored in the MERange dictionary.
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+MERegister.newEntry('Veronica', "m3P5M6");
+MERegister.newEntry('David', "A3d5m6");
+
+MERegister.showEntries;
+
+// Clear example aliases
+MERegister.removeEntry('Barbara');
+MERegister.removeEntry('Veronica');
+MERegister.removeEntry('David');
+::
+
+
+METHOD:: clearDict
+Removes all entries from MERegister dictionary.
+
+CODE::
+MERegister.newEntry('Barbara', "M3d5M6");
+MERegister.newEntry('Veronica', "m3P5M6");
+MERegister.newEntry('David', "A3d5m6");
+
+MERegister.showEntries;
+
+// Clear example aliases
+MERegister.clearDict;
+::

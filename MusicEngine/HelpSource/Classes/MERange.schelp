@@ -1,7 +1,7 @@
 TITLE:: MERange
-summary:: Main MERange builder class.
+summary:: Private MERange builder class.
 categories:: MusicEngine Library
-related:: Classes/MENoteRange, Classes/MENote
+related:: Classes/MENoteRange, Classes/MENote, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
 MERange is primarily a range builder class. As such, it contains all the methods needed to create new ranges, including the primary constructor methods used by MENoteRange. MERange is also a subclass of LINK::Classes/SequenceableCollection::. Many fundamental tools for interacting with ranges are defined in this class, which are then inherited by MENoteRange for user interaction. MERange and MENoteRange are collections of MENote objects.
@@ -14,20 +14,24 @@ MERange is a private class, meant to separate the logic behind range generation 
 
 CLASSMETHODS::
 
+PRIVATE:: extendMidiRange, getMENotes, getOffsets, wrapAndExtend, wrapFirstOctave, getRange
 
 
 METHOD:: new
 Creates a new MERange object. It also works as the primary constructor for MENoteRange.
 
 ARGUMENT:: input
-The EMPHASIS::input:: argument may take a LINK::Classes/String:: with the range symbol required (e.g.: EMPHASIS::"Cmaj7"::, EMPHASIS::"Em3P5"::, EMPHASIS::"F#"::, etc.), or an LINK::Classes/Integer:: size.
+The EMPHASIS::input:: argument may take a string with the range symbol required (e.g.: EMPHASIS::"Cmaj7"::, EMPHASIS::"Em3P5"::, EMPHASIS::"F#"::, etc.), or an integer size.
 
 NOTE:: The Integer instantiation is mostly meant to be used internally, in conjunction with the LINK::Classes/MERange#*with:: method.
 ::
 
 numberedList::
-## A LINK::Classes/String:: will return a collection of MENote objects based on the provided symbol.
-## An LINK::Classes/Integer:: will return an empty MERange object with the same number of slots available as the value provided.
+## A String will return a collection of MENote objects based on the provided symbol.
+NOTE::
+For more information on how to write valid symbols, see page LINK::Reference/RangeSymbols::.
+::
+## An integer will return an empty MERange object with the same number of slots available as the value provided.
 ::
 
 returns:: Depending on the EMPHASIS::input:: MERange will return either a collection of MENote objects or an empty MERange object of specified size.
@@ -36,7 +40,6 @@ CODE::
 a = MENoteRange.new("F#-7"); // Returns collection of MENote objects
 b = MENoteRange.new(40);     // Returns an empty MERange object with 40 available slots
 ::
-
 
 
 METHOD:: with
@@ -55,18 +58,12 @@ returns:: A new MERange object.
 
 
 
-PRIVATE:: extendMidiRange, getMENotes, getOffsets, wrapAndExtend, wrapFirstOctave, getRange
-
-
-
 INSTANCEMETHODS::
 
 PRIVATE:: meSymbol
 
 
-
 SUBSECTION:: Data retrieval
-
 
 
 METHOD:: notes

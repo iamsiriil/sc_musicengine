@@ -1,0 +1,231 @@
+TITLE:: Range Symbols
+summary:: Guidelines for writing range symbols.
+categories:: MusicEngine Library
+related:: Classes/MENoteRange, Classes/MERange, Classes/MENote, Classes/MERegister
+
+DESCRIPTION::
+This document is a reference of how to write range symbols using the verbose syntax, as well as providing a listing of all aliases allowed in STRONG::MusicEngine::.
+
+SECTION:: Verbose Syntax
+
+Range may be described by:
+LIST::
+## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::zero:: to STRONG::five:: accidentals (#/b)
+## using a letter to describe interval quality (EMPHASIS::d, m, P, M, A::) and
+## using a number to represent the degree (EMPHASIS::1-14::)
+::
+
+SUBSECTION:: Allowed intervals
+Depending on the degree, an interval may be EMPHASIS::diminished::, EMPHASIS::minor::, EMPHASIS::perfect::, EMPHASIS::major:: or EMPHASIS::augmented::. Represented, respectively, by EMPHASIS::d, m, P, M, A::.
+
+TABLE::
+## STRONG::Degree:: || STRONG::Type::
+## 1st || A
+## 8th || d, A
+## 2nd/9th || m, M, A
+## 7th/14th || d, m, M
+## 3rd/10th; 6th/13th || d, m, M, A
+## 4th/11th; 5th/12th || d, P, A
+::
+
+SUBSECTION:: Rules
+
+LIST::
+## Number of intervals may range from STRONG::two:: to STRONG::eleven::, not counting the root (EMPHASIS::P1::). With two being a single interval, and eleven a chromatic scale.
+
+CODE::
+a = MENoteRange.new("F#P5");                     // Perfect five over F#
+b = MENoteRange.new("F#m2M2m3M3P4A4P5m6M6m7M7"); // Chromatic scale over F#
+::
+
+## Enharmonic intervals are not allowed (e.g.: EMPHASIS::A2/m3::, EMPHASIS::m3/A9::, EMPHASIS::A4/d5::, etc.).
+
+CODE::
+r = MENoteRange.new("F#m3P5M7A9"); // ERROR: 0, 3, 3, 7, 11 contains enharmonics.
+// P1 = 0, A9 = 3, m3 = 3, P5 = 7, M7 = 11
+::
+
+## Diminished seconds and augmented sevents are not allowed, since they're enharmonic to the root.
+CODE::
+r = MENoteRange.new("F#m3P5A7");   // ERROR: A7, Is not a valid interval.
+r = MENoteRange.new("F#m3P5M7d9"); // ERROR: d9, Is not a valid interval.
+::
+
+## Any root note is allowed, provided there are only 0 to 3 accidentals.
+CODE::
+a = MENoteRange.new("F-7");
+b = MENoteRange.new("F#-7");
+c = MENoteRange.new("F##-7");
+d = MENoteRange.new("F###-7");
+e = MENoteRange.new("F####-7"); // ERROR: F####, is not a valid root.
+::
+
+## Duplicated intervals are not allowed, since they're a form of enharmonics.
+CODE::
+a = MENoteRange.new("F#m3P5m3m7");  // ERROR: m3 is duplicate. Intervals must be unique.
+::
+
+## Intervals may be in any order since they're sorted internally by their numeric representation (EMPHASIS::m3P5m7M9:: = EMPHASIS::3.1, 5.2, 7.1, 9.3::).
+CODE::
+a = MENoteRange.new("F#m7m3M9P5");
+
+// Yields the exact same result as:
+b = MENoteRange.new("F#m3P5m7M9");
+
+a == b; // true
+::
+::
+
+SECTION:: Aliases
+The alias system provides a more convenient way of specifying conventional symbols. When generating a range, the user may use, either, the alias, or its verbose equivalent:
+
+CODE::
+a = MENoteRange.new("F#m3P5m7");
+// Same as:
+b = MENoteRange.new("F#-7");
+a == b; // true
+::
+
+As such, the following aliases are allowed:
+
+SUBSECTION:: Chord aliases
+
+SUBSUBSECTION:: Power chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Perfect fifth || 5 || P5
+::
+
+SUBSUBSECTION:: Triads
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Diminished triad || Dim, dim, Dim5, dim5, o5, 05, o, 0 || m3d5
+## Minor triad 	    || m, Mi, mi, Min, min, - || m3P5
+## Major triad 	    || ""FOOTNOTE::A root note without any symbol (e.g. EMPHASIS::C, F#, Bb,:: etc.) defaultas to the major triad.::, M, Ma, ma, Maj, maj, ^, Neapolitan, neapolitan, Nap, nap, Na, na || M3P5
+## Augmented triad  || Aug, aug, Aug5, aug5, +5, + 	|| M3A5
+::
+
+SUBSUBSECTION:: Seventh chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Diminished seventh    || Dim7, dim7, o7, 07 || m3d5d7
+## Half-diminished seventh || m7o5, m705, Mi7o5, Mi705, mi7o5, mi705, Min7o5, Min705, min7o5, min705, -7o5, -705 || m3d5m7
+## Minor seventh || Mi7, mi7, Min7, min7, -7 || m3P5m7
+## Minor-major seventh || mM, mM7, MiMa7, mima7, MinMaj7, minmaj7, m^7, Mi^7, mi^7, Min^7, min^7, -^7 || m3P5M7
+## Dominant seventh || Dom, dom, Dom7, dom7, 7 || M3P5m7
+## Major seventh || Ma7, ma7, Maj7, maj7, ^7 || M3P5M7
+::
+
+SUBSUBSECTION:: Sixth chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Major sixth || Ma6, ma6, Maj6, maj6, ^6 || M3P5M6
+## Minor sixth || Mi6, mi6, Min6, min6, -6 || m3P5M6
+::
+
+SUBSUBSECTION:: Augmented sixth chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Italian sixth || Italian, italian, Ita, ita, It, it || d3d5
+## French sixth || French, french, Fre, fre, Fr, fr || M3d5m7
+## German sixth || German, german, Ger, ger, Gr, gr || d3d5d7
+::
+
+SUBSUBSECTION:: Suspended chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Suspended 2nd || Sus2, sus2, S2, s2 || M2P5
+## Suspended 4th || Sus4, sus4, S4, s4 || P4P5
+## Suspended 2nd and 4th || Sus24, sus24, S24, s24 || M2P4P5
+::
+
+SUBSUBSECTION:: Ninth chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Minor seventh with major ninth || m79, Mi79, mi79, Min79, min79, -9, -79 || m3P5m7M9
+## Dominant seventh with major ninth || Dom9, dom9, Dom79, dom79, 9 || M3P5m7M9
+## Major seventh with major ninth || M79, Ma79, ma79, Maj79, maj79, ^9, ^79 || M3P5M7M9
+::
+
+SUBSUBSECTION:: Eleventh chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Minor seventh with major ninth and perfect eleventh || m711, Mi11, mi11, Mi711, mi711, Min11, min11, Min711, min711, -11, -711 || m3P5m7M9P11
+## Dominant seventh with major ninth and perfect eleventh || Dom11, dom11, Dom711, dom711, 11 || M3P5m7M9P11
+## Major seventh with major ninth and perfect eleventh || M711, Ma11, ma11, Ma711, ma711, Maj11, maj11, Maj711, maj711, ^11, ^711 || M3P5M7M9P11
+::
+
+SUBSUBSECTION:: Thirteenth chords
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Minor seventh with major ninth, perfect eleventh and major thirteenth || m713, Mi13, mi13, Mi713, mi713, Min13, min13, Min713, min713, -13, -713 || m3P5m7M9P11M13
+## Dominant seventh with major ninth, perfect eleventh and major thirteenth || Dom13, dom13, Dom713, dom713, 13 || M3P5m7M9P11M13
+## Major seventh with major ninth, perfect eleventh and major thirteenth || M13, M713, Ma13, ma13, Ma713, ma713, Maj13, maj13, Maj713, maj713, ^13, ^713 || M3P5M7M9P11M13
+::
+
+
+SUBSECTION:: Scale aliases
+
+
+SUBSUBSECTION:: Penthatonic scales
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Major penthatonic || MajorPenthatonic, majorpenthatonic, MajPent, majpent, MPent, Mpent, MP, Mp, ^P, ^p || M2M3P5M6
+## Minor penthatonic || MinorPenthatonic, minorpenthatonic, MinPent, minpent, mPent, mpent, mP, mp, -P, -p || m3P4P5m7
+::
+
+SUBSUBSECTION:: Hexatonic scales
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Whole-tone scale || WholeTone, wholetone, WT, wt, AugS, augs, +S, +s || M2M3A4A5A6
+## Blues scale || Blues, BS, Bs || m3P4A4P5m7
+::
+
+SUBSUBSECTION:: Heptatonic scales
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Ionian scale || Ionian, ionian, Io, io, MajorS, majors, MajS, majs, MS, Ms, S, s, ^S, ^s || M2M3P4P5M6M7
+## Dorian scale || Dorian, dorian, Do, do, Protus, protus || M2m3P4P5M6m7
+## Phrygian scale || Phrygian, phrygian, Ph, ph, Deuterus, deuterus || m2m3P4P5m6m7
+## Lydian scale || Lydian, lydian, Ly, ly, Tritus, tritus || M2M3A4P5M6M7
+## Mixolydian scale || Mixolydian, mixolydian, Ml, ml, Tetrardus, tetrardus || M2M3P4P5M6m7
+## Aeolian scale || Aeolian, aeolian, Ae, ae, MinorS, minors, ms, -s || M2m3P4P5m6m7
+## Locrian scale || Locrian, locrian, Lo, lo || m2m3P4d5m6m7
+## Harmonic minor scale || HarmonicMinor, harmonichminor, HMinor, Hminor, Hm, hm, H-, h- || M2m3P4P5m6M7
+## Lydian dominant scale || LydianDominant, lydiandominant, LydianD, lydiand, Ly7, ly7, LD, ld || M2M3A4P5M6m7
+::
+
+SUBSUBSECTION:: Octatonic scales
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Octatonic scale (A1) || OctatonicA1, octatonicA1, OctA1, octA1, DiminishedScaleA1, diminishedscaleA1, DimSA1, dimsA1, OA1, oA1, O+1, o+1 || A1m3M3d5P5d7m7
+## Octatonic scale (M2) || OctatonicM2, octatonicM2, OctM2, octM2, DiminishedScaleM2, diminishedscaleM2, DimSM2, dimsM2, OM2, oM2, O^2, o^2 || M2m3P4d5m6d7d8
+::
+
+SUBSUBSECTION:: Chromatic scales
+
+TABLE::
+## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
+## Chromatic scale || Chromatic, chromatic, CS, cs, C, c || m2M2m3M3P4d5P5m6M6m7M7
+::
+
+SECTION:: User Defined Aliases
+
+The user may register custom aliases using the MERegister class.
+
+NOTE::
+See page LINK::Classes/MERegister:: for more information.
+::

@@ -1,23 +1,24 @@
 TITLE:: MENote
-summary:: MENote object for MENoteRange
+summary:: MENote object for MENoteRange.
 categories:: MusicEngine Library
-related:: Classes/MENoteRange, Classes/MERange
+related:: Classes/MENoteRange, Classes/MERange, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
 CODE::MENote:: encapsulates all note data (midi, frequency, degree, name, etc.) into a single object.
 NOTE:: CODE::MENote:: objects were not designed to be instantiated directly by the user, but to be instantiated internally when generating a CODE::MENoteRange::. The user may then access them, via the CODE::MENoteRange:: object, and retrieve data using the methods described in this file.
 
 CODE::
-~r = MENoteRange("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, ...]
-~r.size;      // A 43 MENote collection, ranging from octaves -1 to 9
-~r[30].name   // F#6
-~r[30].midi   // 90
-~r[30].degree // P1
+r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, ...]
+r.size;      // A 43 MENote collection, ranging from octaves -1 to 9
+r[30].name   // F#6
+r[30].midi   // 90
+r[30].degree // P1
 ::
 ::
 
 
 CLASSMETHODS::
+
 
 METHOD:: new
 
@@ -39,7 +40,6 @@ Used for debugging only. When set to CODE::true::, validate activates validator 
 returns:: A new CODE::MENote:: object.
 
 
-
 METHOD:: newFromName
 
 ARGUMENT:: noteName
@@ -57,139 +57,127 @@ returns:: A new CODE::MENote:: object
 INSTANCEMETHODS::
 
 
-
 SUBSECTION:: Pitch data
 
 
-
 METHOD:: midi
-
-returns:: The MIDI note number.
+Returns a MIDI note number.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].midi; // 30
 ::
 
 
-
 METHOD:: freq
-
-returns:: The frequency value.
+Returns a frequency value.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].freq; // 46.249302838954
-::
+r = MENoteRange.new("F#-7");
 
+r[10].freq; // 46.24Hz
+::
 
 
 SUBSECTION:: Name data
 
 
-
 METHOD:: name
+Returns a note name in scientific notation (EMPHASIS::A::-EMPHASIS::G::). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
 
-ARGUMENT:: charSet
-Character set to be used on the accidental sign. Options are: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters and CODE::\m21::, for a format compatible with the Python's module STRONG::music21::.
-
-ARGUMENT:: withOctave
-Whether octave number should be appended at the end.
-
-returns:: A String representing the note name.
+NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].name;               // F#1
 r[10].name(\unic, false); // F♯
 ::
 
 
-
 METHOD:: sol
-Uses the EMPHASIS::solfege:: convention when generating a note name (EMPHASIS::Do, Re, Mi, Fa, Sol, La, Si::).
+Returns a note name using the solfege naming convention (Fixed Do). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
 
-ARGUMENT:: charSet
-Character set to be used on the accidental sign. Options are: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters and CODE::\m21::, for a format compatible with the Python's module STRONG::music21::.
-
-
-ARGUMENT:: withOctave
-Whether octave number should be appended at the end.
-
-returns:: A String representing the note name.
+NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].sol;               // Fa#1
 r[10].sol(\unic, false); // Fa♯
 ::
 
 
-
 METHOD:: letter
-
-returns:: The letter representing the note name.
+Returns the letter representing the note name.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].letter; // F
 ::
 
 
-
 METHOD:: octave
-
-returns:: The octave number as an integer.
+Returns an octave number.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].octave; // 1
 ::
 
 
-
 METHOD:: sign
+Returns an accidental sign.
 
-ARGUMENT:: charSet
-Character set to be used on the accidental sign. Options are: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters and CODE::\m21::, for a format compatible with the Python's module STRONG::music21::.
-
-returns:: The accidental sign.
+NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].sign;        // #
 r[10].sign(\unic); // ♯
 ::
 
 
 METHOD:: signOffset
-The sign offset is an integer representation of the accidental sign attributed to the note when generating a name. The offset may range from -5 (CODE::bbbbb::) to 5 (CODE::#####::). A value of 0 indicates that the note has no accidental.
+Returns an integer representation of the accidental sign.
 
-returns:: The accidental sign offset as an integer.
-
-CODE::
-r = MENoteRange("F#-7");
-r[10].signOffset; // 1
+NOTE::
+Sign offsets range from -5 (CODE::bbbbb::) to 5 (CODE::#####::). An offset of 0 means the note has no accidental.
 ::
 
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[10].signOffset; // 1
+::
 
 
 SUBSECTION:: Interval data
 
 
-
 METHOD:: interval
-
-returns:: The CODE::MEInterval:: object associated with the CODE::MENote:: instance.
+Returns a MEInterval object associated with the MENote.
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].interval; // MEInterval(P1)
 ::
 
 
 METHOD:: degree
-If CODE::MENote:: is instantiated via the CODE::newFromName:: method, and no degree interval symbol is passed, degree will be set to CODE::nil::. In those cases we may assign an interval directly to degree, which will then instantiate a new CODE::MEInterval:: object internally.
+Returns a symbol representation of the degree, or CODE::nil:: if no interval information is available.
+
+NOTE::
+When a range is instantiated via the CODE::newFromName:: method, degrees must be assigned by the user, or they will be set to CODE::nil::. See LINK::Classes/MENoteRange#*newFromName::, for more information.
+::
 
 CODE::
 n = MENote.newFromName("Bb4");
@@ -203,43 +191,39 @@ n.degree;       // P5
 n.interval;     // MEInterval(P5)
 n.number;       // 5.2
 n.quality;      // P
-::
 
-returns:: Whenever CODE::MENote:: has interval data CODE::.degree::  returns a CODE::Symbol:: representing the degree. Otherwise it returns CODE::nil::.
+// Note ranges instantiated with new always contain degree information
+r = MENoteRange.new("F#-7");
 
-
-CODE::
-r = MENoteRange("F#-7");
 r[10].degree; // P1
 ::
 
 
 METHOD:: number
-Number returns a numeric representation of the interval, where the whole part represents the interval number, and the decimal part represents the quality (EMPHASIS::0.0, 0.1, 0.2, 0.3, 0.4::, respectively EMPHASIS::d, m, P, M, A::)
+Returns a numeric representation of the degree. By default a float is returned, where the whole part representes interval number and the decimal part represents the quality. If EMPHASIS::asInt:: is set to CODE::true::, only the whole part is returned as an integer.
 
-ARGUMENT:: asInt
-When set to CODE::true:: returns the whole part as an CODE::Integer::.
-
-returns:: A numeric representation of the interval.
+NOTE::
+When representing interval quality as decimal values, the following mapping is applyed: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
+::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].number;       // 1.2 (P1)
 r[10].number(true); // 1
 ::
 
 
-
 METHOD:: quality
-Returns the quality of the interval as a CODE::Float:: (EMPHASIS::0.0, 0.1, 0.2, 0.3, 0.4::), or as a CODE::Symbol:: (EMPHASIS::\d, \m, \P, \M, \A::). The default is CODE::Symbol::.
+Returns the quality of the degree as a symbol. If EMPHASIS::asFloat:: is set to CODE::true::, then then a float representation is returned.
 
-ARGUMENT:: asFloat
-When set to CODE::true:: returns the quality as a CODE::Float::.
-
-returns:: The quality of the interval.
+NOTE::
+When representing interval quality as decimal values, the following mapping is applyed: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
+::
 
 CODE::
-r = MENoteRange("F#-7");
+r = MENoteRange.new("F#-7");
+
 r[10].quality;       // P
 r[10].quality(true); // 0.2
 ::
@@ -249,99 +233,102 @@ SUBSECTION:: User assigned data
 
 
 METHOD:: data
-Each CODE::MENote:: object has a dictionary with user assigned values. During instantiation an empty CODE::Dictionary:: is assigned in case none was passed to the constructor.
+Returns a dictionary used for user assign data.
 
-returns:: The data CODE::Dictionary:: assigned to the CODE::MENote:: object.
+NOTE::
+During instantiation, if no dictionary is passed, an empty one is assigned to the MENote object.
+::
 
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[0].set(\dur, 1);
+r[0].set(\amp, 0.5);
+
+r[0].data; // Dictionary[(dur -> 1), (amp -> 0.5)]
+::
 
 
 METHOD:: set
-Allows the user to register new values in the data CODE::Dictionary::.
-
-ARGUMENT:: key
-A key for the new CODE::Dictionary:: entry.
-
-ARGUMENT:: value
-A value to be associated with the key.
+Allows the user to register a EMPHASIS::value:: associated to a EMPHASIS::key::.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].data;           // Dictionary[(\dur -> 0.5)]
+r = MENoteRange.new("F#-7");
+
+r[0].set(\dur, 0.5);
+
+r[0].data; // Dictionary[(\dur -> 0.5)]
 ::
 
 
 METHOD:: get
-Allows the user to retrieve data from the CODE::Dictionary:: using the respective key.
-
-ARGUMENT:: key
-A key associated with the value the user wishes to retrieve.
-
-returns:: The value for the given key.
+Allows the user to retrieve the value associated with the respective EMPHASIS::key::.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].get(\dur);      // 0.5
+r = MENoteRange.new("F#-7");
+
+r[0].set(\dur, 0.5);
+r[0].get(\dur);      // 0.5
+
+// Same as:
+r[0].data[\dur];     // 0.5
 ::
 
 
 METHOD:: clearValue
-Allows the user to clear a key value pair.
-
-ARGUMENT:: key
-The key of the entry to be cleared.
+Allows the user to clear the value associated with the respective EMPHASIS::key::.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].get(\dur);        // 0.5
-r[10].clearValue(\dur);
-r[10].get(\dur);        // nil
-::
+r = MENoteRange.new("F#-7");
 
+r[0].set(\dur, 0.5);
+r[0].get(\dur);        // 0.5
+r[0].clearValue(\dur);
+r[0].get(\dur);        // nil
+::
 
 
 METHOD:: clearDict
-Allows the user to clear all data inside the CODE::Dictionary::.
+Allows the user to clear all data in the dictionary.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].set(\amp, 0.3);
-r[10].get(\dur);      // 0.5
-r[10].get(\amp);      // 0.3
-r[10].clearDict;
-r[10].data.isEmpty;   // true
-::
+r = MENoteRange.new("F#-7");
 
+r[0].set(\dur, 0.5);
+r[0].set(\amp, 0.3);
+r[0].get(\dur);      // 0.5
+r[0].get(\amp);      // 0.3
+r[0].clearDict;
+r[0].data.isEmpty;   // true
+::
 
 
 METHOD:: getKeys
-
-returns:: A CODE::Set:: with all the keys in the CODE::Dictionary::.
+Returns a set with all the keys in the dictionary.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].set(\amp, 0.3);
-r[10].getKeys;        // Set[amp, dur]
+r = MENoteRange.new("F#-7");
+
+r[0].set(\dur, 0.5);
+r[0].set(\amp, 0.3);
+r[0].getKeys;        // Set[amp, dur]
 ::
 
 
-
 METHOD:: printData
-Prints all entries in the CODE:: Dictionary::.
+Prints all entries in the dictionary.
 
 CODE::
-r = MENoteRange("F#-7");
-r[10].set(\dur, 0.5);
-r[10].set(\amp, 0.3);
-r[10].printData;
+r = MENoteRange.new("F#-7");
+
+r[0].set(\dur, 0.5);
+r[0].set(\amp, 0.3);
+r[0].printData;
 ::
 
 
 SUBSECTION:: Note transposition
+
 
 CODE::MENote:: transposition may be achieved using an integer value, or a symbol representing the interval by which the CODE::MENote:: is to be transposed. When transposed, note names are changed accordingly.
 
@@ -365,14 +352,8 @@ TABLE::
 ::
 
 
-
 METHOD:: transposeUp
-Allows for the transposition of a CODE::MENote:: upward.
-
-ARGUMENT:: interval
-An CODE::Integer:: or CODE::Symbol:: representing the interval by which the CODE::MENote:: is to be transposed.
-
-returns:: A new CODE::MENote:: if MIDI value of the new CODE::MENote:: is less than or equal to 127. Otherwise it returns CODE::nil::.
+Returns a new copy of the range with all notes transposed up, by EMPHASIS::interval::. If the transposed note has a MIDI value MATH::>127::, the method returns CODE::nil::.
 
 CODE::
 r = MENoteRange("F#-7");
@@ -392,14 +373,8 @@ o.midi;                     // 54
 ::
 
 
-
 METHOD:: transposeDown
-Allows for the transposition of a CODE::MENote:: downward.
-
-ARGUMENT:: interval
-An CODE::Integer:: or CODE::Symbol:: representing the interval by which the CODE::MENote:: is to be transposed.
-
-returns:: A new CODE::MENote:: if MIDI value of the new CODE::MENote:: is greater than or equal to 0. Otherwise it returns CODE::nil::.
+Returns a new copy of the range with all notes transposed down, by EMPHASIS::interval::. If the transposed note has a MIDI value MATH::<0::, the method returns CODE::nil::.
 
 CODE::
 r = MENoteRange("F#-7");
@@ -419,14 +394,8 @@ o.midi;                       // 6
 ::
 
 
-
 METHOD:: >>
-Same as CODE::transposeUp::.
-
-ARGUMENT:: interval
-An CODE::Integer:: or CODE::Symbol:: representing the interval by which the CODE::MENote:: is to be transposed.
-
-returns:: A new CODE::MENote:: if MIDI value of the new CODE::MENote:: is less than or equal to 127. Otherwise it returns CODE::nil::.
+Shorthand for CODE::transposeUp::.
 
 CODE::
 r = MENoteRange("F#-7");
@@ -441,14 +410,8 @@ m.midi;           // 36
 ::
 
 
-
 METHOD:: <<
-Same as CODE::transposeDown::.
-
-ARGUMENT:: interval
-An CODE::Integer:: or CODE::Symbol:: representing the interval by which the CODE::MENote:: is to be transposed.
-
-returns:: A new CODE::MENote:: if MIDI value of the new CODE::MENote:: is greater than or equal to 0. Otherwise it returns CODE::nil::.
+Shorthand for CODE::transposeDown::.
 
 CODE::
 r = MENoteRange("F#-7");
@@ -463,10 +426,164 @@ m.midi;           // 24
 ::
 
 
-
 SUBSECTION:: Other methods
 
 
-METHOD:: copy
+METHOD:: hash
+Returns an unique hash value for the MENote object.
 
-returns:: A deep copy of the object.
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[0].hash; // Some integer value
+::
+
+
+METHOD:: species
+Returns the name of the class. Similar to the CODE::class:: method.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[0].species; // MENote
+r[0].class    // MENote
+::
+
+
+METHOD:: copy
+Returns a deep copy of the object.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+n = r[0].copy;
+
+n == r[0];     // true
+n === r[0];    // false
+::
+
+
+SUBSECTION:: Comparison operators
+
+
+METHOD:: ==
+Checks for equality between two MENote objects.
+
+NOTE::
+Equality is determined by the two objects having the same name and MIDI value.
+::
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("C", 1); // C#-1
+
+r[0] == n; // true
+::
+
+
+METHOD:: <
+Compares the MIDI values of two MENote objects to determine if left side MENote is lesser than EMPHASIS::aMENote::.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[0] < r[1]; // true  (1 < 3)
+r[1] < r[0]; // false (3 < 1)
+::
+
+
+METHOD:: >
+Compares the MIDI values of two MENote objects to determine if left side MENote is greater than EMPHASIS::aMENote::.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+r[0] > r[1]; // false (1 > 3)
+r[1] > r[0]; // true  (3 > 1)
+::
+
+
+METHOD:: <=
+Compares two MENote objects to determine if left side MENote is lesser than or equal to EMPHASIS::aMENote::.
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("C", 1);
+
+r[0] <= n;    // true
+r[0] <= r[1]; // true  (1 <= 3)
+r[1] <= r[0]; // false (3 <= 1)
+::
+
+
+METHOD:: >=
+Compares two MENote objects to determine if left side MENote is greater than or equal to EMPHASIS::aMENote::.
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("C", 1);
+
+r[0] >= n;    // true
+r[0] >= r[1]; // false (1 >= 3)
+r[1] >= r[0]; // true  (3 >= 1)
+::
+
+
+SUBSECTION:: Enharmony operations
+
+
+METHOD:: enharmonicTo
+Compares two MENote objects to determine if left side MENote has MIDI value equal to EMPHASIS::aMENote::.
+
+NOTE::
+The fundamental difference from the equality operator is that only the MIDI value gets compared.
+::
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("D", 1); // Db-1
+m = MENote.new("C", 1); // C#-1
+
+r[0].enharmonicTo(n);   // true : (Db-1, C#-1)
+r[0].enharmonicTo(m);   // true : (C#-1, C#-1)
+::
+
+
+METHOD:: notEnharmonicTo
+Compares two MENote objects to determine if left side MENote has MIDI value different from EMPHASIS::aMENote::.
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("C", 0); // C-1
+
+r[0].notEnharmonicTo(n); // true  : (C#-1, C-1)
+r[0].enharmonicTo(n);    // false : (C#-1, C-1)
+::
+
+
+METHOD:: ==?
+Shorthand for the CODE::enharmonicTo:: method.
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("D", 1); // Db-1
+
+r[0] ==? n; // true
+
+// Same as;
+r[0].enharmonicTo(n); // true
+::
+
+
+METHOD:: !=?
+Shorthand for the CODE::notEnharmonicTo:: method.
+
+CODE::
+r = MENoteRange.new("F#-7");
+n = MENote.new("C", 0); // C-1
+
+r[0] !=? n; // true
+
+// Same as;
+r[0].notEnharmonicTo(n); // true
+::
