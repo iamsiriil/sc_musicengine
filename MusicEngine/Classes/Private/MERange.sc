@@ -289,6 +289,8 @@ MERange : SequenceableCollection {
 	copyRange { |start, end|
 		var size, temp, i, j;
 
+		if (start.isNil && end.isNil) { ^nil };
+
 		i = if (start.isNil) { 0 } { start };
 		j = if (end.isNil)   { this.size - 1 } { end };
 
@@ -306,6 +308,8 @@ MERange : SequenceableCollection {
 
 	copySeries { |first, second, last|
 		var size, temp, i, j, k;
+
+		if (first.isNil && second.isNil && last.isNil) { ^nil };
 
 		i = if (first.isNil)  { 0 } { first };
 		j = if (second.isNil) { 1 } { second };

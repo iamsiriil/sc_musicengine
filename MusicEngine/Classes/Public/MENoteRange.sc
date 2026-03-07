@@ -9,15 +9,11 @@ MENoteRange : MERange {
 	*newFromName { |...args, kwargs|
 		var newR = this.new(args.size);
 
-		args.do { |n|
-			newR.add(MENote.newFromName(n));
-		};
+		args.do { |n| newR.add(MENote.newFromName(n)) };
 
 		kwargs.keysValuesDo { |k, v|
 			if (k == \degrees) {
-				v.do { |i, j|
-					newR[j].degree = i;
-				};
+				v.do { |i, j| newR[j].degree = i };
 			} {
 				newR.setValues(k, v)
 			};
@@ -32,8 +28,7 @@ MENoteRange : MERange {
 	trimO { |fromOctave, toOctave|
 		var fIndex = this.firstIndexInOctave(fromOctave);
 		var tIndex = this.lastIndexInOctave(toOctave);
-
-		^this[fIndex..tIndex];
+		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
@@ -41,8 +36,7 @@ MENoteRange : MERange {
 	trimM { |fromMIDI, toMIDI|
 		var fIndex = this.firstOverMIDI(fromMIDI);
 		var tIndex = this.firstUnderMIDI(toMIDI);
-
-		^this[fIndex..tIndex];
+		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
@@ -50,8 +44,7 @@ MENoteRange : MERange {
 	trimF { |fromFreq, toFreq|
 		var fIndex = this.firstOverFreq(fromFreq);
 		var tIndex = this.firstUnderFreq(toFreq);
-
-		^this[fIndex..tIndex];
+		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
@@ -59,8 +52,7 @@ MENoteRange : MERange {
 	trimD { |fromDegree, toDegree|
 		var fIndex = this.firstIndexOfDegree(fromDegree);
 		var tIndex = this.lastIndexOfDegree(toDegree);
-
-		^this[fIndex..tIndex];
+		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
@@ -68,88 +60,77 @@ MENoteRange : MERange {
 	trimN { |fromName, toName|
 		var fIndex = this.firstIndexOfName(fromName);
 		var tIndex = this.lastIndexOfName(toName);
-
-		^this[fIndex..tIndex];
+		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimO { |fromOctave|
 		var fIndex = this.firstIndexInOctave(fromOctave);
-
-		^this[fIndex..];
+		^this.copyRange(fIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimM { |fromMIDI|
 		var fIndex = this.firstOverMIDI(fromMIDI);
-
-		^this[fIndex..];
+		^this.copyRange(fIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimF { |fromFreq|
 		var fIndex = this.firstOverFreq(fromFreq);
-
-		^this[fIndex..];
+		^this.copyRange(fIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimD { |fromDegree|
 		var fIndex = this.firstIndexOfDegree(fromDegree);
-
-		^this[fIndex..];
+		^this.copyRange(fIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimN { |fromName|
 		var fIndex = this.firstIndexOfName(fromName);
-
-		^this[fIndex..];
+		^this.copyRange(fIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimO { |toOctave|
 		var tIndex = this.lastIndexInOctave(toOctave);
-
-		^this[..tIndex];
+		^this.copyRange(tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimM { |toMIDI|
 		var tIndex = this.firstUnderMIDI(toMIDI);
-
-		^this[..tIndex];
+		^this.copyRange(tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimF { |toFreq|
 		var tIndex = this.firstUnderFreq(toFreq);
-
-		^this[..tIndex];
+		^this.copyRange(tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimD { |toDegree|
 		var tIndex = this.lastIndexOfDegree(toDegree);
-
-		^this[..tIndex];
+		^this.copyRange(tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimN { |toName|
 		var tIndex = this.lastIndexOfName(toName);
-
-		^this[..tIndex];
+		^this.copyRange(tIndex);
 	}
 
 	/****************************************************************************************/
@@ -172,7 +153,8 @@ MENoteRange : MERange {
 			}
 			{ limits.every { |i| i.isFloat && ((i >= 20.0) && (i <= 20000.0)) } } {
 				^this.trimF(limits[0], limits[1]);
-			};
+			}
+			{ ^nil };
 		};
 	}
 
@@ -180,22 +162,24 @@ MENoteRange : MERange {
 
 	|> { |limit|
 		case
-		{ limit.isString                                       } { ^this.bTrimN(limit) }
-		{ limit.isKindOf(Symbol)                               } { ^this.bTrimD(limit) }
-		{ limit.isInteger && (limit >= -1 && limit <= 9)       } { ^this.bTrimO(limit) }
-		{ limit.isInteger && (limit >= 12 && limit <= 127)     } { ^this.bTrimM(limit) }
-		{ limit.isFloat && (limit >= 20.0 && limit <= 20000.0) } { ^this.bTrimF(limit) }
+		{ limit.isString                                           } { ^this.bTrimN(limit) }
+		{ limit.isKindOf(Symbol)                                   } { ^this.bTrimD(limit) }
+		{ limit.isInteger && ((limit >= -1) && (limit <= 9))       } { ^this.bTrimO(limit) }
+		{ limit.isInteger && ((limit >= 12) && (limit <= 127))     } { ^this.bTrimM(limit) }
+		{ limit.isFloat && ((limit >= 20.0) && (limit <= 20000.0)) } { ^this.bTrimF(limit) }
+		{ ^nil };
 	}
 
 	/****************************************************************************************/
 
 	<| { |limit|
 		case
-		{ limit.isString                                       } { ^this.tTrimN(limit) }
-		{ limit.isKindOf(Symbol)                               } { ^this.tTrimD(limit) }
-		{ limit.isInteger && (limit >= -1 && limit <= 9)       } { ^this.tTrimO(limit) }
-		{ limit.isInteger && (limit >= 12 && limit <= 127)     } { ^this.tTrimM(limit) }
-		{ limit.isFloat && (limit >= 20.0 && limit <= 20000.0) } { ^this.tTrimF(limit) }
+		{ limit.isString                                           } { ^this.tTrimN(limit) }
+		{ limit.isKindOf(Symbol)                                   } { ^this.tTrimD(limit) }
+		{ limit.isInteger && ((limit >= -1) && (limit <= 9))       } { ^this.tTrimO(limit) }
+		{ limit.isInteger && ((limit >= 12) && (limit <= 127))     } { ^this.tTrimM(limit) }
+		{ limit.isFloat && ((limit >= 20.0) && (limit <= 20000.0)) } { ^this.tTrimF(limit) }
+		{ ^nil };
 	}
 
 	/****************************************************************************************/
@@ -222,12 +206,9 @@ MENoteRange : MERange {
 
 	| { |item|
 		case
-		{ item.isKindOf(Symbol) } {
-			^this.filterD(item);
-		}
-		{ item.isString } {
-			^this.filterN(item);
-		};
+		{ item.isKindOf(Symbol) } { ^this.filterD(item) }
+		{ item.isString         } { ^this.filterN(item) }
+		{ ^nil };
 	}
 
 	/****************************************************************************************/
