@@ -422,7 +422,7 @@ MENoteRange : MERange {
 
 	span {
 		var intervals = this.collect{ |n| n.number }.asSet.asArray.sort;
-		var temp = Array(this.size.postln);
+		var temp = Array(this.size);
 		var lt   = intervals.select { |i| i < 8 };
 		var bt   = intervals.select { |i| i >= 8 };
 		var ct   = 0, rt, bool;
@@ -442,7 +442,7 @@ MENoteRange : MERange {
 			case
 			{ bool && lt[ct] == n.number } {
 				ct = ct + 1;
-				temp.add(n).postln;
+				temp.add(n);
 				if (ct == lt.size) {
 					bool = false;
 					ct = 0;
@@ -450,7 +450,7 @@ MENoteRange : MERange {
 			}
 			{ bool.not && (bt[ct] == n.number) && (rt == 1) } {
 				ct = ct + 1;
-				temp.add(n).postln;
+				temp.add(n);
 				if (ct == bt.size) {
 					bool = true;
 					ct = 0;
@@ -460,7 +460,7 @@ MENoteRange : MERange {
 			{ (n.number == lt[0]) && (rt == 0) } { rt = rt + 1 };
 		};
 
-		^this.class.with(nil, *temp);
+		^this.class.with(meSymbol, *temp);
 	}
 
 }
