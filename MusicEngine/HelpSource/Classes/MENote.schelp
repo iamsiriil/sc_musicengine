@@ -4,8 +4,8 @@ categories:: MusicEngine Library
 related:: Classes/MENoteRange, Classes/MERange, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
-CODE::MENote:: encapsulates all note data (midi, frequency, degree, name, etc.) into a single object.
-NOTE:: CODE::MENote:: objects were not designed to be instantiated directly by the user, but to be instantiated internally when generating a CODE::MENoteRange::. The user may then access them, via the CODE::MENoteRange:: object, and retrieve data using the methods described in this file.
+CODE::MENote:: encapsulates all note data (MIDI, frequency, degree, name, etc.) into a single object.
+NOTE:: CODE::MENote:: objects are not designed to be instantiated directly by the user, but to be instantiated internally when generating a CODE::MENoteRange::. The user may then access them, via the CODE::MENoteRange:: object, and retrieve data using the methods described in this file.
 
 CODE::
 r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, ...]
@@ -29,15 +29,24 @@ ARGUMENT:: midiNote
 MIDI note number.
 
 ARGUMENT:: interval
-Note degree in relation to a root.
+Interval symbol (e.g.: CODE::\P5::) relative to a root.
 
 ARGUMENT:: data
-User defined data Dictionary. If none is provided, an empty dictionary will be assigned to the new CODE::MENote:: object.
+User defined data dictionary. If none is provided, an empty dictionary will be assigned to the new CODE::MENote:: object.
 
 ARGUMENT:: validate
 Used for debugging only. When set to CODE::true::, validate activates validator methods that test input validity throughout the process of creating a CODE::MENote:: instance.
 
 returns:: A new CODE::MENote:: object.
+
+CODE::
+n = MENote.new("C", 60, \P1);
+
+n.name;   // C4
+n.degree; // P1
+n.midi;   // 60
+n.freq;   // 261.62Hz
+::
 
 
 METHOD:: newFromName
@@ -46,10 +55,10 @@ ARGUMENT:: noteName
 String representing the note name (e.g., EMPHASIS::C#4::). String must contain letter (EMPHASIS::A-G::), zero to 5 sharps or flats, and octave number.
 
 ARGUMENT:: interval
-Degree to be associated with the note. Should be of type CODE::Symbol::.
+Interval symbol (e.g.: CODE::\P5::) relative to a root.
 
 ARGUMENT:: data
-User defined data Dictionary. If none is provided, an empty dictionary will be assigned to the new CODE::MENote:: object.
+User defined data dictionary. If none is provided, an empty dictionary will be assigned to the new CODE::MENote:: object.
 
 returns:: A new CODE::MENote:: object
 
@@ -84,9 +93,14 @@ SUBSECTION:: Name data
 
 
 METHOD:: name
-Returns a note name in scientific notation (EMPHASIS::A::-EMPHASIS::G::). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
+Returns a note name in scientific notation (EMPHASIS::A::-EMPHASIS::G::). The argument EMPHASIS::charSet:: should be of type symbol, and allows the user to choose between different character sets to represent the accidental sign. The argument EMPHASIS::withOctave:: is a boolean flag that determines whether an octave number should be appended to the string.
 
-NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+LIST::
+## CODE::\ascii:: for ASCII characters (# and b),
+## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
+## CODE::\m21:: for a format compatible with the Python's module music21 (# and -).
+::
 ::
 
 CODE::
@@ -98,9 +112,14 @@ r[10].name(\unic, false); // F♯
 
 
 METHOD:: sol
-Returns a note name using the solfege naming convention (Fixed Do). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
+Similar to CODE::name::, but uses the fixed-do Solfège naming convention.
 
-NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+LIST::
+## CODE::\ascii:: for ASCII characters (# and b),
+## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
+## CODE::\m21:: for a format compatible with the Python's module music21 (# and -).
+::
 ::
 
 CODE::
@@ -134,7 +153,12 @@ r[10].octave; // 1
 METHOD:: sign
 Returns an accidental sign.
 
-NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+LIST::
+## CODE::\ascii:: for ASCII characters (# and b),
+## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
+## CODE::\m21:: for a format compatible with the Python's module music21 (# and -).
+::
 ::
 
 CODE::
@@ -173,10 +197,10 @@ r[10].interval; // MEInterval(P1)
 
 
 METHOD:: degree
-Returns a symbol representation of the degree, or CODE::nil:: if no interval information is available.
+Returns a symbol representation of the degree, or CODE::nil:: if no interval information is available. It is possible to assign an interval symbol directly to a MENote.
 
 NOTE::
-When a range is instantiated via the CODE::newFromName:: method, degrees must be assigned by the user, or they will be set to CODE::nil::. See LINK::Classes/MENoteRange#*newFromName::, for more information.
+When a range is instantiated via the CODE::newFromName:: method, degree information must be directly assigned by the user, otherwise the CODE::degree:: property, in each MENote, will be set to CODE::nil::. See LINK::Classes/MENoteRange#*newFromName::, for more information.
 ::
 
 CODE::
@@ -200,10 +224,10 @@ r[10].degree; // P1
 
 
 METHOD:: number
-Returns a numeric representation of the degree. By default a float is returned, where the whole part representes interval number and the decimal part represents the quality. If EMPHASIS::asInt:: is set to CODE::true::, only the whole part is returned as an integer.
+Returns a numeric representation of the degree. By default a float is returned, where the whole part represents interval number and the decimal part represents the quality. If EMPHASIS::asInt:: is set to CODE::true::, only the whole part is returned as an integer.
 
 NOTE::
-When representing interval quality as decimal values, the following mapping is applyed: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
+When representing interval quality as decimal values, the following mapping is applied: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
 ::
 
 CODE::
@@ -215,10 +239,10 @@ r[10].number(true); // 1
 
 
 METHOD:: quality
-Returns the quality of the degree as a symbol. If EMPHASIS::asFloat:: is set to CODE::true::, then then a float representation is returned.
+Returns the quality of the degree as a symbol. If EMPHASIS::asFloat:: is set to CODE::true::, then a float representation is returned.
 
 NOTE::
-When representing interval quality as decimal values, the following mapping is applyed: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
+When representing interval quality as decimal values, the following mapping is applied: CODE::0.0=\d, 0.1=\m, 0.2=\P, 0.3=\M, 0.4=\A::.
 ::
 
 CODE::
@@ -229,11 +253,11 @@ r[10].quality(true); // 0.2
 ::
 
 
-SUBSECTION:: User assigned data
+SUBSECTION:: User-assigned data
 
 
 METHOD:: data
-Returns a dictionary used for user assign data.
+Returns a dictionary used for user-assigned data.
 
 NOTE::
 During instantiation, if no dictionary is passed, an empty one is assigned to the MENote object.
@@ -250,7 +274,7 @@ r[0].data; // Dictionary[(dur -> 1), (amp -> 0.5)]
 
 
 METHOD:: set
-Allows the user to register a EMPHASIS::value:: associated to a EMPHASIS::key::.
+Allows the user to register a EMPHASIS::value:: associated with a EMPHASIS::key::.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -332,28 +356,28 @@ SUBSECTION:: Note transposition
 
 CODE::MENote:: transposition may be achieved using an integer value, or a symbol representing the interval by which the CODE::MENote:: is to be transposed. When transposed, note names are changed accordingly.
 
-Symbols allow transpositions up to a 14th (CODE::\A1:: to CODE::\M14::), although the shift of the MIDI value does not go beyond MATH::\pm 11::. Using Symbols also allows for greater control over what the transposed note name will be.
+Symbols allow transpositions up to a 14th (CODE::\A1:: to CODE::\M14::), while the shift of the MIDI value does not go beyond MATH::\pm 11::. Using symbols also allows for greater control over what the transposed note name will be.
 
 Integers allow any leap provided the transposed MIDI value does not exceed 127. Integers default to the following intervals:
 
 TABLE::
- ##0 || \P1
- ##1 || \m2
- ##2 || \M2
- ##3 || \m3
- ##4 || \M3
- ##5 || \P4
- ##6 || \A4
- ##7 || \P5
- ##8 || \m6
- ##9 || \M6
- ##10 || \m7
- ##11 || \M7
+ ##0 || CODE::\P1::
+ ##1 || CODE::\m2::
+ ##2 || CODE::\M2::
+ ##3 || CODE::\m3::
+ ##4 || CODE::\M3::
+ ##5 || CODE::\P4::
+ ##6 || CODE::\A4::
+ ##7 || CODE::\P5::
+ ##8 || CODE::\m6::
+ ##9 || CODE::\M6::
+ ##10 || CODE::\m7::
+ ##11 || CODE::\M7::
 ::
 
 
 METHOD:: transposeUp
-Returns a new copy of the range with all notes transposed up, by EMPHASIS::interval::. If the transposed note has a MIDI value MATH::>127::, the method returns CODE::nil::.
+Returns a new MENote with its pitch data and name transposed up, by EMPHASIS::interval::. If the transposed MIDI value MATH::>127::, the method returns CODE::nil::.
 
 CODE::
 r = MENoteRange("F#-7");
@@ -374,7 +398,7 @@ o.midi;                     // 54
 
 
 METHOD:: transposeDown
-Returns a new copy of the range with all notes transposed down, by EMPHASIS::interval::. If the transposed note has a MIDI value MATH::<0::, the method returns CODE::nil::.
+Returns a new MENote with its pitch data and name transposed down, by EMPHASIS::interval::. If the transposed MIDI value MATH::<0::, the method returns CODE::nil::.
 
 CODE::
 r = MENoteRange("F#-7");

@@ -8,10 +8,10 @@ This document is a reference of how to write range symbols using the verbose syn
 
 SECTION:: Verbose Syntax
 
-Range may be described by:
+Ranges may be described by:
 LIST::
-## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::zero:: to STRONG::five:: accidentals (#/b)
-## using a letter to describe interval quality (EMPHASIS::d, m, P, M, A::) and
+## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::0:: to STRONG::5:: accidentals (#/b),
+## using a letter to describe interval quality (EMPHASIS::d, m, P, M, A::), and
 ## using a number to represent the degree (EMPHASIS::1-14::)
 ::
 
@@ -45,7 +45,7 @@ r = MENoteRange.new("F#m3P5M7A9"); // ERROR: 0, 3, 3, 7, 11 contains enharmonics
 // P1 = 0, A9 = 3, m3 = 3, P5 = 7, M7 = 11
 ::
 
-## Diminished seconds and augmented sevents are not allowed, since they're enharmonic to the root.
+## Diminished seconds and augmented sevenths are not allowed, since they're enharmonic to the root.
 CODE::
 r = MENoteRange.new("F#m3P5A7");   // ERROR: A7, Is not a valid interval.
 r = MENoteRange.new("F#m3P5M7d9"); // ERROR: d9, Is not a valid interval.
@@ -60,7 +60,7 @@ d = MENoteRange.new("F###-7");
 e = MENoteRange.new("F####-7"); // ERROR: F####, is not a valid root.
 ::
 
-## Duplicated intervals are not allowed, since they're a form of enharmonics.
+## Duplicated intervals are not allowed, since they're a form of enharmonics equivalents.
 CODE::
 a = MENoteRange.new("F#m3P5m3m7");  // ERROR: m3 is duplicate. Intervals must be unique.
 ::
@@ -77,7 +77,7 @@ a == b; // true
 ::
 
 SECTION:: Aliases
-The alias system provides a more convenient way of specifying conventional symbols. When generating a range, the user may use, either, the alias, or its verbose equivalent:
+The alias system is implemented via the MEAlias class, and provides a more convenient way of specifying conventional symbols. When generating a range, the user may use, either, the alias, or its verbose equivalent:
 
 CODE::
 a = MENoteRange.new("F#m3P5m7");
@@ -103,7 +103,7 @@ TABLE::
 ## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
 ## Diminished triad || Dim, dim, Dim5, dim5, o5, 05, o, 0 || m3d5
 ## Minor triad 	    || m, Mi, mi, Min, min, - || m3P5
-## Major triad 	    || ""FOOTNOTE::A root note without any symbol (e.g. EMPHASIS::C, F#, Bb,:: etc.) defaultas to the major triad.::, M, Ma, ma, Maj, maj, ^, Neapolitan, neapolitan, Nap, nap, Na, na || M3P5
+## Major triad 	    || ''FOOTNOTE::A root note without any symbol (e.g. EMPHASIS::C, F#, Bb,:: etc.) defaults to the major triad.::, M, Ma, ma, Maj, maj, ^, Neapolitan, neapolitan, Nap, nap, Na, na || M3P5
 ## Augmented triad  || Aug, aug, Aug5, aug5, +5, + 	|| M3A5
 ::
 
@@ -176,12 +176,12 @@ TABLE::
 SUBSECTION:: Scale aliases
 
 
-SUBSUBSECTION:: Penthatonic scales
+SUBSUBSECTION:: Pentatonic scales
 
 TABLE::
 ## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
-## Major penthatonic || MajorPenthatonic, majorpenthatonic, MajPent, majpent, MPent, Mpent, MP, Mp, ^P, ^p || M2M3P5M6
-## Minor penthatonic || MinorPenthatonic, minorpenthatonic, MinPent, minpent, mPent, mpent, mP, mp, -P, -p || m3P4P5m7
+## Major pentatonic || MajorPentatonic, majorpentatonic, MajPent, majpent, MPent, Mpent, MP, Mp, ^P, ^p || M2M3P5M6
+## Minor pentatonic || MinorPentatonic, minorpentatonic, MinPent, minpent, mPent, mpent, mP, mp, -P, -p || m3P4P5m7
 ::
 
 SUBSUBSECTION:: Hexatonic scales

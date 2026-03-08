@@ -4,7 +4,7 @@ categories:: MusicEngine Library
 related:: Classes/MERange, Classes/MENote, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
-MENoteRange is MusicEngines primary tool for generating and accessing
+MENoteRange is MusicEngine's primary tool for accessing collections of MENote objects.
 
 
 CLASSMETHODS::
@@ -16,14 +16,15 @@ copymethod:: MERange, *new
 METHOD:: newFromName
 Allow the creation of a new MENoteRange from a sequence of note names.
 
-ARGUMENT:: ... args
-Sequence of note names as string, with octave number.
+ARGUMENT:: ... names
+Sequence of note names as string, each including octave number (e.g.: EMPHASIS::"C4", "E4", "G4", "C5"::).
 
 ARGUMENT:: kwargs
-Additional key value pairs containing user assigned data. EMPHASIS::value:: should always be an array the size of EMPHASIS::args::, and EMPHASIS::key:: an identifier.
+Optional keyword arguments for attaching user data to each MENote object. Each value must be an array of the same length as the number of notes provided (i.e. the size of CODE::args::). The keys become identifiers stored in each MENote's internal data dictionary.
 
 NOTE::
-If the user wishes to add interval data, the key CODE::\degrees:: should be used. Internally CODE::\degrees:: creates a new MEInterval object for each MENote and assigns it to the property CODE::degree::. Remaining key value pairs will be stored in a data dictionary.
+The special keyword CODE::\degrees:: is used to attach interval information to each note. The value must be an array of interval symbols (e.g.: CODE::[\P1, \M3, \P5, ...]::). Internally each symbol is used to instantiate a MEInterval object, which is then assigned to the CODE::degree:: property of the corresponding MENote.
+All other keyword arguments are stored directly (without conversion) in each MENote's data dictionary.
 ::
 
 returns:: A new MENoteRange object.
@@ -38,14 +39,14 @@ r = MENoteRange.newFromName(
 );
 
 // Create a pattern
-t = TempoClock(120/60);
+t = TempoClock.new(120/60);
 Pbind(
-	midinote: r.asPseq(\midi, 1, 0),
-	dur: r.asPseq(\dur, 1, 0)
+	\midinote, r.asPseq(\midi, 1, 0),
+	\dur, r.asPseq(\dur, 1, 0)
 ).play(t);
 )
 
-// degree data
+// Degree data
 r[0].degree;
 r[0].number;
 r[0].quality;
@@ -81,9 +82,14 @@ r[20..25].freq;
 
 
 METHOD:: names
-Returns an array of note names, in scientific notation (EMPHASIS::A::-EMPHASIS::G::). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
+Returns an array of note names in scientific notation (EMPHASIS::A::-EMPHASIS::G::). The argument EMPHASIS::charSet:: should be of type Symbol, and allows the user to choose between different characters sets to represent the accidental signs. The argument EMPHASIS::withOctave:: is a Boolean flag that determines whether an octave number should be appended to the string.
 
-NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+LIST::
+## CODE::\ascii:: for ASCII characters (# and b),
+## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
+## CODE::\m21:: for a format compatible with the Python's module music21 (# and -).
+::
 ::
 
 CODE::
@@ -95,9 +101,14 @@ r[20..25].names(withOctave: false); // Names with no octave number
 
 
 METHOD:: sol
-Returns an array of note names using the solfege naming convention (Fixed Do). CODE::charSet:: allows the user to choose different characters to represent the accidental signs, and CODE::withOctave:: determines whither an octave number should be appended to the string.
+Similar to CODE::names::, but uses the fixed-do Solfège naming convention.
 
-NOTE:: EMPHASIS::charSet:: accepts the following values: CODE::\ascii::, for ASCII characters; CODE::\unic::, for Unicode characters; and CODE::\m21::, for a format compatible with the Pythons module music21. CODE::\m21:: changes the flat sign "b" to "-" (e.g.: EMPHASIS::"Eb4":: = EMPHASIS::"E-4"::).
+NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+LIST::
+## CODE::\ascii:: for ASCII characters (# and b),
+## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
+## CODE::\m21:: for a format compatible with the Python's module music21 (# and -).
+::
 ::
 
 CODE::
@@ -109,7 +120,7 @@ r[20..25].sol(withOctave: false); // Names with no octave number
 
 
 METHOD:: degrees
-Returns an array with the degrees.
+Returns an array of interval symbols.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -148,7 +159,7 @@ r.root(true); // 6
 
 
 METHOD:: intervals
-Returns an array with the intervals that make up the range. If EMPHASIS::asSymbol:: is set to CODE::true::, an array of symbol is returned, otherwise it returns an array with a float representation of the intervals.
+Returns an array with the intervals that make up the range. If EMPHASIS::asSymbol:: is set to CODE::true::, an array of interval symbol is returned, otherwise it returns an array with a float representation of the intervals.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -165,8 +176,8 @@ CODE::
 r = MENoteRange.new("F#-7");
 
 p = r[20..30];
-p.setValues(\dur, 0.5); // Assignes duration values
-p.setValues(\leg, 0.2); // Assignes articulation values
+p.setValues(\dur, 0.5); // Assigns duration values
+p.setValues(\leg, 0.2); // Assigns articulation values
 
 Pbind(
 	\midinote, p.asPseq(\midi, 1, 0),
@@ -176,12 +187,12 @@ Pbind(
 )
 ::
 
+
 SUBSECTION:: Trimming methods
 
 
-
 METHOD:: trimO
-Returns all MENote objects with octave numbers MATH::\ge:: EMPHASIS::fromOctave:: and MATH::\le:: EMPHASIS::toOctave::.
+Returns all MENote with octave numbers MATH::\ge:: EMPHASIS::fromOctave:: and MATH::\le:: EMPHASIS::toOctave::.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -190,31 +201,34 @@ r.trimO(4, 5); // Returns items from octaves 4 and 5
 
 
 METHOD:: trimM
-Returns all MENote objects with MIDI values MATH::\ge:: EMPHASIS::fromMIDI:: and MATH::\le:: EMPHASIS::toMIDI::.
+Returns all MENote with MIDI values MATH::\ge:: EMPHASIS::fromMIDI:: and MATH::\le:: EMPHASIS::toMIDI::.
 
 CODE::
 r = MENoteRange.new("F#-7");
 r.trimM(48, 72); // Range between MIDI notes 48 and 72
 ::
 
+
 METHOD:: trimF
-Returns all MENote Objects with frequency values MATH::\ge:: EMPHASIS::fromFreq:: and MATH::\le:: EMPHASIS::toFreq::.
+Returns all MENote with frequency values MATH::\ge:: EMPHASIS::fromFreq:: and MATH::\le:: EMPHASIS::toFreq::.
 
 CODE::
 r = MENoteRange.new("F#-7");
-r.trimM(500, 1000); // Range between 500Hz and 1000Hz
+r.trimF(500, 1000); // Range between 500Hz and 1000Hz
 ::
 
+
 METHOD:: trimD
-Returns all MENote objects starting from the first instance of EMPHASIS::fromDegree::, over the bottom of the range, to the last instance of EMPHASIS::toDegree::, under the top of the range.
+Returns all MENote starting from the first occurrence of EMPHASIS::fromDegree::, searching upwards from the bottom, to the last occurrence of EMPHASIS::toDegree::, searching downwards from the top.
 
 CODE::
 r = MENoteRange.new("F#-7");
 r.trimD(\P1, \P5); // From the first P1 found, to the last P5 found
 ::
 
+
 METHOD:: trimN
-Returns all MENote objects starting from the first instance of EMPHASIS::fromName::, over the bottom of the range, to the last instance of EMPHASIS::toName::, under the top of the range.
+Returns all MENote starting from the first instance of EMPHASIS::fromName::, searching upwards from the bottom, to the last occurrence of EMPHASIS::toName::, searching downwards from the top.
 
 NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
 ::
@@ -224,16 +238,18 @@ r = MENoteRange.new("F#-7");
 r.trimN("F#", "C#"); // From the first F# found, to the last C# found
 ::
 
+
 METHOD:: bTrimO
-Trims the bottom of the range by returning all MENote objects with octave numbers MATH::\ge:: EMPHASIS::fromOctave::.
+Trims the bottom of the range by returning all MENote objects with octave numbers MATH::\ge:: EMPHASIS::fromOctave::. If EMPHASIS::fromOctave:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 r.bTrimO(7); // Returns octaves 7, 8 and 9
 ::
 
+
 METHOD:: bTrimM
-Trims the bottom of the range by returning all MENote objects with MIDI values MATH::\ge:: EMPHASIS::fromMIDI::.
+Trims the bottom of the range by returning all MENote objects with MIDI values MATH::\ge:: EMPHASIS::fromMIDI::. If EMPHASIS::fromMIDI:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -241,8 +257,9 @@ c = r.bTrimM(100); // From MIDI value 100
 c[0].midi;         // 100
 ::
 
+
 METHOD:: bTrimF
-Trims the bottom of the range by returning all MENote objects with frequency values MATH::\ge:: EMPHASIS::fromFreq::.
+Trims the bottom of the range by returning all MENote objects with frequency values MATH::\ge:: EMPHASIS::fromFreq::. If EMPHASIS::fromFreq:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -250,16 +267,18 @@ c = r.bTrimF(2000); // From 2000Hz
 c[0].freq;          // Closest at 2217.46Hz
 ::
 
+
 METHOD:: bTrimD
-Trims the bottom of the range by starting the sequence at the first instance of a MENote that matches EMPHASIS::fromDegree::.
+Trims the bottom of the range by starting the sequence at the first instance of a MENote that matches EMPHASIS::fromDegree::. If EMPHASIS::fromDegree:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 c = r.bTrimD(\m3); // Starts from A-1:m3
 ::
 
+
 METHOD:: bTrimN
-Trims the bottom of the range by starting the sequence at the first instance of a MENote that matches EMPHASIS::fromName::.
+Trims the bottom of the range by starting the sequence at the first instance of a MENote that matches EMPHASIS::fromName::. If EMPHASIS::fromName:: is not valid, CODE::nil:: is returned.
 
 NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
 ::
@@ -269,40 +288,45 @@ r = MENoteRange.new("F#-7");
 c = r.bTrimN("A"); // Starts from A-1:m3
 ::
 
+
 METHOD:: tTrimO
-Trims the top of the range by returning all MENote objects with octave numbers MATH::\le:: EMPHASIS::toOctave::.
+Trims the top of the range by returning all MENote objects with octave numbers MATH::\le:: EMPHASIS::toOctave::. If EMPHASIS::toOctave:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 c = r.tTrimO(4); // Ends with the last note with octave 4
 ::
 
+
 METHOD:: tTrimM
-Trims the top of the range by returning all MENote objects with MIDI values MATH::\le:: EMPHASIS::toMIDI::.
+Trims the top of the range by returning all MENote objects with MIDI values MATH::\le:: EMPHASIS::toMIDI::. If EMPHASIS::toMIDI:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 c = r.tTrimM(48);
 ::
 
+
 METHOD:: tTrimF
-Trims the top of the range by returning all MENote objects with frequency values MATH::\le:: EMPHASIS::toFreq::.
+Trims the top of the range by returning all MENote objects with frequency values MATH::\le:: EMPHASIS::toFreq::. If EMPHASIS::toFreq:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 c = r.tTrimF(100);
 ::
 
+
 METHOD:: tTrimD
-Trims the top of the range by ending the sequence at the last instance of a MENote that matches EMPHASIS::toDegree::.
+Trims the top of the range by ending the sequence at the last instance of a MENote that matches EMPHASIS::toDegree::. If EMPHASIS::toDegree:: is not valid, CODE::nil:: is returned.
 
 CODE::
 r = MENoteRange.new("F#-7");
 c = r.tTrimD(\m3);
 ::
 
+
 METHOD:: tTrimN
-Trims the top of the range by ending the sequence at the last instance of a MENote that matches EMPHASIS::toName::.
+Trims the top of the range by ending the sequence at the last instance of a MENote that matches EMPHASIS::toName::. If EMPHASIS::toName:: is not valid, CODE::nil:: is returned.
 
 NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
 ::
@@ -312,8 +336,9 @@ r = MENoteRange.new("F#-7");
 c = r.tTrimD("A");
 ::
 
+
 METHOD:: ><
-Shorthand from all double-ended trimming methods. The argument EMPHASIS::limits:: accepts an array of size 2, where both values are of the same type. Numeric values should be sorted from smallest to greatest.
+Shorthand from all double-ended trimming methods. The argument EMPHASIS::limits:: accepts an array of size 2, where both values are of the same type. Numeric values should be sorted from smallest to greatest.  If EMPHASIS::limits:: are not valid, CODE::nil:: is returned.
 
 NOTE::
 Depending on the input >< will call on different methods:
@@ -337,8 +362,9 @@ r >< [500.0,10000.0] >< [\P1,\P1] >< ["A","E"];
 r.trimF(500.0, 10000.0).trimD(\P1, \P1).trimN("A", "E");
 ::
 
+
 METHOD:: |>
-Shorthand for all bottom trimming methods.
+Shorthand for all bottom trimming methods. If EMPHASIS::limit:: is not valid, CODE::nil:: is returned.
 
 NOTE::
 Depending on the input |> will call on different methods:
@@ -362,8 +388,9 @@ r |> 1000.0 |> \P1 |> "A";
 r.bTrimF(1000.0).bTrimD(\P1).bTrimN("A");
 ::
 
+
 METHOD:: <|
-Shorthand for all top trimming methods.
+Shorthand for all top trimming methods. If EMPHASIS::limit:: is not valid, CODE::nil:: is returned.
 
 NOTE::
 Depending on the input <| will call on different methods:
@@ -387,12 +414,12 @@ r <| 100.0 <| \P1 <| "E";
 r.tTrimF(100.0).tTrimD(\P1).tTrimN("E");
 ::
 
+
 SUBSECTION:: Filtering methods
 
 
-
 METHOD:: filterD
-Returns a MENoteRange with all instances of MENote objects with mathcing EMPHASIS::degrees:: removed.
+Returns a MENoteRange with all instances of MENote objects with matching EMPHASIS::degrees:: removed.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -400,10 +427,10 @@ r.filterD(\P1, \P5); // Removes all P1 and P5 notes
 ::
 
 METHOD:: filterN
-Returns a MENoteRange with all instances of MENote objects with mathcing EMPHASIS::names:: removed.
+Returns a MENoteRange with all instances of MENote objects with matching EMPHASIS::names:: removed.
 
 NOTE::
-Note names may include octave numbers or not. Names with no octave are not uniques, so all items with maching names will be removed. Names with octave, on the other hand, are unique and allow for the removal of specific items.
+Note names may include octave numbers or not. Names with no octave are not unique, so all items with matching names will be removed. Names with octave, on the other hand, are unique and allow for the removal of specific items.
 ::
 
 CODE::
@@ -443,7 +470,7 @@ a == b; // true
 
 
 METHOD:: span
-Returns a MENoteRange with MENotes filtered such that notes with degrees under the octave are separeted from those with degrees above. This method can only be applyed to ranges with symbols that contain degrees larger than a seventh (e.g.: EMPHASIS::"F#-13"::). This method creates a pattern that spans two octaves before repeating.
+Returns a MENoteRange with MENotes filtered such that notes with degrees under the octave are separated from those with degrees above. This method can only be applied to ranges with symbols that contain degrees larger than a seventh (e.g.: EMPHASIS::"F#-13"::). This method creates a pattern that spans two octaves before repeating.
 
 NOTE::
 The sequence may start from any range note.
@@ -480,36 +507,45 @@ c.span
 ::
 
 
-SUBSECTION:: User assigned data
-
+SUBSECTION:: User-assigned data
 
 
 METHOD:: setValue
 Sets single EMPHASIS::value:: to all data dictionaries, and associates them to a EMPHASIS::key::.
 
 NOTE::
-If EMPHASIS::inplace:: is set to CODE::false::, the method returns a copy of the range, and prevents data contamination.
+If EMPHASIS::inplace:: is set to CODE::false::, the method returns a copy of the range. This prevents data contamination.
 ::
 
 CODE::
-r = MENoteRange.new("F#-7");
+a = MENoteRange.new("F#-7");
 
 // Sets value 1 to key \dur in all dictionaries
-c = r[20..25].setValue(\dur, 1, inplace: true);
+c = a[20..25].setValue(\dur, 1, inplace: true);
 
 // Returns array with all values associated with \dur
 c.getValues(\dur);
 
-// Returns value from first MENote from the sequence
-c[0].get(\dur);
-c[0].data[\dur];
-
 // We get data contamination
-r.getValues(\dur);
+a.getValues(\dur); // [..., nil, 1, ..., 1, nil, ...]
+
+
+// Alternativelly, with inplace set to false:
+b = MENoteRange.new("F#-7");
+c = b[20..25].setValue(\dur, 1, inplace: false);
+c.getValues(\dur);
+
+// No contamination
+b.getValues(\dur); // ERROR: Key 'dur' is not defined.
 ::
+
 
 METHOD:: setValues
 Sets a EMPHASIS::sequence:: of values to the data dictionaries, by position, and associates them to a EMPHASIS::key::. EMPHASIS::sequence:: should be of the size of range.
+
+NOTE::
+If EMPHASIS::inplace:: is set to CODE::false::, the method returns a copy of the range. This prevents data contamination.
+::
 
 CODE::
 (
@@ -537,8 +573,13 @@ Pbind(
 )
 ::
 
+
 METHOD:: setFunc
-Sets a values in all data dictionaries by evaluating a EMPHASIS::function:: and associates them to a EMPHASIS::key::.
+Sets a values to all data dictionaries by evaluating a EMPHASIS::function:: and associates them to a EMPHASIS::key::.
+
+NOTE::
+If EMPHASIS::inplace:: is set to CODE::false::, the method returns a copy of the range. This prevents data contamination.
+::
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -559,6 +600,7 @@ Pbind(
 )
 ::
 
+
 METHOD:: getValues
 Returns an array with all the values associated with a given EMPHASIS::key::. If the EMPHASIS::key:: does not exist an Error is thrown.
 
@@ -566,11 +608,12 @@ CODE::
 r = MENoteRange.new("F#-7");
 r = r[20..30];
 
-r.setValue(\amp, 1, inplace: true);
+r.setValue(\amp, 1);
 
 r.getValues(\amp); // Returns array of values
 r.getValues(\dur); // ERROR: Key 'dur' is not defined.
 ::
+
 
 METHOD:: getKeys
 Returns a set with all the different keys stored in the dictionaries.
@@ -579,12 +622,13 @@ CODE::
 r = MENoteRange.new("F#-7");
 r = r[20..30];
 
-r.setValue(\amp, 0.5, inplace: true);
-r.setValue(\dur, 1, inplace: true);
-r.setValue(\leg, 0.2, inplace: true);
+r.setValue(\amp, 0.5);
+r.setValue(\dur, 1);
+r.setValue(\leg, 0.2);
 
 r.getKeys; // Set[leg, dur, amp]
 ::
+
 
 METHOD:: clearValues
 Clears all values associated with a EMPHASIS::key::.
@@ -593,12 +637,13 @@ CODE::
 r = MENoteRange.new("F#-7");
 r = r[20..30];
 
-r.setValue(\dur, 0.5, inplace: true);
+r.setValue(\dur, 0.5);
 
 r.getValues(\dur);   // [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
 r.clearValues(\dur); // Clears values associated to \dur
 r.getValues(\dur);   // ERROR: Key 'dur' is not defined.
 ::
+
 
 METHOD:: clearDict
 Clears all values stored in the data dictionaries.
@@ -607,8 +652,8 @@ CODE::
 r = MENoteRange.new("F#-7");
 r = r[20..30];
 
-r.setValue(\amp, 0.5, inplace: true);
-r.setValue(\dur, 1, inplace: true);
+r.setValue(\amp, 0.5);
+r.setValue(\dur, 1);
 
 r.getKeys;   // Set[amp, dur]
 r.clearDict; // Clears all data
@@ -617,6 +662,7 @@ r.getKeys;   // Set[]
 
 
 SUBSECTION:: Range transposition
+
 
 METHOD:: >>
 Transposes all range notes up, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.
@@ -648,6 +694,7 @@ Routine({
 }).play;
 )
 ::
+
 
 METHOD:: <<
 Transposes all range notes down, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.

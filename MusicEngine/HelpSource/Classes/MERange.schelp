@@ -23,11 +23,11 @@ Creates a new MERange object. It also works as the primary constructor for MENot
 ARGUMENT:: input
 The EMPHASIS::input:: argument may take a string with the range symbol required (e.g.: EMPHASIS::"Cmaj7"::, EMPHASIS::"Em3P5"::, EMPHASIS::"F#"::, etc.), or an integer size.
 
-NOTE:: The Integer instantiation is mostly meant to be used internally, in conjunction with the LINK::Classes/MERange#*with:: method.
+NOTE:: The integer instantiation is mostly meant to be used internally, in conjunction with the LINK::Classes/MERange#*with:: method.
 ::
 
 numberedList::
-## A String will return a collection of MENote objects based on the provided symbol.
+## A string will return a collection of MENote objects based on the provided symbol.
 NOTE::
 For more information on how to write valid symbols, see page LINK::Reference/RangeSymbols::.
 ::
@@ -67,7 +67,7 @@ SUBSECTION:: Data retrieval
 
 
 METHOD:: notes
-Returns an Array of MENote objects (not a MENoteRange).
+Returns an array of MENote objects (not a MENoteRange).
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -219,6 +219,18 @@ r[20..25].reverseDo({ |n, i| "#% : %".format(i, n).postln }); // Function prints
 
 
 
+METHOD:: reverse
+Returns the range with items in reverse order.
+
+CODE::
+r = MENoteRange.new("F#-7");
+r = r[20..25];
+
+r;         // Items in regular order
+r.reverse; // Items in reverse order
+::
+
+
 METHOD:: select
 Returns a new collection with every item for which the EMPHASIS::function:: evaluates to CODE::true::.
 
@@ -242,7 +254,7 @@ r.reject({ |n| n.midi >= 60 }); // Returns every item with MIDI value lesser tha
 METHOD:: collect
 Collects item from a collection based on the non-boolean evaluation of the EMPHASIS::function:: provided.
 
-NOTE:: Contrary to CODE::select:: and CODE::reject::, which return a new MENoteRange object, CODE::collect:: returns a regular Array.
+NOTE:: Contrary to CODE::select:: and CODE::reject::, which return a new MENoteRange object, CODE::collect:: returns a regular array.
 ::
 
 CODE::
@@ -666,7 +678,7 @@ r[23].octave;             // 4
 
 
 METHOD:: indicesOfDegree
-Returns an Array containing indeces for all MENote objects with matching EMPHASIS::degree::.
+Returns an array containing indeces for all MENote objects with matching EMPHASIS::degree::.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -677,7 +689,7 @@ i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
 
 
 METHOD:: indicesOfName
-Returns an Array containing indeces for all MENote objects with matching EMPHASIS::name::.
+Returns an array containing indeces for all MENote objects with matching EMPHASIS::name::.
 
 NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.: EMPHASIS::"C"::, EMPHASIS::"F#"::, etc.).
 ::
@@ -691,7 +703,7 @@ i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
 
 
 METHOD:: indexOfName
-Takes a CODE::String:: describing the note name, with an appending octave number, and returns the corresponding index.
+Takes a string describing the note name, with an appending octave number, and returns the corresponding index.
 
 NOTE:: This method requires a note name STRONG::with:: an octave number (e.g.: EMPHASIS::"C4"::, EMPHASIS::"F#5"::, etc.).
 ::
