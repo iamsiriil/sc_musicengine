@@ -72,70 +72,70 @@ MENoteRange : MERange {
 
 	bTrimO { |fromOctave|
 		var fIndex = this.firstIndexInOctave(fromOctave);
-		^this.copyRange(fIndex);
+		^this.copyRange(fIndex, nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimM { |fromMIDI|
 		var fIndex = this.firstOverMIDI(fromMIDI);
-		^this.copyRange(fIndex);
+		^this.copyRange(fIndex, nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimF { |fromFreq|
 		var fIndex = this.firstOverFreq(fromFreq);
-		^this.copyRange(fIndex);
+		^this.copyRange(fIndex, nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimD { |fromDegree|
 		var fIndex = this.firstIndexOfDegree(fromDegree);
-		^this.copyRange(fIndex);
+		^this.copyRange(fIndex, nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimN { |fromName|
 		var fIndex = this.firstIndexOfName(fromName);
-		^this.copyRange(fIndex);
+		^this.copyRange(fIndex, nil);
 	}
 
 	/****************************************************************************************/
 
 	tTrimO { |toOctave|
 		var tIndex = this.lastIndexInOctave(toOctave);
-		^this.copyRange(tIndex);
+		^this.copyRange(nil, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimM { |toMIDI|
 		var tIndex = this.firstUnderMIDI(toMIDI);
-		^this.copyRange(tIndex);
+		^this.copyRange(nil, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimF { |toFreq|
 		var tIndex = this.firstUnderFreq(toFreq);
-		^this.copyRange(tIndex);
+		^this.copyRange(nil, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimD { |toDegree|
 		var tIndex = this.lastIndexOfDegree(toDegree);
-		^this.copyRange(tIndex);
+		^this.copyRange(nil, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	tTrimN { |toName|
 		var tIndex = this.lastIndexOfName(toName);
-		^this.copyRange(tIndex);
+		^this.copyRange(nil, tIndex);
 	}
 
 	/****************************************************************************************/
