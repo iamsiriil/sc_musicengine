@@ -6,12 +6,17 @@
 
 MENoteRange : MERange {
 
-	*newFromName { |...args, kwargs|
-		var newR = this.new(args.size);
+	*newFromName { |... names, kwargs|
+		var newR = this.new(names.size);
 
-		args.do { |n| newR.add(MENote.newFromName(n)) };
+		names.do { |n| newR.add(MENote.newFromName(n)) };
 
 		kwargs.keysValuesDo { |k, v|
+
+			if (v.size != names.size) {
+				Error("Array of values must be of same size as names.").throw;
+			};
+
 			if (k == \degrees) {
 				v.do { |i, j| newR[j].degree = i };
 			} {
@@ -356,7 +361,7 @@ MENoteRange : MERange {
 
 	>> { |interval|
 		var arr = Array.new(this.size);
-		var newN;
+		var newN, newS;
 
 		this.do { |n|
 			if ((newN = n.transposeUp(interval)).notNil) {
