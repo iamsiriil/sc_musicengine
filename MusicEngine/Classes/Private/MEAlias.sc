@@ -58,9 +58,9 @@ MEAlias {
 			"M3P5M7M9P11M13" -> Set['M713', 'Ma13', 'ma13', 'Ma713', 'ma713', 'Maj13', 'maj13', 'Maj713', 'maj713', '^13', '^713'],
 
 			// SCALES
-			// Penthatonic scales
-			"M2M3P5M6" -> Set['MajorPenthatonic', 'majorpenthatonic', 'MajPent', 'majpent', 'MPent', 'Mpent', 'MP', 'Mp', '^P', '^p'],
-			"m3P4P5m7" -> Set['MinorPenthatonic', 'minorpenthatonic', 'MinPent', 'minpent', 'mPent', 'mpent', 'mP', 'mp', '-P', '-p'],
+			// Pentatonic scales
+			"M2M3P5M6" -> Set['MajorPentatonic', 'majorpentatonic', 'MajPent', 'majpent', 'MPent', 'Mpent', 'MP', 'Mp', '^P', '^p'],
+			"m3P4P5m7" -> Set['MinorPentatonic', 'minorpentatonic', 'MinPent', 'minpent', 'mPent', 'mpent', 'mP', 'mp', '-P', '-p'],
 
 			// Hexatonic scales
 			"M2M3A4A5A6" -> Set['WholeTone', 'wholetone', 'WT', 'wt', 'AugS', 'augs', '+S', '+s'],
