@@ -8,7 +8,6 @@ MEAlias {
 	classvar <aliases;
 
 	*initClass {
-
 		aliases = Dictionary[
 			// CHORDS
 			// Power chords
@@ -43,9 +42,9 @@ MEAlias {
 			"M2P4P5" -> Set['Sus24', 'sus24', 'S24', 's24'],
 
 			// Nineth chords
-			"m3P5m7M9" -> Set['m79', 'Mi79', 'mi79', 'Min79', 'min79', '-9', '-79'],
+			"m3P5m7M9" -> Set['m79', 'Mi9', 'mi9', 'Mi79', 'mi79', 'Min9', 'min9', 'Min79', 'min79', '-9', '-79'],
 			"M3P5m7M9" -> Set['Dom9', 'dom9', 'Dom79', 'dom79', '9'],
-			"M3P5M7M9" -> Set['M79', 'Ma79', 'ma79', 'Maj79', 'maj79', '^9', '^79'],
+			"M3P5M7M9" -> Set['M79', 'Ma9', 'ma9', 'Ma79', 'ma79', 'Maj9', 'maj9', 'Maj79', 'maj79', '^9', '^79'],
 
 			// Eleventh chords
 			"m3P5m7M9P11" -> Set['m711', 'Mi11', 'mi11', 'Mi711', 'mi711', 'Min11', 'min11', 'Min711', 'min711', '-11', '-711'],
@@ -75,7 +74,7 @@ MEAlias {
 			"M2m3P4P5m6m7" -> Set['Aeolian', 'aeolian', 'Ae', 'ae', 'MinorS', 'minors', 'ms', '-s'],
 			"m2m3P4d5m6m7" -> Set['Locrian', 'locrian', 'Lo', 'lo'],
 
-			"M2m3P4P5m6M7" -> Set['HarmonicMinor', 'harmonichminor', 'HMinor', 'Hminor', 'Hm', 'hm', 'H-', 'h-'],
+			"M2m3P4P5m6M7" -> Set['HarmonicMinor', 'harmonicminor', 'HMinor', 'Hminor', 'Hm', 'hm', 'H-', 'h-'],
 			"M2M3A4P5M6m7" -> Set['LydianDominant', 'lydiandominant', 'LydianD', 'lydiand', 'Ly7', 'ly7', 'LD', 'ld'],
 
 			// Octatonic scales
@@ -85,7 +84,6 @@ MEAlias {
 			// Chromatic scales
 			"m2M2m3M3P4d5P5m6M6m7M7" -> Set['Chromatic', 'chromatic', 'CS', 'cs', 'C', 'c']
 		];
-
 		^this;
 	}
 
@@ -96,10 +94,7 @@ MEAlias {
 		MEDebug.log(thisMethod, 1, [alias]);
 
 		aliases.keysValuesDo { |k, v|
-
-			if (v.includes(alias.asSymbol)) {
-				^k;
-			};
+			if (v.includes(alias.asSymbol)) { ^k };
 		};
 		^nil;
 	}
