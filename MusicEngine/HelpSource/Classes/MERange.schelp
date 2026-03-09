@@ -154,6 +154,20 @@ r[20];                           // Db4 at index 20
 ::
 
 
+METHOD:: ==
+Comparison operator for equality.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+a = r[20..30];
+b = r[20..30];
+a == b;        // Ranges a and b are equal
+
+c = r[20..25];
+a == c;        // Ranges a and c are not equal
+::
+
 
 SUBSECTION:: Copy methods
 
@@ -170,7 +184,6 @@ r[0] === c[0] // false
 ::
 
 
-
 METHOD:: copyRange
 Returns a subrange, from EMPHASIS::start:: to EMPHASIS::end::.
 
@@ -180,7 +193,6 @@ c = r.copyRange(10,20);  // Returns subrange from index 10 to 20
 // Same as:
 r[10..20];
 ::
-
 
 
 METHOD:: copySeries
@@ -194,9 +206,7 @@ r[10,2..20];
 ::
 
 
-
 SUBSECTION:: Iterators
-
 
 
 METHOD:: do
@@ -208,7 +218,6 @@ r[20..25].do({ |n, i| "#% : %".format(i, n).postln }); // Function prints every 
 ::
 
 
-
 METHOD:: reverseDo
 Same as CODE::do:: but in reverse order.
 
@@ -216,7 +225,6 @@ CODE::
 r = MENoteRange.new("F#-7");
 r[20..25].reverseDo({ |n, i| "#% : %".format(i, n).postln }); // Function prints every index and item, in reverse
 ::
-
 
 
 METHOD:: reverse
@@ -240,7 +248,6 @@ r.select({ |n| n.midi >= 60 }); // Returns every item with MIDI value greater th
 ::
 
 
-
 METHOD:: reject
 Rejects every item of a collection, for which the EMPHASIS::function:: evaluates to CODE::true::.
 
@@ -248,7 +255,6 @@ CODE::
 r = MENoteRange.new("F#-7");
 r.reject({ |n| n.midi >= 60 }); // Returns every item with MIDI value lesser than 60
 ::
-
 
 
 METHOD:: collect
@@ -261,7 +267,6 @@ CODE::
 r = MENoteRange.new("F#-7");
 r.collect({ |n| n.midi }); // Returns all MIDI values from each of the MEnotes
 ::
-
 
 
 SUBSECTION:: Clip, wrap, fold and pyramid
@@ -281,8 +286,6 @@ r.clipAt(7);   // F#6:P1
 ::
 
 
-
-
 METHOD:: wrapAt
 If MATH::index > (size - 1)::, CODE::wrapAt:: will keep counting back from the beginning, for the remaining positions.
 
@@ -295,8 +298,6 @@ r.wrapAt(5);   // F#6:P1
 r.wrapAt(6);   // E5:m7
 r.wrapAt(7);   // F#5:P1
 ::
-
-
 
 
 METHOD:: foldAt
@@ -312,8 +313,6 @@ r.foldAt(6);   // E6:m7
 r.foldAt(7);   // C#6:P5
 ::
 
-
-
 METHOD:: clipExtend
 If EMPHASIS::index:: is greater than MATH::size - 1::, CODE::clipExtend:: will extend the collection by repeating the last item.
 
@@ -325,7 +324,6 @@ CODE::
 r = MENoteRange.new("F#-7");
 r[20..25].clipExtend(10); // Last E5 gets repeated 5 times
 ::
-
 
 
 METHOD:: wrapExtend
@@ -341,7 +339,6 @@ r[20..25].wrapExtend(10); // Last four items repeat the start of the sequence
 ::
 
 
-
 METHOD:: foldExtend
 if EMPHASIS::index:: is greater than MATH::size - 1::, CODE::foldExtend:: will extend the sequence by folding back from the last item.
 
@@ -353,7 +350,6 @@ CODE::
 r = MENoteRange.new("F#-7");
 r[20..25].foldExtend(10); // Sequence goes up to E5, then back down again to E4
 ::
-
 
 
 METHOD:: pyramid
@@ -376,35 +372,6 @@ c = r[20..25].pyramid(1);
 c[0] === c[1] // false
 ::
 
-SUBSECTION:: Operators
-
-copymethod:: SequenceableCollection, -|@|
-
-copymethod:: SequenceableCollection, -@@
-
-copymethod:: SequenceableCollection, -@|@
-
-
-
-METHOD:: ==
-Comparison operator for equality.
-
-CODE::
-r = MENoteRange.new("F#-7");
-
-a = r[20..30];
-b = r[20..30];
-a == b;        // Ranges a and b are equal
-
-c = r[20..25];
-a == c;        // Ranges a and c are not equal
-::
-
-
-
-copymethod:: Object, -===
-
-
 
 SUBSECTION:: Indexing methods
 
@@ -424,7 +391,6 @@ r.firstIndexInOctave(-2); // nil
 ::
 
 
-
 METHOD:: lastIndexInOctave
 Returns the index of the last MENote found with matching EMPHASIS::octave:: number. If EMPHASIS::octave:: MATH::> 9:: or MATH::< -1::, CODE::nil:: is returned.
 
@@ -440,7 +406,6 @@ r.lastIndexInOctave(10); // nil
 ::
 
 
-
 METHOD:: firstIndexOfDegree
 Returns the index of the first MENote found with a matching EMPHASIS::degree::. If the EMPHASIS::degree:: provided is not present in the range, CODE::nil:: is returned.
 
@@ -452,7 +417,6 @@ r.firstIndexOfDegree(\P4); // Minor seventh chord does not have a P4 degree
 ::
 
 
-
 METHOD:: lastIndexOfDegree
 Returns the index of the last MENote found with a matching EMPHASIS::degree::. If the EMPHASIS::degree:: provided is not present in the range, CODE::nil:: is returned.
 
@@ -462,7 +426,6 @@ r.lastIndexOfDegree(\m7); // 41
 r[41];                    // E9:m7
 r.lastIndexOfDegree(\P4); // Minor seventh chord does not have a P4 degree
 ::
-
 
 
 METHOD:: firstIndexOfName
@@ -479,7 +442,6 @@ r.firstIndexOfName("F");  // Current range does not have F natural
 ::
 
 
-
 METHOD:: lastIndexOfName
 Returns the index of the last MENote found with matching EMPHASIS::name::. If the EMPHASIS::name:: provided is not present in the range, CODE::nil:: is returned.
 
@@ -492,7 +454,6 @@ r.lastIndexOfName("F#"); // 42
 r[42];                   // F#9:P1
 r.lastIndexOfName("F");  // Current range does not have F natural
 ::
-
 
 
 METHOD:: firstOverMIDI
@@ -529,7 +490,6 @@ r.firstUnderMIDI(-2); // nil
 ::
 
 
-
 METHOD:: firstOverFreq
 Returns index of first MENote with frequency value MATH::\ge:: EMPHASIS::freq::.
 
@@ -558,7 +518,6 @@ r.firstUnderFreq(430); // 24
 r[22];                 // F#4:P1
 r[22].freq;            // 369.99Hz
 ::
-
 
 
 METHOD:: degreeOverMIDI
@@ -633,7 +592,6 @@ r[18].midi;                // 54
 ::
 
 
-
 METHOD:: nameOverFreq
 Returns first instance of MENote with matching EMPHASIS::name::, and frequency value MATH::\ge:: EMPHASIS::freq::.
 
@@ -646,7 +604,6 @@ r.nameOverFreq("C#", 440); // 24
 r[24];                     // C#5:P5
 r[24].freq;                // 554.36Hz
 ::
-
 
 
 METHOD:: nameUnderFreq
@@ -663,7 +620,6 @@ r[20].freq;                 // 227.18Hz
 ::
 
 
-
 METHOD:: degreeInOctave
 Returns index of MENote with matching EMPHASIS::degree::, in respective EMPHASIS::octave::.
 
@@ -676,7 +632,6 @@ r[23].octave;             // 4
 ::
 
 
-
 METHOD:: indicesOfDegree
 Returns an array containing indeces for all MENote objects with matching EMPHASIS::degree::.
 
@@ -685,7 +640,6 @@ r = MENoteRange.new("F#-7");
 i = r.indicesOfDegree(\P1); // [2, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42]
 i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
 ::
-
 
 
 METHOD:: indicesOfName
@@ -699,7 +653,6 @@ r = MENoteRange.new("F#-7");
 i = r.indicesOfName("C#"); // [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
 i.do { |i| "% : %".format(r[i].degree, r[i].name).postln };
 ::
-
 
 
 METHOD:: indexOfName

@@ -10,9 +10,6 @@ MENoteRange is MusicEngine's primary tool for accessing collections of MENote ob
 CLASSMETHODS::
 
 
-copymethod:: MERange, *new
-
-
 METHOD:: newFromName
 Allow the creation of a new MENoteRange from a sequence of note names.
 
@@ -58,9 +55,6 @@ INSTANCEMETHODS::
 
 
 SUBSECTION:: Data retrieval
-
-
-copymethod:: MERange, -notes
 
 
 METHOD:: midi
@@ -470,7 +464,7 @@ a == b; // true
 
 
 METHOD:: span
-Returns a MENoteRange with MENotes filtered such that notes with degrees under the octave are separated from those with degrees above. This method can only be applied to ranges with symbols that contain degrees larger than a seventh (e.g.: EMPHASIS::"F#-13"::). This method creates a pattern that spans two octaves before repeating.
+Returns a MENoteRange with MENotes filtered such that notes with degrees under the octave are separated from those with degrees above. This method can only be applied to ranges with symbols that contain degrees larger than a seventh (e.g.: EMPHASIS::"F#-13"::). If the range does not contain degrees over the seventh, the original range will be returned without modification. This method creates a pattern that spans two octaves before repeating.
 
 NOTE::
 The sequence may start from any range note.
@@ -481,10 +475,9 @@ This method should not be used after other filtering methods have been applied, 
 ::
 
 CODE::
-r = MENoteRange.new("F#-13");
-
 // Instead of having all the notes wrapped in an octave, as such:
 // P1 - M9 - m3 - P11 - P5 - M13 - m7
+r = MENoteRange.new("F#-13");
 c = r >< [4, 8] |> \P1;
 
 // The notes are ordered according to their distance to P1:
@@ -504,6 +497,11 @@ c.span
 // Starting from P11
 c = r >< [4, 8] |> \P11;
 c.span
+
+// Using span on a range without degrees over the seventh
+r = MENoteRange.new("F#-7");
+c = r.span; // Nothing has changed
+c == r;     // true
 ::
 
 

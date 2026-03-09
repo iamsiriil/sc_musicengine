@@ -149,9 +149,9 @@ SUBSUBSECTION:: Ninth chords
 
 TABLE::
 ## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
-## Minor seventh with major ninth || m79, Mi79, mi79, Min79, min79, -9, -79 || m3P5m7M9
+## Minor seventh with major ninth || m79, Mi9, mi9, Mi79, mi79, Min9, min9, Min79, min79, -9, -79 || m3P5m7M9
 ## Dominant seventh with major ninth || Dom9, dom9, Dom79, dom79, 9 || M3P5m7M9
-## Major seventh with major ninth || M79, Ma79, ma79, Maj79, maj79, ^9, ^79 || M3P5M7M9
+## Major seventh with major ninth || M79, Ma9, ma9, Ma79, ma79, Maj9, maj9, Maj79, maj79, ^9, ^79 || M3P5M7M9
 ::
 
 SUBSUBSECTION:: Eleventh chords
@@ -169,7 +169,7 @@ TABLE::
 ## STRONG::Description:: || STRONG::Alias:: || STRONG::Verbose syntax::
 ## Minor seventh with major ninth, perfect eleventh and major thirteenth || m713, Mi13, mi13, Mi713, mi713, Min13, min13, Min713, min713, -13, -713 || m3P5m7M9P11M13
 ## Dominant seventh with major ninth, perfect eleventh and major thirteenth || Dom13, dom13, Dom713, dom713, 13 || M3P5m7M9P11M13
-## Major seventh with major ninth, perfect eleventh and major thirteenth || M13, M713, Ma13, ma13, Ma713, ma713, Maj13, maj13, Maj713, maj713, ^13, ^713 || M3P5M7M9P11M13
+## Major seventh with major ninth, perfect eleventh and major thirteenth || M713, Ma13, ma13, Ma713, ma713, Maj13, maj13, Maj713, maj713, ^13, ^713 || M3P5M7M9P11M13
 ::
 
 
