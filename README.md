@@ -23,7 +23,7 @@ r = MENoteRange.new("F#Toby");
 ```
 
 * `MENoteRange` objects now behave as a true sequenceable collection.
-Upon instantiation the collection is directly returned, without the need to call on a `notes` property to access its items.
+Upon instantiation the collection is directly returned, without the need to call on the `notes` property to access its items.
 
 ```supercollider
 r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, C#0:P5, ..., F#9:P1]
@@ -32,18 +32,20 @@ r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, C#
 From this, most conventional indexing operations can be done.
 
 ```supercollider
-// Indexing
+r = MENoteRange.new("F#-7");
+
+/* Indexing */
 r[10];
 r.at(10);
 r @ 10;
 
-// Filtering ranges
+/* Filtering ranges */
 r[10..20];
 r[10..];
 r[..20];
 r.copyRange(10,20);
 
-// Filtering sequences
+/* Filtering series */
 r[10,2..40];
 r.copySeries(10,2,40);
 ```
@@ -51,6 +53,8 @@ r.copySeries(10,2,40);
 * Trimming can be done based on octave, MIDI, frequency, degree or note name.
 
 ```supercollider
+r = MENoteRange.new("F#-7");
+
 /* Double-ended trimming */
 
 r.trimO(4, 8);      // Returns range from octave 4 to 8
@@ -83,7 +87,7 @@ r.trimF(500.0, 5000.0).trimN("F#", "E");
 * It is now possible to filter MENote objects based on degree and name.
 
 ```supercollider
-r = MENoteRange.new("F#-7);
+r = MENoteRange.new("F#-7");
 r.filterD(\P1);   // Removes all notes with degree matching P1
 r.filterN("F#");  // Removes all notes with name matching F#
 r.filterN("F#4"); // Removes F#4 (note names with octave number are unique)
@@ -97,7 +101,7 @@ r >< [4, 6] |> \P1 | "A4" | "E5" | "C#6" | "F#6"; // MENoteRange[F#4:P1, C#5:P5,
 (r >< [4, 6] |> \P1).filterN("A4","E5","C#6","F#6");
 ```
 
-* New method span allow for note ranges containing degrees over the seventh, to be spread across two octaves.
+* New method `span` allows for note ranges containing degrees larger than a seventh, to be spread across two octaves.
 
 ```supercollider
 r = MENoteRange.new("F#-13");
