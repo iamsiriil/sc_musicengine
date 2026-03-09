@@ -361,7 +361,7 @@ MENoteRange : MERange {
 
 	>> { |interval|
 		var arr = Array.new(this.size);
-		var newN, newS;
+		var newN;
 
 		this.do { |n|
 			if ((newN = n.transposeUp(interval)).notNil) {
@@ -385,14 +385,16 @@ MENoteRange : MERange {
 		^this.species.with(nil, *arr);
 	}
 
-
 	/****************************************************************************************/
 
 	span {
-		var temp = Array(this.size);
-		var lt   = this.intervals(false).select { |i| i < 8 };
-		var bt   = this.intervals(false).select { |i| i >= 8 };
-		var rt, bool, ct = 0;
+		var lt = this.intervals(false).select { |i| i < 8 };
+		var gt = this.intervals(false).select { |i| i >= 8 };
+		var ct, rt, bool, temp;
+
+		if (gt.isEmpty) { ^this };
+
+		temp = Array(this.size);
 
 		if (this[0].number < 8.0) {
 			bool = true;
@@ -400,7 +402,7 @@ MENoteRange : MERange {
 			rt   = 0;
 		} {
 			bool = false;
-			ct   = bt.detectIndex { |i| i == this[0].number };
+			ct   = gt.detectIndex { |i| i == this[0].number };
 			rt   = 1;
 		};
 
@@ -415,10 +417,10 @@ MENoteRange : MERange {
 					ct = 0;
 				}
 			}
-			{ bool.not && (bt[ct] == n.number) && (rt == 1) } {
+			{ bool.not && (gt[ct] == n.number) && (rt == 1) } {
 				ct = ct + 1;
 				temp.add(n);
-				if (ct == bt.size) {
+				if (ct == gt.size) {
 					bool = true;
 					ct = 0;
 					rt = 0;
@@ -426,8 +428,6 @@ MENoteRange : MERange {
 			}
 			{ (n.number == lt[0]) && (rt == 0) } { rt = rt + 1 };
 		};
-
 		^this.class.with(meSymbol, *temp);
 	}
-
 }
