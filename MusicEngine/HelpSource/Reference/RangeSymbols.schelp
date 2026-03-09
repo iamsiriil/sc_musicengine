@@ -10,7 +10,7 @@ SECTION:: Verbose Syntax
 
 Ranges may be described by:
 LIST::
-## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::0:: to STRONG::5:: accidentals (#/b),
+## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::0:: to STRONG::3:: accidentals (#/b),
 ## using a letter to describe interval quality (EMPHASIS::d, m, P, M, A::), and
 ## using a number to represent the degree (EMPHASIS::1-14::)
 ::
