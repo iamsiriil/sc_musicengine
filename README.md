@@ -77,7 +77,7 @@ MENoteRange.new("F#OM2");    // Octatonic scale starting with M2, over F#
 MENoteRange.new("F#C");      // Chromatic scale, over F#
 ```
 
-> [|NOTE]
+> [!NOTE]
 > For more information the aliases available and their verbose equivalents, see the [Range Symbols]() wiki page.
 
 ### 2. Verbose Syntax 
