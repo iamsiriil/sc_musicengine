@@ -1,143 +1,223 @@
 # MusicEngine
 
-__MusicEngine__ is a dynamic music theory based library for SuperCollider that facilitates the generation of note ranges for use in other projects. Given its ability to generate ranges from two to twelve degrees, MusicEngine is flexible enough to generate chord or scale note ranges.
+__MusicEngine__ is a dynamic music-theory-driven library for SuperCollider that generates note ranges for chords, scales and custom harmonic structures.
 
-__MusicEngine__ uses a system of verbose range symbols, where all intervals, or degrees, are expressed after a root note (e.g., _F#M3P5m7_). This data is then used to generate note information. Additionally, an alias system maps conventional symbols to their verbose representation for convenience (e.g., _FMaj7 -> FM3P5M7_). When generating a range, the user may use either format.
+It produces collections of __MENote__ objects spanning the full MIDI range (0-127, octaves -1 to 9). Each __MENote__ encapsulates data: MIDI note number, frequency value, note name, degree symbol, user assigned data, etc.
 
-Note ranges are collections of `MENote` objects that encapsulate all data pertaining to each note (e.g., MIDI value, frequency, note name, degree, octave, etc.). Note ranges gather all notes belonging to any chord or scale across the entire MIDI range (0-127), spanning a total of 11 octaves.
+Ranges are defined via a verbose syntax, where all intervals are descriminated (e.g.: F#m3P5m7) or via conventional aliases (e.g.: F#-7 -> F#m3P5m7). The user may extend the system by registering custom aliases that persist across sessions.
 
 __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
-## Changes from previous version
+## Key Features and Recent Improvements
 
-* The classes MENoteRange, MERange, MENote and MERegister, that make up the interface, are now fully documented by SuperCollider help files. An additional guide was created explaining how to write valid range symbols.
+* Fully documented interface (__MENoteRange__, __MERange__, __MENote__, __MERegister__) with help files.
 
-* Users are now able to register costume aliases and symbols via the MERegister class. These entries are permanently saved to a file via the SuperCollider class Archive.
+* Updated guide for Range Symbols.
+
+* Custom aliases via __MERagister__ (saved permanently using SuperCollider's __Archive__ class).
+
+* __MENoteRange__ behaves as a trully SequenceableCollection - no more `.notes` perperty needed.
+
+* Most intance methods return a new __MENoteRange__ which allows for methods to be chained.
+
+* Powerful trimming, filtering and transposition (with operator shorthands).
+
+* Arbitrary user-defined data can be set to notes (durations, amplitudes, etc.).
+
+* Supports two to twelve degrees (root note always counts as `\P1`).
+
+### Basic Usage
 
 ```supercollider
-// Create a new entry
-MERegister.newEntry('Toby', "M3d5M6"); // The root note should not be included
+// Simple major triad over F#
+r = MENoteRange.new("F#");
 
-// Then generate a range over any root
+// Dominant 7th chord
+r = MENoteRange.new("F#7");        // or "F#Dom7" or "F#M3P5m7"
+
+// Minor scale (full diatonic)
+r = MENoteRange.new("F#m");        // alias for natural minor
+
+// Custom verbose range (e.g., major 9th chord)
+r = MENoteRange.new("F#M3P5M7M9");
+
+// Inspect the range
+r.postln;                          // MENoteRange[F#-1:P1, A#-1:m3, C#0:P5, ...]
+r.size;                            // Total notes across all octaves
+r[0];                              // First MENote
+```
+
+## Creating and Using Ranges
+
+### 1. Aliases (Recommended for common chords/scales)
+
+MusicEngine includes dozens of predefined aliases. A single root note (e.g.: "F#", "C", "Eb", etc.) defaults to the major triad.
+
+#### Common chord examples
+
+```supercollider
+MENoteRange.new("F#");    // Major triad, over F#
+MENoteRange.new("F#5");   // Power chord, over F#
+MENoteRange.new("F#-");   // Minor triad, over F#
+MENoteRange.new("F#7");   // Dominant 7th chord, over F#
+MENoteRange.new("F#^9");  // 9th chord with Major 7th, over F#
+MENoteRange.new("F#-13"); // Minor 7th, with major 9th, perfect 11th and major 13th, over F#
+```
+
+#### Scale examples
+
+```supercollider
+MENoteRange.new("F#Mp");     // Major pentatonic, over F#
+MENoteRange.new("F#Blues");  // Blues scale, over F#
+MENoteRange.new("F#Io");     // Ionian mode, over F#
+MENoteRange.new("F#ph");     // Phrygian mode, over F#
+MENoteRange.new("F#Protus"); // Meddieval D mode (dorian), over F#
+MENoteRange.new("F#OA1");    // Octatonic scale starting with A1, over F#
+MENoteRange.new("F#OM2");    // Octatonic scale starting with M2, over F#
+MENoteRange.new("F#C");      // Chromatic scale, over F#
+```
+
+> [|NOTE]
+> For more information the aliases available and their verbose equivalents, see the [Range Symbols]() wiki page.
+
+### 2. Verbose Syntax 
+
+Explicitly list every interval after the root (quality + number e.g.: P5).
+
+```supercollider
+// Power chord, over F#
+MENoteRange.new("F#P5");
+
+// 13th chord with dominant 7th, over F#
+MENoteRange.new("F#M3P5m7M9P11M13");
+
+// Chromatic scale, over F#
+MENoteRange.new("F#m2M2m3M3P4d5P5m6M6m7M7");
+
+// Hybrid chord, over F#
+MENoteRange.new("F#M3m6m7A9");
+```
+
+#### Rules summary (full details in [wiki]()):
+
+* 2-11 intervals after root (root is always P1).
+* Qualities: d (dim), m (min), P (perf), M (maj), A (aug).
+* No duplicate degrees, no enharmonic conflicts (e.g.: m3 and A9, or A4 with d5, etc.).
+* No d2 or A7 (enharmonic to root).
+* Root must consist of letter A-G with 0 to 3 accidentals (# or b). MusicEngine resolves up to 5 accidentals, but root may only take 3.
+
+### 3. Custom Aliases (Persistent)
+
+```supercollider
+MERegister.newEntry('Toby', "M3d5M6"); // No root needed
+
+// Use anywhere
 r = MENoteRange.new("F#Toby");
 ```
 
-* `MENoteRange` objects now behave as a true sequenceable collection.
-Upon instantiation the collection is directly returned, without the need to call on the `notes` property to access its items.
+## Advanced Operations
 
-```supercollider
-r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, C#0:P5, ..., F#9:P1]
-```
-
-From this, most conventional indexing operations can be done.
+### Indexing and Slicing
 
 ```supercollider
 r = MENoteRange.new("F#-7");
 
-/* Indexing */
-r[10];
-r.at(10);
-r @ 10;
-
-/* Filtering ranges */
-r[10..20];
-r[10..];
-r[..20];
-r.copyRange(10,20);
-
-/* Filtering series */
-r[10,2..40];
-r.copySeries(10,2,40);
+r[10];                    // Single note
+r[10..20];                // Range slice
+r[10,2..40];              // Arithmetic series
+r.copyRange(10, 20);
+r.copySeries(10, 2, 40);
 ```
 
-* Trimming can be done based on octave, MIDI, frequency, degree or note name.
+### Trimming
+
+Double-ended or single-ended, by octave (_O_), MIDI (_M_), by frequency (_F_),  by degree (_D_) or note name (_N_):
 
 ```supercollider
 r = MENoteRange.new("F#-7");
 
-/* Double-ended trimming */
+r.trimO(4, 8);                    // Octaves 4–8
+r.trimF(500, 1000);               // Frequency window
+r.trimD(\P1, \P1);                // From first P1 to last P1
 
-r.trimO(4, 8);      // Returns range from octave 4 to 8
-r.trimF(500, 1000); // Returns range with freq values >= 500Hz and <= 1000Hz
-r.trimD(\P1, \P1);  // Returns range from the first note found matching P1 until the last one found matching P1
+// Single-ended
+r.bTrimM(60);                     // MIDI ≥ 60
+r.tTrimN("E");                    // End at last "E"
 
-// Since most methods return a MENoteRange object, methods can be chained:
-r.trimF(500,1000).trimD(\P1, \P1); // Trims by frequency and then by degree
+// Operator sugar (very readable)
+r |> 500.0 |> \P1;                // Bottom trim freq + degree
+r <| 1000.0 <| "F#";              // Top trim
+r >< [4, 6] >< ["F#", "E"];       // Double-ended trim
 
-/* Single-ended trimming */
 
-r.bTrimM(60); // Trims the bottom of the sequence and returns a range with MIDI values >= 60
-r.tTrimN("E"); // Trims the top of the sequence by ending it in the last "E" found
-
-/* Trimming operators */
-
-r |> 500.0 |> \P1; 
-// Same as:
-r.bTrimF(500.0).bTrimD(\P1);
-
-r <| 1000.0 <| "F#";
-// Same as:
-r.tTrimF(1000.0).tTrimN("F#");
-
-r >< [500.0, 5000.0] >< ["F#", "E"];
-// Same as:
-r.trimF(500.0, 5000.0).trimN("F#", "E");
+// Note names with octave are unique and may be used
+r |> "F#4" <| "A6"
 ```
 
-* It is now possible to filter MENote objects based on degree and name.
+### Filtering
+
+Remove notes that match degree of note name:
 
 ```supercollider
-r = MENoteRange.new("F#-7");
-r.filterD(\P1);   // Removes all notes with degree matching P1
-r.filterN("F#");  // Removes all notes with name matching F#
-r.filterN("F#4"); // Removes F#4 (note names with octave number are unique)
+r.filterD(\P1);                   // Remove all roots
+r.filterN("F#");                  // Remove all F# (any octave)
+r.filterN("F#4");                 // Exact note
 
-/* Filtering operator */
-r | \P1 | "E" | "A4"; // Removes all P1 (F#), all E (m7) and A4
-
-// Can be used in conjuction with other operators
-r >< [4, 6] |> \P1 | "A4" | "E5" | "C#6" | "F#6"; // MENoteRange[F#4:P1, C#5:P5, F#5:P1, A5:m3, E6:m7, A6:m3]
-// Same as:
-(r >< [4, 6] |> \P1).filterN("A4","E5","C#6","F#6");
+// Operator
+r | \P1 | "E" | "A4";
 ```
 
-* New method `span` allows for note ranges containing degrees larger than a seventh, to be spread across two octaves.
+
+### Spanning (for extended chords)
+
+`span` spreads degrees > 7 across two octaves:
 
 ```supercollider
-r = MENoteRange.new("F#-13");
-r.trimO(4, 6).trimD(\P1, \P1).span; // MENoteRange[F#4:P1, A4:m3, C#5:P5, E5:m7, G#5:M9, B5:P11, D#6:M13, F#6:P1]
-
-// Regardless of where the sequence starts (ending degree works by aproximation):
-r.trimO(4, 6).trimD(\M9, \P1).span; // MENoteRange[G#4:M9, B4:P11, D#5:M13, F#5:P1, A5:m3, C#6:P5, E6:m7]
-
-// Two degrees range
-r = MENoteRange.new("F#A11");
-
-(r >< [4, 6] |> "F#").span; // MENoteRange[F#4:P1, B#5:A11, F#6:P1]
-
-(r >< [4, 7] |> "B#").span; // MENoteRange[B#4:A11, F#5:P1, B#6:A11, F#7:P1]
+r = MENoteRange.new("F#-13")
+  .trimO(4, 6)
+  .trimD(\P1, \P1)
+  .span;
+// Result: F#4:P1, A4:m3, C#5:P5, E5:m7, G#5:M9, B5:P11, D#6:M13, F#6:P1
 ```
 
-* MENoteRange now supports range transposition by interval symbol or MIDI offset.
+### Transposition
 
 ```supercollider
-r = MENoteRange.new("F#-7");
-r = r[20..25]; // MENoteRange[C#4:P5, E4:m7, F#4:P1, A4:m3, C#5:P5, E5:m7]
+r = MENoteRange.new("F#-7")[20..25];
 
-/* Transpose up */
-r >> \M2; // MENoteRange[D#4:P5, F#4:m7, G#4:P1, B4:m3, D#5:P5, F#5:m7]
-r >> 4;   // MENoteRange[E#4:P5, G#4:m7, A#4:P1, C#5:m3, E#5:P5, G#5:m7]
-
-/* Transpose down */
-r << \M2; // MENoteRange[B3:P5, D4:m7, E4:P1, G4:m3, B4:P5, D5:m7]
-r << 4;   // MENoteRange[A3:P5, C4:m7, D4:P1, F4:m3, A4:P5, C5:m7]
+r >> \M2;     // Up major 2nd (interval symbol)
+r >> 4;       // Up 4 semitones (MIDI offset)
+r << \M2;     // Down
 ```
-## Range Symbols
 
-A range symbol may be built using a verbose syntax, where all intervals are discriminated after a root, or by appending a conventional symbol to a root.
+### Adding Data to Notes
 
-> [!NOTE]
-> For more information on verbose symbols and aliases, see the [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols) documentation page.
+```supercollider
+r = MENoteRange.new("F#-7")[20..25];
+
+r.setValue(\dur, 0.25);                    // Same value for all
+r.setValues(\amp, [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]);
+r.setFunc(\pan, { rrand(-1.0, 1.0) });
+
+r.getValues(\dur);
+```
+
+Practical playback example:
+
+```supercollider
+(
+r = MENoteRange.new("Cm9")
+    .trimO(3, 5)
+    .setFunc(\dur, { rrand(0.1, 0.4) })
+    .setFunc(\amp, { rrand(0.1, 0.8) });
+
+Pbind(
+    \midinote, r.asPseq(\midi),
+    \dur, r.asPseq(\dur),
+    \amp, r.asPseq(\amp)
+).play;
+)
+```
 
 ## Support
 
