@@ -12,7 +12,7 @@ __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
 * Fully documented interface (__MENoteRange__, __MERange__, __MENote__, __MERegister__) with help files.
 
-* Updated guide for [Range Symbols]().
+* Updated guide for [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols).
 
 * Custom aliases via __MERagister__ (saved permanently using SuperCollider's __Archive__ class).
 
@@ -78,11 +78,11 @@ MENoteRange.new("F#C");      // Chromatic scale, over F#
 ```
 
 > [!NOTE]
-> For more information the aliases available and their verbose equivalents, see the [Range Symbols]() wiki page.
+> For more information the aliases available and their verbose equivalents, see the [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols) wiki page.
 
 ### 2. Verbose Syntax 
 
-The verbose syntax allows the user to generate a note range by explicitly listing every degree after the root (e.g.: _F#m3P5m7_).
+The verbose syntax allows the user to generate a note range by explicitly listing every degree after the root (e.g.: _"F#m3P5m7"_).
 
 ```supercollider
 // Power chord, over F#
@@ -98,7 +98,7 @@ MENoteRange.new("F#m2M2m3M3P4d5P5m6M6m7M7");
 MENoteRange.new("F#M3m6m7A9");
 ```
 
-#### Rules summary (full details in [wiki]()):
+#### Rules summary (full details in [wiki](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols)):
 
 * _2-11_ intervals after root (root is always _P1_).
 * Qualities: _d_ (diminished), _m_ (minor), _P_ (perfect), _M_ (major), _A_ (augmented).
