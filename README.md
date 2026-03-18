@@ -1,6 +1,6 @@
 # MusicEngine
 
-__MusicEngine__ is a dynamic music-theory-driven library for SuperCollider that generates note ranges for chords, scales and custom harmonic structures.
+__MusicEngine__ is a dynamic music-theory based library for SuperCollider that generates note ranges for chords, scales and custom harmonic structures.
 
 It produces collections of __MENote__ objects spanning the full MIDI range (0-127, octaves -1 to 9). Each __MENote__ encapsulates data: MIDI note number, frequency value, note name, degree symbol, user assigned data, etc.
 
@@ -12,17 +12,17 @@ __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
 * Fully documented interface (__MENoteRange__, __MERange__, __MENote__, __MERegister__) with help files.
 
-* Updated guide for Range Symbols.
+* Updated guide for [Range Symbols]().
 
 * Custom aliases via __MERagister__ (saved permanently using SuperCollider's __Archive__ class).
 
-* __MENoteRange__ behaves as a trully SequenceableCollection - no more `.notes` perperty needed.
+* __MENoteRange__ behaves as a trully SequenceableCollection.
 
-* Most intance methods return a new __MENoteRange__ which allows for methods to be chained.
+* Most intance methods return a new __MENoteRange__, which allows for methods to be chained.
 
 * Powerful trimming, filtering and transposition (with operator shorthands).
 
-* Arbitrary user-defined data can be set to notes (durations, amplitudes, etc.).
+* Arbitrary user-defined data can be set to notes as key-value pairs (durations, amplitudes, etc.).
 
 * Supports two to twelve degrees (root note always counts as `\P1`).
 
@@ -51,7 +51,7 @@ r[0];                              // First MENote
 
 ### 1. Aliases (Recommended for common chords/scales)
 
-MusicEngine includes dozens of predefined aliases. A single root note (e.g.: "F#", "C", "Eb", etc.) defaults to the major triad.
+MusicEngine includes dozens of predefined aliases. A single root note (e.g.: _"F#"_, _"C"_, etc.) defaults to the major triad.
 
 #### Common chord examples
 
@@ -82,7 +82,7 @@ MENoteRange.new("F#C");      // Chromatic scale, over F#
 
 ### 2. Verbose Syntax 
 
-Explicitly list every interval after the root (quality + number e.g.: P5).
+The verbose syntax allows the user to generate a note range by explicitly listing every degree after the root (e.g.: _F#m3P5m7_).
 
 ```supercollider
 // Power chord, over F#
@@ -100,11 +100,11 @@ MENoteRange.new("F#M3m6m7A9");
 
 #### Rules summary (full details in [wiki]()):
 
-* 2-11 intervals after root (root is always P1).
-* Qualities: d (dim), m (min), P (perf), M (maj), A (aug).
-* No duplicate degrees, no enharmonic conflicts (e.g.: m3 and A9, or A4 with d5, etc.).
-* No d2 or A7 (enharmonic to root).
-* Root must consist of letter A-G with 0 to 3 accidentals (# or b). MusicEngine resolves up to 5 accidentals, but root may only take 3.
+* _2-11_ intervals after root (root is always _P1_).
+* Qualities: _d_ (diminished), _m_ (minor), _P_ (perfect), _M_ (major), _A_ (augmented).
+* No duplicate degrees, no enharmonic conflicts (e.g.: _m3_ and _A9_, or _A4_ with _d5_, etc.).
+* No _d2_ or _A7_ (enharmonic to root).
+* Root must consist of letter _A-G_ with 0 to 3 accidentals (_#_ or _b_). MusicEngine resolves up to 5 accidentals, but root may only take 3.
 
 ### 3. Custom Aliases (Persistent)
 
@@ -119,10 +119,13 @@ r = MENoteRange.new("F#Toby");
 
 ### Indexing and Slicing
 
+Most conventonal methods for indexing and slicing are available:
+
 ```supercollider
 r = MENoteRange.new("F#-7");
 
-r[10];                    // Single note
+r @ 10;                   // Index at 10
+r[10];                    // Index at 10
 r[10..20];                // Range slice
 r[10,2..40];              // Arithmetic series
 r.copyRange(10, 20);
@@ -144,7 +147,7 @@ r.trimD(\P1, \P1);                // From first P1 to last P1
 r.bTrimM(60);                     // MIDI ≥ 60
 r.tTrimN("E");                    // End at last "E"
 
-// Operator sugar (very readable)
+// Operators (very readable)
 r |> 500.0 |> \P1;                // Bottom trim freq + degree
 r <| 1000.0 <| "F#";              // Top trim
 r >< [4, 6] >< ["F#", "E"];       // Double-ended trim
@@ -156,7 +159,7 @@ r |> "F#4" <| "A6"
 
 ### Filtering
 
-Remove notes that match degree of note name:
+Remove notes that match degree of note name (with or without octave):
 
 ```supercollider
 r.filterD(\P1);                   // Remove all roots
