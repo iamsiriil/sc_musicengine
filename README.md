@@ -2,9 +2,9 @@
 
 __MusicEngine__ is a dynamic music-theory based library for SuperCollider that generates note ranges for chords, scales and custom harmonic structures.
 
-It produces collections of __MENote__ objects spanning the full MIDI range (0-127, octaves -1 to 9). Each __MENote__ encapsulates data: MIDI note number, frequency value, note name, degree symbol, user assigned data, etc.
+It produces collections of __MENote__ objects spanning the full MIDI range (_0-127_, octaves _-1_ to _9_). Each __MENote__ encapsulates data: MIDI note number, frequency value, note name, degree symbol, user assigned data, etc.
 
-Ranges are defined via a verbose syntax, where all intervals are descriminated (e.g.: F#m3P5m7) or via conventional aliases (e.g.: F#-7 -> F#m3P5m7). The user may extend the system by registering custom aliases that persist across sessions.
+Ranges are defined via a verbose syntax, where all intervals are descriminated (e.g.: _"F#m3P5m7"_) or via conventional aliases (e.g.: _"F#-7"_ -> _"F#m3P5m7"_). The user may extend the system by registering custom aliases that persist across sessions.
 
 __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
