@@ -14,12 +14,14 @@ MERange : SequenceableCollection {
 		var validate = MEDebug.validate;
 
 		case
-		{ newI.isInteger } {
+		{ newI.isInteger && (newI >= 1) } {
 			notes = Array.new(newI);
 		}
 		{ newI.isString } {
 			meSymbol = MESymbol(newI);
 			notes    = MERange.getRange(meSymbol, validate);
+		} {
+			Error("% is not a valid input.".format(newI)).throw;
 		};
 		^this;
 	}
@@ -29,13 +31,10 @@ MERange : SequenceableCollection {
 	*with { |symbol ... args|
 		var newRange = this.new(args.size);
 
-		if (symbol.notNil) {
-			newRange.meSymbol = symbol;
-		};
+		newRange.meSymbol = symbol;
 
-		args.do { |n|
-			newRange.add(n);
-		};
+		args.do { |n| newRange.add(n) };
+
 		^newRange
 	}
 
@@ -182,16 +181,13 @@ MERange : SequenceableCollection {
 
 	hash {
 		var hash = this.species.hash;
-
-		this.do { |n|
-			hash.bitXor(n.hash)
-		};
+		this.do { |n| hash.bitXor(n.hash) };
 		^hash;
 	}
 
 	/****************************************************************************************/
 
-	at { |index| ^notes.at(index) }
+	at { |index| ^this.notes.at(index) }
 
 	/****************************************************************************************/
 
@@ -209,6 +205,15 @@ MERange : SequenceableCollection {
 
 	add { |item| notes.add(item) }
 
+	/****************************************************************************************/
+
+	reverse {
+		var newR = Array(this.size);
+
+		this.reverseDo { |n| newR.add(n) };
+
+		^this.species.with(this.meSymbol, *newR);
+	}
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -235,16 +240,6 @@ MERange : SequenceableCollection {
 			j = j - 1;
 			i = i + 1;
 		};
-	}
-
-	/****************************************************************************************/
-
-	reverse {
-		var newR = Array(this.size);
-
-		this.reverseDo { |n| newR.add(n) };
-
-		^this.species.with(this.meSymbol, *newR);
 	}
 
 	/****************************************************************************************/
@@ -291,7 +286,7 @@ MERange : SequenceableCollection {
 	copy {
 		var newR = Array(this.size);
 
-		this.do { |n| newR.add(n.copy) };
+		this.do { |n| newR.add(n.deepCopy) };
 
 		^this.species.with(this.meSymbol, *newR);
 	}
@@ -307,10 +302,10 @@ MERange : SequenceableCollection {
 		j = if (end.isNil)   { this.size - 1 } { end };
 
 		size = j - i;
-		temp = Array(size);
+		temp = Array(size + 1);
 
 		while { i <= j } {
-			temp.add(this[i]);
+			temp.add(this.notes[i].copy);
 			i = i + 1;
 		};
 		^this.species.with(this.meSymbol, *temp);
@@ -327,7 +322,7 @@ MERange : SequenceableCollection {
 		j = if (second.isNil) { 1 } { second };
 
 		size = (this.size / j).ceil;
-		temp = Array(size.asInteger);
+		temp = Array(size.asInteger + 1);
 
 		case
 		{ last.isNil             } { k = this.size - 1 }
@@ -335,7 +330,7 @@ MERange : SequenceableCollection {
 		{ k = last };
 
 		while { i <= k } {
-			temp.add(this[i]);
+			temp.add(this[i].copy);
 			i = i + j;
 		};
 		^this.species.with(this.meSymbol, *temp);
@@ -361,7 +356,7 @@ MERange : SequenceableCollection {
 		var temp = this.notes.clipExtend(index);
 		var newR = Array(temp.size);
 
-		temp.do { |n| newR.add(n.copy) };
+		temp.do { |n| newR.add(n.deepCopy) };
 
 		^this.species.with(this.meSymbol, *newR);
 	}
@@ -372,7 +367,7 @@ MERange : SequenceableCollection {
 		var temp = this.notes.wrapExtend(index);
 		var newR = Array(temp.size);
 
-		temp.do { |n| newR.add(n.copy) };
+		temp.do { |n| newR.add(n.deepCopy) };
 
 		^this.species.with(this.meSymbol, *newR);
 	}
@@ -384,7 +379,7 @@ MERange : SequenceableCollection {
 		var temp = this.notes.foldExtend(index);
 		var newR = Array(temp.size);
 
-		temp.do { |n| newR.add(n.copy) };
+		temp.do { |n| newR.add(n.deepCopy) };
 
 		^this.species.with(this.meSymbol, *newR);
 	}
@@ -395,7 +390,7 @@ MERange : SequenceableCollection {
 		var temp = this.notes.pyramid(patternType);
 		var newR = Array(temp.size);
 
-		temp.do { |n| newR.add(n.copy) };
+		temp.do { |n| newR.add(n.deepCopy) };
 
 		^this.species.with(this.meSymbol, *newR);
 	}
