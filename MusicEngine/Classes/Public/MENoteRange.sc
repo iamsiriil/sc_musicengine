@@ -471,6 +471,4 @@ MENoteRange : MERange {
 		};
 		^this.class.with(meSymbol, *temp);
 	}
-
-
 }
