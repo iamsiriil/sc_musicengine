@@ -9,15 +9,18 @@ MENoteRange : MERange {
 	*newFromName { |... names, kwargs|
 		var newR = this.new(names.size);
 
+		MENameValidators.noteNameArrayIsValid(names, true);
+
 		names.do { |n| newR.add(MENote.newFromName(n)) };
 
 		kwargs.keysValuesDo { |k, v|
 
 			if (v.size != names.size) {
-				Error("Array of values must be of same size as names.").throw;
+				Error("Sequence of values must be of same length as names.").throw;
 			};
 
 			if (k == \degrees) {
+				v.do { |i| MEIntervalValidators.intervalIsValid(i) };
 				v.do { |i, j| newR[j].degree = i };
 			} {
 				newR.setValues(k, v)
@@ -31,111 +34,129 @@ MENoteRange : MERange {
 	// Trimming ranges by data type
 
 	trimO { |fromOctave, toOctave|
-		var fIndex = this.firstIndexInOctave(fromOctave);
-		var tIndex = this.lastIndexInOctave(toOctave);
-		^this.copyRange(fIndex, tIndex);
+		^this.copyRange(
+			this.firstIndexInOctave(fromOctave),
+			this.lastIndexInOctave(toOctave)
+		);
 	}
 
 	/****************************************************************************************/
 
 	trimM { |fromMIDI, toMIDI|
-		var fIndex = this.firstOverMIDI(fromMIDI);
-		var tIndex = this.firstUnderMIDI(toMIDI);
-		^this.copyRange(fIndex, tIndex);
+		^this.copyRange(
+			this.firstOverMIDI(fromMIDI),
+			this.firstUnderMIDI(toMIDI)
+		);
 	}
 
 	/****************************************************************************************/
 
 	trimF { |fromFreq, toFreq|
-		var fIndex = this.firstOverFreq(fromFreq);
-		var tIndex = this.firstUnderFreq(toFreq);
-		^this.copyRange(fIndex, tIndex);
+		^this.copyRange(
+			this.firstOverFreq(fromFreq),
+			this.firstUnderFreq(toFreq)
+		);
 	}
 
 	/****************************************************************************************/
 
 	trimD { |fromDegree, toDegree|
-		var fIndex = this.firstIndexOfDegree(fromDegree);
-		var tIndex = this.lastIndexOfDegree(toDegree);
-		^this.copyRange(fIndex, tIndex);
+		^this.copyRange(
+			this.firstIndexOfDegree(fromDegree),
+			this.lastIndexOfDegree(toDegree)
+		);
 	}
 
 	/****************************************************************************************/
 
 	trimN { |fromName, toName|
-		var fIndex = this.firstIndexOfName(fromName);
-		var tIndex = this.lastIndexOfName(toName);
+		var fIndex, tIndex;
+
+		if ("[-]?\\d$".matchRegexp(fromName)) {
+			fIndex = this.indexOfName(fromName);
+		} {
+			fIndex = this.firstIndexOfName(fromName);
+		};
+
+		if ("[-]?\\d$".matchRegexp(toName)) {
+			tIndex = this.indexOfName(toName);
+		} {
+			tIndex = this.lastIndexOfName(toName);
+		};
+
+		if (fIndex > tIndex) { ^nil };
+
 		^this.copyRange(fIndex, tIndex);
 	}
 
 	/****************************************************************************************/
 
 	bTrimO { |fromOctave|
-		var fIndex = this.firstIndexInOctave(fromOctave);
-		^this.copyRange(fIndex, nil);
+		^this.copyRange(this.firstIndexInOctave(fromOctave), nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimM { |fromMIDI|
-		var fIndex = this.firstOverMIDI(fromMIDI);
-		^this.copyRange(fIndex, nil);
+		^this.copyRange(this.firstOverMIDI(fromMIDI), nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimF { |fromFreq|
-		var fIndex = this.firstOverFreq(fromFreq);
-		^this.copyRange(fIndex, nil);
+		^this.copyRange(this.firstOverFreq(fromFreq), nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimD { |fromDegree|
-		var fIndex = this.firstIndexOfDegree(fromDegree);
-		^this.copyRange(fIndex, nil);
+		^this.copyRange(this.firstIndexOfDegree(fromDegree), nil);
 	}
 
 	/****************************************************************************************/
 
 	bTrimN { |fromName|
-		var fIndex = this.firstIndexOfName(fromName);
-		^this.copyRange(fIndex, nil);
+
+		if ("[-]?\\d$".matchRegexp(fromName)) {
+			^this.copyRange(this.indexOfName(fromName), nil);
+		} {
+			^this.copyRange(this.firstIndexOfName(fromName), nil);
+		};
 	}
 
 	/****************************************************************************************/
 
 	tTrimO { |toOctave|
-		var tIndex = this.lastIndexInOctave(toOctave);
-		^this.copyRange(nil, tIndex);
+		^this.copyRange(nil, this.lastIndexInOctave(toOctave));
 	}
 
 	/****************************************************************************************/
 
 	tTrimM { |toMIDI|
-		var tIndex = this.firstUnderMIDI(toMIDI);
-		^this.copyRange(nil, tIndex);
+		^this.copyRange(nil, this.firstUnderMIDI(toMIDI));
 	}
 
 	/****************************************************************************************/
 
 	tTrimF { |toFreq|
-		var tIndex = this.firstUnderFreq(toFreq);
-		^this.copyRange(nil, tIndex);
+		^this.copyRange(nil, this.firstUnderFreq(toFreq));
 	}
 
 	/****************************************************************************************/
 
 	tTrimD { |toDegree|
-		var tIndex = this.lastIndexOfDegree(toDegree);
-		^this.copyRange(nil, tIndex);
+		^this.copyRange(nil, this.lastIndexOfDegree(toDegree));
 	}
 
 	/****************************************************************************************/
 
 	tTrimN { |toName|
-		var tIndex = this.lastIndexOfName(toName);
-		^this.copyRange(nil, tIndex);
+
+		if ("[-]?\\d$".matchRegexp(toName)) {
+			^this.copyRange(nil, this.indexOfName(toName));
+		} {
+			^this.copyRange(nil, this.lastIndexOfName(toName));
+		};
 	}
 
 	/****************************************************************************************/
@@ -288,6 +309,10 @@ MENoteRange : MERange {
 	setValues { |key, sequence, inplace = true|
 		var newR;
 
+		if (sequence.size != this.size) {
+			Error("Sequance must be of the same length as range.").throw;
+		};
+
 		if (inplace) {
 			^this.do { |n, i| n.set(key, sequence[i]) };
 		} {
@@ -340,6 +365,23 @@ MENoteRange : MERange {
 	}
 
 	/****************************************************************************************/
+
+	/*+ { |assoc|
+		case
+		{ assoc.value.isKindOf(Function)               } {
+			^this.setFunc(assoc.key, assoc.value);
+		}
+		{ assoc.value.isKindOf(SequenceableCollection) } {
+			^this.setValues(assoc.key, assoc.value);
+		};
+		^this.setValue(assoc.key, assoc.value)
+	}*/
+
+	/****************************************************************************************/
+
+	/*- { |key| ^this.clearValues(key) }*/
+
+	/****************************************************************************************/
 	/****************************************************************************************/
 
 	asPseq { |what, rep = 1, off = 0|
@@ -364,10 +406,10 @@ MENoteRange : MERange {
 		var newN;
 
 		this.do { |n|
-			if ((newN = n.transposeUp(interval)).notNil) {
-				arr.add(newN);
-			};
+			if ((newN = n.transposeUp(interval)).isNil) { ^nil };
+			arr.add(newN);
 		};
+
 		^this.species.with(nil, *arr);
 	}
 
@@ -378,9 +420,8 @@ MENoteRange : MERange {
 		var newN;
 
 		this.do { |n|
-			if ((newN = n.transposeDown(interval)).notNil) {
-				arr.add(newN);
-			};
+			if ((newN = n.transposeDown(interval)).isNil) { ^nil };
+			arr.add(newN);
 		};
 		^this.species.with(nil, *arr);
 	}
@@ -430,4 +471,6 @@ MENoteRange : MERange {
 		};
 		^this.class.with(meSymbol, *temp);
 	}
+
+
 }
