@@ -61,7 +61,9 @@ MENote {
 
 	/****************************************************************************************/
 
-	copy { ^this.species.new(this.letter, this.midi, this.degree, this.data.copy) }
+	copy { ^this }
+
+	deepCopy { ^this.species.new(this.letter, this.midi, this.degree, this.data.copy) }
 
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -101,7 +103,11 @@ MENote {
 	/****************************************************************************************/
 	// Interval data
 
-	degree_ { |interval| degree = MEInterval(interval) }
+	degree_ { |interval|
+
+		MEIntervalValidators.intervalIsValid(interval);
+
+		degree = MEInterval(interval) }
 
 	/****************************************************************************************/
 
@@ -164,21 +170,26 @@ MENote {
 		var meInt, newL, newM, symbol;
 
 		case
-		{ interval.isInteger } {
+		{ interval.isInteger && (interval >= 0) } {
 			symbol = MECore.default[interval % 12];
 			meInt  = MEInterval(symbol);
 			newM   = (this.midi + interval);
 		}
 		{ interval.isKindOf(Symbol) } {
+
+			MEIntervalValidators.intervalIsValid(interval);
+
 			meInt = MEInterval(interval);
 			newM  = this.midi + meInt.asMIDIOffset;
-		};
+		}
+		{ Error("% is not a valid interval.".format(interval)).throw };
 
 		if (newM <= 127) {
 			newL = MECore.letters.wrapAt(
 				MECore.indexOfLetter(this.letter) + meInt.asLetterOffset
 			);
-			^MENote(newL, newM, this.degree, this.data.copy);
+
+			^{ MENote(newL, newM, this.degree, this.data.copy) }.try;
 		};
 		^nil;
 	}
@@ -189,21 +200,26 @@ MENote {
 		var meInt, newL, newM, symbol;
 
 		case
-		{ interval.isInteger } {
+		{ interval.isInteger && (interval >= 0) } {
 			symbol = MECore.default[interval % 12];
 			meInt  = MEInterval(symbol);
 			newM   = this.midi - interval;
 		}
 		{ interval.isKindOf(Symbol) } {
+
+			MEIntervalValidators.intervalIsValid(interval);
+
 			meInt = MEInterval(interval);
 			newM  = this.midi - meInt.asMIDIOffset;
-		};
+		}
+		{ Error("% is not a valid interval.".format(interval)).throw };
 
 		if (newM >= 0) {
 			newL = MECore.letters.wrapAt(
 				MECore.indexOfLetter(this.letter) + (7 - meInt.asLetterOffset)
 			);
-			^MENote(newL, newM, this.degree, this.data.copy);
+
+			^{ MENote(newL, newM, this.degree, this.data.copy) }.try;
 		};
 		^nil;
 	}
