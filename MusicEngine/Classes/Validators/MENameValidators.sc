@@ -28,6 +28,14 @@ MENameValidators {
 
 	/****************************************************************************************/
 
+	*noteNameArrayIsValid { |noteNameArr, octave = false|
+
+		noteNameArr.do { |n| this.noteNameIsValid(n, octave) };
+		^nil;
+	}
+
+	/****************************************************************************************/
+
 	*rootNoteIsValid { |rootNote|
 		var regex = "^[A-G][#b]{0,1}$";
 
