@@ -528,5 +528,4 @@ MERange : SequenceableCollection {
 			^true;
 		}
 	}
-
 }
