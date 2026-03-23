@@ -4,8 +4,9 @@ categories:: MusicEngine Library
 related:: Classes/MENoteRange, Classes/MERange, Classes/MERegister, Reference/RangeSymbols
 
 DESCRIPTION::
-CODE::MENote:: encapsulates all note data (MIDI, frequency, degree, name, etc.) into a single object.
-NOTE:: CODE::MENote:: objects are not designed to be instantiated directly by the user, but to be instantiated internally when generating a CODE::MENoteRange::. The user may then access them, via the CODE::MENoteRange:: object, and retrieve data using the methods described in this file.
+MENote encapsulates all note data (MIDI, frequency, degree, name, etc.) into a single object.
+
+NOTE:: MENote objects are not designed to be instantiated directly by the user, but to be instantiated internally when generating a MENoteRange. The user may then access them, via the MENoteRange object, and retrieve data using the methods described in this file.
 
 CODE::
 r = MENoteRange.new("F#-7"); // MENoteRange[C#-1:P5, E-1:m7, F#-1:P1, A-1:m3, ...]
@@ -475,12 +476,25 @@ r[0].class    // MENote
 
 
 METHOD:: copy
-Returns a deep copy of the object.
+Returns a shallow copy of the object.
 
 CODE::
 r = MENoteRange.new("F#-7");
 
 n = r[0].copy;
+
+n == r[0];     // true
+n === r[0];    // true
+::
+
+
+METHOD:: deepCopy
+Returns a deep copy of the object.
+
+CODE::
+r = MENoteRange.new("F#-7");
+
+n = r[0].deepCopy;
 
 n == r[0];     // true
 n === r[0];    // false

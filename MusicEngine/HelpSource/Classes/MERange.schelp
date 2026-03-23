@@ -100,10 +100,6 @@ r.at(20);   // MENote object at index 20
 r[20];
 ::
 
-copymethod:: SequenceableCollection, -first
-
-copymethod:: SequenceableCollection, -last
-
 
 METHOD:: size
 Returns the size of the collection.

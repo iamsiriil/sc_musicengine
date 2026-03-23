@@ -9,15 +9,16 @@ MENoteRange is MusicEngine's primary tool for accessing collections of MENote ob
 
 CLASSMETHODS::
 
+copymethod:: MERange, *new
 
 METHOD:: newFromName
-Allow the creation of a new MENoteRange from a sequence of note names.
+Allows the creation of a new MENoteRange from a sequence of note names.
 
 ARGUMENT:: ... names
-Sequence of note names as string, each including octave number (e.g.: EMPHASIS::"C4", "E4", "G4", "C5"::).
+Sequence of note names as strings. Note names must contain an uppercase letter (EMPhASIS::A-G::), 0 to 5 accidentals and an octave number (-1 to 9). (e.g.: EMPHASIS::"C4", "Eb4", "G#4"::, etc.).
 
 ARGUMENT:: kwargs
-Optional keyword arguments for attaching user data to each MENote object. Each value must be an array of the same length as the number of notes provided (i.e. the size of CODE::args::). The keys become identifiers stored in each MENote's internal data dictionary.
+Optional keyword arguments for attaching user data to each MENote object. Each value must be an array of the same length as the number of notes provided (i.e. the size of CODE::args::). The keys become identifiers stored in each MENote's internal data dictionary. If the value arrays are not the same size as EMPHASIS::notes::, the method will throw an Error.
 
 NOTE::
 The special keyword CODE::\degrees:: is used to attach interval information to each note. The value must be an array of interval symbols (e.g.: CODE::[\P1, \M3, \P5, ...]::). Internally each symbol is used to instantiate a MEInterval object, which is then assigned to the CODE::degree:: property of the corresponding MENote.
@@ -25,6 +26,10 @@ All other keyword arguments are stored directly (without conversion) in each MEN
 ::
 
 returns:: A new MENoteRange object.
+
+NOTE::
+If any of the note names is not valid, or if the length of one of the value arrays, passed as kwarg, does not match the number of note names, the method will throw an Error.
+::
 
 CODE::
 (
@@ -56,6 +61,7 @@ INSTANCEMETHODS::
 
 SUBSECTION:: Data retrieval
 
+copymethod:: MERange, -notes
 
 METHOD:: midi
 Returns an array of MIDI values.
@@ -97,7 +103,7 @@ r[20..25].names(withOctave: false); // Names with no octave number
 METHOD:: sol
 Similar to CODE::names::, but uses the fixed-do Solfège naming convention.
 
-NOTE:: For the argument EMPHASIS::charSet::, the following values are accepted:
+NOTE:: The argument EMPHASIS::charSet:: only accepts the following values:
 LIST::
 ## CODE::\ascii:: for ASCII characters (# and b),
 ## CODE::\unic:: for Unicode characters (𝄪, ♯, ♭ and 𝄫),
@@ -170,8 +176,8 @@ CODE::
 r = MENoteRange.new("F#-7");
 
 p = r[20..30];
-p.setValues(\dur, 0.5); // Assigns duration values
-p.setValues(\leg, 0.2); // Assigns articulation values
+p.setValue(\dur, 0.5); // Assigns duration values
+p.setValue(\leg, 0.2); // Assigns articulation values
 
 Pbind(
 	\midinote, p.asPseq(\midi, 1, 0),
@@ -213,7 +219,7 @@ r.trimF(500, 1000); // Range between 500Hz and 1000Hz
 
 
 METHOD:: trimD
-Returns all MENote starting from the first occurrence of EMPHASIS::fromDegree::, searching upwards from the bottom, to the last occurrence of EMPHASIS::toDegree::, searching downwards from the top.
+Returns all MENote starting from the first occurrence of EMPHASIS::fromDegree::, to the last occurrence of EMPHASIS::toDegree::.
 
 CODE::
 r = MENoteRange.new("F#-7");
@@ -327,7 +333,7 @@ NOTE:: This method requires a note name STRONG::without:: an octave number (e.g.
 
 CODE::
 r = MENoteRange.new("F#-7");
-c = r.tTrimD("A");
+c = r.tTrimN("A");
 ::
 
 
@@ -663,7 +669,8 @@ SUBSECTION:: Range transposition
 
 
 METHOD:: >>
-Transposes all range notes up, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.
+Transposes all notes in the range upward by EMPHASIS::interval::, updating MIDI values, frequencies and note names (with correct spelling).
+Successive calls produces new transposed copies until either the MIDI value exceeds 127 or at least one note has more than 5 accidentals. At that point, the method keeps returning the last valid transposition.
 
 NOTE::
 EMPHASIS::interval:: may be expressed using an integer MATH::\ge 0::, or a symbol describing an interval (e.g.: CODE::\M2::). Integer values default to specific symbols as decribed in the section LINK::Classes/MENote#Note transposition::.
@@ -695,7 +702,8 @@ Routine({
 
 
 METHOD:: <<
-Transposes all range notes down, by EMPHASIS::interval::. Along with MIDI and frequency values, note names are changed accordingly.
+Transposes all notes in the range downward by EMPHASIS::interval::, updating MIDI values, frequencies and note names (with correct spelling).
+Successive calls produces new transposed copies until either the MIDI value exceeds 0 or at least one note has more than 5 accidentals. At that point, the method keeps returning the last valid transposition.
 
 NOTE::
 EMPHASIS::interval:: may be expressed using an integer MATH::\ge 0::, or a symbol describing an interval (e.g.: CODE::\M2::). Integer values default to specific symbols as decribed in the section LINK::Classes/MENote#Note transposition::.

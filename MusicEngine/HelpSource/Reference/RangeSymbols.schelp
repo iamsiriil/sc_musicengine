@@ -4,19 +4,19 @@ categories:: MusicEngine Library
 related:: Classes/MENoteRange, Classes/MERange, Classes/MENote, Classes/MERegister
 
 DESCRIPTION::
-This document is a reference of how to write range symbols using the verbose syntax, as well as providing a listing of all aliases allowed in STRONG::MusicEngine::.
+This document is a reference on how to write range symbols using the verbose syntax, as well as providing a listing of all aliases allowed in STRONG::MusicEngine::.
 
 SECTION:: Verbose Syntax
 
 Ranges may be described by:
 LIST::
-## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::0:: to STRONG::3:: accidentals (#/b),
+## Referencing the root note (capital EMPHASIS::A-G::), with or without STRONG::0:: to STRONG::3:: accidentals (EMPHASIS::#::/EMPHASIS::b::),
 ## using a letter to describe interval quality (EMPHASIS::d, m, P, M, A::), and
 ## using a number to represent the degree (EMPHASIS::1-14::)
 ::
 
 SUBSECTION:: Allowed intervals
-Depending on the degree, an interval may be EMPHASIS::diminished::, EMPHASIS::minor::, EMPHASIS::perfect::, EMPHASIS::major:: or EMPHASIS::augmented::. Represented, respectively, by EMPHASIS::d, m, P, M, A::.
+Depending on the degree, an interval may be EMPHASIS::d:: (diminished), EMPHASIS::m:: (minor), EMPHASIS::P:: (perfect), EMPHASIS::M:: (major) or EMPHASIS::A:: (augmented).
 
 TABLE::
 ## STRONG::Degree:: || STRONG::Type::
@@ -31,27 +31,29 @@ TABLE::
 SUBSECTION:: Rules
 
 LIST::
-## Number of intervals may range from STRONG::two:: to STRONG::eleven::, not counting the root (EMPHASIS::P1::). With two being a single interval, and eleven a chromatic scale.
+## Number of intervals may range from STRONG::2:: to STRONG::12::, counting the root (EMPHASIS::P1::). With 2 being a single interval, and 12 a chromatic scale:
 
 CODE::
 a = MENoteRange.new("F#P5");                     // Perfect five over F#
 b = MENoteRange.new("F#m2M2m3M3P4A4P5m6M6m7M7"); // Chromatic scale over F#
 ::
 
-## Enharmonic intervals are not allowed (e.g.: EMPHASIS::A2/m3::, EMPHASIS::m3/A9::, EMPHASIS::A4/d5::, etc.).
+## Enharmonic intervals are not allowed (e.g.: EMPHASIS::A2/m3::, EMPHASIS::m3/A9::, EMPHASIS::A4/d5::, etc.):
 
 CODE::
 r = MENoteRange.new("F#m3P5M7A9"); // ERROR: 0, 3, 3, 7, 11 contains enharmonics.
 // P1 = 0, A9 = 3, m3 = 3, P5 = 7, M7 = 11
 ::
 
-## Diminished seconds and augmented sevenths are not allowed, since they're enharmonic to the root.
+## Diminished seconds and augmented sevenths are not allowed, since they're enharmonic to the root:
+
 CODE::
 r = MENoteRange.new("F#m3P5A7");   // ERROR: A7, Is not a valid interval.
 r = MENoteRange.new("F#m3P5M7d9"); // ERROR: d9, Is not a valid interval.
 ::
 
-## Any root note is allowed, provided there are only 0 to 3 accidentals.
+## Any root note is allowed, provided there are only 0 to 3 accidentals:
+
 CODE::
 a = MENoteRange.new("F-7");
 b = MENoteRange.new("F#-7");
@@ -60,12 +62,13 @@ d = MENoteRange.new("F###-7");
 e = MENoteRange.new("F####-7"); // ERROR: F####, is not a valid root.
 ::
 
-## Duplicated intervals are not allowed, since they're a form of enharmonics equivalents.
+## Duplicated intervals are not allowed, since they're a form of enharmonics equivalents:
+
 CODE::
 a = MENoteRange.new("F#m3P5m3m7");  // ERROR: m3 is duplicate. Intervals must be unique.
 ::
 
-## Intervals may be in any order since they're sorted internally by their numeric representation (EMPHASIS::m3P5m7M9:: = EMPHASIS::3.1, 5.2, 7.1, 9.3::).
+## Intervals may be in any order since they're sorted internally by their numeric representation (EMPHASIS::m3P5m7M9:: = EMPHASIS::3.1, 5.2, 7.1, 9.3::):
 CODE::
 a = MENoteRange.new("F#m7m3M9P5");
 
