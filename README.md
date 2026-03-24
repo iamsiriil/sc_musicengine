@@ -4,7 +4,7 @@ __MusicEngine__ is a dynamic music-theory based library for SuperCollider that g
 
 It produces collections of __MENote__ objects spanning the full MIDI range (_0-127_, octaves _-1_ to _9_). Each __MENote__ encapsulates data: MIDI note number, frequency value, note name, degree symbol, user assigned data, etc.
 
-Ranges are defined via a verbose syntax, where all intervals are descriminated (e.g.: _"F#m3P5m7"_) or via conventional aliases (e.g.: _"F#-7"_ -> _"F#m3P5m7"_). The user may extend the system by registering custom aliases that persist across sessions.
+Ranges are defined via a verbose syntax, where all intervals are discriminated (e.g.: _"F#m3P5m7"_) or via conventional aliases (e.g.: _"F#-7"_ -> _"F#m3P5m7"_). The user may extend the system by registering custom aliases that persist across sessions.
 
 __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
@@ -14,15 +14,15 @@ __MusicEngine__ is currently in its `version 0.2.0-beta`.
 
 * Updated guide for [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols).
 
-* Custom aliases via __MERagister__ (saved permanently using SuperCollider's __Archive__ class).
+* Custom aliases via __MERegister__ (saved permanently using SuperCollider's __Archive__ class).
 
-* __MENoteRange__ behaves as a trully SequenceableCollection.
+* __MENoteRange__ behaves as a truly `SequenceableCollection`.
 
-* Most intance methods return a new __MENoteRange__, which allows for methods to be chained.
+* Most instance methods return a new __MENoteRange__, which allows for methods to be chained.
 
-* Powerful trimming, filtering and transposition (with operator shorthands).
+* Trimming, filtering and transposition (with operator shorthand).
 
-* Arbitrary user-defined data can be set to notes as key-value pairs (durations, amplitudes, etc.).
+* Arbitrary user-defined data can be set to notes as key-value pairs (duration, amplitude, etc.).
 
 * Supports two to twelve degrees (root note always counts as `\P1`).
 
@@ -78,7 +78,7 @@ MENoteRange.new("F#C");      // Chromatic scale, over F#
 ```
 
 > [!NOTE]
-> For more information the aliases available and their verbose equivalents, see the [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols) wiki page.
+> For more information about the aliases available and their verbose equivalents, see the [Range Symbols](https://github.com/iamsiriil/sc_musicengine/wiki/Range-Symbols) wiki page.
 
 ### 2. Verbose Syntax 
 
@@ -119,7 +119,7 @@ r = MENoteRange.new("F#Toby");
 
 ### Indexing and Slicing
 
-Most conventonal methods for indexing and slicing are available:
+Most conventional methods for indexing and slicing are available:
 
 ```supercollider
 r = MENoteRange.new("F#-7");
