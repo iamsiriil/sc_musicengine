@@ -9,7 +9,9 @@ MERegister {
 	classvar <dictName;
 
 	*initClass {
+
 		dictName = \MERegister;
+
 		super.initClass;
 	}
 
@@ -18,7 +20,7 @@ MERegister {
 	*test_ { |bool|
 
 		switch(bool)
-		{ true }  {
+		{ true  } {
 			test     = true;
 			dictName = \METest;
 		}
@@ -112,7 +114,10 @@ MERegister {
 	*getSymbolFromAlias { |alias|
 		var dict = Archive.global.at(dictName);
 
-		^dict[alias.asSymbol];
+		if ((dict = Archive.global.at(dictName)).notNil) {
+			^dict[alias.asSymbol];
+		};
+		^nil;
 	}
 
 	/****************************************************************************************/

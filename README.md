@@ -6,7 +6,26 @@ It produces collections of __MENote__ objects spanning the full MIDI range (_0-1
 
 Ranges are defined via a verbose syntax, where all intervals are descriminated (e.g.: _"F#m3P5m7"_) or via conventional aliases (e.g.: _"F#-7"_ -> _"F#m3P5m7"_). The user may extend the system by registering custom aliases that persist across sessions.
 
-__MusicEngine__ is currently in its `version 0.2.0-beta`.
+__MusicEngine__ is currently in its `version 0.2.1`.
+
+## Requirements
+
+MusicEngine requires SuperCollider version >= 3.14.1.
+
+## Instalation
+
+1. Check the location of your extensions directory by running the following in SuperCollider:
+
+```supercollider
+Platform.userExtensionDir;   // User specific
+Platform.systemExtensionDir; // System-wide
+```
+
+2. Clone the `sc_musicengine` repository and copy the `MusicEngine` directory into your extensions folder.
+
+3. Recompile the class library via Language → Recompile Class Library or:
+    * Windows/Linux: Ctrl‑Shift‑L
+    * macOS: Cmd‑Shift‑L
 
 ## Key Features and Recent Improvements
 
